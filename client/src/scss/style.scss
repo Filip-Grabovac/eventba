@@ -5,7 +5,10 @@
 }
 .App {
   height: 90vh;
-  background-color: grey;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
 }
 
 @import "Navbar.scss";

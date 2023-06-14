@@ -1,3 +1,12 @@
-.test {
-  background-color: red;
+nav {
+  height: 73px;
+  width: 100%;
+  background: rgb(53, 66, 134);
+  background: linear-gradient(
+    90deg,
+    rgba(53, 66, 134, 1) 0%,
+    rgba(69, 92, 217, 1) 100%
+  );
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
