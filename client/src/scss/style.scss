@@ -3,5 +3,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+.App {
+  height: 90vh;
+  background-color: grey;
+}
 
 @import "Navbar.scss";
