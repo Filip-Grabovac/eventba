@@ -32,7 +32,7 @@ const ImageSlider = () => {
           <img className="slider-img" key={i} src={item.src} />
           <div className="slider-img-overlay"></div>
           <a className="slider-link" href="#">
-            <div className="slider-link-content">Pogledaj</div>
+            Pogledaj
           </a>
         </div>
       ))}
