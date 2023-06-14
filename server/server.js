@@ -1,11 +1,14 @@
+require("dotenv").config();
+
 const express = require("express");
-
 const app = express();
+const mongoose = require("mongoose");
 
-app.get("/api", (req, res) => {
-  res.json({ users: ["userOne", "userTwo"] });
-});
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
+const db = mongoose.connection;
+db.on("error", (error) => console.log(error));
+db.on("open", () => console.log("Connected to database"));
 
-app.listen(5000, () => {
-  console.log("Server started on port 5000");
+app.listen(3000, () => {
+  console.log("Server started");
 });
