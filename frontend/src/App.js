@@ -4,7 +4,7 @@ function App() {
       <div className="container">
         <div className="row">
           <div className="col-lg-6">test</div>
-          <div className="col-lg-6">test</div>
+          <div className="col-lg-6">tes</div>
         </div>
       </div>
     </div>
