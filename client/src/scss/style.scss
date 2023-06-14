@@ -8,6 +8,12 @@
   background-color: grey;
   display: flex;
   flex-direction: column;
+
+  height: 90vh;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
 }
 
 @import "Navbar.scss";
