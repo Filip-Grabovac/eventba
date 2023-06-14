@@ -1,7 +1,10 @@
+import { Footer, Header } from "./components";
+
 function App() {
   return (
     <div className="App">
-      <p>test</p>
+      <Navbar />
+      <Footer />
     </div>
   );
 }
