@@ -4,8 +4,11 @@
   box-sizing: border-box;
 }
 .App {
-  height: 90vh;
+  height: 100vh;
   background-color: grey;
+  display: flex;
+  flex-direction: column;
 }
 
 @import "Navbar.scss";
+@import "Footer.scss";
