@@ -1,4 +1,4 @@
-import { Footer, Header } from "./components";
+import { Footer, Navbar } from "./components";
 
 function App() {
   return (
