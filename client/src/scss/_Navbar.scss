@@ -1,5 +1,4 @@
-nav {
-  height: 73px;
+.custom-navbar {
   width: 100%;
   background: rgb(53, 66, 134);
   background: linear-gradient(
@@ -9,4 +8,20 @@ nav {
   );
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
+  padding: 10px 67px;
+  color: #fff;
+
+  img {
+    width: 40px;
+  }
+
+  .navbar-nav {
+    margin-left: auto;
+
+    li {
+      a {
+        color: #fff !important;
+      }
+    }
+  }
 }
