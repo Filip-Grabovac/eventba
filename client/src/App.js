@@ -1,11 +1,11 @@
 import { Footer, Navbar } from "./components";
-import Hero from "./pages/landing/hero/Hero";
+import { AllRoutes } from "./routes/AllRoutes";
 
 function App() {
   return (
     <div className="App">
       <Navbar />
-      <Hero />
+      <AllRoutes />
       <Footer />
     </div>
   );

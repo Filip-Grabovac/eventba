@@ -1,0 +1,66 @@
+.this-week {
+  padding: 3%;
+  background: rgb(217, 222, 247);
+  background: linear-gradient(
+    0deg,
+    rgba(150, 168, 255, 0.28) 0,
+    rgb(224, 227, 245) 100%
+  );
+  h3 {
+    text-align: center;
+    margin-bottom: 2%;
+    font-weight: 700;
+  }
+  .slider {
+    padding: 20px;
+    background-color: #d9def7;
+    border-radius: 10px;
+    min-height: 400px;
+    display: flex;
+    box-shadow: -1px 22px 46px 11px rgba(145, 145, 145, 0.75);
+    -webkit-box-shadow: -1px 22px 46px 11px rgba(145, 145, 145, 0.75);
+    -moz-box-shadow: -1px 22px 46px 11px rgba(145, 145, 145, 0.75);
+    gap: 3%;
+    .rec-carousel-wrapper {
+      height: auto;
+    }
+    .rec.rec-arrow {
+      background-color: rgba(244, 206, 70, 0.509);
+    }
+    .rec-arrow:hover {
+      background-color: rgba(244, 206, 70, 0.509);
+    }
+  }
+
+  .slider-card {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    p {
+      margin-bottom: 0;
+    }
+    img {
+      border-radius: 15px;
+      width: 120%;
+    }
+    .type {
+      color: #565656;
+      font-size: 18px;
+    }
+    .performer {
+      font-weight: 700;
+      font-size: 20px;
+    }
+    .date {
+      font-size: 16px;
+      color: #455cd9;
+      font-weight: 700;
+    }
+    .location {
+      color: #565656;
+    }
+  }
+}

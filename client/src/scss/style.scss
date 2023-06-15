@@ -12,8 +12,10 @@
 body {
   font-family: "Nunito", sans-serif;
   background-color: #d9def7;
+  color: #343434;
 }
 
 @import "Navbar.scss";
 @import "Footer.scss";
 @import "Hero.scss";
+@import "ThisWeek.scss";
