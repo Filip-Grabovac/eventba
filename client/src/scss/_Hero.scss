@@ -58,14 +58,6 @@
     border-radius: 7px;
     transition: opacity 0.2s;
     opacity: 0;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-
-  .slider-link:hover + .slider-img-overlay {
-    opacity: 1;
   }
 }
 

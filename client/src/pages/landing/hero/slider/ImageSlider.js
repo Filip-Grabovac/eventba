@@ -20,6 +20,15 @@ const ImageSlider = () => {
     { src: ForthImg },
     { src: SecondImg },
   ];
+
+  const overlayCard = (e) => {
+    const overlay = e.target.parentNode.querySelector(".slider-img-overlay");
+    overlay.style = "opacity: 1";
+  };
+  const removeOverlayCard = (e) => {
+    e.target.style = "opacity: 0";
+  };
+
   return (
     <Carousel
       itemsToShow={7}
@@ -30,9 +39,21 @@ const ImageSlider = () => {
       {items.map((item, i) => (
         <div key={i} className="slider-image-container">
           <img className="slider-img" key={i} src={item.src} />
-          <div className="slider-img-overlay"></div>
-          <a className="slider-link" href="#">
-            <div className="slider-link-content">Pogledaj</div>
+          <div
+            onMouseOver={(e) => {
+              overlayCard(e);
+            }}
+            onMouseLeave={removeOverlayCard}
+            className="slider-img-overlay"
+          ></div>
+          <a
+            onMouseOver={(e) => {
+              overlayCard(e);
+            }}
+            className="slider-link"
+            href="#"
+          >
+            Pogledaj
           </a>
         </div>
       ))}
