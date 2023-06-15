@@ -55,7 +55,7 @@ export const Navbar = () => {
               <a
                 className="nav-link active user-icon-link"
                 aria-current="page"
-                href="#"
+                href="/profile"
               >
                 <img src={UserIcon} alt="User Icon" />
               </a>

@@ -1,0 +1,107 @@
+.profile {
+  min-height: 1000px;
+  background: linear-gradient(
+    0deg,
+    rgba(114, 114, 114, 0.28) 0,
+    rgb(239, 240, 252) 100%
+  );
+
+  .hero-profile {
+    text-align: center;
+    padding: 1%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
+    h1 {
+      width: 30%;
+    }
+    img {
+      width: 20%;
+      border-radius: 100%;
+    }
+    .info {
+      width: 30%;
+      font-weight: bold;
+      span {
+        font-weight: 600;
+      }
+    }
+  }
+  .profile-form {
+    position: relative;
+    margin: 20px auto;
+    padding: 4%;
+    max-width: 80%;
+    background-color: #f3f3f3;
+    border-radius: 15px;
+    box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
+    -webkit-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
+    -moz-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
+
+    .form {
+      font-weight: 900;
+      width: 80%;
+      margin: auto;
+      background-color: #f3f3f3;
+      border-radius: 5px;
+      input:valid {
+      }
+      .item1 {
+        grid-row: 1;
+        grid-column: 1 / span 2;
+      }
+
+      .item2 {
+        grid-row: 1;
+        grid-column: 3 / span 2;
+      }
+
+      .item3 {
+        grid-row: 2;
+        grid-column: 1 / span 4;
+      }
+
+      .item4 {
+        grid-row: 3;
+        grid-column: 1 / span 2;
+      }
+
+      .item5 {
+        grid-row: 3;
+        grid-column: 3 / span 2;
+      }
+
+      .item6 {
+        grid-row: 4;
+        grid-column: 1 / span 4;
+      }
+
+      .item7 {
+        grid-row: 5;
+        grid-column: 1 / span 4;
+      }
+    }
+
+    input {
+      padding: 3px;
+      border: none;
+      margin: 15px;
+      border-radius: 10px;
+      width: 100%;
+    }
+
+    button {
+      width: 25%;
+      position: absolute;
+      text-align: center;
+      background-color: #f4cd46;
+      border-radius: 15px;
+      padding: 5px 10px;
+      transform: translateX(90%);
+
+      border: none;
+      cursor: pointer;
+    }
+  }
+}
