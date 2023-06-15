@@ -11,7 +11,12 @@
 
 body {
   font-family: "Nunito", sans-serif;
-  background-color: #d9def7;
+  background: rgb(217, 222, 247);
+  background: linear-gradient(
+    0deg,
+    rgba(150, 168, 255, 0.28) 0,
+    rgb(224, 227, 245) 100%
+  );
   color: #343434;
 }
 

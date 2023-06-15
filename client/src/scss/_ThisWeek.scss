@@ -1,11 +1,6 @@
 .this-week {
   padding: 3%;
-  background: rgb(217, 222, 247);
-  background: linear-gradient(
-    0deg,
-    rgba(150, 168, 255, 0.28) 0,
-    rgb(224, 227, 245) 100%
-  );
+
   h3 {
     text-align: center;
     margin-bottom: 2%;
@@ -17,9 +12,9 @@
     border-radius: 10px;
     min-height: 400px;
     display: flex;
-    box-shadow: -1px 22px 46px 11px rgba(145, 145, 145, 0.75);
-    -webkit-box-shadow: -1px 22px 46px 11px rgba(145, 145, 145, 0.75);
-    -moz-box-shadow: -1px 22px 46px 11px rgba(145, 145, 145, 0.75);
+    box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
+    -webkit-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
+    -moz-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
     gap: 3%;
     .rec-carousel-wrapper {
       height: auto;
