@@ -6,7 +6,7 @@ export const Landing = () => {
   return (
     <div>
       <Hero />
-      <ThisWeek />
+      <ThisWeek heading="Ovaj tjedan" />
     </div>
   );
 };

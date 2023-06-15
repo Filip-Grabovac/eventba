@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import SearchImg from "../../../../assets/images/search_card_img.png";
 
 const MainSearchCard = () => {
@@ -11,8 +11,8 @@ const MainSearchCard = () => {
         <p>07.jun.2023 22:00 - Bitefartcafe, Beograd</p>
       </div>
       <div className="card-btns-wrapper">
-        <a href="#">Pogledaj</a>
-        <a href="#">Kupi</a>
+        <Link to="/single">Pogledaj</Link>
+        <Link to="">Kupi</Link>
       </div>
     </div>
   );

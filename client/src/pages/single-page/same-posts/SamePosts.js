@@ -1,7 +1,5 @@
 import React from "react";
 
-const SamePosts = () => {
+export const SamePosts = () => {
   return <div>SamePosts</div>;
 };
-
-export default SamePosts;

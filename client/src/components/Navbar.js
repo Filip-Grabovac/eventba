@@ -2,14 +2,15 @@ import React from "react";
 import Logo from "../assets/logo/logo.svg";
 import UserIcon from "../assets/ikonice/user_icon.svg";
 import SearchInput from "../pages/landing/hero/mainSearch/SearchInput";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary custom-navbar">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="/">
           <img src={Logo} alt="Logo" />
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"

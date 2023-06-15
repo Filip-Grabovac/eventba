@@ -2,10 +2,10 @@ import React from "react";
 import Carousel from "react-elastic-carousel";
 import { SliderCard } from "./SliderCard";
 
-export const ThisWeek = () => {
+export const ThisWeek = (props) => {
   return (
     <div className="this-week">
-      <h3>Ovaj tjedan</h3>
+      <h3>{props.heading}</h3>
       <div className="slider">
         <Carousel
           itemsToShow={3}

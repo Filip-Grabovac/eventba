@@ -1,6 +1,7 @@
 import React from "react";
-import SinglePageCover from "../../assets/images/search_card_img.png";
+import SinglePageCover from "../../assets/images/test.png";
 import Hero from "./hero/Hero";
+import { ThisWeek } from "../landing/thisWeek/ThisWeek";
 
 const SinglePage = () => {
   return (
@@ -10,6 +11,7 @@ const SinglePage = () => {
         <div className="cover-overlay"></div>
       </div>
       <Hero />
+      <ThisWeek heading="Iz iste sekcije" />
     </div>
   );
 };

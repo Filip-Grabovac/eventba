@@ -3,6 +3,7 @@ import Carousel from "react-elastic-carousel";
 import ForthImg from "../../../../assets/event_images/forth_event_img.svg";
 import ThirdImg from "../../../../assets/event_images/third_event_img.svg";
 import SecondImg from "../../../../assets/event_images/second_event_img.svg";
+import { Link } from "react-router-dom";
 
 const ImageSlider = () => {
   const items = [
@@ -50,15 +51,15 @@ const ImageSlider = () => {
             onMouseLeave={removeOverlayCard}
             className="slider-img-overlay"
           ></div>
-          <a
+          <Link
             onMouseOver={(e) => {
               overlayCard(e);
             }}
             className="slider-link"
-            href="#"
+            to="/single"
           >
             Pogledaj
-          </a>
+          </Link>
         </div>
       ))}
     </Carousel>
