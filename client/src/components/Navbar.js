@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from "../assets/logo/logo.svg";
 import UserIcon from "../assets/ikonice/user_icon.svg";
-import SearchIcon from "../assets/ikonice/search_icon.png";
+import SearchInput from "../pages/landing/hero/mainSearch/SearchInput";
 
 export const Navbar = () => {
   return (
@@ -60,10 +60,7 @@ export const Navbar = () => {
               </a>
             </li>
             <li className="nav-item input-nav-link">
-              <div className="nav-search-wrapper">
-                <input type="text" placeholder="Pretražite..." />
-                <img src={SearchIcon} alt="Search Icon" />
-              </div>
+              <SearchInput />
             </li>
           </ul>
         </div>
