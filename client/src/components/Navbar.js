@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../assets/logo/logo.svg";
 import UserIcon from "../assets/ikonice/user_icon.svg";
 import SearchInput from "../pages/landing/hero/mainSearch/SearchInput";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { Login } from "../auth/Login";
 
 export const Navbar = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary custom-navbar">
       <div className="container-fluid">
@@ -26,39 +30,61 @@ export const Navbar = () => {
           <ul className="navbar-nav">
             <div className="navbar-middle-part">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <NavLink className="nav-link active" aria-current="page" to="/">
                   Koncerti
-                </a>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <NavLink className="nav-link active" aria-current="page" to="#">
                   Sport
-                </a>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <NavLink className="nav-link active" aria-current="page" to="#">
                   Festivali
-                </a>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <NavLink className="nav-link active" aria-current="page" to="#">
                   Izvođači
-                </a>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <NavLink className="nav-link active" aria-current="page" to="#">
                   Kontakt
-                </a>
+                </NavLink>
               </li>
             </div>
-            <li className="nav-item">
-              <a
+            <li className="nav-item profile-link">
+              <button
                 className="nav-link active user-icon-link"
-                aria-current="page"
-                href="/profile"
+                onClick={() => {
+                  setIsDropdownOpen(!isDropdownOpen);
+                }}
               >
                 <img src={UserIcon} alt="User Icon" />
-              </a>
+              </button>
+              {isDropdownOpen && (
+                <div className="dropdown">
+                  <ul>
+                    <li>
+                      <button
+                        onClick={() => {
+                          setIsLoginOpen(!isLoginOpen);
+                        }}
+                      >
+                        Login
+                      </button>
+                    </li>
+                    <li>
+                      <button>Register</button>
+                    </li>
+                    <li>
+                      <Link to={"/profile"}>Profile</Link>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </li>
             <li className="nav-item input-nav-link">
               <SearchInput />
@@ -66,6 +92,9 @@ export const Navbar = () => {
           </ul>
         </div>
       </div>
+      {isLoginOpen && (
+        <Login isLoginOpen={isLoginOpen} setIsLoginOpen={setIsLoginOpen} />
+      )}
     </nav>
   );
 };

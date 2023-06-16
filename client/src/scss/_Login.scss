@@ -1,0 +1,128 @@
+.login-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.753);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .container {
+    color: #fff;
+    position: relative;
+    background-color: #455cd9;
+    height: 500px;
+    width: 500px;
+    border-radius: 10px;
+    .close-btn {
+      position: absolute;
+      right: 2%;
+      top: 2%;
+      background-color: transparent;
+      border: none;
+
+      transform: scale(0.75);
+    }
+
+    h2 {
+      margin: 10%;
+      text-align: center;
+      font-size: 26px;
+    }
+    h2::after {
+      content: "";
+      display: block;
+      width: 70%;
+      border-bottom: solid 1px rgb(255, 255, 255);
+      margin: 0 auto;
+      padding-bottom: 5%;
+    }
+
+    .text-section {
+      margin: 0 auto;
+      max-width: 75%;
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        input {
+          color: white;
+          background-color: #677adf;
+          padding: 5px;
+          border: none;
+          margin-bottom: 30px;
+          border-radius: 10px;
+          width: 100%;
+          &:focus {
+            outline: none;
+          }
+          &::placeholder {
+            font-size: 14px;
+            font-weight: 600;
+            padding-left: 10px;
+            color: #ffffffc9;
+          }
+        }
+        div {
+          position: relative;
+          width: 100%;
+          .input-img {
+            position: absolute;
+            width: 24px;
+            right: 3%;
+            top: 4px;
+          }
+        }
+        img {
+          width: 20px;
+        }
+        .other-login {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          justify-content: space-between;
+          align-items: center;
+          .facebook,
+          .gmail {
+            cursor: pointer;
+            border-radius: 10px;
+            background-color: #677adf;
+            width: 45%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 5px;
+            img {
+              width: 30px;
+            }
+            p {
+              text-align: center;
+              margin: 0;
+              font-size: 14px;
+              width: 60%;
+            }
+          }
+        }
+        p {
+          margin: 35px;
+          a {
+            color: #f4cd46;
+            text-decoration: none;
+          }
+        }
+        .login-btn {
+          background-color: #f4cd46;
+          padding: 10px 30px;
+          font-weight: bold;
+          border: none;
+          border-radius: 50px;
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+}

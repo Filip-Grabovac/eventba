@@ -40,13 +40,12 @@
     -moz-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
 
     .form {
-      font-weight: 900;
+      font-weight: 600;
       width: 80%;
       margin: auto;
       background-color: #f3f3f3;
       border-radius: 5px;
-      input:valid {
-      }
+
       .item1 {
         grid-row: 1;
         grid-column: 1 / span 2;
