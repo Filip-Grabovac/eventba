@@ -9,11 +9,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: fadeIn 0.15s ease-in;
+
   .container {
     color: #fff;
     position: relative;
     background-color: #455cd9;
-    height: 500px;
+    height: auto;
     width: 500px;
     border-radius: 10px;
     .close-btn {
@@ -43,19 +45,64 @@
     .text-section {
       margin: 0 auto;
       max-width: 75%;
+
       form {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        height: auto;
+
+        .pass,
+        .email {
+          margin-bottom: 20px;
+        }
+        .register-input-wrapper {
+          position: relative;
+          margin-bottom: 20px;
+
+          span,
+          img {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+
+          span {
+            left: 15px;
+            font-size: 15px;
+            color: #ccd1f4;
+            transition: transform 0.2s, font-size 0.2s;
+            pointer-events: none;
+          }
+
+          img {
+            right: 15px;
+          }
+
+          input {
+            margin: 0;
+
+            &:focus {
+              + span {
+                transform: translate(-8px, -20px);
+                font-size: 10px;
+              }
+            }
+          }
+          .active-input {
+            transform: translate(-8px, -20px);
+            font-size: 10px;
+          }
+        }
         input {
           color: white;
           background-color: #677adf;
           padding: 5px;
           border: none;
-          margin-bottom: 30px;
           border-radius: 10px;
           width: 100%;
+          height: 43px;
           &:focus {
             outline: none;
           }
@@ -69,11 +116,13 @@
         div {
           position: relative;
           width: 100%;
+          height: 43px;
           .input-img {
             position: absolute;
             width: 24px;
             right: 3%;
-            top: 4px;
+            top: 50%;
+            transform: translateY(-50%);
           }
         }
         img {
@@ -121,8 +170,27 @@
           border: none;
           border-radius: 50px;
           margin-bottom: 20px;
+          color: #343434;
+        }
+        .multiple-inputs-wrapper {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
+
+          .register-input-wrapper {
+            width: 47%;
+          }
         }
       }
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
     }
   }
 }

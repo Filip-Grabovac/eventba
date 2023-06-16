@@ -9,6 +9,6 @@ const db = mongoose.connection;
 db.on("error", (error) => console.log(error));
 db.on("open", () => console.log("Connected to database"));
 
-app.listen(3000, () => {
+app.listen(5000, () => {
   console.log("Server started");
 });

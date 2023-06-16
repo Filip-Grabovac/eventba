@@ -4,10 +4,12 @@ import UserIcon from "../assets/ikonice/user_icon.svg";
 import SearchInput from "../pages/landing/hero/mainSearch/SearchInput";
 import { Link, NavLink } from "react-router-dom";
 import { Login } from "../auth/Login";
+import { Register } from "../auth/Register";
 
 export const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary custom-navbar">
@@ -77,7 +79,13 @@ export const Navbar = () => {
                       </button>
                     </li>
                     <li>
-                      <button>Register</button>
+                      <button
+                        onClick={() => {
+                          setIsRegisterOpen(!isRegisterOpen);
+                        }}
+                      >
+                        Register
+                      </button>
                     </li>
                     <li>
                       <Link to={"/profile"}>Profile</Link>
@@ -94,6 +102,12 @@ export const Navbar = () => {
       </div>
       {isLoginOpen && (
         <Login isLoginOpen={isLoginOpen} setIsLoginOpen={setIsLoginOpen} />
+      )}
+      {isRegisterOpen && (
+        <Register
+          isRegisterOpen={isRegisterOpen}
+          setIsRegisterOpen={setIsRegisterOpen}
+        ></Register>
       )}
     </nav>
   );
