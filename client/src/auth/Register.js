@@ -6,10 +6,9 @@ import UserCard from "../assets/ikonice/user_card_icon.svg";
 import Mail from "../assets/ikonice/mail.svg";
 import PinIcon from "../assets/ikonice/pin_icon.svg";
 import PasswordEye from "../assets/ikonice/invisible.svg";
+import axios from "axios";
 
 export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.key === "Escape") {
@@ -23,17 +22,61 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
       document.removeEventListener("keydown", handleKeyPress);
     };
   }, [setIsRegisterOpen]);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const user = {
+      name: e.target.elements.name.value,
+      lname: e.target.elements.lname.value,
+      email: e.target.elements.email.value,
+      address: e.target.elements.address.value,
+      city: e.target.elements.city.value,
+      country: e.target.elements.country.value,
+      zipcode: e.target.elements.zipcode.value,
+      phoneNumber: e.target.elements.phoneNumber.value,
+      password: e.target.elements.password.value,
+      repeatPassword: e.target.elements.repeatPassword.value,
+    };
 
-    console.log("Email:", email);
-    console.log("Password:", password);
+    if (user.password === user.repeatPassword) {
+      await axios
+        .post(
+          "http://localhost:5000/api/v1/users",
+          {
+            name: user.name,
+            lname: user.lname,
+            email: user.email,
+            address: user.address,
+            city: user.city,
+            country: user.country,
+            zip: user.zipcode,
+            phone: user.phoneNumber,
+            password: user.password,
+            isVerified: false,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          // Handle the response data
+          console.log(response.data);
+        })
+        .catch((error) => {
+          // Handle any errors
+          console.error("Error:", error);
+        });
+    }
   };
   const handleModalClick = (e) => {
     if (e.target.classList.contains("login-screen")) {
       setIsRegisterOpen(false);
     }
   };
+
+  // REGISTER A USER
+
   return (
     <div className="login-screen" onClick={handleModalClick}>
       <div className="container">
@@ -49,32 +92,84 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
         <div className="text-section">
           <form onSubmit={handleSubmit}>
             <div className="multiple-inputs-wrapper">
-              <RegisterInput placeholder="Ime" type="text" icon={UserCard} />
+              <RegisterInput
+                placeholder="Ime"
+                type="text"
+                icon={UserCard}
+                name="name"
+                isRequired={true}
+                inputLength={3}
+              />
               <RegisterInput
                 placeholder="Prezime"
                 type="text"
                 icon={UserCard}
+                name="lname"
+                isRequired={true}
+                inputLength={3}
               />
             </div>
-            <RegisterInput placeholder="Email" type="email" icon={Mail} />
-            <RegisterInput placeholder="Adresa" type="text" icon={PinIcon} />
+            <RegisterInput
+              placeholder="Email"
+              type="email"
+              icon={Mail}
+              name="email"
+              isRequired={true}
+            />
+            <RegisterInput
+              placeholder="Adresa"
+              type="text"
+              icon={PinIcon}
+              name="address"
+              isRequired={false}
+            />
             <div className="multiple-inputs-wrapper">
-              <RegisterInput placeholder="Grad" type="text" icon="" />
-              <RegisterInput placeholder="Država" type="text" icon="" />
+              <RegisterInput
+                placeholder="Grad"
+                type="text"
+                icon=""
+                name="city"
+                isRequired={false}
+              />
+              <RegisterInput
+                placeholder="Država"
+                type="text"
+                icon=""
+                name="country"
+                isRequired={false}
+              />
             </div>
             <div className="multiple-inputs-wrapper">
-              <RegisterInput placeholder="Poštanski broj" type="text" icon="" />
-              <RegisterInput placeholder="Telefon" type="text" icon="" />
+              <RegisterInput
+                placeholder="Poštanski broj"
+                type="text"
+                icon=""
+                name="zipcode"
+                isRequired={false}
+              />
+              <RegisterInput
+                placeholder="Telefon"
+                type="text"
+                icon=""
+                name="phoneNumber"
+                isRequired={false}
+              />
             </div>
             <RegisterInput
               placeholder="Lozinka"
               type="password"
               icon={PasswordEye}
+              name="password"
+              isRequired={true}
+              inputLength={8}
             />
             <RegisterInput
               placeholder="Ponovi Lozinku"
               type="password"
               icon=""
+              name="repeatPassword"
+              isRequired={true}
+              inputLength={8}
             />
             <p>
               Već imas event.ba račun? <Link>Prijavi se.</Link>

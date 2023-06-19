@@ -10,6 +10,9 @@ export const RegisterInput = (props) => {
           setContent(e.target.value);
         }}
         type={props.type}
+        name={props.name}
+        required={props.isRequired}
+        minLength={props.inputLength}
       />
       {
         <span className={`${content !== "" ? "active-input" : ""}`}>
