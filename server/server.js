@@ -5,6 +5,7 @@ const connectDB = require("./db/connect");
 const users = require("./routes/users");
 
 app.use(express.json());
+let database;
 
 app.use("/api/v1/users", users);
 
