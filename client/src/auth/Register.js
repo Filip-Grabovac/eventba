@@ -8,8 +8,20 @@ import PinIcon from "../assets/ikonice/pin_icon.svg";
 import PasswordEye from "../assets/ikonice/invisible.svg";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Encrypt } from "./Encrypt";
+import { Decrypt } from "./Decrypt";
 
 export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
+  const toastSetup = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  };
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   useEffect(() => {
@@ -28,6 +40,8 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const secretKey = process.env.REACT_APP_SECRET_KEY;
+
     const user = {
       name: e.target.elements.name.value,
       lname: e.target.elements.lname.value,
@@ -37,14 +51,14 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
       country: e.target.elements.country.value,
       zip: e.target.elements.zipcode.value,
       phone: e.target.elements.phoneNumber.value,
-      password: e.target.elements.password.value,
+      password: Encrypt(e.target.elements.password.value, secretKey),
       repeatPassword: e.target.elements.repeatPassword.value,
     };
 
-    if (user.password === user.repeatPassword) {
+    if (Decrypt(user.password, secretKey) === user.repeatPassword) {
       await axios
         .post(
-          "http://localhost:5000/api/v1/users",
+          process.env.REACT_APP_API_URL + "/api/v1/users",
           {
             ...user,
             isVerified: false,
@@ -57,16 +71,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
         )
 
         .then((response) => {
-          toast.success("Uspješna registracija", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
+          toast.success("Uspješna registracija", toastSetup);
           setIsRegisterOpen(false);
         })
 
@@ -75,29 +80,10 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
           console.error("Error:");
           toast.error(
             `Došlo je do pogreške prilikom registracije. ${error.response.data.error}!`,
-            {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "dark",
-            }
+            toastSetup
           );
         });
-    } else
-      toast.warn("Lozinke se ne poklapaju!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+    } else toast.warn("Lozinke se ne poklapaju!", toastSetup);
   };
 
   const handleModalClick = (e) => {
