@@ -30,9 +30,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
         setIsRegisterOpen(false);
       }
     };
-
     document.addEventListener("keydown", handleKeyPress);
-
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };

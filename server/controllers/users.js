@@ -34,16 +34,17 @@ const findUser = async (req, res) => {
   try {
     const { email: emailUser } = req.params;
     const user = await User.findOne({ email: emailUser });
-
     if (!user) {
       return res
         .status(404)
-        .json({ msg: `Ne postoji korisnik s tim emailom: ${email}` });
+        .json({ error: `Ne postoji korisnik s tim emailom: ${emailUser}` });
     }
-
     res.status(200).json(user.password);
   } catch (error) {
-    res.status(500).json({ msg: error });
+    res.status(500).json({
+      error:
+        "Dogodila se greška sa serverom pri pretraživanju, pokušajte kasnije",
+    });
   }
 };
 

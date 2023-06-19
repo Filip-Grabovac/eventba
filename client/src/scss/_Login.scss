@@ -14,7 +14,7 @@
   .container {
     color: #fff;
     position: relative;
-    background-color: #455cd9;
+    background-color: rgba(69, 91, 217, 0.8);
     height: auto;
     width: 500px;
     border-radius: 10px;
@@ -24,7 +24,6 @@
       top: 2%;
       background-color: transparent;
       border: none;
-
       transform: scale(0.75);
     }
 
@@ -72,9 +71,7 @@
             transition: transform 0.2s, font-size 0.2s;
             pointer-events: none;
           }
-          img {
-            cursor: pointer;
-          }
+
           input {
             margin: 0;
 
@@ -133,7 +130,7 @@
             cursor: pointer;
             border-radius: 10px;
             background-color: #677adf;
-            width: 80%;
+            width: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
