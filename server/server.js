@@ -3,9 +3,10 @@ const express = require("express");
 const app = express();
 const connectDB = require("./db/connect");
 const users = require("./routes/users");
+const cors = require("cors");
 
+app.use(cors());
 app.use(express.json());
-let database;
 
 app.use("/api/v1/users", users);
 
