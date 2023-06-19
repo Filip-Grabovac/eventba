@@ -42,15 +42,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
         .post(
           "http://localhost:5000/api/v1/users",
           {
-            name: user.name,
-            lname: user.lname,
-            email: user.email,
-            address: user.address,
-            city: user.city,
-            country: user.country,
-            zip: user.zipcode,
-            phone: user.phoneNumber,
-            password: user.password,
+            ...user,
             isVerified: false,
           },
           {
@@ -59,10 +51,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
             },
           }
         )
-        .then((response) => {
-          // Handle the response data
-          console.log(response.data);
-        })
+        .then((response) => {})
         .catch((error) => {
           // Handle any errors
           console.error("Error:", error);
