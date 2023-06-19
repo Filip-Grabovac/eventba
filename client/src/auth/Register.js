@@ -7,8 +7,11 @@ import Mail from "../assets/ikonice/mail.svg";
 import PinIcon from "../assets/ikonice/pin_icon.svg";
 import PasswordEye from "../assets/ikonice/invisible.svg";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.key === "Escape") {
@@ -22,6 +25,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
       document.removeEventListener("keydown", handleKeyPress);
     };
   }, [setIsRegisterOpen]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = {
@@ -31,8 +35,8 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
       address: e.target.elements.address.value,
       city: e.target.elements.city.value,
       country: e.target.elements.country.value,
-      zipcode: e.target.elements.zipcode.value,
-      phoneNumber: e.target.elements.phoneNumber.value,
+      zip: e.target.elements.zipcode.value,
+      phone: e.target.elements.phoneNumber.value,
       password: e.target.elements.password.value,
       repeatPassword: e.target.elements.repeatPassword.value,
     };
@@ -42,15 +46,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
         .post(
           "http://localhost:5000/api/v1/users",
           {
-            name: user.name,
-            lname: user.lname,
-            email: user.email,
-            address: user.address,
-            city: user.city,
-            country: user.country,
-            zip: user.zipcode,
-            phone: user.phoneNumber,
-            password: user.password,
+            ...user,
             isVerified: false,
           },
           {
@@ -60,15 +56,48 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
           }
         )
         .then((response) => {
-          // Handle the response data
-          console.log(response.data);
+          toast.success("Uspješna registracija", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          setIsRegisterOpen(false);
         })
         .catch((error) => {
           // Handle any errors
-          console.error("Error:", error);
+          console.error("Error:");
+          toast.error(
+            `Došlo je do pogreške prilikom registracije. ${error.response.data.error}!`,
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            }
+          );
         });
-    }
+    } else
+      toast.warn("Lozinke se ne poklapaju!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
   };
+
   const handleModalClick = (e) => {
     if (e.target.classList.contains("login-screen")) {
       setIsRegisterOpen(false);
@@ -162,6 +191,8 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
               name="password"
               isRequired={true}
               inputLength={8}
+              isPasswordVisible={isPasswordVisible}
+              setIsPasswordVisible={setIsPasswordVisible}
             />
             <RegisterInput
               placeholder="Ponovi Lozinku"
@@ -170,6 +201,8 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
               name="repeatPassword"
               isRequired={true}
               inputLength={8}
+              isPasswordVisible={isPasswordVisible}
+              setIsPasswordVisible={setIsPasswordVisible}
             />
             <p>
               Već imas event.ba račun? <Link>Prijavi se.</Link>

@@ -24,9 +24,6 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
   }, [setIsLoginOpen]);
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log("Email:", email);
-    console.log("Password:", password);
   };
   const handleModalClick = (e) => {
     if (e.target.classList.contains("login-screen")) {
