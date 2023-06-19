@@ -55,6 +55,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
             },
           }
         )
+
         .then((response) => {
           toast.success("Uspješna registracija", {
             position: "top-right",
@@ -68,6 +69,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
           });
           setIsRegisterOpen(false);
         })
+
         .catch((error) => {
           // Handle any errors
           console.error("Error:");
