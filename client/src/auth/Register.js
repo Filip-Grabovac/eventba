@@ -190,6 +190,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
               placeholder="Lozinka"
               type="password"
               icon={PasswordEye}
+              cursorPointer={true}
               name="password"
               isRequired={true}
               inputLength={8}

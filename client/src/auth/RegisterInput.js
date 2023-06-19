@@ -32,6 +32,7 @@ export const RegisterInput = (props) => {
           alt="User Card"
           onClick={handleTogglePasswordVisibility}
           className="password-eye-icon"
+          style={props.cursorPointer ? { cursor: "pointer" } : {}}
         />
       ) : (
         ""

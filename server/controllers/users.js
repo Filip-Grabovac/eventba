@@ -26,10 +26,29 @@ const createUser = async (req, res) => {
     res.status(201).json({ user });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Došlo je do greške pri unosu " });
   }
 };
+
+const findUser = async (req, res) => {
+  try {
+    const { email: emailUser } = req.params;
+    const user = await User.findOne({ email: emailUser });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ msg: `Ne postoji korisnik s tim emailom: ${email}` });
+    }
+
+    res.status(200).json(user.password);
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
+};
+
 module.exports = {
   getAllUsers,
   createUser,
+  findUser,
 };
