@@ -5,11 +5,15 @@ import SearchInput from "../pages/landing/hero/mainSearch/SearchInput";
 import { Link, NavLink } from "react-router-dom";
 import { Login } from "../auth/Login";
 import { Register } from "../auth/Register";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "../redux/actions/index.js";
 
 export const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const userId = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary custom-navbar">
@@ -90,6 +94,19 @@ export const Navbar = () => {
                     <li>
                       <Link to={"/profile"}>Profile</Link>
                     </li>
+                    {userId !== "" ? (
+                      <li>
+                        <button
+                          onClick={() => {
+                            dispatch(setUser(""));
+                          }}
+                        >
+                          Odjavi se
+                        </button>
+                      </li>
+                    ) : (
+                      ""
+                    )}
                   </ul>
                 </div>
               )}

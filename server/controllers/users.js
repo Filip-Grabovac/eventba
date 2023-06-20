@@ -32,18 +32,40 @@ const createUser = async (req, res) => {
 
 const findUser = async (req, res) => {
   try {
-    const { email: emailUser } = req.params;
-    const user = await User.findOne({ email: emailUser });
-    if (!user) {
-      return res
-        .status(404)
-        .json({ error: `Ne postoji korisnik s tim emailom: ${emailUser}` });
+    const { type, value } = req.params;
+
+    let query;
+    if (type === "email") {
+      query = { email: value };
+    } else if (type === "id") {
+      query = { _id: value };
+    } else {
+      return res.status(400).json({ error: "Invalid search type" });
     }
+
+    const user = await User.findOne(query);
+    if (!user) {
+      if (type === "id") {
+        return res
+          .status(404)
+          .json({ error: `No user found with ID: ${value}` });
+      } else if (type === "email") {
+        return res
+          .status(404)
+          .json({ error: `No user found with email: ${value}` });
+      }
+    }
+
+    if (type === "id") {
+      // Return the whole user object when searching by ID
+      return res.status(200).json(user);
+    }
+
+    // Only return the ID and password when searching by email
     res.status(200).json({ id: user._id, password: user.password });
   } catch (error) {
     res.status(500).json({
-      error:
-        "Dogodila se greška sa serverom pri pretraživanju, pokušajte kasnije",
+      error: "An error occurred while searching, please try again later",
     });
   }
 };

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
-export function ProfileForm() {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [adress, setAdress] = useState("");
+export function ProfileForm(props) {
+  const profileData = props.profileData;
+  const [name, setName] = useState(profileData.name);
+  const [surname, setSurname] = useState(profileData.lname);
+  const [email, setEmail] = useState(profileData.email);
+  const [city, setCity] = useState(profileData.city);
+  const [country, setCountry] = useState(profileData.country);
+  const [adress, setAdress] = useState(profileData.address);
 
   const handleSubmit = (e) => {
     e.preventDefault();

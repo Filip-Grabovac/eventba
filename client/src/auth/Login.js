@@ -8,13 +8,12 @@ import mail from "../assets/ikonice/mail.svg";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Decrypt } from "./Decrypt";
+import FacebookLogin from "react-facebook-login";
 // REDUX
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/redux/userRedux";
-import { useSelector } from "react-redux";
+import { setUser } from "../redux/actions/index.js";
 
 export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
-  const dispatch = useDispatch();
   const toastSetup = {
     position: "top-right",
     autoClose: 5000,
@@ -25,7 +24,8 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
     progress: undefined,
     theme: "dark",
   };
-
+  const dispatch = useDispatch();
+  const [loggedin, setState] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const secretKey = process.env.REACT_APP_SECRET_KEY;
@@ -54,22 +54,20 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
     const email = e.target.elements.email.value;
 
     try {
-      const { id: id, password: userPasword } = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/v1/users/${email}`,
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/users/email/${email}`,
         {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-
+      const { id, password: userPassword } = response.data;
       if (
-        Decrypt(userPasword, secretKey) === e.target.elements.password.value
+        Decrypt(userPassword, secretKey) === e.target.elements.password.value
       ) {
-        console.log(id, userPasword);
-        dispatch(setUser(userPasword.id));
+        dispatch(setUser(id));
         toast.success("Uspješana prijava", toastSetup);
-
         setIsLoginOpen(false);
       } else {
         toast.error(`Lozinka nije ispravna`, toastSetup);
@@ -88,8 +86,22 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
     }
   };
 
-  const user = useSelector((state) => state.user);
-  console.log(user);
+  // FACEBOOK LOGIC
+  const responseFacebook = (response) => {
+    console.log(response);
+    if (response.accessToken) {
+      setState(true);
+    }
+  };
+
+  const componentClicked = () => {
+    console.log("clicked");
+  };
+
+  const logout = () => {
+    setState(false);
+  };
+
   return (
     <div className="login-screen" onClick={handleModalClick}>
       <div className="container">
@@ -122,12 +134,19 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
               isPasswordVisible={isPasswordVisible}
               setIsPasswordVisible={setIsPasswordVisible}
             />
-            <div className="other-login">
+            {/* <div className="other-login">
               <div className="facebook">
                 <img src={facebook} alt="Facebook logo" />
                 <p>Nastavi sa Facebook-om</p>
               </div>
-            </div>
+            </div> */}
+            <FacebookLogin
+              appId="934444414490428"
+              autoLoad={false}
+              fields="name,email,picture"
+              onClick={componentClicked}
+              callback={responseFacebook}
+            />
             <p>
               Nemaš event.ba račun? <Link>Registriraj</Link> se!
             </p>
