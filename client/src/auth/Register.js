@@ -10,8 +10,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Encrypt } from "./Encrypt";
 import { Decrypt } from "./Decrypt";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
+  const [verified, setVerified] = useState(false);
   const toastSetup = {
     position: "top-right",
     autoClose: 5000,
@@ -90,7 +92,9 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
     }
   };
 
-  // REGISTER A USER
+  function onChange(value) {
+    setVerified(true);
+  }
 
   return (
     <div className="login-screen" onClick={handleModalClick}>
@@ -194,7 +198,12 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
             <p>
               Već imas event.ba račun? <Link>Prijavi se.</Link>
             </p>
-            <button type="submit" className="login-btn">
+            <ReCAPTCHA
+              className="recaptcha"
+              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+              onChange={onChange}
+            />
+            <button type="submit" className="login-btn" disabled={!verified}>
               Registruj se!
             </button>
           </form>

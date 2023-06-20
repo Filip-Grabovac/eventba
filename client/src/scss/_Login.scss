@@ -105,6 +105,12 @@
             color: #ffffffc9;
           }
         }
+        .recaptcha {
+          position: unset;
+          width: unset;
+          height: 80px;
+          display: block;
+        }
         div {
           position: relative;
           width: 100%;
@@ -148,7 +154,7 @@
           }
         }
         p {
-          margin: 35px;
+          margin: 15px;
           a {
             color: #f4cd46;
             text-decoration: none;
