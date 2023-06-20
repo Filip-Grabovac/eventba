@@ -39,7 +39,7 @@ const findUser = async (req, res) => {
         .status(404)
         .json({ error: `Ne postoji korisnik s tim emailom: ${emailUser}` });
     }
-    res.status(200).json(user.password);
+    res.status(200).json({ id: user._id, password: user.password });
   } catch (error) {
     res.status(500).json({
       error:

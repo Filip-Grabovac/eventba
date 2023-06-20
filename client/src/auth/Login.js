@@ -7,10 +7,14 @@ import invisible from "../assets/ikonice/invisible.svg";
 import mail from "../assets/ikonice/mail.svg";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Encrypt } from "./Encrypt";
 import { Decrypt } from "./Decrypt";
+// REDUX
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/redux/userRedux";
+import { useSelector } from "react-redux";
 
 export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
+  const dispatch = useDispatch();
   const toastSetup = {
     position: "top-right",
     autoClose: 5000,
@@ -48,9 +52,9 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.elements.email.value;
-    console.log(email);
+
     try {
-      const { data: userPasword } = await axios.get(
+      const { id: id, password: userPasword } = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/v1/users/${email}`,
         {
           headers: {
@@ -58,11 +62,14 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
           },
         }
       );
-      console.log(userPasword);
+
       if (
         Decrypt(userPasword, secretKey) === e.target.elements.password.value
       ) {
+        console.log(id, userPasword);
+        dispatch(setUser(userPasword.id));
         toast.success("Uspješana prijava", toastSetup);
+
         setIsLoginOpen(false);
       } else {
         toast.error(`Lozinka nije ispravna`, toastSetup);
@@ -81,6 +88,8 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
     }
   };
 
+  const user = useSelector((state) => state.user);
+  console.log(user);
   return (
     <div className="login-screen" onClick={handleModalClick}>
       <div className="container">
