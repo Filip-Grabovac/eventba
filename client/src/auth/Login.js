@@ -87,10 +87,55 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
   };
 
   // FACEBOOK LOGIC
-  const responseFacebook = (response) => {
-    console.log(response);
-    if (response.accessToken) {
-      setState(true);
+  const responseFacebook = async (fbResponse) => {
+    if (fbResponse.accessToken) {
+      const fbUserEmail = fbResponse.email;
+
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/v1/users/email/${fbUserEmail}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const { id, password: userPassword } = response.data;
+
+        dispatch(setUser(id));
+      } catch (error) {
+        const user = {
+          name: fbResponse.name,
+          email: fbResponse.email,
+        };
+
+        await axios
+          .post(
+            process.env.REACT_APP_API_URL + "/api/v1/users",
+            {
+              ...user,
+              isVerified: false,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+
+          .then((response) => {
+            setIsLoginOpen(false);
+          })
+
+          .catch((error) => {
+            // Handle any errors
+            console.error("Error:");
+            toast.error(
+              `Došlo je do pogreške prilikom registracije. ${error.response.data.error}!`,
+              toastSetup
+            );
+          });
+      }
     }
   };
 

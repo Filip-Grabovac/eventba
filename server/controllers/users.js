@@ -62,7 +62,11 @@ const findUser = async (req, res) => {
     }
 
     // Only return the ID and password when searching by email
-    res.status(200).json({ id: user._id, password: user.password });
+    res.status(200).json({
+      id: user._id,
+      password: user.password,
+      accountType: user.accountType,
+    });
   } catch (error) {
     res.status(500).json({
       error: "An error occurred while searching, please try again later",
