@@ -97,6 +97,10 @@
     .search-mini-nav {
       display: flex;
 
+      .search-nav-left {
+        overflow-y: auto;
+      }
+
       .search-nav-left,
       .search-nav-right {
         width: 70%;
@@ -131,6 +135,10 @@
         margin-left: auto;
       }
     }
+
+    @media only screen and (max-width: 670px) {
+      padding: 5px;
+    }
   }
   .search-card-container {
     display: flex;
@@ -141,6 +149,14 @@
     margin-bottom: 10px;
     width: 99%;
 
+    @media only screen and (max-width: 670px) {
+      padding: 0;
+    }
+
+    @media only screen and (max-width: 470px) {
+      padding: 5px;
+    }
+
     &:nth-child(even) {
       background: #f3f3f3;
     }
@@ -150,6 +166,48 @@
       height: 140px;
       border-top-left-radius: 10px;
       border-bottom-left-radius: 10px;
+
+      @media only screen and (max-width: 470px) {
+        border-radius: 10px;
+      }
+    }
+
+    .search-card-content-wrapper {
+      display: flex;
+      align-items: center;
+      width: 100%;
+
+      @media only screen and (max-width: 670px) {
+        flex-direction: column;
+
+        .card-btns-wrapper {
+          margin: 0;
+          flex-direction: row;
+          height: auto;
+
+          a {
+            height: fit-content;
+            padding: 3px 6px;
+            width: 106px;
+          }
+
+          a:nth-child(1) {
+            margin-right: 5px;
+          }
+          @media only screen and (max-width: 470px) {
+            a:nth-child(1) {
+              margin: 0 0 5px 0;
+            }
+          }
+        }
+
+        .card-info-wrapper {
+          h3,
+          p {
+            text-align: center;
+          }
+        }
+      }
     }
   }
   .search-cards-container {
@@ -174,7 +232,7 @@
     }
 
     .card-info-wrapper {
-      margin-left: 20px;
+      margin: 0 10px 0 20px;
 
       h3 {
         font-size: 23px;
@@ -206,6 +264,14 @@
       font-weight: 600;
       font-size: 15px;
     }
+
+    @media only screen and (max-width: 470px) {
+      flex-wrap: wrap;
+
+      a {
+        margin: 0;
+      }
+    }
   }
   .hot-events-wrapper {
     background-color: #576cdc;
@@ -214,6 +280,7 @@
     border-radius: 10px;
     padding: 30px;
     text-align: center;
+    overflow-y: auto;
 
     h3 {
       color: #f4cd46;
@@ -227,6 +294,10 @@
     img {
       width: 25px;
       margin: 0 20px 2px 0;
+    }
+
+    @media only screen and (max-width: 991px) {
+      margin-top: 40px;
     }
   }
   .hot-events-row {

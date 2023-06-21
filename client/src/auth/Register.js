@@ -71,6 +71,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
         )
 
         .then((response) => {
+          console.log(response);
           toast.success("Uspješna registracija", toastSetup);
           setIsRegisterOpen(false);
         })
