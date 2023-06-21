@@ -125,6 +125,8 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
           )
 
           .then((response) => {
+            dispatch(setUser(response.data.user._id));
+            sessionStorage.setItem("userId", response.data.user._id);
             setIsLoginOpen(false);
           })
 
@@ -137,6 +139,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
             );
           });
       }
+      setIsLoginOpen(false);
     }
   };
 

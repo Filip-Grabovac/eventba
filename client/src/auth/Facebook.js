@@ -11,11 +11,11 @@ export default class Facebook extends Component {
   };
 
   responseFacebook = (response) => {
-    console.log(response);
+    // console.log(response);
   };
 
   componentClicked = () => {
-    console.log("clicked");
+    // console.log("clicked");
   };
 
   render() {

@@ -15,7 +15,6 @@ export const Navbar = () => {
   const userId = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(userId);
   const logout = () => {
     dispatch(setUser(""));
     sessionStorage.clear();
