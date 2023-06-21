@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema({
   phone: { type: Number },
   password: { type: String },
   isVerified: { type: Boolean },
+  accountType: { type: String },
 });
 
 module.exports = mongoose.model("User", UserSchema, "users");

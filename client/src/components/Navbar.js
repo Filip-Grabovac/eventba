@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../assets/logo/logo.svg";
 import UserIcon from "../assets/ikonice/user_icon.svg";
 import SearchInput from "../pages/landing/hero/mainSearch/SearchInput";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Login } from "../auth/Login";
 import { Register } from "../auth/Register";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,6 +14,22 @@ export const Navbar = () => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const userId = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  console.log(userId);
+  const logout = () => {
+    dispatch(setUser(""));
+    sessionStorage.clear();
+    navigate("/");
+  };
+  const location = useLocation();
+
+  //Pop login window if not logged in.
+  useEffect(() => {
+    // Check if the route navigation state has "openLogin" property and its value is true
+    if (location.pathname === "/" && userId === "") {
+      setIsLoginOpen(true);
+    }
+  }, [location]);
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary custom-navbar">
@@ -94,18 +110,10 @@ export const Navbar = () => {
                     <li>
                       <Link to={"/profile"}>Profile</Link>
                     </li>
-                    {userId !== "" ? (
+                    {userId && (
                       <li>
-                        <button
-                          onClick={() => {
-                            dispatch(setUser(""));
-                          }}
-                        >
-                          Odjavi se
-                        </button>
+                        <button onClick={logout}>Odjavi se</button>
                       </li>
-                    ) : (
-                      ""
                     )}
                   </ul>
                 </div>

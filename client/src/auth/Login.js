@@ -67,6 +67,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
         Decrypt(userPassword, secretKey) === e.target.elements.password.value
       ) {
         dispatch(setUser(id));
+        sessionStorage.setItem("userId", id);
         toast.success("Uspješana prijava", toastSetup);
         setIsLoginOpen(false);
       } else {
@@ -135,12 +136,13 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
               setIsPasswordVisible={setIsPasswordVisible}
             />
             {/* <div className="other-login">
-              <div className="facebook">
-                <img src={facebook} alt="Facebook logo" />
-                <p>Nastavi sa Facebook-om</p>
-              </div>
-            </div> */}
+                <div className="facebook">
+                  <img src={facebook} alt="Facebook logo" />
+                  <p>Nastavi sa Facebook-om</p>
+                </div>
+              </div> */}
             <FacebookLogin
+              textButton="Prijavi se s Facebook-om"
               appId="934444414490428"
               autoLoad={false}
               fields="name,email,picture"

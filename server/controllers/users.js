@@ -33,8 +33,8 @@ const createUser = async (req, res) => {
 const findUser = async (req, res) => {
   try {
     const { type, value } = req.params;
-
     let query;
+
     if (type === "email") {
       query = { email: value };
     } else if (type === "id") {
