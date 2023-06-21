@@ -17,7 +17,7 @@ export const Hero = (props) => {
         <p>
           Location:{" "}
           <span>
-            {profileData.city}, {profileData.country}
+            {profileData.city} {profileData.country}
           </span>
         </p>
       </div>

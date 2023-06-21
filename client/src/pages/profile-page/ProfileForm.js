@@ -11,7 +11,7 @@ export function ProfileForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", { name, surname, email, city, country });
+    // console.log("Form submitted:", { name, surname, email, city, country });
   };
 
   return (
