@@ -95,7 +95,7 @@ export const Navbar = () => {
                             setIsLoginOpen(!isLoginOpen);
                           }}
                         >
-                          Login
+                          Prijava
                         </button>
                       </li>
                     )}
@@ -106,13 +106,13 @@ export const Navbar = () => {
                             setIsRegisterOpen(!isRegisterOpen);
                           }}
                         >
-                          Register
+                          Registriraj se
                         </button>
                       </li>
                     )}
                     {userId && (
                       <li>
-                        <Link to={"/profile"}>Profile</Link>
+                        <Link to={"/profile"}>Profil</Link>
                       </li>
                     )}
                     {userId && (

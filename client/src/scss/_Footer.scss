@@ -70,15 +70,21 @@
 
   .info-panel {
     max-height: 70%;
-    padding: 0 10%;
-    padding-bottom: 2%;
+    padding: 2% 0%;
     overflow: hidden;
     margin: 0 auto;
-    display: flex;
+    display: grid;
     width: 100%;
-    justify-content: space-between;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto;
     align-items: center;
-
+    justify-items: center;
+    gap: 15px;
+    @media (max-width: 767px) {
+      transform: scale(0.9);
+      grid-template-columns: repeat(2, 1fr);
+      gap: 50px;
+    }
     ul {
       font-weight: 600;
       text-align: center;
@@ -87,14 +93,20 @@
       padding: 0;
       margin: 0;
       list-style-type: none;
-      max-width: 15%;
+      width: 100%;
     }
     .social-icons {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+
       gap: 10px;
       justify-content: space-around;
-      flex-wrap: wrap;
+
+      @media (max-width: 767px) {
+        width: 80%;
+        gap: 15px;
+        grid-template-columns: repeat(4, 1fr);
+        grid-column: 1 / -1;
+      }
     }
   }
 }
