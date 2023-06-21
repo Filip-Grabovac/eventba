@@ -11,9 +11,12 @@ import { toast } from "react-toastify";
 import { Encrypt } from "./Encrypt";
 import { Decrypt } from "./Decrypt";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/actions/index.js";
 
 export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
   const [verified, setVerified] = useState(false);
+  const dispatch = useDispatch();
   const toastSetup = {
     position: "top-right",
     autoClose: 5000,
@@ -69,13 +72,14 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
             },
           }
         )
-
         .then((response) => {
           console.log(response);
           toast.success("Uspješna registracija", toastSetup);
           setIsRegisterOpen(false);
-        })
 
+          dispatch(setUser(response.data.user._id));
+          sessionStorage.setItem("userId", response.data.user._id);
+        })
         .catch((error) => {
           // Handle any errors
           console.error("Error:");
@@ -84,7 +88,9 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
             toastSetup
           );
         });
-    } else toast.warn("Lozinke se ne poklapaju!", toastSetup);
+    } else {
+      toast.warn("Lozinke se ne poklapaju!", toastSetup);
+    }
   };
 
   const handleModalClick = (e) => {

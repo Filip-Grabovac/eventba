@@ -90,27 +90,33 @@ export const Navbar = () => {
               {isDropdownOpen && (
                 <div className="dropdown">
                   <ul>
-                    <li>
-                      <button
-                        onClick={() => {
-                          setIsLoginOpen(!isLoginOpen);
-                        }}
-                      >
-                        Login
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        onClick={() => {
-                          setIsRegisterOpen(!isRegisterOpen);
-                        }}
-                      >
-                        Register
-                      </button>
-                    </li>
-                    <li>
-                      <Link to={"/profile"}>Profile</Link>
-                    </li>
+                    {!userId && (
+                      <li>
+                        <button
+                          onClick={() => {
+                            setIsLoginOpen(!isLoginOpen);
+                          }}
+                        >
+                          Login
+                        </button>
+                      </li>
+                    )}
+                    {!userId && (
+                      <li>
+                        <button
+                          onClick={() => {
+                            setIsRegisterOpen(!isRegisterOpen);
+                          }}
+                        >
+                          Register
+                        </button>
+                      </li>
+                    )}
+                    {userId && (
+                      <li>
+                        <Link to={"/profile"}>Profile</Link>
+                      </li>
+                    )}
                     {userId && (
                       <li>
                         <button onClick={logout}>Odjavi se</button>
