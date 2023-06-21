@@ -139,6 +139,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
             );
           });
       }
+      setIsLoginOpen(false);
     }
   };
 
