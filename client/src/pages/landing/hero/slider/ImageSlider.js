@@ -21,6 +21,15 @@ const ImageSlider = () => {
     { src: ForthImg },
     { src: SecondImg },
   ];
+  const breakpoints = [
+    { width: 300, itemsToShow: 1 },
+    { width: 350, itemsToShow: 2 },
+    { width: 500, itemsToShow: 2.5 },
+    { width: 700, itemsToShow: 4 },
+    { width: 1000, itemsToShow: 5 },
+    { width: 1200, itemsToShow: 5 },
+    { width: 1400, itemsToShow: 7 },
+  ];
 
   const overlayCard = (e) => {
     const overlay = e.target.parentNode.querySelector(".slider-img-overlay");
@@ -36,6 +45,7 @@ const ImageSlider = () => {
 
   return (
     <Carousel
+      breakPoints={breakpoints}
       itemsToShow={7}
       enableAutoPlay={true}
       autoPlaySpeed={3000}

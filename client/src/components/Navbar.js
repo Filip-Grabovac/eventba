@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../assets/logo/logo.svg";
 import UserIcon from "../assets/ikonice/user_icon.svg";
+import Menu from "../assets/ikonice/menu.svg";
 import SearchInput from "../pages/landing/hero/mainSearch/SearchInput";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Login } from "../auth/Login";
@@ -45,7 +46,8 @@ export const Navbar = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+          {/* <span className="navbar-toggler-icon"></span> */}
+          <img src={Menu} alt="Menu" />
         </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
