@@ -142,6 +142,10 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
     }
   };
 
+  const componentClicked = () => {
+    console.log("clicked");
+  };
+
   const logout = () => {
     setState(false);
   };
