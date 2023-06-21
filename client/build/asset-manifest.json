@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.41f8260c.css",
-    "main.js": "/static/js/main.027f494a.js",
+    "main.css": "/static/css/main.ab7b3353.css",
+    "main.js": "/static/js/main.b2f5ff12.js",
     "static/media/test.png": "/static/media/test.22f8094f453d3636de77.png",
     "static/media/this-week2.png": "/static/media/this-week2.94ba4bd6c7fc7a4252ac.png",
     "static/media/profileHero.png": "/static/media/profileHero.1a794df652d9eeed149f.png",
@@ -16,6 +16,7 @@
     "static/media/third_event_img.svg": "/static/media/third_event_img.91545eada21768b68725bf4156a71602.svg",
     "static/media/facebook.svg": "/static/media/facebook.8c82dd887f99c988dda229d91794a301.svg",
     "static/media/budweiser.svg": "/static/media/budweiser.ee162495767f8959867768219299797c.svg",
+    "static/media/menu.svg": "/static/media/menu.94040c42229e231db651fb77c28f1c72.svg",
     "static/media/barstool-store.svg": "/static/media/barstool-store.78730baae4ccb6d4da14dd902901893b.svg",
     "static/media/ColaIcon.svg": "/static/media/ColaIcon.59dadb2bf39305eec69358ad3c23335e.svg",
     "static/media/macys.svg": "/static/media/macys.a5f5c264e174ab0b158db873fa250ccd.svg",
@@ -35,11 +36,11 @@
     "static/media/3m.svg": "/static/media/3m.d5d3ce987e7dde6bdf6f562263cd505f.svg",
     "static/media/logo.svg": "/static/media/logo.9512e2811c42e9a3a989bef19d396d47.svg",
     "static/media/Logo.svg": "/static/media/Logo.a861365e15723752aa04886c9dd57fc0.svg",
-    "main.41f8260c.css.map": "/static/css/main.41f8260c.css.map",
-    "main.027f494a.js.map": "/static/js/main.027f494a.js.map"
+    "main.ab7b3353.css.map": "/static/css/main.ab7b3353.css.map",
+    "main.b2f5ff12.js.map": "/static/js/main.b2f5ff12.js.map"
   },
   "entrypoints": [
-    "static/css/main.41f8260c.css",
-    "static/js/main.027f494a.js"
+    "static/css/main.ab7b3353.css",
+    "static/js/main.b2f5ff12.js"
   ]
 }

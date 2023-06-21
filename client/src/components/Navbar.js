@@ -47,7 +47,7 @@ export const Navbar = () => {
           aria-label="Toggle navigation"
         >
           {/* <span className="navbar-toggler-icon"></span> */}
-          <img src={Menu} alt="Menu" />
+          <img src={Menu} className="navbar-toggler-icon" alt="Menu" />
         </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
@@ -114,7 +114,9 @@ export const Navbar = () => {
                     )}
                     {userId && (
                       <li>
-                        <Link to={"/profile"}>Profil</Link>
+                        <Link to={"/profile"}>
+                          <span>Profil</span>
+                        </Link>
                       </li>
                     )}
                     {userId && (

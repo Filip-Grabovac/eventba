@@ -85,10 +85,11 @@ export function ProfileForm(props) {
             />
           </div>
         </div>
-
-        <button className="item7" type="submit">
-          Spremi promjene
-        </button>
+        <div className="row">
+          <button className="item7" type="submit">
+            Spremi promjene
+          </button>
+        </div>
       </form>
     </div>
   );

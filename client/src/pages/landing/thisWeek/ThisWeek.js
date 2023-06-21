@@ -4,7 +4,8 @@ import { SliderCard } from "./SliderCard";
 
 export const ThisWeek = (props) => {
   const breakpoints = [
-    { width: 1000, itemsToShow: 1 },
+    { width: 200, itemsToShow: 1 },
+    { width: 400, itemsToShow: 2 },
     { width: 1000, itemsToShow: 2 },
     { width: 1500, itemsToShow: 3 },
   ];

@@ -1,13 +1,17 @@
 .this-week {
   padding: 3%;
+  @media (max-width: 1200px) {
+    padding: 1%;
+  }
 
   h3 {
     text-align: center;
     margin-bottom: 2%;
     font-weight: 700;
-    margin-top: 100px;
+    margin-top: 50px;
   }
   .slider {
+    position: relative;
     margin-bottom: 100px;
     padding: 20px;
     background-color: #d9def7;
@@ -22,10 +26,22 @@
       height: auto;
     }
     .rec.rec-arrow {
+      position: absolute;
       background-color: rgba(244, 206, 70, 0.509);
+      bottom: 55%;
+      z-index: 999;
+      @media (max-width: 768px) {
+        display: none;
+      }
     }
     .rec-arrow:hover {
       background-color: rgba(244, 206, 70, 0.509);
+    }
+    .rec-arrow-left {
+      left: 4%;
+    }
+    .rec-arrow-right {
+      right: 4%;
     }
   }
 
@@ -36,28 +52,56 @@
     align-items: center;
     justify-content: center;
     gap: 5px;
+    @media (max-width: 768px) {
+      transform: scale(0.9);
+      letter-spacing: -0.8px;
+      line-height: 20px;
+    }
+
     p {
+      text-align: center;
       margin-bottom: 0;
+      @media (max-width: 450px) {
+        font-size: 14px;
+      }
     }
     img {
       border-radius: 15px;
       width: 120%;
+      @media (max-width: 1000px) {
+        width: 90%;
+      }
+      @media (max-width: 400px) {
+        width: 110%;
+      }
     }
     .type {
       color: #565656;
       font-size: 18px;
+      @media (max-width: 768px) {
+        font-size: 90%;
+      }
     }
     .performer {
       font-weight: 700;
       font-size: 20px;
+      @media (max-width: 768px) {
+        font-size: 90%;
+      }
     }
     .date {
       font-size: 16px;
       color: #455cd9;
       font-weight: 700;
+      @media (max-width: 768px) {
+        font-size: 90%;
+      }
     }
     .location {
       color: #565656;
+      @media (max-width: 768px) {
+        font-size: 80%;
+      }
     }
   }
 }

@@ -2,7 +2,7 @@
   width: 100%;
   background: rgb(53, 66, 134);
   background: linear-gradient(
-    90deg,
+    120deg,
     rgba(53, 66, 134, 1) 0%,
     rgba(69, 92, 217, 1) 100%
   );
@@ -30,6 +30,10 @@
       }
 
       img {
+        @media only screen and (max-width: 991px) {
+          display: block;
+        }
+        display: none;
         width: 20px;
       }
     }
@@ -124,6 +128,9 @@
 
     &::placeholder {
       color: #455cd9;
+      @media only screen and (max-width: 450px) {
+        color: transparent;
+      }
     }
   }
 
@@ -144,7 +151,13 @@
   }
 }
 .profile-link {
-  @keyframes fade-in {
+  position: relative;
+
+  @media only screen and (max-width: 991px) {
+    width: 10%;
+    margin: 4px auto !important;
+  }
+  @keyframes fade {
     0% {
       opacity: 0;
     }
@@ -153,29 +166,32 @@
     }
   }
 
-  position: relative;
   .dropdown {
-    animation: fade-in 0.3s ease-in-out;
+    animation: fade 0.3s ease-in-out;
 
-    height: 100px;
-    width: 130px;
+    box-shadow: -2px 8px 77px 8px rgba(0, 0, 0, 0.35);
+    -webkit-box-shadow: -2px 8px 77px 8px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: -2px 8px 77px 8px rgba(0, 0, 0, 0.35);
+
+    height: 70px;
+    width: 120px;
     position: absolute;
     top: 100%;
-    right: -140%;
-    background-color: rgba(69, 92, 217, 1);
+    right: -120%;
+    background-color: rgba(255, 255, 255, 0.692);
+    color: #455cd9;
     padding: 5px;
     display: flex;
     flex-direction: column;
 
-    border-radius: 10px;
-    border: 2px solid #ffffff;
-    border-radius: 10px;
+    border-radius: 8px;
     align-items: center;
     justify-content: center;
     button {
+      font-weight: bold;
       border: none;
       background-color: transparent;
-      color: #fff;
+      color: #455cd9;
     }
     ul {
       transform: translate(-10%);
@@ -183,6 +199,10 @@
     }
     a {
       text-decoration: none;
+      span {
+        color: #455cd9 !important;
+        font-weight: bold;
+      }
     }
     li {
       padding-left: 15px;
@@ -191,6 +211,13 @@
       margin: 0 auto;
 
       width: 120%;
+    }
+    @media only screen and (max-width: 991px) {
+      position: absolute;
+      align-items: center;
+      justify-content: center;
+      top: 220%;
+      right: -50px;
     }
   }
   @media only screen and (max-width: 991px) {
