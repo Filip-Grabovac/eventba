@@ -28,7 +28,9 @@ export const Navbar = () => {
     // Check if the route navigation state has "openLogin" property and its value is true
     if (location.pathname === "/" && userId === "") {
       setIsLoginOpen(true);
+      setIsDropdownOpen(false);
     }
+    setIsDropdownOpen(false);
   }, [location]);
 
   return (
@@ -36,6 +38,7 @@ export const Navbar = () => {
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           <img src={Logo} alt="Logo" />
+          <p>event.ba</p>
         </Link>
         <button
           className="navbar-toggler"

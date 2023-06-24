@@ -9,8 +9,10 @@ export const SecondaryCard = () => {
         <h3>Matija Cvek</h3>
         <p>Bitefartcafe, Beograd</p>
       </div>
-      <p className="single-date">07.jun.2023 22:00 </p>
-      <a href="#">Kupi</a>
+      <div className="right">
+        <p className="single-date">07.jun.2023 22:00 </p>
+        <a href="#">Kupi</a>
+      </div>
     </div>
   );
 };

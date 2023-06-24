@@ -1,16 +1,15 @@
 .hero {
   background-color: #fafafa;
-  padding: 35px 0 50px 0;
+  padding: 20px 0 50px 0;
   border-bottom-left-radius: 50px;
   border-bottom-right-radius: 50px;
-  transform: translateY(-11px);
 
   .slider-img {
     pointer-events: none;
     height: 355px;
     width: 100%;
     object-fit: cover;
-    border-radius: 7px;
+    border-radius: 10px;
     transform: scale(0.98);
   }
   .rec.rec-arrow {
@@ -19,7 +18,7 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    z-index: 9999;
+    z-index: 10;
     box-shadow: 0 0 0 0;
     color: #fff;
     @media only screen and (max-width: 670px) {
@@ -36,7 +35,15 @@
   .rec-carousel-wrapper {
     position: relative !important;
     height: auto;
+    padding: 5px 0;
     background-color: transparent;
+    border-radius: 10px;
+    border-width: 15px !important;
+    border-style: solid;
+    border-image-slice: 1;
+    border-left: 0;
+    border-right: 0;
+    border-image-source: linear-gradient(to right, #cccccc 0%, #dddddd 100%);
   }
   .rec-arrow-left {
     top: 50%;
@@ -57,10 +64,10 @@
       top: 0;
       left: 0;
       background: rgba(69, 92, 217, 0.8);
-      height: auto;
-      width: 96%;
+      height: 100%;
+      width: 100%;
       margin: 0 auto;
-      border-radius: 7px;
+      border-radius: 10px;
       transition: opacity 0.2s;
       opacity: 0;
     }
@@ -114,11 +121,21 @@
         padding: 0 0 5px 0;
         justify-content: space-between;
         margin-bottom: 5px;
-        border-bottom: 2px solid #7c8ce4;
-
+        border-width: 2px !important;
+        border-style: solid;
+        border-image-slice: 1;
+        border-width: 5px;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+        border-image-source: linear-gradient(
+          to right,
+          #35428698 0%,
+          #2794a786 100%
+        );
         li {
           @media only screen and (max-width: 670px) {
-            transform: scale(0.85);
+            transform: scale(0.92);
           }
           a {
             color: #343434;
@@ -130,7 +147,7 @@
             transition: background-color 0.2s, color 0.2s;
             font-weight: 600;
             @media only screen and (max-width: 450px) {
-              font-size: 12px;
+              font-size: 14px;
             }
 
             &:hover {
@@ -178,7 +195,6 @@
       border-bottom-left-radius: 10px;
 
       @media only screen and (max-width: 470px) {
-        border-radius: 10px;
         width: 50%;
         height: 40%;
       }

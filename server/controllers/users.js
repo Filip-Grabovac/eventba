@@ -40,7 +40,7 @@ const findUser = async (req, res) => {
     } else if (type === "id") {
       query = { _id: value };
     } else {
-      return res.status(400).json({ error: "Invalid search type" });
+      return res.status(400).json({ error: "Pogrešna pretraga" });
     }
 
     const user = await User.findOne(query);
@@ -48,11 +48,11 @@ const findUser = async (req, res) => {
       if (type === "id") {
         return res
           .status(404)
-          .json({ error: `No user found with ID: ${value}` });
+          .json({ error: `Ne postoji korisnik s ovim ID-om: ${value}` });
       } else if (type === "email") {
         return res
           .status(404)
-          .json({ error: `No user found with email: ${value}` });
+          .json({ error: `Ne postoji korisnik s ovim email-om: ${value}` });
       }
     }
 
@@ -69,7 +69,7 @@ const findUser = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      error: "An error occurred while searching, please try again later",
+      error: "Došlo je do greške na serveru, molimo pokušajte kasnije",
     });
   }
 };

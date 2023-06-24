@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: center;
   animation: fadeIn 0.15s ease-in;
-
+  backdrop-filter: blur(12.5px);
   .container {
     color: #fff;
     position: relative;

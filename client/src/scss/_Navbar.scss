@@ -1,17 +1,22 @@
 .custom-navbar {
   width: 100%;
   background: rgb(53, 66, 134);
-  background: linear-gradient(
-    120deg,
-    rgba(53, 66, 134, 1) 0%,
-    rgba(69, 92, 217, 1) 100%
-  );
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
+  background: linear-gradient(120deg, #354286 0%, #2793a7 100%);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   padding: 10px 67px;
   color: #fff;
   z-index: 9999;
-
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    p {
+      color: white;
+      margin-bottom: 0;
+    }
+  }
   img {
     width: 40px;
   }
@@ -46,7 +51,7 @@
     li {
       margin-right: 43px;
       border-radius: 5px;
-      transition: background 0.2s;
+      transition: all 0.2s;
       display: flex;
       align-items: center;
 
@@ -62,10 +67,13 @@
         color: #fff !important;
         font-size: 16px;
         font-weight: 600;
-      }
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.11);
+        padding: 3px 10px;
+        border-radius: 10px;
+        transition: all 0.2s;
+        &:hover {
+          background: rgba(255, 255, 255, 0.11);
+          transform: scale(1.2);
+        }
       }
 
       .user-icon-link {
@@ -152,10 +160,12 @@
 }
 .profile-link {
   position: relative;
-
+  text-align: center;
   @media only screen and (max-width: 991px) {
     width: 10%;
     margin: 4px auto !important;
+    display: flex;
+    flex-direction: column;
   }
   @keyframes fade {
     0% {
@@ -168,60 +178,62 @@
 
   .dropdown {
     animation: fade 0.3s ease-in-out;
-
     box-shadow: -2px 8px 77px 8px rgba(0, 0, 0, 0.35);
     -webkit-box-shadow: -2px 8px 77px 8px rgba(0, 0, 0, 0.35);
     -moz-box-shadow: -2px 8px 77px 8px rgba(0, 0, 0, 0.35);
-
     height: 70px;
     width: 120px;
-    position: absolute;
-    top: 100%;
-    right: -120%;
-    background-color: rgba(255, 255, 255, 0.692);
-    color: #455cd9;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
+    background: linear-gradient(
+      180deg,
+      rgba(134, 154, 228, 0.781) 0%,
+      rgba(119, 204, 243, 0.842) 100%
+    );
 
-    border-radius: 8px;
-    align-items: center;
-    justify-content: center;
+    border-radius: 10px;
+    position: absolute;
+    transform: translateY(100%) translateX(-30%);
+
     button {
       font-weight: bold;
       border: none;
       background-color: transparent;
-      color: #455cd9;
+      color: #182253;
+      padding: 5px 10px;
+      border-radius: 10px;
+      &:hover {
+        background: rgba(255, 255, 255, 0.11);
+        transform: scale(1.15);
+      }
     }
     ul {
-      transform: translate(-10%);
+      margin: 0;
       padding: 0;
     }
     a {
       text-decoration: none;
+      &:hover {
+        background: rgba(255, 255, 255, 0.11);
+        transform: scale(1.15);
+      }
       span {
-        color: #455cd9 !important;
+        color: #182253 !important;
         font-weight: bold;
       }
     }
     li {
-      padding-left: 15px;
+      height: 28px;
+      margin: 5px auto;
       text-decoration: none;
-      text-align: center;
-      margin: 0 auto;
-
-      width: 120%;
-    }
-    @media only screen and (max-width: 991px) {
-      position: absolute;
+      display: flex;
       align-items: center;
       justify-content: center;
-      top: 220%;
-      right: -50px;
     }
-  }
-  @media only screen and (max-width: 991px) {
-    justify-content: center;
-    margin-bottom: 10px;
+    @media only screen and (max-width: 991px) {
+      display: flex;
+      justify-content: center;
+      position: static;
+      transform: translate(0);
+      margin-bottom: 5px;
+    }
   }
 }

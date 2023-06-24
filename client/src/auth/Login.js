@@ -68,10 +68,10 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
       ) {
         dispatch(setUser(id));
         sessionStorage.setItem("userId", id);
-        toast.success("Uspješana prijava", toastSetup);
+        toast.success("Uspješna prijava!", toastSetup);
         setIsLoginOpen(false);
       } else {
-        toast.error(`Lozinka nije ispravna`, toastSetup);
+        toast.error(`Lozinka nije ispravna!`, toastSetup);
       }
     } catch (error) {
       console.error(error);
