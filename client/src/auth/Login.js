@@ -104,10 +104,14 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
         const { id, password: userPassword } = response.data;
 
         dispatch(setUser(id));
+        sessionStorage.setItem("userId", id);
       } catch (error) {
         const user = {
-          name: fbResponse.name,
+          name: fbResponse.name.split(" ")[0],
+          lname:
+            fbResponse.name.split(" ")[fbResponse.name.split(" ").length - 1],
           email: fbResponse.email,
+          profileImg: fbResponse.picture.data.url,
         };
 
         await axios
@@ -140,6 +144,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
           });
       }
       setIsLoginOpen(false);
+      toast.success("Uspješna prijava!", toastSetup);
     }
   };
 

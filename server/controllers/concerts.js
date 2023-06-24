@@ -1,0 +1,60 @@
+const Concert = require("../models/Concert");
+
+const getAllConcerts = async (req, res) => {
+  try {
+    const concerts = await Concert.find({});
+    res.status(200).json({ concerts });
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
+};
+
+const createConcert = async (req, res) => {
+  try {
+    // Create a new user if no existing user found
+    const concert = await Concert.create(req.body);
+    res.status(201).json({ concert });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Došlo je do greške pri unosu " });
+  }
+};
+
+const findConcert = async (req, res) => {
+  try {
+    const { type, value } = req.params;
+    let query;
+
+    if (type === "isHotConcert") {
+      query = { isHotConcert: value === "true" };
+    } else if (type === "id") {
+      query = { _id: value };
+    } else {
+      return res.status(400).json({ error: "Pogrešna pretraga" });
+    }
+
+    const concert = await Concert.find(query);
+
+    if (type === "id") {
+      // Return the whole concert object when searching by ID
+      return res.status(200).json(concert);
+    }
+
+    // Only return the ID and poster when searching by email
+    const filteredConcerts = concert.map(({ _id, poster }) => ({
+      _id,
+      poster,
+    }));
+    res.status(200).json(filteredConcerts);
+  } catch (error) {
+    res.status(500).json({
+      error: "Došlo je do greške na serveru, molimo pokušajte kasnije",
+    });
+  }
+};
+
+module.exports = {
+  getAllConcerts,
+  findConcert,
+  createConcert,
+};

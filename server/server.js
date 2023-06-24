@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const connectDB = require("./db/connect");
 const users = require("./routes/users");
+const concerts = require("./routes/concerts");
 const cors = require("cors");
 
 // const nodemailer = require("nodemailer");
@@ -36,7 +37,8 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/v1", users);
+app.use("/api/v1/users", users);
+app.use("/api/v1/concerts", concerts);
 
 const start = async () => {
   try {

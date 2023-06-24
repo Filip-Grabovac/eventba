@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Hero } from "./Hero";
+import { ProfileLeft } from "./ProfileLeft";
 import { ProfileForm } from "./ProfileForm";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -28,8 +28,16 @@ export const Profile = () => {
   }
   return (
     <div className="profile">
-      <Hero profileData={profileData} />
-      <ProfileForm profileData={profileData} />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-lg-3">
+            <ProfileLeft profileData={profileData} />
+          </div>
+          <div className="col-lg-9">
+            <ProfileForm profileData={profileData} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

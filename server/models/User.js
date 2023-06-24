@@ -13,6 +13,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String },
   isVerified: { type: Boolean },
   accountType: { type: String },
+  profileImg: { type: String },
 });
 
 module.exports = mongoose.model("User", UserSchema, "users");
