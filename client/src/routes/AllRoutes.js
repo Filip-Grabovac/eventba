@@ -4,6 +4,7 @@ import { Landing } from "../pages/landing/Landing";
 import SinglePage from "../pages/single-page/SinglePage";
 import { Profile } from "../pages/profile-page/Profile";
 import { ProtectedRoute } from "./ProtectedRoutes";
+import { BuyPage } from "../pages/buy/BuyPage";
 
 export const AllRoutes = () => {
   return (
@@ -24,7 +25,15 @@ export const AllRoutes = () => {
           path="/profile"
           element={
             <ProtectedRoute>
-              <Profile />{" "}
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/buy"
+          element={
+            <ProtectedRoute>
+              <BuyPage />
             </ProtectedRoute>
           }
         />

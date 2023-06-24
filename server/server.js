@@ -36,7 +36,7 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/v1/users", users);
+app.use("/api/v1", users);
 
 const start = async () => {
   try {
