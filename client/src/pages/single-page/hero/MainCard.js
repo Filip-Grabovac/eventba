@@ -1,14 +1,24 @@
 import React from "react";
 import CoverImg from "../../../assets/images/test.png";
 
-const MainCard = () => {
+const MainCard = (props) => {
+  const performerName = props.concertData[0].performer_name;
+  const timeOfEvent = new Date(props.concertData[0].time_of_event);
+  const formattedDate = timeOfEvent.toLocaleString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
   return (
     <div className="container-fluid single-main-card">
       <div className="row sinkle-page-row">
         <div className="col-lg-6">
-          <h3>Matija Cvek</h3>
+          <h3>{performerName}</h3>
           <p className="card-main-info">
-            07.jun.2023 22:00 - Bitefartcafe, Beograd
+            {formattedDate} - Bitefartcafe, Beograd
           </p>
           <div className="line"></div>
           <p className="card-other-info">

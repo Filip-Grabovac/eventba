@@ -116,7 +116,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
         </button>
         <h2>Registracija</h2>
         <div className="text-section">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={verified ? handleSubmit : undefined}>
             <div className="multiple-inputs-wrapper">
               <RegisterInput
                 placeholder="Ime"

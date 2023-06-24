@@ -8,18 +8,31 @@ import { Login } from "../auth/Login";
 import { Register } from "../auth/Register";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../redux/actions/index.js";
+import { toast } from "react-toastify";
 
 export const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const userId = useSelector((state) => state.user);
+  const toastSetup = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  };
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logout = () => {
     dispatch(setUser(""));
     sessionStorage.clear();
     navigate("/");
+    toast.success("Uspješna odjava", toastSetup);
   };
   const location = useLocation();
 

@@ -1,15 +1,14 @@
 import React from "react";
 import profilePicture from "../../assets/images/profileHero.png";
 
-export const Hero = (props) => {
+export const ProfileLeft = (props) => {
   const profileData = props.profileData;
-
   return (
     <div className="hero-profile">
       <h1>
         {profileData.name} {profileData.lname}
       </h1>
-      <img src={profilePicture} alt="" />
+      <img src={profileData.profileImg} alt="" />
       <div className="info">
         <p>
           Age: <span>33</span>
