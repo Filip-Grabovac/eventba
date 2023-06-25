@@ -7,6 +7,7 @@ const ConcertSchema = new mongoose.Schema({
   tickets: { type: Object },
   time_of_event: { type: String },
   place: { type: Object },
+  description: { type: String },
 });
 
 module.exports = mongoose.model("Concert", ConcertSchema, "concerts");

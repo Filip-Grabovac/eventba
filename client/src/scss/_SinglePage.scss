@@ -93,7 +93,8 @@
       align-items: center;
       overflow: hidden;
       border-radius: 10px;
-      overflow-x: scroll;
+      overflow-x: auto;
+      justify-content: center;
       @media only screen and (max-width: 991px) {
         margin: auto;
         padding: 0;
@@ -152,7 +153,6 @@
       p {
         font-size: 15px;
         color: rgba(52, 52, 52, 0.75);
-        width: 85px;
         text-align: center;
         margin: 0 auto;
         @media only screen and (max-width: 500px) {

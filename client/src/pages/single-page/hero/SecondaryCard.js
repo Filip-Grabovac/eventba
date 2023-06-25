@@ -1,16 +1,32 @@
 import React from "react";
 import PosterImg from "../../../assets/images/test2.png";
 
-export const SecondaryCard = () => {
+export const SecondaryCard = (props) => {
+  console.log(props);
+  const portraitImg = props.concertData[0].poster.portrait;
+  const performerName = props.concertData[0].performer_name;
+  const timeOfEvent = new Date(props.concertData[0].time_of_event);
+  const formattedDate = timeOfEvent.toLocaleString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  const place = `${props.concertData[0].place.city}, ${props.concertData[0].place.place}`;
+
   return (
     <div className="secondary-card-single">
-      <img src={PosterImg} alt="Poster img" />
+      <img
+        src={require(`../../../assets/event_images/${portraitImg}`)}
+        alt="Poster img"
+      />
       <div>
-        <h3>Matija Cvek</h3>
-        <p>Bitefartcafe, Beograd</p>
+        <h3>{performerName}</h3>
+        <p>{place}</p>
       </div>
       <div className="right">
-        <p className="single-date">07.jun.2023 22:00 </p>
+        <p className="single-date">{formattedDate}</p>
         <a href="#">Kupi</a>
       </div>
     </div>
