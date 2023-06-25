@@ -1,6 +1,6 @@
 .buy-container {
   min-height: 700px;
-  width: 85%;
+  width: 95%;
   background-color: #eceefb;
   margin: 50px auto;
   border-radius: 10px;
@@ -62,9 +62,9 @@
         width: 80%;
         padding: 8px 20px;
         border-radius: 10px 10px 0 0;
-        margin: auto;
+        margin: 0 auto;
         white-space: nowrap;
-        overflow-x: scroll;
+        overflow-x: auto;
         background-color: #455cd9;
         .sliders {
           height: 25px;
@@ -72,6 +72,12 @@
         }
 
         .slider-cards {
+          .active {
+            color: #455cd9;
+            background-color: #fff;
+          }
+          background-color: transparent;
+          border: none;
           cursor: pointer;
           display: inline-block;
           padding: 2px 5px;
@@ -88,19 +94,65 @@
       }
 
       .personalization {
+        margin: 0 5px;
         background-color: #dadada;
         border-radius: 10px;
         flex-grow: 1;
+
         .person-check-flex {
           display: flex;
-          align-items: center;
+          margin: 0 20px;
+          padding: 10px;
           justify-content: space-between;
-          .checkbox {
-            display: block;
-            height: 30px;
-            width: 30px;
-            margin: 4px;
-            padding: 10px;
+          align-items: center;
+          input[type="checkbox"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: #fff;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.65em;
+            height: 1.65em;
+            border: 0.15em solid currentColor;
+            border-radius: 0.3em;
+            transform: translateY(-0.075em);
+            display: grid;
+            place-content: center;
+            border: #555555 solid 3px;
+          }
+
+          input[type="checkbox"]::before {
+            content: "✓";
+            transform: scale(1.3);
+            font-size: 1em;
+            font-weight: bold;
+            color: #555555;
+            opacity: 0;
+            transition: 120ms opacity ease-in-out;
+          }
+
+          input[type="checkbox"]:checked::before {
+            opacity: 1;
+          }
+
+          input[type="checkbox"]:focus {
+            outline: none;
+          }
+
+          :root {
+            --form-control-disabled: #959495;
+          }
+
+          input[type="checkbox"]:disabled {
+            --form-control-color: var(--form-control-disabled);
+            color: #455cd9;
+            cursor: not-allowed;
+          }
+
+          .form-control--disabled {
+            color: #455cd9;
+            cursor: not-allowed;
           }
         }
 
@@ -135,6 +187,12 @@
             cursor: pointer;
           }
         }
+      }
+      .rec-arrow {
+        display: none;
+      }
+      .rec-pagination {
+        display: none !important;
       }
     }
   }

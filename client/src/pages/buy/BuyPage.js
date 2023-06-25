@@ -1,32 +1,50 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import SinglePageCover from "../../assets/images/test.png";
 import minus from "../../assets/ikonice/minus.svg";
 import plus from "../../assets/ikonice/plus.svg";
-
+import Carousel from "react-elastic-carousel";
 import { Personalization } from "./Personalization";
 
 export const BuyPage = () => {
   const [ticketAmount, setTicketAmount] = useState(1);
+  const carouselRef = useRef(null);
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
 
   const addTicket = () => {
     setTicketAmount(ticketAmount + 1);
   };
+
   const removeTicket = () => {
     if (ticketAmount === 1) return;
     setTicketAmount(ticketAmount - 1);
   };
 
+  const handleSliderCardClick = (index) => {
+    carouselRef.current.goTo(index);
+    setActiveCardIndex(index);
+  };
+
   const renderSliderCards = () => {
     const sliderCards = [];
-    for (let i = 1; i <= ticketAmount; i++) {
+    for (let i = 0; i < ticketAmount; i++) {
       sliderCards.push(
-        <div className={`slider-cards`} key={i}>
-          Ulaznica {i}
-        </div>
+        <button
+          className={`slider-cards `}
+          style={
+            activeCardIndex === i
+              ? { color: "#455cd9", backgroundColor: "#fff" }
+              : {}
+          }
+          key={i}
+          onClick={() => handleSliderCardClick(i)}
+        >
+          Ulaznica {i + 1}
+        </button>
       );
     }
     return sliderCards;
   };
+
   return (
     <div className="single-page-container">
       <div className="single-page-top">
@@ -58,13 +76,16 @@ export const BuyPage = () => {
             <div className="slider-bar">
               <div className="sliders">{renderSliderCards()}</div>
             </div>
-            <div className="personalization">
-              <div className="person-check-flex">
-                <h4>Personalizacija</h4>
-                <input type="checkbox" />
-              </div>
-              <Personalization />
-            </div>
+            <Carousel
+              itemsToShow={1}
+              enableAutoPlay={false}
+              disableArrowsOnEnd={false}
+              ref={carouselRef}
+            >
+              {[...Array(ticketAmount)].map((_, i) => (
+                <Personalization key={i} i={i} isChecked={true} />
+              ))}
+            </Carousel>
           </div>
         </div>
         <div className="right"></div>
