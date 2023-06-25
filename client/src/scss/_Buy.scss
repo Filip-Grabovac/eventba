@@ -9,6 +9,7 @@
   -moz-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
   transform: translateY(-100px);
   display: flex;
+  justify-content: space-between;
 
   .left,
   .right {
@@ -67,26 +68,20 @@
         overflow-x: auto;
         background-color: #455cd9;
         .sliders {
+          .slider-cards {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            padding: 2px 5px;
+            margin: 0 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #fff;
+          }
           height: 25px;
           transform: translateX(-20px);
-        }
-
-        .slider-cards {
-          .active {
-            color: #455cd9;
-            background-color: #fff;
-          }
-          background-color: transparent;
-          border: none;
-          cursor: pointer;
-          display: inline-block;
-          padding: 2px 5px;
-          margin: 0 10px;
-          border-radius: 5px;
-          font-size: 14px;
-          color: #fff;
-
-          &:hover {
+          .active-card {
             color: #455cd9;
             background-color: #fff;
           }
@@ -193,6 +188,67 @@
       }
       .rec-pagination {
         display: none !important;
+      }
+    }
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    img {
+      margin: 0 auto;
+      width: 100%;
+      height: fit-content;
+      aspect-ratio: 16/9;
+      border-radius: 10px;
+    }
+    .payment-bill {
+      background-color: #455cd9;
+      height: 300px;
+      width: 85%;
+      margin: 0 auto;
+      border-radius: 10px;
+      overflow-y: auto;
+      .ticket-bill {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        color: #d8d8d8;
+        padding-bottom: 5px;
+        margin: 4% 8% 8% 8%;
+        font-size: 18px;
+        border-bottom: #cccccc solid 2px;
+
+        span {
+          font-size: 20px;
+        }
+      }
+    }
+    .saldo {
+      color: #343434;
+      margin: 4% 8% 8% 8%;
+      width: 80%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      font-size: 22px;
+      border-bottom: #4e4e4e solid 2px;
+      span {
+        font-weight: 700;
+      }
+    }
+    .payment-method {
+      font-size: 22px;
+      margin: 4% 8% 8% 8%;
+      width: 80%;
+      margin: 0 auto;
+      .icons-bar {
+        overflow-x: auto;
+        padding: 20px;
+        display: flex;
+        gap: 20px;
       }
     }
   }

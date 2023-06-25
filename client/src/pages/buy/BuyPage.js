@@ -4,6 +4,9 @@ import minus from "../../assets/ikonice/minus.svg";
 import plus from "../../assets/ikonice/plus.svg";
 import Carousel from "react-elastic-carousel";
 import { Personalization } from "./Personalization";
+import image from "../../assets/event_images/hari_mata_hari_landscape.jpg";
+import visa from "../../assets/ikonice/money.svg";
+import { TicketBill } from "./TicketBill";
 
 export const BuyPage = () => {
   const [ticketAmount, setTicketAmount] = useState(1);
@@ -20,8 +23,8 @@ export const BuyPage = () => {
   };
 
   const handleSliderCardClick = (index) => {
-    carouselRef.current.goTo(index);
     setActiveCardIndex(index);
+    carouselRef.current.goTo(index);
   };
 
   const renderSliderCards = () => {
@@ -29,12 +32,9 @@ export const BuyPage = () => {
     for (let i = 0; i < ticketAmount; i++) {
       sliderCards.push(
         <button
-          className={`slider-cards `}
-          style={
-            activeCardIndex === i
-              ? { color: "#455cd9", backgroundColor: "#fff" }
-              : {}
-          }
+          className={`slider-cards ${
+            activeCardIndex === i ? "active-card" : ""
+          } `}
           key={i}
           onClick={() => handleSliderCardClick(i)}
         >
@@ -44,6 +44,8 @@ export const BuyPage = () => {
     }
     return sliderCards;
   };
+
+  const calculateSaldo = () => {};
 
   return (
     <div className="single-page-container">
@@ -81,14 +83,34 @@ export const BuyPage = () => {
               enableAutoPlay={false}
               disableArrowsOnEnd={false}
               ref={carouselRef}
+              onChange={(currentItem) => setActiveCardIndex(currentItem.index)}
             >
               {[...Array(ticketAmount)].map((_, i) => (
-                <Personalization key={i} i={i} isChecked={true} />
+                <Personalization key={i} i={i} />
               ))}
             </Carousel>
           </div>
         </div>
-        <div className="right"></div>
+        <div className="right">
+          <img src={image} alt="landscape-poster" />
+          <div className="payment-bill">
+            {[...Array(ticketAmount)].map((_, i) => (
+              <TicketBill key={i} i={i} />
+            ))}
+          </div>
+          <div className="saldo">
+            <p>Ukupna cijena</p>
+            <span>120 €</span>
+          </div>
+          <div className="payment-method">
+            <p>Način plaćanja</p>
+            <div className="icons-bar">
+              <img src={visa} alt="" />
+              <img src={visa} alt="" />
+              <img src={visa} alt="" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
