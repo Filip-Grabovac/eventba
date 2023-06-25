@@ -25,8 +25,8 @@ const findConcert = async (req, res) => {
     const { type, value } = req.params;
     let query;
 
-    if (type === "isHotConcert") {
-      query = { isHotConcert: value === "true" };
+    if (type === "is_promoted_event") {
+      query = { is_promoted_event: value === "true" };
     } else if (type === "id") {
       query = { _id: value };
     } else {

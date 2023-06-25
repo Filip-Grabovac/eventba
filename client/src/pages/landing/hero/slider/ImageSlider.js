@@ -24,7 +24,7 @@ const ImageSlider = () => {
     const fetchHotConcerts = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/v1/concerts/isHotConcert/true`
+          `${process.env.REACT_APP_API_URL}/api/v1/concerts/is_promoted_event/true`
         );
         setHotEvents(response.data);
       } catch (error) {
