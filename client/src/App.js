@@ -1,16 +1,14 @@
 import { ToastContainer } from "react-toastify";
 import { Footer, Navbar } from "./components";
 import { AllRoutes } from "./routes/AllRoutes";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "./redux/actions/index.js";
+import { useDispatch } from "react-redux";
+import { setUserID } from "./store/userSlice";
 
 function App() {
   const dispatch = useDispatch();
-  // Check if user ID exists in session storage
   const userId = sessionStorage.getItem("userId");
   if (userId) {
-    // Dispatch the setUser action with the user ID
-    dispatch(setUser(userId));
+    dispatch(setUserID(userId));
   }
 
   return (

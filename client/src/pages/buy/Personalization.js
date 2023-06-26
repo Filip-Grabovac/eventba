@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { add } from "../../store/ticketSlice";
 
 export const Personalization = ({ i }) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -9,7 +10,7 @@ export const Personalization = ({ i }) => {
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
 
-  const userId = useSelector((state) => state.user);
+  const userId = useSelector((state) => state.userState);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -83,7 +84,13 @@ export const Personalization = ({ i }) => {
           </div>
 
           <div className="row">
-            <button className="item7" type="submit">
+            <button
+              onClick={useDispatch(
+                add({ name: name, lname: surname, email: email, id: i })
+              )}
+              className="item7"
+              type="submit"
+            >
               Spremi promjene
             </button>
           </div>

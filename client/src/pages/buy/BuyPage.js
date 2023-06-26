@@ -7,12 +7,14 @@ import { Personalization } from "./Personalization";
 import image from "../../assets/event_images/hari_mata_hari_landscape.jpg";
 import visa from "../../assets/ikonice/money.svg";
 import { TicketBill } from "./TicketBill";
+import { add, remove } from "../../store/ticketSlice";
+import { useDispatch } from "react-redux";
 
 export const BuyPage = () => {
   const [ticketAmount, setTicketAmount] = useState(1);
   const carouselRef = useRef(null);
   const [activeCardIndex, setActiveCardIndex] = useState(0);
-
+  const dispatch = useDispatch();
   const addTicket = () => {
     setTicketAmount(ticketAmount + 1);
   };

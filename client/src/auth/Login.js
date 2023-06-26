@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { RegisterInput } from "./RegisterInput";
 import X from "../assets/ikonice/X.svg";
-import facebook from "../assets/ikonice/facebook.svg";
+
 import invisible from "../assets/ikonice/invisible.svg";
 import mail from "../assets/ikonice/mail.svg";
 import axios from "axios";
@@ -11,7 +11,7 @@ import { Decrypt } from "./Decrypt";
 import FacebookLogin from "react-facebook-login";
 // REDUX
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/actions/index.js";
+import { setUserID } from "../store/userSlice";
 
 export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
   const toastSetup = {
@@ -66,7 +66,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
       if (
         Decrypt(userPassword, secretKey) === e.target.elements.password.value
       ) {
-        dispatch(setUser(id));
+        dispatch(setUserID(id));
         sessionStorage.setItem("userId", id);
         toast.success("Uspješna prijava!", toastSetup);
         setIsLoginOpen(false);
@@ -103,7 +103,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
         );
         const { id, password: userPassword } = response.data;
 
-        dispatch(setUser(id));
+        dispatch(setUserID(id));
         sessionStorage.setItem("userId", id);
       } catch (error) {
         const user = {
@@ -129,7 +129,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
           )
 
           .then((response) => {
-            dispatch(setUser(response.data.user._id));
+            dispatch(setUserID(response.data.user._id));
             sessionStorage.setItem("userId", response.data.user._id);
             setIsLoginOpen(false);
           })

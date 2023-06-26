@@ -12,7 +12,7 @@ import { Encrypt } from "./Encrypt";
 import { Decrypt } from "./Decrypt";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/actions/index.js";
+import { setUserID } from "../store/userSlice";
 
 export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
   const [verified, setVerified] = useState(false);
@@ -77,7 +77,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
           toast.success("Uspješna registracija", toastSetup);
           setIsRegisterOpen(false);
 
-          dispatch(setUser(response.data.user._id));
+          dispatch(setUserID(response.data.user._id));
           sessionStorage.setItem("userId", response.data.user._id);
         })
         .catch((error) => {

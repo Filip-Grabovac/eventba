@@ -67,7 +67,7 @@
       margin: 22px 0;
     }
     .card-other-info {
-      width: 70%;
+      width: 95%;
       font-size: 15px;
       color: rgba(52, 52, 52, 0.75);
       @media only screen and (max-width: 991px) {
@@ -88,7 +88,6 @@
       }
     }
     .single-page-wrapper {
-      height: 100%;
       display: flex;
       align-items: center;
       overflow: hidden;
@@ -127,6 +126,9 @@
       padding: 0;
       justify-content: space-between;
     }
+    @media only screen and (max-width: 300px) {
+      flex-direction: column;
+    }
 
     img {
       width: 205px;
@@ -136,12 +138,22 @@
       @media only screen and (max-width: 500px) {
         width: 140px;
       }
+      @media only screen and (max-width: 350px) {
+        width: 120px;
+      }
+      @media only screen and (max-width: 300px) {
+        width: 100%;
+      }
     }
 
     div {
       margin-left: 2%;
       text-align: center;
       width: 25%;
+      @media only screen and (max-width: 300px) {
+        margin-top: 10px;
+        width: 100%;
+      }
       h3 {
         font-weight: 600;
         font-size: 28px;
@@ -173,6 +185,9 @@
       @media only screen and (max-width: 500px) {
         width: 35%;
         transform: scale(0.95);
+      }
+      @media only screen and (max-width: 300px) {
+        width: 50%;
       }
       .single-date {
         background-color: #f4f4f4;

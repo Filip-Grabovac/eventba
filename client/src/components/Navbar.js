@@ -7,14 +7,14 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Login } from "../auth/Login";
 import { Register } from "../auth/Register";
 import { useSelector, useDispatch } from "react-redux";
-import { setUser } from "../redux/actions/index.js";
+import { setUserID } from "../store/userSlice";
 import { toast } from "react-toastify";
 
 export const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-  const userId = useSelector((state) => state.user);
+  const userId = useSelector((state) => state.userState);
   const toastSetup = {
     position: "top-right",
     autoClose: 5000,
@@ -29,7 +29,7 @@ export const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logout = () => {
-    dispatch(setUser(""));
+    dispatch(setUserID(""));
     sessionStorage.clear();
     navigate("/");
     toast.success("Uspješna odjava", toastSetup);
