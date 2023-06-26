@@ -7,8 +7,8 @@ import { Personalization } from "./Personalization";
 import image from "../../assets/event_images/hari_mata_hari_landscape.jpg";
 import visa from "../../assets/ikonice/money.svg";
 import { TicketBill } from "./TicketBill";
-import { add, remove } from "../../store/ticketSlice";
-import { useDispatch } from "react-redux";
+import { removeLastTicket } from "../../store/ticketSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export const BuyPage = () => {
   const [ticketAmount, setTicketAmount] = useState(1);
@@ -18,10 +18,12 @@ export const BuyPage = () => {
   const addTicket = () => {
     setTicketAmount(ticketAmount + 1);
   };
+  const totalAmount = useSelector((state) => state.ticketState.totalAmount);
 
   const removeTicket = () => {
     if (ticketAmount === 1) return;
     setTicketAmount(ticketAmount - 1);
+    dispatch(removeLastTicket({ id: ticketAmount }));
   };
 
   const handleSliderCardClick = (index) => {
@@ -102,7 +104,7 @@ export const BuyPage = () => {
           </div>
           <div className="saldo">
             <p>Ukupna cijena</p>
-            <span>120 €</span>
+            <span>{totalAmount} €</span>
           </div>
           <div className="payment-method">
             <p>Način plaćanja</p>

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 export const Profile = () => {
   const [profileData, setProfileData] = useState(null);
-  const userId = useSelector((state) => state.userState);
+  const userId = useSelector((state) => state.userState.user);
 
   useEffect(() => {
     const fetchProfileData = async () => {

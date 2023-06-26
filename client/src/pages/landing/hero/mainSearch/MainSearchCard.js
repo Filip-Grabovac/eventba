@@ -13,7 +13,7 @@ const MainSearchCard = () => {
         </div>
         <div className="card-btns-wrapper">
           <Link to="/single">Pogledaj</Link>
-          <Link to="">Kupi</Link>
+          <Link to="/buy">Kupi</Link>
         </div>
       </div>
     </div>

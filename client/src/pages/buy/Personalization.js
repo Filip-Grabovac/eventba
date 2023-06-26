@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { add } from "../../store/ticketSlice";
-
-import Plan from "../../assets/event_ground_plans/concert_ground_plan.png";
-import FreeSeat from "../../assets/ikonice/free_seat.svg";
-import ReservedSeat from "../../assets/ikonice/reserverd_seat.svg";
-import { Seat } from "./Seat";
+import { addTicket } from "../../store/ticketSlice";
+import { PlanWrapper } from "./PlanWrapper";
 
 export const Personalization = ({ i }) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -14,8 +10,19 @@ export const Personalization = ({ i }) => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
-
-  const userId = useSelector((state) => state.userState);
+  const userId = useSelector((state) => state.userState.user);
+  const dispatch = useDispatch();
+  const ticketID = i + 1;
+  const ticket = {
+    id: ticketID,
+    name: name,
+    lname: surname,
+    email: email,
+    price: 0,
+  };
+  useEffect(() => {
+    dispatch(addTicket(ticket));
+  }, []);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -33,7 +40,17 @@ export const Personalization = ({ i }) => {
   }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name, surname, email, i + 1);
+  };
+
+  const saveTicketData = () => {
+    dispatch(
+      addTicket({
+        id: i + 1,
+        name: name,
+        lname: surname,
+        email: email,
+      })
+    );
   };
 
   return (
@@ -57,7 +74,7 @@ export const Personalization = ({ i }) => {
                 placeholder="Ime"
                 type="text"
                 id="name"
-                value={name}
+                value={!isChecked ? "" : name}
                 onChange={(e) => setName(e.target.value)}
                 required
               />
@@ -68,7 +85,7 @@ export const Personalization = ({ i }) => {
                 placeholder="Prezime"
                 type="text"
                 id="surname"
-                value={surname}
+                value={!isChecked ? "" : surname}
                 onChange={(e) => setSurname(e.target.value)}
                 required
               />
@@ -77,7 +94,6 @@ export const Personalization = ({ i }) => {
           <div className="row">
             <div className="item3 col">
               <input
-                disabled={!isChecked}
                 placeholder="Email"
                 type="email"
                 id="email"
@@ -89,50 +105,13 @@ export const Personalization = ({ i }) => {
           </div>
 
           <div className="row">
-            <button
-              onClick={useDispatch(
-                add({ name: name, lname: surname, email: email, id: i })
-              )}
-              className="item7"
-              type="submit"
-            >
+            <button onClick={saveTicketData} className="item7" type="submit">
               Spremi promjene
             </button>
           </div>
         </form>
       </div>
-
-      <div className="plan-wrapper">
-        <Seat seatAvailability={FreeSeat} seatId="seat1" seattype="vip" />
-        <Seat seatAvailability={FreeSeat} seatId="seat2" seattype="normal" />
-        <Seat seatAvailability={FreeSeat} seatId="seat3" seattype="normal" />
-        <Seat seatAvailability={FreeSeat} seatId="seat4" seattype="normal" />
-        <Seat seatAvailability={FreeSeat} seatId="seat5" seattype="normal" />
-        <Seat seatAvailability={ReservedSeat} seatId="seat6" />
-        <Seat seatAvailability={ReservedSeat} seatId="seat7" seattype="vip" />
-        <Seat seatAvailability={ReservedSeat} seatId="seat8" seattype="vip" />
-        <Seat
-          seatAvailability={ReservedSeat}
-          seatId="seat9"
-          seattype="normal"
-        />
-        <Seat
-          seatAvailability={ReservedSeat}
-          seatId="seat10"
-          seattype="normal"
-        />
-        <Seat
-          seatAvailability={ReservedSeat}
-          seatId="seat11"
-          seattype="normal"
-        />
-        <img
-          className="event-plan"
-          src={Plan}
-          alt="Event plan"
-          seattype="normal"
-        />
-      </div>
+      <PlanWrapper ticketID={ticketID} />
     </div>
   );
 };

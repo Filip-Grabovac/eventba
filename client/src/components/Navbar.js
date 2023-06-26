@@ -14,7 +14,8 @@ export const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-  const userId = useSelector((state) => state.userState);
+  const userId = useSelector((state) => state.userState.user);
+
   const toastSetup = {
     position: "top-right",
     autoClose: 5000,
