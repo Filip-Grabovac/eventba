@@ -46,7 +46,7 @@ export const Navbar = () => {
     setIsDropdownOpen(false);
   }, [location]);
 
-  if (document.querySelector(".nav-wrapper")) {
+  useEffect(() => {
     // Sticky navbar
     const el = document.querySelector(".nav-wrapper");
 
@@ -60,7 +60,7 @@ export const Navbar = () => {
 
     const observer = new IntersectionObserver(handleIntersection);
     observer.observe(el);
-  }
+  }, []);
 
   // Disable scroll when modal windows opened
   if (isLoginOpen || isRegisterOpen) {
