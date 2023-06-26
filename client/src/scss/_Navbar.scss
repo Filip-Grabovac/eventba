@@ -1,12 +1,13 @@
 .custom-navbar {
   width: 100%;
-  background: rgb(53, 66, 134);
+  background-color: rgb(53, 66, 134) !important;
   background: linear-gradient(120deg, #354286 0%, #2793a7 100%);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   padding: 10px 67px;
   color: #fff;
   z-index: 9999;
+  backdrop-filter: none !important;
   .navbar-brand {
     display: flex;
     align-items: center;
@@ -236,4 +237,24 @@
       margin-bottom: 5px;
     }
   }
+}
+.sticky-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  z-index: 999;
+  background: rgba(46, 110, 152, 0.404);
+  background-color: rgba(46, 110, 152, 0.404) !important;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(20px) !important;
+  transition: background-color 0.3s;
+}
+.nav-wrapper {
+  height: 70px;
 }

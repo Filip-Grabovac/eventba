@@ -29,7 +29,7 @@
       position: absolute;
       background-color: rgba(244, 206, 70, 0.509);
       bottom: 55%;
-      z-index: 999;
+      z-index: 100;
       @media (max-width: 768px) {
         display: none;
       }

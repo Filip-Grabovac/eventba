@@ -34,7 +34,6 @@ const ImageSlider = () => {
 
     fetchHotConcerts();
   }, []);
-
   return (
     <Carousel
       breakPoints={breakpoints}
@@ -43,8 +42,15 @@ const ImageSlider = () => {
       autoPlaySpeed={3000}
       pagination={false}
     >
-      {hotEventsData &&
-        hotEventsData.map((item, i) => <ImageCard key={i} data={item} />)}
+      {hotEventsData[0] === undefined
+        ? Array.from({ length: 7 }, (_, index) => (
+            <div className="skeleton" key={index}>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          ))
+        : hotEventsData.map((item, i) => <ImageCard key={i} data={item} />)}
     </Carousel>
   );
 };

@@ -24,21 +24,25 @@ const SinglePage = () => {
     fetchSinglePage();
   }, []);
 
-  if (concertData) {
-    return (
-      <div className="single-page-container">
-        <div className="single-page-top">
-          <img
-            src={require(`../../assets/event_images/${concertData[0].poster.landscape}`)}
-            alt=""
-          />
-          <div className="cover-overlay"></div>
+  return (
+    <div className="single-page-container">
+      {concertData ? (
+        <div>
+          <div className="single-page-top">
+            <img
+              src={require(`../../assets/event_images/${concertData[0].poster.landscape}`)}
+              alt=""
+            />
+            <div className="cover-overlay"></div>
+          </div>
+          <Hero concertData={concertData} />
+          <ThisWeek heading="Iz iste sekcije" concertData={concertData} />
         </div>
-        <Hero concertData={concertData} />
-        <ThisWeek heading="Iz iste sekcije" concertData={concertData} />
-      </div>
-    );
-  }
+      ) : (
+        <div className="single-page-loader"></div>
+      )}
+    </div>
+  );
 };
 
 export default SinglePage;

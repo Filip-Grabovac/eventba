@@ -20,7 +20,50 @@ body {
   );
   color: #343434;
 }
+.disable-scroll {
+  overflow: hidden;
+}
+.skeleton {
+  -webkit-box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.2);
+  height: 355px;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 10px;
+  border-radius: 10px;
+  padding: 10px;
+  animation: infiniteAnimation 2s infinite;
 
+  div {
+    width: 100%;
+    margin: 0 auto;
+    height: 30px;
+    background-color: #ebebeb;
+    border-radius: 10px;
+    margin-bottom: 10px;
+
+    &:nth-child(1) {
+      height: 75%;
+      margin: 0 auto 10px auto;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    &:nth-child(3) {
+      width: 70%;
+      margin: 0 auto;
+    }
+  }
+}
+
+@keyframes infiniteAnimation {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
 @import "Navbar.scss";
 @import "Footer.scss";
 @import "Hero.scss";

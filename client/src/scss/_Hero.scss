@@ -55,9 +55,11 @@
     right: 20px;
     transform: translateY(-50%);
   }
+
   .rec-item-wrapper {
     justify-content: center;
     position: relative;
+    padding: 10px 0 !important;
 
     .slider-img-overlay {
       position: absolute;
