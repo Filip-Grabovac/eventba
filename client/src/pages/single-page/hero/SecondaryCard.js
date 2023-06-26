@@ -1,8 +1,6 @@
 import React from "react";
-import PosterImg from "../../../assets/images/test2.png";
 
 export const SecondaryCard = (props) => {
-  console.log(props);
   const portraitImg = props.concertData[0].poster.portrait;
   const performerName = props.concertData[0].performer_name;
   const timeOfEvent = new Date(props.concertData[0].time_of_event);

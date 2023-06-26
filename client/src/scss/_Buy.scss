@@ -253,3 +253,91 @@
     }
   }
 }
+.plan-wrapper {
+  width: 100%;
+  margin: 50px auto;
+  position: relative;
+
+  .event-plan {
+    width: 100%;
+    height: auto;
+    position: relative;
+    cursor: default;
+    z-index: 1;
+  }
+
+  .seat-wrapper {
+    width: 10%;
+    height: 18%;
+    position: absolute;
+    z-index: 2;
+    cursor: pointer;
+
+    div {
+      width: 100%;
+      height: 100%;
+      position: relative;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+
+      .vip-icon {
+        position: absolute;
+        width: 40%;
+        height: 40%;
+        right: 0;
+        left: 0;
+        margin: 0 auto;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+  }
+
+  #seat1 {
+    top: 8.5%;
+    right: 22.7%;
+  }
+  #seat2 {
+    top: 8.5%;
+    right: 46.7%;
+  }
+  #seat3 {
+    top: 8.5%;
+    right: 71.4%;
+  }
+  #seat4 {
+    top: 41.5%;
+    right: 71.4%;
+  }
+  #seat5 {
+    top: 67.5%;
+    right: 89%;
+  }
+  #seat6 {
+    top: 12.5%;
+    right: 89%;
+  }
+  #seat7 {
+    top: 41%;
+    right: 22.7%;
+  }
+  #seat8 {
+    top: 74%;
+    right: 22.7%;
+  }
+  #seat9 {
+    top: 41%;
+    right: 46.9%;
+  }
+  #seat10 {
+    top: 74%;
+    right: 46.9%;
+  }
+  #seat11 {
+    top: 74%;
+    right: 71.4%;
+  }
+}

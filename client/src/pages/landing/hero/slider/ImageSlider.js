@@ -6,6 +6,7 @@ import SecondImg from "../../../../assets/event_images/aca_lukas_portrait.jpg";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { ImageCard } from "./ImageCard";
+import Skeleton from "react-loading-skeleton";
 
 const ImageSlider = () => {
   const [hotEventsData, setHotEvents] = useState([]);
@@ -34,7 +35,6 @@ const ImageSlider = () => {
 
     fetchHotConcerts();
   }, []);
-
   return (
     <Carousel
       breakPoints={breakpoints}
@@ -43,8 +43,15 @@ const ImageSlider = () => {
       autoPlaySpeed={3000}
       pagination={false}
     >
-      {hotEventsData &&
-        hotEventsData.map((item, i) => <ImageCard key={i} data={item} />)}
+      {hotEventsData[0] === undefined
+        ? Array.from({ length: 7 }, (_, index) => (
+            <div className="skeleton" key={index}>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          ))
+        : hotEventsData.map((item, i) => <ImageCard key={i} data={item} />)}
     </Carousel>
   );
 };

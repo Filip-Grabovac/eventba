@@ -4,6 +4,7 @@ import App from "./App";
 import "../src/style.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import "react-loading-skeleton/dist/skeleton.css";
 import { createStore } from "redux";
 import allReducers from "./redux/reducers";
 import { Provider } from "react-redux";

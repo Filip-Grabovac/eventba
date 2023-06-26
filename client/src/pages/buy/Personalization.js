@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import Plan from "../../assets/event_ground_plans/concert_ground_plan.png";
+import FreeSeat from "../../assets/ikonice/free_seat.svg";
+import ReservedSeat from "../../assets/ikonice/reserverd_seat.svg";
+import { Seat } from "./Seat";
 
 export const Personalization = ({ i }) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -88,6 +92,38 @@ export const Personalization = ({ i }) => {
             </button>
           </div>
         </form>
+      </div>
+
+      <div className="plan-wrapper">
+        <Seat seatAvailability={FreeSeat} seatId="seat1" seattype="vip" />
+        <Seat seatAvailability={FreeSeat} seatId="seat2" seattype="normal" />
+        <Seat seatAvailability={FreeSeat} seatId="seat3" seattype="normal" />
+        <Seat seatAvailability={FreeSeat} seatId="seat4" seattype="normal" />
+        <Seat seatAvailability={FreeSeat} seatId="seat5" seattype="normal" />
+        <Seat seatAvailability={ReservedSeat} seatId="seat6" />
+        <Seat seatAvailability={ReservedSeat} seatId="seat7" seattype="vip" />
+        <Seat seatAvailability={ReservedSeat} seatId="seat8" seattype="vip" />
+        <Seat
+          seatAvailability={ReservedSeat}
+          seatId="seat9"
+          seattype="normal"
+        />
+        <Seat
+          seatAvailability={ReservedSeat}
+          seatId="seat10"
+          seattype="normal"
+        />
+        <Seat
+          seatAvailability={ReservedSeat}
+          seatId="seat11"
+          seattype="normal"
+        />
+        <img
+          className="event-plan"
+          src={Plan}
+          alt="Event plan"
+          seattype="normal"
+        />
       </div>
     </div>
   );
