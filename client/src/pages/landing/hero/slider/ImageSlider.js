@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "react-elastic-carousel";
-import ForthImg from "../../../../assets/event_images/forth_event_img.svg";
-import ThirdImg from "../../../../assets/event_images/third_event_img.svg";
-import SecondImg from "../../../../assets/event_images/aca_lukas_portrait.jpg";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { ImageCard } from "./ImageCard";
 
