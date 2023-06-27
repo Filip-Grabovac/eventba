@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import VipIcon from "../../assets/ikonice/vip_icon.svg";
 import { useDispatch } from "react-redux";
 import { addTicketPrice } from "../../store/ticketSlice";
+import { Tooltip } from "react-tooltip";
 
 export const Seat = (props) => {
   const [seatPrice, setSeatPrice] = useState(35);
@@ -10,16 +11,17 @@ export const Seat = (props) => {
 
   const handleClick = () => {
     dispatch(addTicketPrice({ seatPrice, ticketID }));
+    props.setActiveSeat(props.seatId);
   };
 
-  const disableClick = props.free === false;
-  const cursorStyle = disableClick ? { cursor: "not-allowed" } : {};
+  const disabled = !props.free;
+  const cursorStyle = disabled ? { cursor: "not-allowed" } : {};
 
   return (
     <div
-      onClick={disableClick ? null : handleClick}
-      id={props.seatId}
-      className="seat-wrapper"
+      onClick={disabled ? null : handleClick}
+      id={`${props.seatId}-${ticketID}`}
+      className={`${props.active ? "active" : ""} seat-wrapper ${props.seatId}`}
       style={cursorStyle}
     >
       <div>
@@ -28,6 +30,15 @@ export const Seat = (props) => {
         ) : null}
         <img src={props.seatAvailability} alt="Seat" />
       </div>
+      <Tooltip
+        className="tooltip-seat"
+        classNameArrow="seat-arrow"
+        style={{ backgroundColor: disabled ? "#323232" : "#455cd9" }}
+        anchorId={`${props.seatId}-${ticketID}`}
+        place="top"
+        variant="info"
+        content={props.free ? `Slobodno Cijena: ${seatPrice} €` : "Zauzeto"}
+      />
     </div>
   );
 };

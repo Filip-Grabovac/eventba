@@ -3,7 +3,7 @@ const { createSlice } = require("@reduxjs/toolkit");
 const ticketSlice = createSlice({
   name: "ticket",
   initialState: {
-    ticketList: [{ id: 1, price: 0 }],
+    ticketList: [{ id: 1, name: "", lname: "", email: "", price: 0 }],
     totalAmount: 0,
   },
   reducers: {

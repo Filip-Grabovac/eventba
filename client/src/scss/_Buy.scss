@@ -37,9 +37,7 @@
       display: flex;
       gap: 10px;
       align-items: center;
-      h4 {
-        font-size: 32px;
-      }
+
       .left {
         align-items: center;
         justify-content: center;
@@ -48,9 +46,10 @@
         flex-direction: row;
         button {
           border: none;
+          transform: scale(0.8);
         }
         span {
-          font-size: 42px;
+          font-size: 34px;
         }
       }
     }
@@ -93,7 +92,9 @@
         background-color: #dadada;
         border-radius: 10px;
         flex-grow: 1;
-
+        h4 {
+          margin-top: 3%;
+        }
         .person-check-flex {
           display: flex;
           margin: 0 20px;
@@ -153,13 +154,10 @@
 
         .profile-form {
           line-height: 14px;
-          margin: 0 auto;
+          margin: 0 auto 5%;
           padding: 4%;
           max-width: 800px;
           border-radius: 15px;
-          box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
-          -webkit-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
-          -moz-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
 
           input {
             padding: 5px;
@@ -177,10 +175,16 @@
             background-color: #f4cd46;
             border-radius: 15px;
             padding: 10px 15px;
-
             border: none;
             cursor: pointer;
+            &:hover {
+              background-color: #dbb83f;
+            }
           }
+        }
+        .choose-place {
+          margin: 0 0 5% 3%;
+          padding: 0 10px;
         }
       }
       .rec-arrow {
@@ -216,7 +220,7 @@
         align-items: center;
         color: #d8d8d8;
         padding-bottom: 5px;
-        margin: 4% 8% 8% 8%;
+        margin: 4% 8% 4% 8%;
         font-size: 18px;
         border-bottom: #cccccc solid 2px;
 
@@ -254,7 +258,7 @@
   }
 }
 .plan-wrapper {
-  width: 100%;
+  width: 95%;
   margin: 50px auto;
   position: relative;
 
@@ -265,6 +269,9 @@
     cursor: default;
     z-index: 1;
   }
+  .active {
+    transform: scale(1.5);
+  }
 
   .seat-wrapper {
     width: 10%;
@@ -272,6 +279,21 @@
     position: absolute;
     z-index: 2;
     cursor: pointer;
+    &:hover {
+      transform: scale(1.2);
+    }
+
+    .tooltip-seat {
+      border-radius: 10px;
+      width: 220%;
+      height: 180%;
+      text-align: center;
+      padding: 5px;
+      transform: translatey(-15%);
+    }
+    .seat-arrow {
+      display: none;
+    }
 
     div {
       width: 100%;
@@ -296,47 +318,47 @@
     }
   }
 
-  #seat1 {
+  .seat1 {
     top: 8.5%;
     right: 22.7%;
   }
-  #seat2 {
+  .seat2 {
     top: 8.5%;
     right: 46.7%;
   }
-  #seat3 {
+  .seat3 {
     top: 8.5%;
     right: 71.4%;
   }
-  #seat4 {
+  .seat4 {
     top: 41.5%;
     right: 71.4%;
   }
-  #seat5 {
+  .seat5 {
     top: 67.5%;
     right: 89%;
   }
-  #seat6 {
+  .seat6 {
     top: 12.5%;
     right: 89%;
   }
-  #seat7 {
+  .seat7 {
     top: 41%;
     right: 22.7%;
   }
-  #seat8 {
+  .seat8 {
     top: 74%;
     right: 22.7%;
   }
-  #seat9 {
+  .seat9 {
     top: 41%;
     right: 46.9%;
   }
-  #seat10 {
+  .seat10 {
     top: 74%;
     right: 46.9%;
   }
-  #seat11 {
+  .seat11 {
     top: 74%;
     right: 71.4%;
   }

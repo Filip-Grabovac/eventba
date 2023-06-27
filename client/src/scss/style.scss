@@ -4,6 +4,7 @@
   box-sizing: border-box;
   transition: all 0.2s ease;
 }
+
 .App {
   min-height: 110vh;
   display: flex;
@@ -20,6 +21,7 @@ body {
   );
   color: #343434;
 }
+
 .disable-scroll {
   overflow: hidden;
 }

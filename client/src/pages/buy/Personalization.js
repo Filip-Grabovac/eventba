@@ -3,6 +3,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicket } from "../../store/ticketSlice";
 import { PlanWrapper } from "./PlanWrapper";
+import { Tooltip } from "react-tooltip";
 
 export const Personalization = ({ i }) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -52,17 +53,36 @@ export const Personalization = ({ i }) => {
       })
     );
   };
+  const curentTicket = useSelector((state) =>
+    state.ticketState.ticketList.find((ticket) => ticket.id === ticketID)
+  );
 
+  const handleCheckboxChange = () => {
+    if (isChecked) {
+      // Reset the name and surname when unchecked
+      setName("");
+      setSurname("");
+    }
+    setIsChecked(!isChecked);
+  };
   return (
     <div className="personalization">
       <div className="person-check-flex">
-        <h4>Personalizacija</h4>
+        <h4 className="">Personalizacija</h4>
 
         <input
+          id={`checkbox-${i}`}
           className="checkbox"
-          onChange={() => setIsChecked(!isChecked)}
+          onChange={handleCheckboxChange}
           type="checkbox"
           name="checkbox"
+        />
+        <Tooltip
+          style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
+          anchorId={`checkbox-${i}`}
+          place="top"
+          variant="info"
+          content="Presonalizirajte ulaznicu."
         />
       </div>
       <div className="profile-form">
@@ -73,12 +93,19 @@ export const Personalization = ({ i }) => {
                 disabled={!isChecked}
                 placeholder="Ime"
                 type="text"
-                id="name"
+                id={`name-${i}`}
                 value={!isChecked ? "" : name}
                 onChange={(e) => setName(e.target.value)}
                 required
               />
             </div>
+            <Tooltip
+              style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
+              anchorId={`name-${i}`}
+              place="top"
+              variant="info"
+              content={`Unesite ime i prezime vlasnika ulaznice ${i + 1}`}
+            />
             <div className="item2 col">
               <input
                 disabled={!isChecked}
@@ -96,10 +123,19 @@ export const Personalization = ({ i }) => {
               <input
                 placeholder="Email"
                 type="email"
-                id="email"
+                id={`email-${i}`}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+              />
+              <Tooltip
+                style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
+                anchorId={`email-${i}`}
+                place="bottom"
+                variant="info"
+                content={`Unesite email na koji će ulaznica ${
+                  i + 1
+                } biti poslana!`}
               />
             </div>
           </div>
@@ -111,7 +147,11 @@ export const Personalization = ({ i }) => {
           </div>
         </form>
       </div>
+      <h4 className="choose-place">Odaberi mjesto:</h4>
       <PlanWrapper ticketID={ticketID} />
+      <h4 className="choose-place">{`Cijena ulaznice: ${
+        curentTicket ? curentTicket.price : 0
+      } €`}</h4>
     </div>
   );
 };
