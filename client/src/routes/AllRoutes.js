@@ -5,6 +5,7 @@ import SinglePage from "../pages/single-page/SinglePage";
 import { Profile } from "../pages/profile-page/Profile";
 import { ProtectedRoute } from "./ProtectedRoutes";
 import { BuyPage } from "../pages/buy/BuyPage";
+import { ThankYou } from "../pages/thankYou-page/ThankYou";
 
 export const AllRoutes = () => {
   return (
@@ -34,6 +35,14 @@ export const AllRoutes = () => {
           element={
             <ProtectedRoute>
               <BuyPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/thankyou"
+          element={
+            <ProtectedRoute>
+              <ThankYou />
             </ProtectedRoute>
           }
         />

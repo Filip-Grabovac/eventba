@@ -9,6 +9,7 @@ import visa from "../../assets/ikonice/money.svg";
 import { TicketBill } from "./TicketBill";
 import { removeLastTicket } from "../../store/ticketSlice";
 import { useDispatch, useSelector } from "react-redux";
+import PaymentForm from "./PaymentForm";
 
 export const BuyPage = () => {
   const [ticketAmount, setTicketAmount] = useState(1);
@@ -107,11 +108,12 @@ export const BuyPage = () => {
             <span>{totalAmount} €</span>
           </div>
           <div className="payment-method">
-            <p>Način plaćanja</p>
+            {/* <p>Način plaćanja</p> */}
+            <PaymentForm />
             <div className="icons-bar">
+              {/* <img src={visa} alt="" />
               <img src={visa} alt="" />
-              <img src={visa} alt="" />
-              <img src={visa} alt="" />
+              <img src={visa} alt="" /> */}
             </div>
           </div>
         </div>

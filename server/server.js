@@ -40,6 +40,10 @@ app.use(express.json());
 app.use("/api/v1/users", users);
 app.use("/api/v1/concerts", concerts);
 
+app.get("/thankyou", (req, res) => {
+  res.send("test");
+});
+
 const start = async () => {
   try {
     await connectDB(process.env.DATABASE_URL);

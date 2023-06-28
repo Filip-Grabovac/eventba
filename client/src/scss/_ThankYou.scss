@@ -1,0 +1,14 @@
+.thank-you-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    width: 30%;
+  }
+
+  h3 {
+    font-size: 25px;
+    font-weight: 600;
+  }
+}
