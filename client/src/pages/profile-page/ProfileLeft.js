@@ -1,5 +1,5 @@
 import React from "react";
-import profilePicture from "../../assets/images/profileHero.png";
+import ProfileIcon from "../../assets/ikonice/profile_user_icon.svg";
 
 export const ProfileLeft = (props) => {
   const profileData = props.profileData;
@@ -7,7 +7,15 @@ export const ProfileLeft = (props) => {
   return (
     <div className="hero-profile">
       <div className="top">
-        <img src={profilePicture} alt="" />
+        <img
+          style={!props.profileData.profileImg ? { height: "30px" } : undefined}
+          src={
+            props.profileData.profileImg
+              ? props.profileData.profileImg
+              : ProfileIcon
+          }
+          alt=""
+        />
         <h4>
           {profileData.name} {profileData.lname}
         </h4>

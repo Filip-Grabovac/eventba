@@ -65,6 +65,7 @@ export const Navbar = () => {
 
   // Disable scroll when modal windows opened
   if (isLoginOpen || isRegisterOpen) {
+    window.scrollTo(0, 0);
     document.body.style.overflow = "hidden";
 
     if (document.querySelector(".sticky-nav"))
