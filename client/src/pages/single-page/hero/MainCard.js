@@ -1,5 +1,4 @@
 import React from "react";
-import CoverImg from "../../../assets/images/test.png";
 
 const MainCard = (props) => {
   const performerName = props.concertData[0].performer_name;

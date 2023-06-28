@@ -6,7 +6,7 @@ const Hero = (props) => {
   return (
     <div className="container-fluid single-page-hero">
       <MainCard concertData={props.concertData} />
-      <SecondaryCard concertData={props.concertData} />
+      <SecondaryCard id={props.id} concertData={props.concertData} />
     </div>
   );
 };

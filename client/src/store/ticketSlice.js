@@ -94,9 +94,15 @@ const ticketSlice = createSlice({
       // If the ticket with the provided ID does not exist, return the state as it is
       return state;
     },
+    resetState(state, action) {
+      return {
+        ticketList: [{ id: 1, name: "", lname: "", email: "", price: 0 }],
+        totalAmount: 0,
+      };
+    },
   },
 });
 
-export const { addTicket, removeLastTicket, addTicketPrice } =
+export const { addTicket, removeLastTicket, addTicketPrice, resetState } =
   ticketSlice.actions;
 export const ticketReducer = ticketSlice.reducer;

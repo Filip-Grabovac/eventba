@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 export const SecondaryCard = (props) => {
   const portraitImg = props.concertData[0].poster.portrait;
   const performerName = props.concertData[0].performer_name;
@@ -25,7 +25,7 @@ export const SecondaryCard = (props) => {
       </div>
       <div className="right">
         <p className="single-date">{formattedDate}</p>
-        <a href="#">Kupi</a>
+        <Link to={`/buy?id=${props.id}`}>Kupi</Link>
       </div>
     </div>
   );

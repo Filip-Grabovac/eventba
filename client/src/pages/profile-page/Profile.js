@@ -8,20 +8,24 @@ export const Profile = () => {
   const [profileData, setProfileData] = useState(null);
   const userId = useSelector((state) => state.userState.user);
 
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
-        );
-        setProfileData(response.data);
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
-      }
-    };
+  const fetchProfileData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
+      );
+      setProfileData(response.data);
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchProfileData();
   }, []);
+
+  const handleProfileFormSubmit = () => {
+    fetchProfileData();
+  };
 
   if (!profileData) {
     return;
@@ -33,8 +37,11 @@ export const Profile = () => {
           <div className="col-lg-3">
             <ProfileLeft profileData={profileData} />
           </div>
-          <div className="col-lg-9">
-            <ProfileForm profileData={profileData} />
+          <div className="col-lg-6">
+            <ProfileForm
+              profileData={profileData}
+              onProfileFormSubmit={handleProfileFormSubmit}
+            />
           </div>
         </div>
       </div>
