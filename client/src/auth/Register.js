@@ -19,7 +19,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
   const dispatch = useDispatch();
   const toastSetup = {
     position: "top-right",
-    autoClose: 5000,
+    autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
