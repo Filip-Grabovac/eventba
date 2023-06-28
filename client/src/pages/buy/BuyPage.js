@@ -9,15 +9,28 @@ import { removeLastTicket, resetState } from "../../store/ticketSlice";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentForm from "./PaymentForm";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 export const BuyPage = () => {
   const [concertData, setConcertData] = useState({});
   const [ticketAmount, setTicketAmount] = useState(1);
   const carouselRef = useRef(null);
   const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
+
+  const toastSetup = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  };
   const dispatch = useDispatch();
   const addTicket = () => {
     setTicketAmount(ticketAmount + 1);
+    setShowPaymentForm(false);
   };
   const totalAmount = useSelector((state) => state.ticketState.totalAmount);
 
@@ -83,6 +96,61 @@ export const BuyPage = () => {
       minute: "2-digit",
     }
   );
+
+  // Fetching data for payment
+  const [profileData, setProfileData] = useState(null);
+  const userId = useSelector((state) => state.userState.user);
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
+        );
+        setProfileData(response.data);
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+      }
+    };
+    fetchProfileData();
+  }, []);
+
+  // Chek if mails are there, to enable pay button
+  const allTickets = useSelector((state) => state.ticketState.ticketList);
+
+  const handleButtonClick = () => {
+    const ticketsWithoutEmails = allTickets.filter(
+      (ticket) => ticket.email === ""
+    );
+    console.log(ticketsWithoutEmails);
+    const ticketsIdWithoutEmail = ticketsWithoutEmails.map(
+      (ticket) => ticket.id
+    );
+    const ticketsWithoutSeat = allTickets.filter(
+      (ticket) => ticket.price === 0
+    );
+    console.log(ticketsWithoutEmails);
+    const ticketsIdWithoutSeat = ticketsWithoutSeat.map((ticket) => ticket.id);
+
+    if (ticketsIdWithoutEmail.length === 0) {
+      if (ticketsIdWithoutSeat.length === 0) {
+        setShowPaymentForm(true);
+        toast.success(
+          "Sve je uredu s vašim ulaznicama. Odaberite način plaćanja.",
+          toastSetup
+        );
+      } else {
+        toast.error(
+          `Odaberite mjesto na ulaznici/ma: ${ticketsIdWithoutSeat}`,
+          toastSetup
+        );
+      }
+    } else {
+      toast.error(
+        `Niste potvrdili email za ulaznice: ${ticketsIdWithoutEmail}`,
+        toastSetup
+      );
+    }
+  };
 
   return (
     <div className="single-page-container">
@@ -157,13 +225,16 @@ export const BuyPage = () => {
             <span>{totalAmount} €</span>
           </div>
           <div className="payment-method">
-            {/* <p>Način plaćanja</p> */}
-            <PaymentForm />
-            <div className="icons-bar">
-              {/* <img src={visa} alt="" />
-              <img src={visa} alt="" />
-              <img src={visa} alt="" /> */}
-            </div>
+            {/* <p></p> */}
+            <button className="pay-method" onClick={handleButtonClick}>
+              Plati
+            </button>
+            {showPaymentForm && (
+              <PaymentForm
+                totalAmount={totalAmount}
+                profileData={profileData}
+              />
+            )}
           </div>
         </div>
       </div>
