@@ -1,8 +1,7 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const SliderCard = (props) => {
-  const navigate = useNavigate();
   const description = "";
   const performerName = props.data.performer_name;
   const formattedDate = new Date(props.data.time_of_event)
