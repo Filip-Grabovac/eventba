@@ -79,8 +79,7 @@
     }
 
     .single-page-cover {
-      max-width: 764px;
-      max-height: 432.29px;
+      width: 100%;
 
       border-radius: 10px;
       @media only screen and (max-width: 991px) {
@@ -88,7 +87,6 @@
       }
     }
     .single-page-wrapper {
-      display: flex;
       align-items: center;
       overflow: hidden;
       border-radius: 10px;
