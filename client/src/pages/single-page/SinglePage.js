@@ -36,7 +36,7 @@ const SinglePage = () => {
             <div className="cover-overlay"></div>
           </div>
           <Hero id={id} concertData={concertData} />
-          <ThisWeek heading="Iz iste sekcije" concertData={concertData} />
+          <ThisWeek heading="Iz iste sekcije" />
         </div>
       ) : (
         <div className="single-page-loader"></div>

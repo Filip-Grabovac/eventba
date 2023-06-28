@@ -5,7 +5,7 @@ const ConcertSchema = new mongoose.Schema({
   performer_name: { type: String },
   poster: { type: Object },
   tickets: { type: Object },
-  time_of_event: { type: String },
+  time_of_event: { type: Date },
   place: { type: Object },
   description: { type: String },
 });

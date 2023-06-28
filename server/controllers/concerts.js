@@ -24,18 +24,22 @@ const findConcert = async (req, res) => {
   try {
     const { type, value } = req.params;
     let query;
-
+    console.log(type);
     if (type === "is_promoted_event") {
       query = { is_promoted_event: value === "true" };
     } else if (type === "id") {
       query = { _id: value };
+    } else if (type === "this_week") {
+      const today = new Date();
+      const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+      query = { time_of_event: { $gte: today, $lt: nextWeek } };
     } else {
       return res.status(400).json({ error: "Pogrešna pretraga" });
     }
 
     const concert = await Concert.find(query);
 
-    if (type === "id") {
+    if (type === "id" || type === "this_week") {
       // Return the whole concert object when searching by ID
       return res.status(200).json(concert);
     }
