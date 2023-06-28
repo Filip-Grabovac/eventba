@@ -41,13 +41,13 @@ const MyComponent = (props) => {
       script2.setAttribute("data-order-info", "Lightbox example");
       script2.setAttribute("data-digest", hashedCode);
       script2.setAttribute("data-transaction-type", "purchase");
-      script2.setAttribute("data-ch-full-name", fullName);
-      script2.setAttribute("data-ch-zip", zip);
-      script2.setAttribute("data-ch-phone", phone);
-      script2.setAttribute("data-ch-email", email);
-      script2.setAttribute("data-ch-address", address);
-      script2.setAttribute("data-ch-city", city);
-      script2.setAttribute("data-ch-country", country);
+      script2.setAttribute("data-ch-full-name", fullName ? fullName : "");
+      script2.setAttribute("data-ch-zip", zip ? zip : "");
+      script2.setAttribute("data-ch-phone", phone ? phone : "");
+      script2.setAttribute("data-ch-email", email ? email : "");
+      script2.setAttribute("data-ch-address", address ? address : "");
+      script2.setAttribute("data-ch-city", city ? city : "");
+      script2.setAttribute("data-ch-country", country ? country : "");
       script2.setAttribute("data-language", "en");
       document.body.appendChild(script2);
 
@@ -71,13 +71,13 @@ const MyComponent = (props) => {
           data-order-info="Lightbox example"
           data-digest={hashedCode}
           data-transaction-type="purchase"
-          data-ch-full-name={fullName}
-          data-ch-zip={zip}
-          data-ch-phone={phone}
-          data-ch-email={email}
-          data-ch-address={address}
-          data-ch-city={city}
-          data-ch-country={country}
+          data-ch-full-name={fullName ? fullName : ""}
+          data-ch-zip={zip ? zip : ""}
+          data-ch-phone={phone ? phone : ""}
+          data-ch-email={email ? email : ""}
+          data-ch-address={address ? address : ""}
+          data-ch-city={city ? city : ""}
+          data-ch-country={country ? country : ""}
           data-language="en"
         ></script>
       </form>
