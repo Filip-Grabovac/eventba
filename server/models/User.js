@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
   country: { type: String },
   zip: { type: Number },
   phone: { type: Number },
-  password: { type: String },
+  password: { type: String, minlength: 5 },
   isVerified: { type: Boolean },
   accountType: { type: String },
   profileImg: { type: String },

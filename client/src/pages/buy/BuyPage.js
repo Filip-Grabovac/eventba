@@ -1,16 +1,16 @@
-import React, { useRef, useState } from "react";
-import SinglePageCover from "../../assets/images/test.png";
+import React, { useEffect, useRef, useState } from "react";
 import minus from "../../assets/ikonice/minus.svg";
 import plus from "../../assets/ikonice/plus.svg";
 import Carousel from "react-elastic-carousel";
 import { Personalization } from "./Personalization";
-import image from "../../assets/event_images/hari_mata_hari_landscape.jpg";
 import visa from "../../assets/ikonice/money.svg";
 import { TicketBill } from "./TicketBill";
-import { removeLastTicket } from "../../store/ticketSlice";
+import { removeLastTicket, resetState } from "../../store/ticketSlice";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 export const BuyPage = () => {
+  const [concertData, setConcertData] = useState({});
   const [ticketAmount, setTicketAmount] = useState(1);
   const carouselRef = useRef(null);
   const [activeCardIndex, setActiveCardIndex] = useState(0);
@@ -19,6 +19,10 @@ export const BuyPage = () => {
     setTicketAmount(ticketAmount + 1);
   };
   const totalAmount = useSelector((state) => state.ticketState.totalAmount);
+
+  useEffect(() => {
+    dispatch(resetState());
+  }, []);
 
   const removeTicket = () => {
     if (ticketAmount === 1) return;
@@ -49,20 +53,57 @@ export const BuyPage = () => {
     return sliderCards;
   };
 
-  const calculateSaldo = () => {};
+  //TAKE ID and fetch data
+
+  const id = new URLSearchParams(new URL(window.location.href).search).get(
+    "id"
+  );
+  useEffect(() => {
+    const fetchBuyPage = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${id}`
+        );
+        setConcertData(response.data[0]);
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+      }
+    };
+    fetchBuyPage();
+  }, []);
+
+  const timeOfEvent = new Date(concertData.time_of_event).toLocaleString(
+    "en-GB",
+    {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
 
   return (
     <div className="single-page-container">
       <div className="single-page-top">
-        <img src={SinglePageCover} alt="" />
+        <img
+          src={
+            concertData?.poster?.landscape
+              ? require(`../../assets/event_images/${concertData.poster.landscape}`)
+              : ""
+          }
+          alt="concertData.poster.landscape"
+        />
+
         <div className="cover-overlay"></div>
       </div>
       <div className="buy-container">
         <div className="left">
           <div className="info">
-            <h3>Matija Cvek</h3>
+            <h3>{concertData.performer_name}</h3>
             <p className="card-main-info">
-              07.jun.2023 22:00 - Bitefartcafe, Beograd
+              {timeOfEvent} - {concertData?.place?.city},{" "}
+              {concertData?.place?.place}
             </p>
           </div>
 
@@ -96,7 +137,15 @@ export const BuyPage = () => {
           </div>
         </div>
         <div className="right">
-          <img src={image} alt="landscape-poster" />
+          <img
+            src={
+              concertData?.poster?.landscape
+                ? require(`../../assets/event_images/${concertData.poster.landscape}`)
+                : ""
+            }
+            alt="concertData.poster.landscape"
+          />
+
           <div className="payment-bill">
             {[...Array(ticketAmount)].map((_, i) => (
               <TicketBill key={i} i={i} />

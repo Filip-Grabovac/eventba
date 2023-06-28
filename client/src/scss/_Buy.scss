@@ -4,9 +4,7 @@
   background-color: #eceefb;
   margin: 50px auto;
   border-radius: 10px;
-  box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
-  -webkit-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
-  -moz-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
+  box-shadow: 5px 5px 90px 20px rgba(0, 0, 0, 0.15);
   transform: translateY(-100px);
   display: flex;
   justify-content: space-between;
@@ -289,7 +287,7 @@
       height: 180%;
       text-align: center;
       padding: 5px;
-      transform: translatey(-15%);
+      transform: translatey(-15%) scale(0.8);
     }
     .seat-arrow {
       display: none;

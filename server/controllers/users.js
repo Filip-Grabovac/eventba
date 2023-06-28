@@ -74,8 +74,25 @@ const findUser = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  try {
+    const { id: userID } = req.params;
+    const user = await User.findOneAndUpdate({ _id: userID }, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!user) {
+      return res.status(404).json({ msg: `No task with id: ${userID}` });
+    }
+    res.status(200).json({});
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
+};
+
 module.exports = {
   getAllUsers,
   createUser,
   findUser,
+  updateUser,
 };
