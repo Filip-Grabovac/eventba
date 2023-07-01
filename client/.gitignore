@@ -5,8 +5,8 @@
 /.pnp
 .pnp.js
 style.css
-
-
+.env
+/build
 # testing
 /coverage
 
