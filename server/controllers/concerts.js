@@ -33,13 +33,31 @@ const findConcert = async (req, res) => {
       const today = new Date();
       const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
       query = { time_of_event: { $gte: today, $lt: nextWeek } };
+    } else if (
+      type === "concert" ||
+      type === "suggested" ||
+      type === "festival" ||
+      type === "theaters" ||
+      type === "show" ||
+      type === "other"
+    ) {
+      query = { type: { $in: [type] } };
     } else {
       return res.status(400).json({ error: "Pogrešna pretraga" });
     }
 
     const concert = await Concert.find(query);
 
-    if (type === "id" || type === "this_week") {
+    if (
+      type === "id" ||
+      type === "this_week" ||
+      type === "concert" ||
+      type === "suggested" ||
+      type === "festival" ||
+      type === "theaters" ||
+      type === "show" ||
+      type === "other"
+    ) {
       // Return the whole concert object when searching by ID
       return res.status(200).json(concert);
     }
