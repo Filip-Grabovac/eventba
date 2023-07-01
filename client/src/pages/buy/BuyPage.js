@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PaymentForm from "./PaymentForm";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 export const BuyPage = () => {
   const [concertData, setConcertData] = useState({});
   const [ticketAmount, setTicketAmount] = useState(1);
@@ -121,14 +122,12 @@ export const BuyPage = () => {
     const ticketsWithoutEmails = allTickets.filter(
       (ticket) => ticket.email === ""
     );
-    console.log(ticketsWithoutEmails);
     const ticketsIdWithoutEmail = ticketsWithoutEmails.map(
       (ticket) => ticket.id
     );
     const ticketsWithoutSeat = allTickets.filter(
       (ticket) => ticket.price === 0
     );
-    console.log(ticketsWithoutEmails);
     const ticketsIdWithoutSeat = ticketsWithoutSeat.map((ticket) => ticket.id);
 
     if (ticketsIdWithoutEmail.length === 0) {
@@ -138,6 +137,22 @@ export const BuyPage = () => {
           "Sve je uredu s vašim ulaznicama. Odaberite način plaćanja.",
           toastSetup
         );
+
+        async function sendPostRequest() {
+          try {
+            // Send the POST request using Axios and wait for the response
+            const response = await axios.post(
+              `${process.env.REACT_APP_API_URL}/api/v1/payment/get_event_data`,
+              { test: "test" }
+            );
+          } catch (error) {
+            // Handle any errors that occurred during the request
+            console.error(error);
+          }
+        }
+
+        // Call the async function
+        sendPostRequest();
       } else {
         toast.error(
           `Odaberite mjesto na ulaznici/ma: ${ticketsIdWithoutSeat}`,
