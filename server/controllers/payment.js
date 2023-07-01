@@ -11,7 +11,7 @@ const handlePaymentEndpoint = async (req, res) => {
         const data = JSON.parse(transaction_response);
 
         if (data.status === "approved") {
-          // Successful payment, manipulate with ticketInfo
+          // Successful payment, manipulate with ticketInfo, finalno obradjivanje maila i zavrsetak
           res.redirect("/thankyou");
         } else {
           // Failed payment

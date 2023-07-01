@@ -34,6 +34,7 @@ export const BuyPage = () => {
     setShowPaymentForm(false);
   };
   const totalAmount = useSelector((state) => state.ticketState.totalAmount);
+  const ticketGenData = useSelector((state) => state.ticketState);
 
   useEffect(() => {
     dispatch(resetState());
@@ -143,7 +144,7 @@ export const BuyPage = () => {
             // Send the POST request using Axios and wait for the response
             const response = await axios.post(
               `${process.env.REACT_APP_API_URL}/api/v1/payment/get_event_data`,
-              { test: "test" }
+              { ticketGenData: ticketGenData, concertData: concertData }
             );
           } catch (error) {
             // Handle any errors that occurred during the request
