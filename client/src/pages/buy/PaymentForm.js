@@ -60,7 +60,11 @@ const MyComponent = (props) => {
 
   if (randomNumber && hashedCode) {
     return (
-      <form className="payment-form" method="POST" action="/payment">
+      <form
+        className="payment-form"
+        method="POST"
+        action="/api/v1/payment/get_payment_info"
+      >
         <script
           src="https://ipgtest.monri.com/dist/lightbox.js"
           className="lightbox-button"
