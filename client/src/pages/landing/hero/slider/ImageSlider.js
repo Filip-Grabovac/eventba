@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Carousel from "react-elastic-carousel";
 import axios from "axios";
 import { ImageCard } from "./ImageCard";
-import { HotEvents } from "../hotevents/HotEvents";
 
 const ImageSlider = () => {
   const [hotEventsData, setHotEvents] = useState([]);

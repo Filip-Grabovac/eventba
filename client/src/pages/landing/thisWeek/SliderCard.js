@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 export const SliderCard = (props) => {
@@ -14,43 +14,35 @@ export const SliderCard = (props) => {
   const place = props.data.place.city + ", " + props.data.place.place;
   const src = props.data.poster.landscape;
 
-  const overlayCard = (e) => {
-    const overlay = e.target.parentNode.querySelector(".this-week-overlay");
-    const btn = e.target.parentNode.querySelector(".slider-link-this-week");
-    overlay.style = "opacity: 1";
-    btn.style = "opacity: 1";
+  const [isMouseOver, setIsMouseOver] = useState(false);
+
+  const handleMouseOver = () => {
+    setIsMouseOver(true);
   };
-  const removeOverlayCard = (e) => {
-    const btn = e.target.parentNode.querySelector(".slider-link-this-week");
-    e.target.style = "opacity: 0";
-    btn.style = "opacity: 0";
+
+  const handleMouseLeave = () => {
+    setIsMouseOver(false);
   };
 
   return (
     <div
-      onMouseOver={(e) => {
-        overlayCard(e);
-      }}
-      onMouseLeave={removeOverlayCard}
+      onMouseOver={handleMouseOver}
+      onMouseLeave={handleMouseLeave}
       className="slider-card"
     >
-      <div
-        onMouseOver={(e) => {
-          overlayCard(e);
-        }}
-        className="this-week-overlay"
-      ></div>
-      <Link
-        onMouseOver={(e) => {
-          overlayCard(e);
-        }}
-        className="slider-link-this-week"
-        onClick={() => {
-          window.location.href = `/single?id=${props.data._id}`;
-        }}
-      >
-        Pogledaj
-      </Link>
+      {isMouseOver && (
+        <>
+          <div className="this-week-overlay"></div>
+          <Link
+            className="slider-link-this-week"
+            onClick={() => {
+              window.location.href = `/single?id=${props.data._id}`;
+            }}
+          >
+            Pogledaj
+          </Link>
+        </>
+      )}
       <img
         src={require(`../../../../../server/event-images/${src}`)}
         alt={description}
