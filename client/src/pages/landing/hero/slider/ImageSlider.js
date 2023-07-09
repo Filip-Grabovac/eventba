@@ -24,7 +24,6 @@ const ImageSlider = () => {
           `${process.env.REACT_APP_API_URL}/api/v1/concerts/is_promoted_event/true`
         );
         setHotEvents(response.data);
-        console.log(hotEventsData);
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }

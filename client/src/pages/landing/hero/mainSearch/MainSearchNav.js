@@ -24,7 +24,7 @@ const MainSearchNav = ({ setEvents, setLoader }) => {
     };
 
     fetchEvents();
-  }, [category, handleClick]); // Dodajte category kao ovisnost u useEffect-u
+  }, [category]); // Dodajte category kao ovisnost u useEffect-u
 
   const handleClick = (category) => {
     setCategory(category);

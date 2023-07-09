@@ -19,7 +19,6 @@ export const ThisWeek = (props) => {
           `${process.env.REACT_APP_API_URL}/api/v1/concerts/this_week/true`
         );
         setThisWeekData(response.data);
-        console.log(thisWeek);
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }
