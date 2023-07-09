@@ -3,7 +3,6 @@ import minus from "../../assets/ikonice/minus.svg";
 import plus from "../../assets/ikonice/plus.svg";
 import Carousel from "react-elastic-carousel";
 import { Personalization } from "./Personalization";
-import visa from "../../assets/ikonice/money.svg";
 import { TicketBill } from "./TicketBill";
 import { removeLastTicket, resetState } from "../../store/ticketSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +16,13 @@ export const BuyPage = () => {
   const carouselRef = useRef(null);
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
+  const [orderNumber, setOrderNumber] = useState(null);
+  const [toolTipOpen, setToolTipOpen] = useState(false);
+  const allTickets = useSelector((state) => state.ticketState.ticketList);
+  const ticketsWithoutEmails = allTickets.filter(
+    (ticket) => ticket.email === ""
+  );
+  const ticketsIdWithoutEmail = ticketsWithoutEmails.map((ticket) => ticket.id);
 
   const toastSetup = {
     position: "top-right",
@@ -29,16 +35,21 @@ export const BuyPage = () => {
     theme: "dark",
   };
   const dispatch = useDispatch();
-  const addTicket = () => {
-    setTicketAmount(ticketAmount + 1);
-    setShowPaymentForm(false);
-  };
   const totalAmount = useSelector((state) => state.ticketState.totalAmount);
   const ticketGenData = useSelector((state) => state.ticketState);
 
+  // Setting order number 1. time u get on buy page
   useEffect(() => {
+    setOrderNumber(Math.floor(Math.random() * 100000000000000) + 1);
     dispatch(resetState());
   }, []);
+
+  const addTicket = async () => {
+    await setTicketAmount(ticketAmount + 1);
+    setShowPaymentForm(false);
+    setActiveCardIndex(ticketAmount + 1);
+    carouselRef.current.goTo(ticketAmount + 1);
+  };
 
   const removeTicket = () => {
     if (ticketAmount === 1) return;
@@ -117,7 +128,6 @@ export const BuyPage = () => {
   }, []);
 
   // Chek if mails are there, to enable pay button
-  const allTickets = useSelector((state) => state.ticketState.ticketList);
 
   const handleButtonClick = () => {
     const ticketsWithoutEmails = allTickets.filter(
@@ -142,9 +152,13 @@ export const BuyPage = () => {
         async function sendPostRequest() {
           try {
             // Send the POST request using Axios and wait for the response
-            const response = await axios.post(
-              `${process.env.REACT_APP_API_URL}/api/v1/payment/get_event_data`,
-              { ticketGenData: ticketGenData, concertData: concertData }
+            await axios.post(
+              `${process.env.REACT_APP_API_URL}/api/v1/payment/get_ticket_data`,
+              {
+                ticketGenData: ticketGenData,
+                concertData: concertData,
+                orderNumber,
+              }
             );
           } catch (error) {
             // Handle any errors that occurred during the request
@@ -155,16 +169,32 @@ export const BuyPage = () => {
         // Call the async function
         sendPostRequest();
       } else {
-        toast.error(
-          `Odaberite mjesto na ulaznici/ma: ${ticketsIdWithoutSeat}`,
-          toastSetup
-        );
+        if (ticketsIdWithoutSeat.length === 1) {
+          toast.error(
+            `Odaberite mjesto na ulaznici: ${ticketsIdWithoutSeat}`,
+            toastSetup
+          );
+        } else
+          toast.error(
+            `Odaberite mjesto na ulaznicama: ${ticketsIdWithoutSeat}`,
+            toastSetup
+          );
       }
     } else {
-      toast.error(
-        `Niste potvrdili email za ulaznice: ${ticketsIdWithoutEmail}`,
-        toastSetup
-      );
+      setToolTipOpen(true);
+      setTimeout(() => {
+        setToolTipOpen(false);
+      }, 2000);
+      if (ticketsIdWithoutEmail.length === 1) {
+        toast.error(
+          `Niste potvrdili email za ulaznicu: ${ticketsIdWithoutEmail}`,
+          toastSetup
+        );
+      } else
+        toast.error(
+          `Niste potvrdili email za ulaznice: ${ticketsIdWithoutEmail}`,
+          toastSetup
+        );
     }
   };
 
@@ -174,7 +204,7 @@ export const BuyPage = () => {
         <img
           src={
             concertData?.poster?.landscape
-              ? require(`../../assets/event_images/${concertData.poster.landscape}`)
+              ? require(`../../../../server/event-images/${concertData.poster.landscape}`)
               : ""
           }
           alt="concertData.poster.landscape"
@@ -216,7 +246,11 @@ export const BuyPage = () => {
               onChange={(currentItem) => setActiveCardIndex(currentItem.index)}
             >
               {[...Array(ticketAmount)].map((_, i) => (
-                <Personalization key={i} i={i} />
+                <Personalization
+                  key={i}
+                  i={i}
+                  toolTipOpen={ticketsIdWithoutEmail.includes(i + 1)}
+                />
               ))}
             </Carousel>
           </div>
@@ -225,7 +259,7 @@ export const BuyPage = () => {
           <img
             src={
               concertData?.poster?.landscape
-                ? require(`../../assets/event_images/${concertData.poster.landscape}`)
+                ? require(`../../../../server/event-images/${concertData.poster.landscape}`)
                 : ""
             }
             alt="concertData.poster.landscape"
@@ -249,6 +283,7 @@ export const BuyPage = () => {
               <PaymentForm
                 totalAmount={totalAmount}
                 profileData={profileData}
+                orderNumber={orderNumber}
               />
             )}
           </div>

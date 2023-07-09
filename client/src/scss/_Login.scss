@@ -86,12 +86,15 @@
             margin: 0;
 
             &:focus {
+              border: none;
+              outline: 2px solid #f4cd46;
               + span {
                 transform: translate(-8px, -20px);
                 font-size: 10px;
               }
             }
           }
+
           .active-input {
             transform: translate(-8px, -20px);
             font-size: 10px;

@@ -52,7 +52,7 @@ export const SliderCard = (props) => {
         Pogledaj
       </Link>
       <img
-        src={require(`../../../assets/event_images/${src}`)}
+        src={require(`../../../../../server/event-images/${src}`)}
         alt={description}
       />
       <p className="type">KONCERT</p>

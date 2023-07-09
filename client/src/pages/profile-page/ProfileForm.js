@@ -31,23 +31,20 @@ export function ProfileForm(props) {
       country: country,
       zip: zip,
       phone: phone,
-      password: password,
+      password: password !== "" ? Encrypt(password, secretKey) : undefined,
     };
 
-    if (password.length >= 6 && password === repatePassword) {
+    if (
+      password !== "" &&
+      password.length >= 6 &&
+      password === repatePassword
+    ) {
       await axios
-        .patch(
-          process.env.REACT_APP_API_URL + `/api/v1/users/${id}`,
-          {
-            ...user,
-            password: Encrypt(user.password, secretKey),
+        .patch(process.env.REACT_APP_API_URL + `/api/v1/users/${id}`, user, {
+          headers: {
+            "Content-Type": "application/json",
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
+        })
         .then((response) => {
           toast.success("Uspješno ste ažurirali podatke", toastSetup);
           props.onProfileFormSubmit();
@@ -56,7 +53,28 @@ export function ProfileForm(props) {
           // Handle any errors
           console.error("Error:");
           toast.error(
-            `Došlo je do pogreške prilikom ažuriranja podatak. ${error.response.data.error}!`,
+            `Došlo je do pogreške prilikom ažuriranja podataka. ${error.response.data.error}!`,
+            toastSetup
+          );
+        });
+    } else if (password === "") {
+      // Ako je lozinka prazna, samo se ažuriraju ostali podaci
+
+      await axios
+        .patch(process.env.REACT_APP_API_URL + `/api/v1/users/${id}`, user, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          toast.success("Uspješno ste ažurirali podatke", toastSetup);
+          props.onProfileFormSubmit();
+        })
+        .catch((error) => {
+          // Handle any errors
+          console.error("Error:");
+          toast.error(
+            `Došlo je do pogreške prilikom ažuriranja podataka. ${error.response.data.error}!`,
             toastSetup
           );
         });
@@ -179,7 +197,6 @@ export function ProfileForm(props) {
               id="password"
               value={password || ""}
               onChange={(e) => setPassword(e.target.value)}
-              required
             />
           </div>
 
@@ -190,7 +207,6 @@ export function ProfileForm(props) {
               id="repatePassword"
               value={repatePassword || ""}
               onChange={(e) => setRepatePassword(e.target.value)}
-              required
             />
           </div>
         </div>

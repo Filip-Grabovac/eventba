@@ -1,19 +1,33 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SearchImg from "../../../../assets/images/search_card_img.png";
 
-const MainSearchCard = () => {
+const MainSearchCard = ({ event }) => {
+  const timeOfEvent = new Date(event.time_of_event);
+  const formattedDate = timeOfEvent.toLocaleString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  const place = `${event.place.city}, ${event.place.place}`;
+
   return (
     <div className="search-card-container">
-      <img src={SearchImg} alt="Poster Image" />
+      <img
+        src={require(`../../../../../../server/event-images/${event.poster.landscape}`)}
+        alt="Poster Image"
+      />
       <div className="search-card-content-wrapper">
         <div className="card-info-wrapper">
-          <h3>Matija Cvek</h3>
-          <p>07.jun.2023 22:00 - Bitefartcafe, Beograd</p>
+          <h3>{event.performer_name}</h3>
+          <p>
+            {formattedDate} - {place}
+          </p>
         </div>
         <div className="card-btns-wrapper">
-          <Link to="/single">Pogledaj</Link>
-          <Link to="/buy">Kupi</Link>
+          <Link to={`/single?id=${event._id}`}>Pogledaj</Link>
+          <Link to={`/buy?id=${event._id}`}>Kupi</Link>
         </div>
       </div>
     </div>

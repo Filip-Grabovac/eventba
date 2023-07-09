@@ -8,7 +8,7 @@ import forbes from "../assets/logos/forbes.svg";
 import macys from "../assets/logos/macys.svg";
 import menshealth from "../assets/logos/menshealth.svg";
 import mrbeast from "../assets/logos/mrbeast.svg";
-import Cola from "../assets/icons/ColaIcon.svg";
+
 export const SponsorBar = () => {
   const logosSlideElement = (
     <div className="logos-slide">
@@ -20,7 +20,6 @@ export const SponsorBar = () => {
       <img src={macys} />
       <img src={menshealth} />
       <img src={mrbeast} />
-      <img src={Cola} />
     </div>
   );
 

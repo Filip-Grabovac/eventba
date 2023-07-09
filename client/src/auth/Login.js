@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { RegisterInput } from "./RegisterInput";
 import X from "../assets/ikonice/X.svg";
 
-import invisible from "../assets/ikonice/invisible.svg";
+import PasswordEye from "../assets/ikonice/invisible.svg";
 import mail from "../assets/ikonice/mail.svg";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -13,7 +13,7 @@ import FacebookLogin from "react-facebook-login";
 import { useDispatch } from "react-redux";
 import { setUserID } from "../store/userSlice";
 
-export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
+export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
   const toastSetup = {
     position: "top-right",
     autoClose: 3000,
@@ -27,7 +27,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
   const dispatch = useDispatch();
   const [loggedin, setState] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
+  const passwordRef = useRef(null);
   const secretKey = process.env.REACT_APP_SECRET_KEY;
   // Around modal click exit login
   const handleModalClick = (e) => {
@@ -72,6 +72,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
         setIsLoginOpen(false);
       } else {
         toast.error(`Lozinka nije ispravna!`, toastSetup);
+        passwordRef.current.focus();
       }
     } catch (error) {
       console.error(error);
@@ -148,8 +149,10 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
     }
   };
 
-  const componentClicked = () => {
-    console.log("clicked");
+  const handleOpenRegister = (e) => {
+    e.preventDefault();
+    setIsLoginOpen(false);
+    setIsRegisterOpen(true);
   };
 
   const logout = () => {
@@ -178,12 +181,13 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
               isRequired={true}
             />
             <RegisterInput
+              ref={passwordRef}
               placeholder="Lozinka"
               type="password"
-              icon={invisible}
+              icon={PasswordEye}
               name="password"
               isRequired={true}
-              inputLength={8}
+              inputLength={6}
               cursorPointer={true}
               isPasswordVisible={isPasswordVisible}
               setIsPasswordVisible={setIsPasswordVisible}
@@ -199,11 +203,11 @@ export const Login = ({ isLoginOpen, setIsLoginOpen }) => {
               appId="934444414490428"
               autoLoad={false}
               fields="name,email,picture"
-              onClick={componentClicked}
               callback={responseFacebook}
             />
             <p>
-              Nemaš event.ba račun? <Link>Registriraj</Link> se!
+              Nemaš event.ba račun?{" "}
+              <Link onClick={handleOpenRegister}>Registriraj</Link> se!
             </p>
             <button type="submit" className="login-btn">
               Prijavi se!

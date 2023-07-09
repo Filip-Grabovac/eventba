@@ -73,7 +73,7 @@
       margin: 5px auto 0 auto;
       border-radius: 10px;
       transition: opacity 0.2s;
-      transform: scale(0.98);
+      transform: scale(0.99) translatey(1px);
       opacity: 0;
     }
   }
@@ -114,7 +114,14 @@
       display: flex;
 
       .search-nav-left {
+        .active {
+          background-color: #ffffff;
+          color: #455cd9;
+        }
         overflow-y: auto;
+        a {
+          cursor: pointer;
+        }
       }
 
       .search-nav-left,
@@ -172,6 +179,20 @@
       padding: 5px;
     }
   }
+  .fade-in {
+    opacity: 0;
+    transition: opacity 0s ease-in !important;
+  }
+
+  .fade-in.show {
+    opacity: 1;
+    transition: opacity 0.2s ease-in !important;
+  }
+  .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .search-card-container {
     display: flex;
     align-items: center;
@@ -194,8 +215,9 @@
     }
 
     img {
-      width: 205px;
+      width: 235px;
       height: 140px;
+      object-fit: cover;
       border-top-left-radius: 10px;
       border-bottom-left-radius: 10px;
 

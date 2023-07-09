@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import X from "../assets/ikonice/X.svg";
 import { RegisterInput } from "./RegisterInput";
@@ -14,11 +14,15 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useDispatch } from "react-redux";
 import { setUserID } from "../store/userSlice";
 
-export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
+export const Register = ({
+  isRegisterOpen,
+  setIsRegisterOpen,
+  setIsLoginOpen,
+}) => {
   const [verified, setVerified] = useState(false);
   const dispatch = useDispatch();
   const toastSetup = {
-    position: "top-right",
+    position: "top-center",
     autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
@@ -28,6 +32,8 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
     theme: "dark",
   };
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const repeatPasswordRef = useRef(null);
+  const emailRef = useRef(null);
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -82,14 +88,15 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
         })
         .catch((error) => {
           // Handle any errors
-          console.error("Error:");
+          emailRef.current.focus();
           toast.error(
             `Došlo je do pogreške prilikom registracije. ${error.response.data.error}!`,
             toastSetup
           );
         });
     } else {
-      toast.warn("Lozinke se ne poklapaju!", toastSetup);
+      toast.warn("Lozinke se ne podudaraju!", toastSetup);
+      repeatPasswordRef.current.focus();
     }
   };
 
@@ -97,6 +104,12 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
     if (e.target.classList.contains("login-screen")) {
       setIsRegisterOpen(false);
     }
+  };
+
+  const handleOpenLogin = (e) => {
+    e.preventDefault();
+    setIsRegisterOpen(false);
+    setIsLoginOpen(true);
   };
 
   function onChange(value) {
@@ -137,6 +150,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
             </div>
             <RegisterInput
               placeholder="Email"
+              ref={emailRef}
               type="email"
               icon={Mail}
               name="email"
@@ -188,7 +202,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
               cursorPointer={true}
               name="password"
               isRequired={true}
-              inputLength={8}
+              inputLength={6}
               isPasswordVisible={isPasswordVisible}
               setIsPasswordVisible={setIsPasswordVisible}
             />
@@ -196,14 +210,16 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
               placeholder="Ponovi Lozinku"
               type="password"
               icon=""
+              ref={repeatPasswordRef}
               name="repeatPassword"
               isRequired={true}
-              inputLength={8}
+              inputLength={6}
               isPasswordVisible={isPasswordVisible}
               setIsPasswordVisible={setIsPasswordVisible}
             />
             <p>
-              Već imas event.ba račun? <Link>Prijavi se.</Link>
+              Već imas event.ba račun?{" "}
+              <Link onClick={handleOpenLogin}>Prijavi se.</Link>
             </p>
             <ReCAPTCHA
               className="recaptcha"

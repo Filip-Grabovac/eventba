@@ -6,7 +6,6 @@ const users = require("./routes/users");
 const concerts = require("./routes/concerts");
 const payment = require("./routes/payments");
 const cors = require("cors");
-const sendMail = require("./mailer/mailer");
 
 // sendMail("grabovacfilipp@gmail.com", "Naslov", "Hello, this is a test email.");
 

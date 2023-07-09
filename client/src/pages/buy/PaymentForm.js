@@ -3,8 +3,7 @@ import { sha512 } from "crypto-hash";
 
 const MyComponent = (props) => {
   const [hashedCode, setHashCode] = useState();
-  const [isNumberGenerated, setIsNumberGenerated] = useState(false);
-  const [randomNumber, setRandomNumber] = useState(null);
+
   const key = "key-7db98c681752b62dc6fac2ec4daa93c1";
   const amount = props.totalAmount * 100;
   const fullName = props.profileData.name + " " + props.profileData.lname;
@@ -15,18 +14,15 @@ const MyComponent = (props) => {
   const city = props.profileData.city;
   const country = props.profileData.country;
 
-  if (!isNumberGenerated) {
-    const generatedNumber = Math.floor(Math.random() * 100000000000000) + 1;
-    setRandomNumber(generatedNumber);
-    setIsNumberGenerated(true);
-  }
+  const orderNumber = props.orderNumber;
+
   const handleTextInput = async (value) => {
     setHashCode(await sha512(value));
   };
 
   useEffect(() => {
-    handleTextInput(key + randomNumber.toString() + amount + "EUR");
-    if (randomNumber && hashedCode) {
+    handleTextInput(key + orderNumber.toString() + amount + "EUR");
+    if (orderNumber && hashedCode) {
       const script1 = document.createElement("script");
       script1.src = "https://ipgtest.monri.com/dist/components.js";
       document.head.appendChild(script1);
@@ -37,7 +33,7 @@ const MyComponent = (props) => {
       script2.setAttribute("data-authenticity-token", "000d6675b8e33b0eb0c6b");
       script2.setAttribute("data-amount", amount);
       script2.setAttribute("data-currency", "EUR");
-      script2.setAttribute("data-order-number", randomNumber);
+      script2.setAttribute("data-order-number", orderNumber);
       script2.setAttribute("data-order-info", "Lightbox example");
       script2.setAttribute("data-digest", hashedCode);
       script2.setAttribute("data-transaction-type", "purchase");
@@ -56,9 +52,9 @@ const MyComponent = (props) => {
         document.body.removeChild(script2);
       };
     }
-  }, [randomNumber, hashedCode]);
+  }, [orderNumber, hashedCode]);
 
-  if (randomNumber && hashedCode) {
+  if (orderNumber && hashedCode) {
     return (
       <form
         className="payment-form"
@@ -71,7 +67,7 @@ const MyComponent = (props) => {
           data-authenticity-token="000d667d189f7255a6737ccc025b8e33b0eb0c6b"
           data-amount={amount}
           data-currency="EUR"
-          data-order-number={randomNumber}
+          data-order-number={orderNumber}
           data-order-info="Lightbox example"
           data-digest={hashedCode}
           data-transaction-type="purchase"

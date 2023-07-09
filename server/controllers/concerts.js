@@ -24,7 +24,6 @@ const findConcert = async (req, res) => {
   try {
     const { type, value } = req.params;
     let query;
-    console.log(type);
     if (type === "is_promoted_event") {
       query = { is_promoted_event: value === "true" };
     } else if (type === "id") {
@@ -33,18 +32,26 @@ const findConcert = async (req, res) => {
       const today = new Date();
       const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
       query = { time_of_event: { $gte: today, $lt: nextWeek } };
+    } else if (type === "type") {
+      query = { type: { $in: [value] } };
+    } else if (type === "search") {
+      query = { performer_name: { $regex: value, $options: "i" } };
     } else {
       return res.status(400).json({ error: "Pogrešna pretraga" });
     }
-
+    console.log(query);
     const concert = await Concert.find(query);
 
-    if (type === "id" || type === "this_week") {
+    if (
+      type === "id" ||
+      type === "this_week" ||
+      type === "type" ||
+      type === "search"
+    ) {
       // Return the whole concert object when searching by ID
       return res.status(200).json(concert);
     }
 
-    // Only return the ID and poster when searching by email
     const filteredConcerts = concert.map(({ _id, poster }) => ({
       _id,
       poster,

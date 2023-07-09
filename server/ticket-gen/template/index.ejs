@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/fonts.css" />
+
+    <meta charset="utf-8" />
+    <title>PDF Result Template</title>
+  </head>
+  <body class="page">
+    <div class="section1">
+      <nav class="nav">
+        <div class="logo">
+          <img class="logo-img" src="images/Logo.png" alt="logo" />
+
+          <h5>event.ba</h5>
+        </div>
+        <div class="line"></div>
+        <div class="codes">
+          <img src="images/barCode.png" class="bar" />
+          <img src="images/qrCode.png" class="qr" />
+        </div>
+      </nav>
+      <div class="body-1">
+        <div class="mini-poster-wrapper">
+          <img
+            class="mini-poster"
+            src="<%= posterRoutePortrait %>"
+            alt="mini-poster"
+          />
+        </div>
+        <div class="guidence">
+          <p>
+            Ovo je Vaša ulaznica za
+            <strong><%= concertData.performer_name %></strong>
+          </p>
+          <p>
+            Molimo vas da isprintate vašu ulaznicu, prema donjim smjernicama, te
+            ju pokažete na ulazu. Prilikom ispisa, isključite opcije poput
+            "Prilagodi stranici", "Povećaj" i slično, kako biste osigurali da
+            ulaznica bude ispisana u originalnoj veličini. Nije obavezno da
+            ulaznica bude ispisana u boji. Molimo vas da slijedite sljedeće
+            upute za ispis ulaznice:
+          </p>
+          <p>Želimo ti dobar provod, <strong>Tvoj event.ba tim!</strong></p>
+          <p>
+            <strong>Važno upozorenje:</strong> Zbog posebnog postupka provjere
+            ulaza, na ovom događaju je obvezno ispisivanje svih ulaznica pomoću
+            <strong>laserskog pisača</strong>. Ulaznice koje nisu ispisane na
+            laserskom pisaču biti će teško čitljive na skeneru i zbog toga može
+            biti onemogućen pristup! Ulaznice u digitalnom (mobilnom) formatu su
+            dopuštene.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="section2">
+      <p class="important">
+        Važno! Ulaznica je vrijednosni dokument, stoga je trebate čuvati na
+        sigurnom mjestu i ne dijeliti je s drugima niti je objavljivati na
+        internetu. Barkod na ulaznici vrijedi samo prilikom prvog skeniranja, a
+        naknadni pokušaji ulaska s istim barkodom neće biti mogući. Molimo vas
+        da kupujete ulaznice isključivo na web stranici www.event.ba ili na
+        ovlaštenim prodajnim mjestima Event.ba. Ulaznice koje nisu kupljene na
+        ovim službenim kanalima možda neće biti važeće, te Event.ba ne može
+        jamčiti ulazak na događaj.
+      </p>
+      <div class="guide">
+        <h4 class="h4-text">ULAZNICU PRESAVITI PREMA UPUTAMA!</h4>
+        <img class="arrow" src="images/arrow.png" />
+        <img class="guide-scheme" src="images/guide.png" />
+      </div>
+    </div>
+    <div class="section3">
+      <div class="main-container">
+        <p class="savijacica top">Savjiačica 1 - Prvo presavij ovdje</p>
+        <div class="inner-container">
+          <div class="left">
+            <div class="top">
+              <div class="poster">
+                <img
+                  class="poster"
+                  src="<%= posterRouteLandscape %>"
+                  alt="poster"
+                />
+              </div>
+              <div class="info">
+                <h5 class="preformer h5"><%= concertData.performer_name %></h5>
+                <span class="time"><%= formattedDate %></span>
+                <span class="location"><%= place %></span>
+                <span class="ticket-location"
+                  >Parter 1 - Red - 12 Sjedalo 18</span
+                >
+                <h5 class="ticket-owner h5"><%= name %> <%= lname %></h5>
+                <div class="price-qr">
+                  <span class="serial-number">N0000<%= serialNumber %></span>
+                  <div class="price">
+                    Cijena: <strong><%= price %>€</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bot">
+              <div class="logos">
+                <img class="logo" src="images/Logo.png" alt="" />
+                <p class="event">event.ba</p>
+              </div>
+              <img class="sponsor" src="images/sponsor.png" alt="" />
+              <img class="sponsor" src="images/sponsor.png" alt="" />
+              <img class="sponsor" src="images/sponsor.png" alt="" />
+              <img class="sponsor" src="images/sponsor.png" alt="" />
+            </div>
+          </div>
+          <div class="right">
+            <div class="left-part">
+              <span class="serial-number">N0000<%= serialNumber %></span>
+              <div>
+                <span>Sektor</span>
+                <span class="color-text">PARTER 1</span>
+              </div>
+              <div>
+                <span>Red</span>
+                <span class="color-text">1</span>
+              </div>
+              <div>
+                <span>Sjedalo</span>
+                <span class="color-text">18</span>
+              </div>
+              <div>
+                <span>Cijena</span>
+                <span class="color-text"><%= price %>€</span>
+              </div>
+            </div>
+            <div class="right-part">
+              <img src="images/barCode.png" class="bar" alt="" />
+              <img src="images/qrCode.png" class="qr" alt="" />
+            </div>
+          </div>
+        </div>
+        <p class="savijacica down">Savjiačica 2 - Zatim presavij sve zajedno</p>
+      </div>
+    </div>
+    <div class="section4">
+      <div class="section4-1st">
+        <img src="images/barCode.png" class="bar" />
+        <img src="images/qrCode.png" class="qr" />
+      </div>
+      <div class="section4-2nd">
+        <span class="color-text"
+          >Uvjeti korištenja ulaznice i ponašanja na događaju</span
+        >
+        <p>
+          Kupovinom ove ulaznice, posjetitelj potpuno prihvaća sve uvjete i
+          pravila ponašanja na mjestu događanja, kao i uvjete za kupce Event.ba
+          na stranici www.event.ba. Nepoštivanje navedenih uvjeta i pravila može
+          rezultirati zabranom ulaska na događaj ili udaljenjem s mjesta
+          događanja. Nakon kupovine, ulaznicu nije moguće zamijeniti niti
+          vratiti, osim u slučaju otkazivanja ili promjene datuma događaja.
+          Event.ba ne preuzima odgovornost u slučaju oštećenja, gubitka ili
+          krađe ulaznice ili njenih zaštitnih podataka (kao što su barkod,
+          serijski broj, zaštitni kod itd.), te u tim situacijama nije moguć
+          povrat novca niti zamjena ulaznice. Oštećena, ukradena, krivotvorena
+          ili ulaznica bez odreska ili zaštitnih podataka smatra se nevažećom, a
+          s takvom ulaznicom posjetitelj neće moći ući na događaj. Molimo vas da
+          ulaznice kupujete isključivo na www.event.ba ili na ovlaštenim
+          prodajnim mjestima. Nakon skeniranja jedinstvenog koda na ulaznici,
+          ona postaje nevažeća, a ulaz je dozvoljen samo prvom nositelju te
+          ulaznice. Svaki pokušaj ulaska s istim kodom bit će onemogućen. U
+          slučaju otkazivanja događaja ili promjene datuma, povrat novca za
+          ulaznice moguće je zatražiti putem stranice www.event.ba/refund. U
+          određenim slučajevima, povrat novca će biti izvršen izravno od strane
+          organizatora. Molimo imajte na umu da naknada za izdavanje ulaznice,
+          kao i eventualne dodatne naknade Event.ba, te privatni troškovi poput
+          smještaja ili prijevoza, nisu povratni. Krivotvorenje, zloupotreba i
+          ilegalna preprodaja Event.ba ulaznica su zakonom kažnjivi i bit će
+          prijavljeni policiji. Na mjesto događanja zabranjeno je unošenje
+          oružja, pirotehničkih sredstava, boca, limenki i drugih predmeta koji
+          mogu ugroziti sigurnost drugih posjetitelja. Također je zabranjeno
+          unošenje opreme za audiovizualno snimanje. Važno je napomenuti da
+          glasna glazba može oštetiti sluh. Dolaskom na događaj, posjetitelj
+          preuzima sve rizike, uključujući rizk od gubitka, krađe i oštećenja
+          vlastite imovine, kao i rizik od tjelesnih ozljeda. Dolaskom na
+          događaj, posjetitelj pristaje biti audiovizualno snimljen bez
+          ograničenja i bez mogućnosti financijske kompenzacije za upotrebu
+          takvih snimaka.
+        </p>
+        <p>info@event.ba</p>
+      </div>
+    </div>
+  </body>
+</html>

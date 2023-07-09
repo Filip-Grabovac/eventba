@@ -204,12 +204,17 @@ export const Navbar = () => {
           </div>
         </div>
         {isLoginOpen && (
-          <Login isLoginOpen={isLoginOpen} setIsLoginOpen={setIsLoginOpen} />
+          <Login
+            isLoginOpen={isLoginOpen}
+            setIsLoginOpen={setIsLoginOpen}
+            setIsRegisterOpen={setIsRegisterOpen}
+          />
         )}
         {isRegisterOpen && (
           <Register
             isRegisterOpen={isRegisterOpen}
             setIsRegisterOpen={setIsRegisterOpen}
+            setIsLoginOpen={setIsLoginOpen}
           ></Register>
         )}
       </nav>

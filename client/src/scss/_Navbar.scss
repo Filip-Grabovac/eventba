@@ -179,20 +179,19 @@
 
   .dropdown {
     animation: fade 0.3s ease-in-out;
-    box-shadow: -2px 8px 77px 8px rgba(0, 0, 0, 0.35);
-    -webkit-box-shadow: -2px 8px 77px 8px rgba(0, 0, 0, 0.35);
-    -moz-box-shadow: -2px 8px 77px 8px rgba(0, 0, 0, 0.35);
+    box-shadow: -2px 8px 50px 8px rgba(0, 0, 0, 0.35);
+    -webkit-box-shadow: -2px 8px 50px 8px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: -2px 8px 50px 8px rgba(0, 0, 0, 0.35);
     height: 70px;
     width: 120px;
-
     border-radius: 10px;
     position: absolute;
+    z-index: 10;
     transform: translateY(100%) translateX(-30%);
-
     background: rgba(46, 110, 152, 0.404);
-    background-color: rgba(46, 110, 152, 0.404);
-
-    backdrop-filter: blur(20px);
+    background-color: rgba(46, 110, 152, 0.404) !important;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px) !important;
 
     button {
       border: none;

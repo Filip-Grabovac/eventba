@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
-export const RegisterInput = (props) => {
+export const RegisterInput = React.forwardRef((props, ref) => {
   const [content, setContent] = useState("");
 
   const handleTogglePasswordVisibility = () => {
@@ -9,9 +9,16 @@ export const RegisterInput = (props) => {
 
   const inputType = props.isPasswordVisible ? "text" : props.type;
 
+  useEffect(() => {
+    if (props.name === "repeatPassword" && props.showError) {
+      ref.current.focus();
+    }
+  }, [props.showError, props.name, ref]);
+
   return (
     <div className="register-input-wrapper">
       <input
+        ref={ref}
         onChange={(e) => {
           setContent(e.target.value);
         }}
@@ -30,7 +37,7 @@ export const RegisterInput = (props) => {
         <img
           src={props.icon}
           alt="User Card"
-          onClick={handleTogglePasswordVisibility}
+          onClick={props.cursorPointer ? handleTogglePasswordVisibility : null}
           className="password-eye-icon"
           style={props.cursorPointer ? { cursor: "pointer" } : {}}
         />
@@ -39,4 +46,4 @@ export const RegisterInput = (props) => {
       )}
     </div>
   );
-};
+});

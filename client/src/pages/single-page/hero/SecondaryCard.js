@@ -16,7 +16,7 @@ export const SecondaryCard = (props) => {
   return (
     <div className="secondary-card-single">
       <img
-        src={require(`../../../assets/event_images/${portraitImg}`)}
+        src={require(`../../../../../server/event-images/${portraitImg}`)}
         alt="Poster img"
       />
       <div>

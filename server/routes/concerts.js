@@ -7,9 +7,9 @@ const {
   createConcert,
 } = require("../controllers/concerts");
 
-router.route("/").get(getAllConcerts).post(createConcert);
 router.route("/this_week").get(findConcert);
 router.route("/:type/:value").get(findConcert);
+router.route("/").get(getAllConcerts).post(createConcert);
 
 module.exports = router;
 // Routes

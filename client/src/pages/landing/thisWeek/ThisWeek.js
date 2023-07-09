@@ -12,18 +12,18 @@ export const ThisWeek = (props) => {
     { width: 1500, itemsToShow: 3 },
   ];
 
-  const fetchThisWeekData = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/v1/concerts/this_week/true`
-      );
-      setThisWeekData(response.data);
-    } catch (error) {
-      console.error("Error fetching profile data:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchThisWeekData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/v1/concerts/this_week/true`
+        );
+        setThisWeekData(response.data);
+        console.log(thisWeek);
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+      }
+    };
     fetchThisWeekData();
   }, []);
 
@@ -38,7 +38,7 @@ export const ThisWeek = (props) => {
           pagination={false}
           breakPoints={breakpoints}
         >
-          {!thisWeek
+          {!thisWeek || !Array.isArray(thisWeek) // Dodajte provjeru da li je thisWeek niz
             ? Array.from({ length: 3 }, (_, index) => (
                 <div className="skeleton" key={index}>
                   <div></div>

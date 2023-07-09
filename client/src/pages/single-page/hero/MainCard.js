@@ -28,7 +28,7 @@ const MainCard = (props) => {
         <div className="col-lg-6 single-page-wrapper">
           <img
             className="single-page-cover"
-            src={require(`../../../assets/event_images/${landscapeImg}`)}
+            src={require(`../../../../../server/event-images/${landscapeImg}`)}
             alt="Cover Image"
           />
         </div>

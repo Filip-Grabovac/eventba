@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Carousel from "react-elastic-carousel";
 import axios from "axios";
 import { ImageCard } from "./ImageCard";
+import { HotEvents } from "../hotevents/HotEvents";
 
 const ImageSlider = () => {
   const [hotEventsData, setHotEvents] = useState([]);
@@ -23,6 +24,7 @@ const ImageSlider = () => {
           `${process.env.REACT_APP_API_URL}/api/v1/concerts/is_promoted_event/true`
         );
         setHotEvents(response.data);
+        console.log(hotEventsData);
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }
