@@ -249,6 +249,7 @@ export const BuyPage = () => {
                 <Personalization
                   key={i}
                   i={i}
+                  setShowPaymentForm={setShowPaymentForm}
                   toolTipOpen={ticketsIdWithoutEmail.includes(i + 1)}
                 />
               ))}

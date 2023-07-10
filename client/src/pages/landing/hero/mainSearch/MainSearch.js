@@ -7,8 +7,10 @@ import { RotatingLines } from "react-loader-spinner";
 const MainSearch = () => {
   const [events, setEvents] = useState([]);
   const [loader, setLoader] = useState(true);
+  //Animation for showing cards
   const [show, setShow] = useState(false);
 
+  // Loading events with opacity from 0-1
   useEffect(() => {
     setShow(false);
     if (events.length > 0) {
@@ -18,6 +20,8 @@ const MainSearch = () => {
       }, 200); // Promijeni vrijeme prema potrebama
     }
   }, [events]);
+
+  console.log(events);
 
   return (
     <div className="container-fluid main-search-container">

@@ -39,7 +39,7 @@ const findConcert = async (req, res) => {
     } else {
       return res.status(400).json({ error: "Pogrešna pretraga" });
     }
-    console.log(query);
+
     const concert = await Concert.find(query);
 
     if (

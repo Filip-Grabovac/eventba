@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const SearchInput = ({ setEvents }) => {
+const SearchInput = ({ setEvents, setCategory }) => {
   const [searchValue, setSearchValue] = useState("");
   const [loader, setLoader] = useState(false);
 
@@ -11,20 +11,19 @@ const SearchInput = ({ setEvents }) => {
         const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/v1/concerts/search/${searchValue}`
         );
-
-        setEvents(response.data);
-        console.log("Pretraga");
         setLoader(false);
+        setEvents(response.data);
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }
     };
 
     if (searchValue) {
+      setCategory(null);
       setLoader(true);
       fetchEvents();
     }
-  }, [searchValue, setEvents]);
+  }, [searchValue]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,7 +40,9 @@ const SearchInput = ({ setEvents }) => {
           type="text"
           placeholder="Pretražite..."
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            setSearchValue(e.target.value);
+          }}
         />
       </form>
     </div>

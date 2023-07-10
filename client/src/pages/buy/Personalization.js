@@ -5,7 +5,7 @@ import { addTicket } from "../../store/ticketSlice";
 import { PlanWrapper } from "./PlanWrapper";
 import { Tooltip } from "react-tooltip";
 
-export const Personalization = ({ i, toolTipOpen }) => {
+export const Personalization = ({ i, toolTipOpen, setShowPaymentForm }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [profileData, setProfileData] = useState({});
   const [name, setName] = useState("");
@@ -45,6 +45,7 @@ export const Personalization = ({ i, toolTipOpen }) => {
   };
 
   const saveTicketData = () => {
+    setShowPaymentForm(false);
     dispatch(
       addTicket({
         id: i + 1,
@@ -134,7 +135,7 @@ export const Personalization = ({ i, toolTipOpen }) => {
                 anchorId={`email-${i}`}
                 place="bottom"
                 variant="info"
-                content={`Unesite email na koji će ulaznica ${
+                content={`Potvrdite email na koji će ulaznica ${
                   i + 1
                 } biti poslana!`}
               />
@@ -155,7 +156,7 @@ export const Personalization = ({ i, toolTipOpen }) => {
               anchorId={`button-${i}`}
               place="bottom"
               variant="info"
-              content={"Potvrdite email na ulaznici"}
+              content={"Spremite podatke o ulaznici"}
               isOpen={toolTipOpen}
               delayShow={2000}
             />
