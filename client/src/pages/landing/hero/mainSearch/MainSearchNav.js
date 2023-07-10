@@ -4,19 +4,22 @@ import axios from "axios";
 
 const MainSearchNav = ({ setEvents, setLoader }) => {
   // Dodajte vitičaste zagrade za destrukturiranje props-a
-
   const [category, setCategory] = useState("suggested");
 
   useEffect(() => {
     setEvents([]);
     setLoader(true);
+
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/v1/concerts/type/${category}`
-        );
+        if (category) {
+          // Provjerite da li category ima vrijednost
+          const response = await axios.get(
+            `${process.env.REACT_APP_API_URL}/api/v1/concerts/type/${category}`
+          );
 
-        setEvents(response.data);
+          setEvents(response.data);
+        }
         setLoader(false);
       } catch (error) {
         console.error("Error fetching profile data:", error);
@@ -24,7 +27,7 @@ const MainSearchNav = ({ setEvents, setLoader }) => {
     };
 
     fetchEvents();
-  }, [category]); // Dodajte category kao ovisnost u useEffect-u
+  }, [category]);
 
   const handleClick = (category) => {
     setCategory(category);
@@ -84,7 +87,7 @@ const MainSearchNav = ({ setEvents, setLoader }) => {
       </ul>
       <ul className="search-nav-right">
         <li>
-          <SearchInput setEvents={setEvents} />
+          <SearchInput setEvents={setEvents} setCategory={setCategory} />
         </li>
       </ul>
     </div>
