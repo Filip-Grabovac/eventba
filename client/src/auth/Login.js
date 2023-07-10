@@ -113,6 +113,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
             fbResponse.name.split(" ")[fbResponse.name.split(" ").length - 1],
           email: fbResponse.email,
           profileImg: fbResponse.picture.data.url,
+          role: "standard",
         };
 
         await axios

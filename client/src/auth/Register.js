@@ -58,6 +58,7 @@ export const Register = ({
       address: e.target.elements.address.value,
       city: e.target.elements.city.value,
       country: e.target.elements.country.value,
+      role: "standard",
       zip: e.target.elements.zipcode.value,
       phone: e.target.elements.phoneNumber.value,
       password: Encrypt(e.target.elements.password.value, secretKey),

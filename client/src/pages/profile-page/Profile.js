@@ -3,10 +3,14 @@ import { ProfileLeft } from "./ProfileLeft";
 import { ProfileForm } from "./ProfileForm";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 export const Profile = () => {
   const [profileData, setProfileData] = useState(null);
   const userId = useSelector((state) => state.userState.user);
+  const [navItems, setNavItems] = useState([]);
+  const [activeNavItem, setActiveNavItem] = useState("Ažuriraj podatke");
+  const dispatch = useDispatch();
 
   const fetchProfileData = async () => {
     try {
@@ -14,6 +18,17 @@ export const Profile = () => {
         `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
       );
       setProfileData(response.data);
+
+      // Set profile navbar based on role
+      if (response.data.role === "standard") {
+        setNavItems(["Ažuriraj podatke", "Moje ulaznice"]);
+      } else if (response.data.role === "reseller") {
+        setNavItems(["Ažuriraj podatke", "Prodajna statistika"]);
+      } else if (response.data.role === "organizer") {
+        setNavItems(["Ažuriraj podatke", "Organiziraj događaj"]);
+      } else if (response.data.role === "admin") {
+        setNavItems(["Ažuriraj podatke", "Admin postavke"]);
+      }
     } catch (error) {
       console.error("Error fetching profile data:", error);
     }
@@ -30,6 +45,7 @@ export const Profile = () => {
   if (!profileData) {
     return;
   }
+
   return (
     <div className="profile">
       <div className="container-fluid">
@@ -38,7 +54,30 @@ export const Profile = () => {
             <ProfileLeft profileData={profileData} />
           </div>
           <div className="col-lg-6">
+            <nav>
+              <ul>
+                {navItems &&
+                  navItems.map((e, i) => {
+                    return (
+                      <li key={i}>
+                        <a
+                          className={`${
+                            activeNavItem === e ? "active-profile-nav-link" : ""
+                          }`}
+                          onClick={() => {
+                            setActiveNavItem(e);
+                          }}
+                          href="#"
+                        >
+                          {e}
+                        </a>
+                      </li>
+                    );
+                  })}
+              </ul>
+            </nav>
             <ProfileForm
+              activeNavItem={activeNavItem}
               profileData={profileData}
               onProfileFormSubmit={handleProfileFormSubmit}
             />

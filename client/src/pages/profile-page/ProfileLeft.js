@@ -45,6 +45,22 @@ export const ProfileLeft = (props) => {
           Mob/Tel :{" "}
           <span>{profileData.phone ? `+387 ${profileData.phone}` : ""}</span>
         </p>
+        {profileData.role !== "standard" ? (
+          <p>
+            Vrsta računa:
+            <span>
+              {profileData.role === "admin"
+                ? "Admin"
+                : profileData.role === "reseller"
+                ? "Preprodavac"
+                : profileData.role === "organizer"
+                ? "Organizator"
+                : ""}
+            </span>
+          </p>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
