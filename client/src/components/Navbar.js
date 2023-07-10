@@ -64,19 +64,22 @@ export const Navbar = () => {
   }, []);
 
   // Disable scroll when modal windows opened
-  if (isLoginOpen || isRegisterOpen) {
+  useEffect(() => {
     window.scrollTo(0, 0);
-    document.body.style.overflow = "hidden";
-
-    if (document.querySelector(".sticky-nav"))
-      document.querySelector(".sticky-nav").style =
-        "backdrop-filter: none !important";
-  } else {
-    document.body.style.overflow = "unset";
-    if (document.querySelector(".sticky-nav"))
-      document.querySelector(".sticky-nav").style =
-        "backdrop-filter: blur(20px)";
-  }
+    setTimeout(() => {
+      if (isLoginOpen || isRegisterOpen) {
+        document.body.style.overflow = "hidden";
+        if (document.querySelector(".sticky-nav"))
+          document.querySelector(".sticky-nav").style =
+            "backdrop-filter: none !important";
+      } else {
+        document.body.style.overflow = "unset";
+        if (document.querySelector(".sticky-nav"))
+          document.querySelector(".sticky-nav").style =
+            "backdrop-filter: blur(20px)";
+      }
+    }, 150);
+  }, [isLoginOpen, isRegisterOpen]);
 
   return (
     <div className="nav-wrapper">
