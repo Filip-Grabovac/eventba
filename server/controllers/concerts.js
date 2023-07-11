@@ -1,4 +1,5 @@
 const Concert = require("../models/Concert");
+const path = require("path");
 
 const getAllConcerts = async (req, res) => {
   try {
@@ -6,17 +7,6 @@ const getAllConcerts = async (req, res) => {
     res.status(200).json({ concerts });
   } catch (error) {
     res.status(500).json({ msg: error });
-  }
-};
-
-const createConcert = async (req, res) => {
-  try {
-    // Create a new user if no existing user found
-    const concert = await Concert.create(req.body);
-    res.status(201).json({ concert });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Došlo je do greške pri unosu " });
   }
 };
 
@@ -64,8 +54,20 @@ const findConcert = async (req, res) => {
   }
 };
 
+const createEvent = async (req, res) => {
+  try {
+    // Create new event
+    await Concert.create(req.body);
+
+    res.status(201).json({ message: "Uspješno ste dodali događaj" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Došlo je do greške pri unosu " });
+  }
+};
+
 module.exports = {
   getAllConcerts,
   findConcert,
-  createConcert,
+  createEvent,
 };

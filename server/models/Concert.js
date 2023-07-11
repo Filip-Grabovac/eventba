@@ -7,6 +7,8 @@ const ConcertSchema = new mongoose.Schema({
   tickets: { type: Object },
   time_of_event: { type: Date },
   place: { type: Object },
+  type: { type: Array },
+  is_promoted_event: { type: Boolean },
   description: { type: String },
 });
 

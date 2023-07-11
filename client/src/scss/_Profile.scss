@@ -178,11 +178,28 @@
           align-items: center;
 
           input {
-            width: 80%;
+            width: 90%;
+          }
+
+          .location-input {
+            width: 29.5%;
+
+            &:nth-child(1) {
+              border-top-right-radius: 0;
+              border-bottom-right-radius: 0;
+            }
+            &:nth-child(2) {
+              border-radius: 0;
+              margin: 0 2px;
+            }
+            &:nth-child(3) {
+              border-top-left-radius: 0;
+              border-bottom-left-radius: 0;
+            }
           }
 
           select {
-            width: 80%;
+            width: 90%;
             margin-left: auto;
           }
         }
