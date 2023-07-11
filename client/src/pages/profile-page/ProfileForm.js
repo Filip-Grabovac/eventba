@@ -1,6 +1,5 @@
 import React from "react";
 import { UpdateProfilePage } from "./profile-pages/UpdateProfilePage.js";
-import { useSelector } from "react-redux";
 import { OrganizeEventPage } from "./profile-pages/OrganizeEventPage.js";
 
 export function ProfileForm(props) {
