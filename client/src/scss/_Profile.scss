@@ -18,6 +18,8 @@
         padding: 0;
         max-width: 800px;
         margin: 0 auto 16px auto;
+        display: flex;
+        justify-content: center;
 
         li {
           display: inline-block;
@@ -222,25 +224,119 @@
         padding-bottom: 20px;
       }
     }
-    .add-reseller-form {
-      display: flex;
-      align-items: center;
+    .add-reseller-container {
+      .row {
+        justify-content: unset;
+        gap: 0;
 
-      input {
-        width: 30%;
+        #info-icon {
+          width: 45px;
+          margin-left: auto;
+        }
+
+        .col-lg-6 {
+          display: flex;
+          flex-direction: column;
+
+          input {
+            width: 90%;
+          }
+
+          div {
+            display: flex;
+            align-items: center;
+          }
+        }
+        .col-lg-6:nth-child(2) {
+          input {
+            margin-left: auto;
+          }
+        }
+
+        h6 {
+          color: #455cd9;
+          font-size: 16px;
+          font-weight: 600;
+        }
+      }
+      form {
+        button {
+          margin: 30px auto 20px auto;
+          display: block;
+
+          font-size: 14px;
+        }
       }
 
-      label {
-        margin-right: 30px;
+      .control-acc-wrapper {
+        width: 96.5%;
+        height: 60px;
+        border-radius: 7px;
+        margin: 0 auto 10px auto;
+        display: flex;
+        align-items: center;
+        padding: 5px 10px;
+
+        &:nth-child(odd) {
+          background-color: rgba(69, 91, 217, 0.303);
+
+          img {
+            background-color: rgba(255, 255, 255, 0.9);
+          }
+
+          .control-line {
+            background-color: #fff;
+          }
+        }
+        &:nth-child(even) {
+          background-color: #fff;
+
+          img {
+            background-color: rgba(69, 91, 217, 0.153);
+          }
+
+          .control-line {
+            background-color: rgba(69, 91, 217, 0.303);
+          }
+        }
+
+        img {
+          width: 35px;
+          height: 35px;
+          cursor: pointer;
+          border-radius: 50%;
+          padding: 7px;
+          margin-left: auto;
+
+          &:hover {
+            transform: scale(1.05);
+          }
+        }
+
+        p {
+          margin: 0;
+          font-weight: 600;
+          text-align: center;
+        }
+
+        p:nth-child(1) {
+          width: 30%;
+        }
+        p:nth-child(5) {
+          width: 20%;
+        }
+        p:nth-child(3) {
+          width: 50%;
+        }
+
+        .control-line {
+          height: 90%;
+          width: 1px;
+        }
       }
 
-      button {
-        margin: 0;
-      }
-
-      #info-icon {
-        width: 13px;
-        margin: 0 30px 16px 5px;
+      .control-acc-row {
+        margin-bottom: 20px;
       }
     }
 
