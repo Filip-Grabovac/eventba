@@ -3,6 +3,7 @@ import { UpdateProfilePage } from "./profile-pages/UpdateProfilePage.js";
 import { useSelector } from "react-redux";
 import { OrganizeEventPage } from "./profile-pages/OrganizeEventPage.js";
 import { AdminSettings } from "./profile-pages/AdminSettings.js";
+import { AddReseller } from "./profile-pages/AddReseller.js";
 
 export function ProfileForm(props) {
   return (
@@ -16,6 +17,8 @@ export function ProfileForm(props) {
         <OrganizeEventPage />
       ) : props.activeNavItem === "Admin postavke" ? (
         <AdminSettings />
+      ) : props.activeNavItem === "Dodatne postavke" ? (
+        <AddReseller />
       ) : (
         ""
       )}

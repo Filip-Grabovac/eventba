@@ -25,7 +25,11 @@ export const Profile = () => {
       } else if (response.data.role === "reseller") {
         setNavItems(["Ažuriraj podatke", "Prodajna statistika"]);
       } else if (response.data.role === "organizer") {
-        setNavItems(["Ažuriraj podatke", "Organiziraj događaj"]);
+        setNavItems([
+          "Ažuriraj podatke",
+          "Organiziraj događaj",
+          "Dodatne postavke",
+        ]);
       } else if (response.data.role === "admin") {
         setNavItems(["Ažuriraj podatke", "Admin postavke"]);
       }
