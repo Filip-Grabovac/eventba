@@ -21,8 +21,6 @@ const MainSearch = () => {
     }
   }, [events]);
 
-  console.log(events);
-
   return (
     <div className="container-fluid main-search-container">
       <div className="row">

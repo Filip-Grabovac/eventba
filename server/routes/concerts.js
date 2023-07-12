@@ -4,12 +4,12 @@ const router = express.Router();
 const {
   findConcert,
   getAllConcerts,
-  createConcert,
+  createEvent,
 } = require("../controllers/concerts");
 
 router.route("/this_week").get(findConcert);
 router.route("/:type/:value").get(findConcert);
-router.route("/").get(getAllConcerts).post(createConcert);
-
+router.route("/").get(getAllConcerts);
+router.route("/create_event").post(createEvent);
 module.exports = router;
 // Routes

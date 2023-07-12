@@ -1,6 +1,7 @@
 import React from "react";
 import { UpdateProfilePage } from "./profile-pages/UpdateProfilePage.js";
 import { OrganizeEventPage } from "./profile-pages/OrganizeEventPage.js";
+import { AdminSettings } from "./profile-pages/AdminSettings.js";
 
 export function ProfileForm(props) {
   return (
@@ -12,6 +13,8 @@ export function ProfileForm(props) {
         />
       ) : props.activeNavItem === "Organiziraj događaj" ? (
         <OrganizeEventPage />
+      ) : props.activeNavItem === "Admin postavke" ? (
+        <AdminSettings />
       ) : (
         ""
       )}
