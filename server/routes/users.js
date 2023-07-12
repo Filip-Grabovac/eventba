@@ -13,4 +13,3 @@ router.route("/:type/:value").get(findUser);
 router.route("/:id").patch(updateUser);
 
 module.exports = router;
-// Routes

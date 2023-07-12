@@ -222,6 +222,28 @@
         padding-bottom: 20px;
       }
     }
+    .add-reseller-form {
+      display: flex;
+      align-items: center;
+
+      input {
+        width: 30%;
+      }
+
+      label {
+        margin-right: 30px;
+      }
+
+      button {
+        margin: 0;
+      }
+
+      #info-icon {
+        width: 13px;
+        margin: 0 30px 16px 5px;
+      }
+    }
+
     input,
     select,
     textarea {
