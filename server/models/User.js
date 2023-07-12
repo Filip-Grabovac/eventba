@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
   name: { type: String },
   lname: { type: String },
   email: { type: String },
+  fbEmail: { type: String },
   address: { type: String },
   city: { type: String },
   country: { type: String },
@@ -13,6 +14,7 @@ const UserSchema = new mongoose.Schema({
   phone: { type: Number },
   password: { type: String, minlength: 5 },
   isVerified: { type: Boolean },
+  verificationCode: { type: Number },
   accountType: { type: String },
   profileImg: { type: String },
 });

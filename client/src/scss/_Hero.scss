@@ -197,6 +197,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    [data-testid="bars-loading"] {
+      transform: translate(-128%, 20%);
+      @media only screen and (max-width: 670px) {
+        transform: translate(-70%, 20%);
+      }
+    }
   }
   .search-card-container {
     display: flex;

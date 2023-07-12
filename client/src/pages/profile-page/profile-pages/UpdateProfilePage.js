@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Encrypt } from "../../../auth/Encrypt";
 import axios from "axios";
 import { toast } from "react-toastify";
+import PhoneInput from "react-phone-number-input";
 
 export const UpdateProfilePage = (props) => {
   const profileData = props.profileData;
@@ -16,7 +17,7 @@ export const UpdateProfilePage = (props) => {
   const [address, setAddress] = useState(profileData.address);
   const [password, setPassword] = useState("");
   const [repatePassword, setRepatePassword] = useState("");
-
+  const [value, setValue] = useState();
   const id = useSelector((state) => state.userState.user);
   const secretKey = process.env.REACT_APP_SECRET_KEY;
 
@@ -175,6 +176,11 @@ export const UpdateProfilePage = (props) => {
             value={phone || ""}
             onChange={(e) => setPhone(e.target.value)}
             required
+          />
+          <PhoneInput
+            placeholder="Mobitel"
+            value={phone || ""}
+            onChange={setValue}
           />
         </div>
       </div>

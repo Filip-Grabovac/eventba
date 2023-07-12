@@ -72,6 +72,7 @@ export const Register = ({
           {
             ...user,
             isVerified: false,
+            verificationCode: Math.floor(Math.random() * 100000000) + 1,
           },
           {
             headers: {
@@ -85,7 +86,7 @@ export const Register = ({
           setIsRegisterOpen(false);
 
           dispatch(setUserID(response.data.user._id));
-          sessionStorage.setItem("userId", response.data.user._id);
+          localStorage.setItem("userId", response.data.user._id);
         })
         .catch((error) => {
           // Handle any errors
@@ -219,7 +220,7 @@ export const Register = ({
               setIsPasswordVisible={setIsPasswordVisible}
             />
             <p>
-              Već imas event.ba račun?{" "}
+              Imas event.ba račun?{" "}
               <Link onClick={handleOpenLogin}>Prijavi se.</Link>
             </p>
             <ReCAPTCHA
@@ -228,7 +229,7 @@ export const Register = ({
               onChange={onChange}
             />
             <button type="submit" className="login-btn" disabled={!verified}>
-              Registruj se!
+              Registriraj se!
             </button>
           </form>
         </div>

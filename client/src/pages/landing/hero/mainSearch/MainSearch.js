@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MainSearchNav from "./MainSearchNav";
 import MainSearchCard from "./MainSearchCard";
 import { HotEvents } from "../hotevents/HotEvents";
-import { RotatingLines } from "react-loader-spinner";
+import { Bars } from "react-loader-spinner";
 
 const MainSearch = () => {
   const [events, setEvents] = useState([]);
@@ -27,11 +27,13 @@ const MainSearch = () => {
         <div className="col-lg-9">
           <MainSearchNav setEvents={setEvents} setLoader={setLoader} />
           <div className="loader">
-            <RotatingLines
-              strokeColor="#455cd9"
-              strokeWidth="4"
-              animationDuration="0.5"
-              width="96"
+            <Bars
+              height="80"
+              width="80"
+              color="#455cd9"
+              ariaLabel="bars-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
               visible={loader}
             />
           </div>
