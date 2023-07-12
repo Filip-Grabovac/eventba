@@ -5,6 +5,7 @@ const connectDB = require("./db/connect");
 const users = require("./routes/users");
 const concerts = require("./routes/concerts");
 const payment = require("./routes/payments");
+const entrance_controller = require("./routes/entrances");
 const cors = require("cors");
 
 // sendMail("grabovacfilipp@gmail.com", "Naslov", "Hello, this is a test email.");
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/users", users);
 app.use("/api/v1/concerts", concerts);
 app.use("/api/v1/payment", payment);
+app.use("/api/v1/entrance_controllers", entrance_controller);
 
 const start = async () => {
   try {

@@ -2,7 +2,7 @@ import React from "react";
 import { UpdateProfilePage } from "./profile-pages/UpdateProfilePage.js";
 import { OrganizeEventPage } from "./profile-pages/OrganizeEventPage.js";
 import { AdminSettings } from "./profile-pages/AdminSettings.js";
-import { AddReseller } from "./profile-pages/AddReseller.js";
+import { EntranceChecker } from "./profile-pages/AddEntranceChecker.js";
 
 export function ProfileForm(props) {
   return (
@@ -16,8 +16,8 @@ export function ProfileForm(props) {
         <OrganizeEventPage />
       ) : props.activeNavItem === "Admin postavke" ? (
         <AdminSettings />
-      ) : props.activeNavItem === "Dodatne postavke" ? (
-        <AddReseller />
+      ) : props.activeNavItem === "Postavke ulaza" ? (
+        <EntranceChecker entranceData={props.entranceData} />
       ) : (
         ""
       )}

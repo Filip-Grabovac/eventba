@@ -10,6 +10,8 @@ export const Profile = () => {
   const [navItems, setNavItems] = useState([]);
   const [activeNavItem, setActiveNavItem] = useState("Ažuriraj podatke");
 
+  const [entranceData, setEntranceData] = useState();
+
   const fetchProfileData = async () => {
     try {
       const response = await axios.get(
@@ -26,7 +28,7 @@ export const Profile = () => {
         setNavItems([
           "Ažuriraj podatke",
           "Organiziraj događaj",
-          "Dodatne postavke",
+          "Postavke ulaza",
         ]);
       } else if (response.data.role === "admin") {
         setNavItems(["Ažuriraj podatke", "Admin postavke"]);
@@ -36,8 +38,21 @@ export const Profile = () => {
     }
   };
 
+  const fetchEntranceCheckers = async (id) => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/v1/entrance_controllers`,
+        { id: id }
+      );
+      setEntranceData(response.data);
+    } catch (error) {
+      console.error("Error fetching entrance checker:", error);
+    }
+  };
+
   useEffect(() => {
     fetchProfileData();
+    fetchEntranceCheckers(userId);
   }, []);
 
   const handleProfileFormSubmit = () => {
@@ -81,6 +96,7 @@ export const Profile = () => {
             <ProfileForm
               activeNavItem={activeNavItem}
               profileData={profileData}
+              entranceData={entranceData}
               onProfileFormSubmit={handleProfileFormSubmit}
             />
           </div>
