@@ -187,16 +187,74 @@
         width: 100%;
 
         div {
-          width: 50%;
+          width: 100%;
           display: flex;
           align-items: center;
+
+          .sponsors-ul {
+            margin: 0 auto 0 auto;
+            padding: 0 5px;
+            list-style: none;
+            overflow-y: auto;
+            height: 50px;
+            overflow-x: hidden;
+            width: 130px;
+            word-wrap: break-word;
+            background-color: #fff;
+            border-radius: 10px;
+
+            li {
+              font-size: 13px;
+              margin-bottom: 3px;
+            }
+
+            .not-selected-sponsor {
+              text-align: center;
+              margin-top: 11px;
+
+              span {
+                color: red;
+              }
+            }
+          }
+
+          .custom-file-input {
+            width: 136px;
+          }
+
+          .custom-file-input::-webkit-file-upload-button {
+            visibility: hidden;
+          }
+
+          .custom-file-input::before {
+            content: "Odaberi sponzore";
+            display: inline-block;
+            background: linear-gradient(top, #f9f9f9, #e3e3e3);
+            border: 1px solid #999;
+            border-radius: 3px;
+            padding: 5px 8px;
+            outline: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            cursor: pointer;
+            text-shadow: 1px 1px #fff;
+            font-weight: 700;
+            font-size: 10pt;
+          }
+          .custom-file-input:hover::before {
+            border-color: black;
+          }
+          .custom-file-input:active::before {
+            background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+          }
 
           input {
             width: 90%;
           }
 
           .location-input {
-            width: 29.5%;
+            width: 33.33%;
+            height: 32px;
 
             &:nth-child(1) {
               border-top-right-radius: 0;

@@ -199,9 +199,9 @@ export const Navbar = () => {
                   </div>
                 )}
               </li>
-              <li className="nav-item input-nav-link">
+              {/* <li className="nav-item input-nav-link">
                 <SearchInput />
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

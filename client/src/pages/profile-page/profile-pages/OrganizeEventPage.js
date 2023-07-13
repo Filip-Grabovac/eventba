@@ -11,6 +11,9 @@ export const OrganizeEventPage = () => {
     UploadImage,
   ]);
   const [selectedImagesForUpload, setImages] = useState([]);
+  const [sponsors, setSponsors] = useState([]);
+  const [selectedPlace, setSelectedPlace] = useState("");
+
   const toastSetup = {
     position: "top-center",
     autoClose: 3000,
@@ -179,6 +182,20 @@ export const OrganizeEventPage = () => {
     }
   }
 
+  // Event handler for file selection
+  const handleFileSelect = (event) => {
+    const fileList = event.target.files;
+
+    // Check if the file already exists
+    const isFileExists = sponsors.some(
+      (sponsor) => sponsor.name === fileList[0].name
+    );
+
+    if (!isFileExists) {
+      setSponsors((s) => [...s, fileList[0]]);
+    }
+  };
+
   return (
     <form className="form container organize-form" onSubmit={handleSubmit}>
       <div className="organize-top-part">
@@ -246,6 +263,40 @@ export const OrganizeEventPage = () => {
       <div className="organize-middle-part">
         <div>
           <input
+            name="sponsors"
+            id="sponsors"
+            className="custom-file-input event-input"
+            type="file"
+            multiple
+            onChange={handleFileSelect}
+          />
+          <ul className="sponsors-ul">
+            {sponsors[0] !== undefined ? (
+              sponsors.map((e, i) => {
+                return <li key={i}>{e.name}</li>;
+              })
+            ) : (
+              <li className="not-selected-sponsor">
+                Sponzori nisu odabrani <span>*</span>
+              </li>
+            )}
+          </ul>
+        </div>
+        <div className="select-div">
+          <input
+            name="timeOfEvent"
+            className="profile-date-input event-input"
+            placeholder="Vrijeme izvođenja"
+            type="date"
+            onInput={(e) => {
+              e.target.style = "outline: none;";
+            }}
+          />
+        </div>
+      </div>
+      <div className="organize-middle-part">
+        <div>
+          <input
             name="country"
             type="text"
             className="location-input event-input"
@@ -263,26 +314,23 @@ export const OrganizeEventPage = () => {
               e.target.style = "outline: none;";
             }}
           />
-          <input
+          <select
             name="place"
             type="text"
             className="location-input event-input"
-            placeholder="Mjesto"
-            onInput={(e) => {
+            value={selectedPlace}
+            onChange={(e) => {
+              setSelectedPlace(e.target.value);
+            }}
+            onChangeCapture={(e) => {
               e.target.style = "outline: none;";
             }}
-          />
-        </div>
-        <div className="select-div">
-          <input
-            name="timeOfEvent"
-            className="profile-date-input event-input"
-            placeholder="Vrijeme izvođenja"
-            type="date"
-            onInput={(e) => {
-              e.target.style = "outline: none;";
-            }}
-          />
+          >
+            <option value="" disabled hidden>
+              Mjesto
+            </option>
+            <option value="Dvorana Travnik">Dvorana Travnik</option>
+          </select>
         </div>
       </div>
       <div className="organize-bottom-part">
