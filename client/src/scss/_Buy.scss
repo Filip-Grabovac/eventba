@@ -228,7 +228,7 @@
     }
     .payment-bill {
       background-color: #455cd9;
-      height: 300px;
+      max-height: 300px;
       width: 85%;
       margin: 0 auto;
       border-radius: 10px;
@@ -240,7 +240,7 @@
         align-items: center;
         color: #d8d8d8;
         padding-bottom: 5px;
-        margin: 4% 8% 4% 8%;
+        margin: 3% 6%;
         font-size: 18px;
         border-bottom: #cccccc solid 2px;
 
@@ -271,16 +271,18 @@
       .pay-method {
         margin: 5px 5px 10px;
         color: #fff;
-        font-size: 18px;
+        font-size: 24px;
         max-width: 180px;
         text-align: center;
-        background-color: #455cd9;
-        border-radius: 15px;
+        font-weight: bold;
+        color: #343434;
+        background-color: #f4cd46;
+        border-radius: 20px;
         padding: 5px 35px;
         border: none;
         cursor: pointer;
         &:hover {
-          background-color: #dbb83f;
+          background-color: #d1aa1b;
         }
       }
       .payment-form {
@@ -291,9 +293,9 @@
             color: #343434;
             border-radius: 15px;
             min-height: 35px;
-            font-size: 16px;
+            font-size: 18px;
             width: 10rem;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 1px;
             background-color: #f4cd46;
             left: 10px;

@@ -7,9 +7,8 @@ import { Tooltip } from "react-tooltip";
 
 export const Personalization = ({ i, toolTipOpen, setShowPaymentForm }) => {
   const [isChecked, setIsChecked] = useState(false);
-  const [profileData, setProfileData] = useState({});
   const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
+  const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
   const userId = useSelector((state) => state.userState.user);
   const dispatch = useDispatch();
@@ -17,14 +16,10 @@ export const Personalization = ({ i, toolTipOpen, setShowPaymentForm }) => {
   const ticket = {
     id: ticketID,
     name: name,
-    lname: surname,
+    lname: lname,
     email: email,
     price: 0,
   };
-
-  useEffect(() => {
-    dispatch(addTicket(ticket));
-  }, []);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -32,14 +27,17 @@ export const Personalization = ({ i, toolTipOpen, setShowPaymentForm }) => {
         const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
         );
-        setProfileData(response.data);
+        setName(response.data.name);
+        setLname(response.data.lname);
         setEmail(response.data.email);
+        dispatch(addTicket(ticket));
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }
     };
     fetchProfileData();
   }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -50,7 +48,7 @@ export const Personalization = ({ i, toolTipOpen, setShowPaymentForm }) => {
       addTicket({
         id: i + 1,
         name: name,
-        lname: surname,
+        lname: lname,
         email: email,
       })
     );
@@ -63,7 +61,7 @@ export const Personalization = ({ i, toolTipOpen, setShowPaymentForm }) => {
     if (isChecked) {
       // Reset the name and surname when unchecked
       setName("");
-      setSurname("");
+      setLname("");
     }
     setIsChecked(!isChecked);
   };
@@ -87,82 +85,87 @@ export const Personalization = ({ i, toolTipOpen, setShowPaymentForm }) => {
           content="Presonalizirajte ulaznicu."
         />
       </div>
-      <div className="profile-form">
-        <form className="form container" onSubmit={handleSubmit}>
-          <div className="row">
-            <div className="item1 col">
-              <input
-                disabled={!isChecked}
-                placeholder="Ime"
-                type="text"
-                id={`name-${i}`}
-                value={!isChecked ? "" : name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
-            <Tooltip
-              style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
-              anchorId={`name-${i}`}
-              place="top"
-              variant="info"
-              content={`Unesite ime i prezime vlasnika ulaznice ${i + 1}`}
-            />
-            <div className="item2 col">
-              <input
-                disabled={!isChecked}
-                placeholder="Prezime"
-                type="text"
-                id="surname"
-                value={!isChecked ? "" : surname}
-                onChange={(e) => setSurname(e.target.value)}
-                required
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="item3 col">
-              <input
-                placeholder="Email"
-                type="email"
-                id={`email-${i}`}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+      {isChecked ? (
+        <div className="profile-form">
+          <form className="form container" onSubmit={handleSubmit}>
+            <div className="row">
+              <div className="item1 col">
+                <input
+                  disabled={!isChecked}
+                  placeholder="Ime"
+                  type="text"
+                  id={`name-${i}`}
+                  value={!isChecked ? "" : name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
               <Tooltip
                 style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
-                anchorId={`email-${i}`}
+                anchorId={`name-${i}`}
+                place="top"
+                variant="info"
+                content={`Unesite ime i prezime vlasnika ulaznice ${i + 1}`}
+              />
+              <div className="item2 col">
+                <input
+                  disabled={!isChecked}
+                  placeholder="Prezime"
+                  type="text"
+                  id="lname"
+                  value={!isChecked ? "" : lname}
+                  onChange={(e) => setLname(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="item3 col">
+                <input
+                  placeholder="Email"
+                  type="email"
+                  id={`email-${i}`}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <Tooltip
+                  style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
+                  anchorId={`email-${i}`}
+                  place="bottom"
+                  variant="info"
+                  content={`Potvrdite email na koji će ulaznica ${
+                    i + 1
+                  } biti poslana!`}
+                />
+              </div>
+            </div>
+
+            <div className="row">
+              <button
+                id={`button-${i}`}
+                onClick={saveTicketData}
+                className="item7"
+                type="submit"
+              >
+                Spremi promjene
+              </button>
+              <Tooltip
+                style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
+                anchorId={`button-${i}`}
                 place="bottom"
                 variant="info"
-                content={`Potvrdite email na koji će ulaznica ${
-                  i + 1
-                } biti poslana!`}
+                content={"Spremite podatke o ulaznici"}
+                isOpen={toolTipOpen}
+                delayShow={2000}
               />
             </div>
-          </div>
+          </form>
+        </div>
+      ) : (
+        ""
+      )}
 
-          <div className="row">
-            <button
-              id={`button-${i}`}
-              onClick={saveTicketData}
-              className="item7"
-              type="submit"
-            >
-              Spremi promjene
-            </button>
-            <Tooltip
-              style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
-              anchorId={`button-${i}`}
-              place="bottom"
-              variant="info"
-              content={"Spremite podatke o ulaznici"}
-              isOpen={toolTipOpen}
-              delayShow={2000}
-            />
-          </div>
-        </form>
-      </div>
       <h4 className="choose-place">Odaberi mjesto:</h4>
       <PlanWrapper ticketID={ticketID} />
       <h4 className="choose-place">{`Cijena ulaznice: ${

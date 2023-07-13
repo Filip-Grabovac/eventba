@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Encrypt } from "../../../auth/Encrypt";
 import axios from "axios";
@@ -12,20 +12,24 @@ export const UpdateProfilePage = (props) => {
   const [lname, setLname] = useState(profileData.lname);
   const [email, setEmail] = useState(profileData.email);
   const [city, setCity] = useState(profileData.city);
-  const [country, setCountry] = useState(profileData.country);
+
   const [zip, setZip] = useState(profileData.zip);
   const [phone, setPhone] = useState(profileData.phone);
   const [address, setAddress] = useState(profileData.address);
   const [password, setPassword] = useState("");
   const [repatePassword, setRepatePassword] = useState("");
-
+  const reverseCountry = (fullName) => {
+    for (const code in countryMap) {
+      if (countryMap[code] === fullName) {
+        return code;
+      }
+    }
+    return null; // Return null if the country name is not found in the map
+  };
+  const [country, setCountry] = useState(reverseCountry(profileData.country));
   const id = useSelector((state) => state.userState.user);
   const secretKey = process.env.REACT_APP_SECRET_KEY;
 
-  const handleCountry = (country) => {
-    const fullName = countryMap[country];
-    setCountry(fullName);
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = {
@@ -34,7 +38,7 @@ export const UpdateProfilePage = (props) => {
       email: email,
       address: address,
       city: city,
-      country: country,
+      country: countryMap[country],
       zip: zip,
       phone: phone,
       password: password !== "" ? Encrypt(password, secretKey) : undefined,
@@ -103,8 +107,7 @@ export const UpdateProfilePage = (props) => {
     progress: undefined,
     theme: "dark",
   };
-  const element = document.querySelector("PhoneInputCountrySelect");
-  // console.log(element.value || "");
+
   return (
     <form className="form container" onSubmit={handleSubmit}>
       <div className="row">
@@ -169,10 +172,11 @@ export const UpdateProfilePage = (props) => {
             placeholder="Mobitel"
             value={phone || ""}
             onChange={setPhone}
-            onCountryChange={handleCountry}
-            defaultCountry="BA"
+            onCountryChange={setCountry}
+            defaultCountry={country}
             international={true}
             countryCallingCodeEditable={false}
+            label={country}
           />
         </div>
       </div>
