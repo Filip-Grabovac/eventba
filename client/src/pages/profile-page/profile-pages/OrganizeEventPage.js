@@ -141,6 +141,26 @@ export const OrganizeEventPage = () => {
           }
         );
 
+        // UPLOAD IMAGES
+        const formData = new FormData();
+
+        for (let i = 0; i < sponsors.length; i++) {
+          formData.append("firstFiles", sponsors[i]);
+        }
+
+        for (let i = 0; i < selectedImagesForUpload.length; i++) {
+          formData.append("secondFiles", selectedImagesForUpload[i]);
+        }
+
+        // Send formData to the backend
+        await fetch(
+          process.env.REACT_APP_API_URL + "/api/v1/concerts/upload_img",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
         toast.success(response.data.message, toastSetup);
       } catch (error) {
         // Handle any errors
@@ -267,8 +287,8 @@ export const OrganizeEventPage = () => {
             id="sponsors"
             className="custom-file-input event-input"
             type="file"
-            multiple
             onChange={handleFileSelect}
+            accept="image/*"
           />
           <ul className="sponsors-ul">
             {sponsors[0] !== undefined ? (

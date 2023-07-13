@@ -7,9 +7,9 @@ const concerts = require("./routes/concerts");
 const payment = require("./routes/payments");
 const entrance_controller = require("./routes/entrances");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 
-// sendMail("grabovacfilipp@gmail.com", "Naslov", "Hello, this is a test email.");
-
+app.use(fileUpload());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -1,4 +1,5 @@
 const Concert = require("../models/Concert");
+const fs = require("fs");
 const path = require("path");
 
 const getAllConcerts = async (req, res) => {
@@ -57,17 +58,68 @@ const findConcert = async (req, res) => {
 const createEvent = async (req, res) => {
   try {
     // Create new event
-    await Concert.create(req.body);
+    const event = await Concert.create(req.body);
 
-    res.status(201).json({ message: "Uspješno ste dodali događaj" });
+    res
+      .status(201)
+      .json({ message: "Uspješno ste dodali događaj", eventData: event });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Došlo je do greške pri unosu " });
   }
 };
 
+const uploadImage = (req, res) => {
+  let { firstFiles, secondFiles } = req.files;
+
+  // If its just one file to upload, it will be object so we transform it to array
+  if (typeof firstFiles === "object") {
+    firstFiles = [firstFiles];
+  }
+
+  // Upload firstFiles to another folder
+  for (let i = 0; i < firstFiles.length; i++) {
+    const file = firstFiles[i];
+    const uploadPath = path.join(
+      __dirname,
+      "..",
+      "ticket-gen",
+      "public",
+      "images",
+      file.name
+    );
+
+    file.mv(uploadPath, (error) => {
+      if (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error uploading files." });
+        return;
+      }
+      console.log("File moved successfully: ", file.name);
+    });
+  }
+
+  // Upload secondFiles to another folder
+  for (let i = 0; i < secondFiles.length; i++) {
+    const file = secondFiles[i];
+    const uploadPath = path.join(__dirname, "..", "event-images", file.name);
+
+    file.mv(uploadPath, (error) => {
+      if (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error uploading files." });
+        return;
+      }
+      console.log("File moved successfully: ", file.name);
+    });
+  }
+
+  res.status(200).json({ message: "Files uploaded successfully." });
+};
+
 module.exports = {
   getAllConcerts,
   findConcert,
   createEvent,
+  uploadImage,
 };
