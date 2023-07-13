@@ -29,7 +29,7 @@ export const Profile = () => {
         setNavItems([
           "Ažuriraj podatke",
           "Organiziraj događaj",
-          "Postavke ulazaa",
+          "Postavke ulaza",
         ]);
       } else if (response.data.role === "admin") {
         setNavItems(["Ažuriraj podatke", "Admin postavke"]);
