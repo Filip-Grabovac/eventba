@@ -5,37 +5,27 @@ import { addTicket } from "../../store/ticketSlice";
 import { PlanWrapper } from "./PlanWrapper";
 import { Tooltip } from "react-tooltip";
 
-export const Personalization = ({ i, toolTipOpen, setShowPaymentForm }) => {
+export const Personalization = ({
+  i,
+  toolTipOpen,
+  setShowPaymentForm,
+  profileData,
+}) => {
   const [isChecked, setIsChecked] = useState(false);
-  const [name, setName] = useState("");
-  const [lname, setLname] = useState("");
-  const [email, setEmail] = useState("");
-  const userId = useSelector((state) => state.userState.user);
+  const [name, setName] = useState(profileData?.name || "");
+  const [surname, setSurname] = useState(profileData?.lname || "");
+  const [email, setEmail] = useState(profileData?.email || "");
   const dispatch = useDispatch();
   const ticketID = i + 1;
   const ticket = {
     id: ticketID,
     name: name,
-    lname: lname,
+    lname: surname,
     email: email,
     price: 0,
   };
-
   useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
-        );
-        setName(response.data.name);
-        setLname(response.data.lname);
-        setEmail(response.data.email);
-        dispatch(addTicket(ticket));
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
-      }
-    };
-    fetchProfileData();
+    dispatch(addTicket(ticket));
   }, []);
 
   const handleSubmit = (e) => {
@@ -48,7 +38,7 @@ export const Personalization = ({ i, toolTipOpen, setShowPaymentForm }) => {
       addTicket({
         id: i + 1,
         name: name,
-        lname: lname,
+        lname: surname,
         email: email,
       })
     );
@@ -58,11 +48,6 @@ export const Personalization = ({ i, toolTipOpen, setShowPaymentForm }) => {
   );
 
   const handleCheckboxChange = () => {
-    if (isChecked) {
-      // Reset the name and surname when unchecked
-      setName("");
-      setLname("");
-    }
     setIsChecked(!isChecked);
   };
   return (
@@ -112,9 +97,9 @@ export const Personalization = ({ i, toolTipOpen, setShowPaymentForm }) => {
                   disabled={!isChecked}
                   placeholder="Prezime"
                   type="text"
-                  id="lname"
-                  value={!isChecked ? "" : lname}
-                  onChange={(e) => setLname(e.target.value)}
+                  id="surname"
+                  value={!isChecked ? "" : surname}
+                  onChange={(e) => setSurname(e.target.value)}
                   required
                 />
               </div>

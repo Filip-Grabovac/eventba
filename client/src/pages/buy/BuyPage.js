@@ -17,6 +17,7 @@ export const BuyPage = () => {
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [orderNumber, setOrderNumber] = useState(null);
+  const [profileData, setProfileData] = useState(null);
   const [toolTipOpen, setToolTipOpen] = useState(false);
   const allTickets = useSelector((state) => state.ticketState.ticketList);
   const ticketsWithoutEmails = allTickets.filter(
@@ -41,7 +42,6 @@ export const BuyPage = () => {
   // Setting order number 1. time u get on buy page
   useEffect(() => {
     setOrderNumber(Math.floor(Math.random() * 100000000000000) + 1);
-    dispatch(resetState());
   }, []);
 
   const addTicket = async () => {
@@ -82,12 +82,12 @@ export const BuyPage = () => {
 
   //TAKE ID and fetch data
 
-  const id = new URLSearchParams(new URL(window.location.href).search).get(
-    "id"
-  );
   useEffect(() => {
     const fetchBuyPage = async () => {
       try {
+        const id = new URLSearchParams(
+          new URL(window.location.href).search
+        ).get("id");
         const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${id}`
         );
@@ -111,7 +111,7 @@ export const BuyPage = () => {
   );
 
   // Fetching data for payment
-  const [profileData, setProfileData] = useState(null);
+
   const userId = useSelector((state) => state.userState.user);
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -120,6 +120,7 @@ export const BuyPage = () => {
           `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
         );
         setProfileData(response.data);
+        dispatch(resetState(response.data));
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }
@@ -128,7 +129,6 @@ export const BuyPage = () => {
   }, []);
 
   // Chek if mails are there, to enable pay button
-
   const handleButtonClick = () => {
     const ticketsWithoutEmails = allTickets.filter(
       (ticket) => ticket.email === ""
@@ -249,6 +249,7 @@ export const BuyPage = () => {
                 <Personalization
                   key={i}
                   i={i}
+                  profileData={profileData}
                   setShowPaymentForm={setShowPaymentForm}
                   toolTipOpen={ticketsIdWithoutEmail.includes(i + 1)}
                 />
