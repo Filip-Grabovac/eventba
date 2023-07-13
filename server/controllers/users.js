@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const sendVerificationEmail = require("../mailer/mailer");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -21,12 +22,46 @@ const createUser = async (req, res) => {
         .json({ error: "Korisnik s ovim emailom već postoji" });
     }
 
+    // If user is not verified, send verification mail.
+    if (req.body.isVerified === false) {
+      const verificationLink = `http://localhost:3000/verify/${req.body.verificationCode}`;
+      const email = await sendVerificationEmail(
+        req.body.email,
+        "Verificiraj svoj Event.ba račun!",
+        `Klikom na link ispod započet će te verifikaciju svog event.ba računa: ${verificationLink}`
+      );
+    }
+
     // Create a new user if no existing user found
     const user = await User.create(req.body);
+
     res.status(201).json({ user });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Došlo je do greške pri unosu " });
+  }
+};
+
+const verifyUser = async (req, res) => {
+  try {
+    const { verificationCode } = req.params;
+    console.log(Number(verificationCode));
+    const existingUserWithCode = await User.findOneAndUpdate(
+      { verificationCode: Number(verificationCode) },
+      { $set: { isVerified: true }, $unset: { verificationCode: "" } },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!existingUserWithCode) {
+      return res
+        .status(404)
+        .json({ msg: `Verifikacijiski kod nije važeći: ${verificationCode}.` });
+    }
+    res.status(200).json({ msg: "Uspješna verifikacija!" });
+  } catch (error) {
+    res.status(500).json({ error: "Došlo je do greške pri verifikaciji. " });
   }
 };
 
@@ -37,6 +72,8 @@ const findUser = async (req, res) => {
 
     if (type === "email") {
       query = { email: value };
+    } else if (type === "fbEmail") {
+      query = { fbEmail: value };
     } else if (type === "id") {
       query = { _id: value };
     } else {
@@ -82,7 +119,9 @@ const updateUser = async (req, res) => {
       runValidators: true,
     });
     if (!user) {
-      return res.status(404).json({ msg: `No task with id: ${userID}` });
+      return res
+        .status(404)
+        .json({ msg: `Nema korisnika s ovim id-om: ${userID}` });
     }
     res.status(200).json({});
   } catch (error) {
@@ -95,4 +134,5 @@ module.exports = {
   createUser,
   findUser,
   updateUser,
+  verifyUser,
 };

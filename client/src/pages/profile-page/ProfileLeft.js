@@ -43,7 +43,7 @@ export const ProfileLeft = (props) => {
         </p>
         <p>
           Mob/Tel :{" "}
-          <span>{profileData.phone ? `+387 ${profileData.phone}` : ""}</span>
+          <span>{profileData.phone ? `${profileData.phone}` : ""}</span>
         </p>
         {profileData.role !== "standard" ? (
           <p>

@@ -80,6 +80,8 @@
       width: 100%;
       margin: 0 auto;
       border-radius: 15px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
 
       @media (max-width: 1000px) {
         width: 90%;
@@ -88,7 +90,9 @@
         width: 110%;
       }
     }
-
+    .visible {
+      opacity: 1;
+    }
     .slider-link-this-week {
       position: absolute;
       right: 0;
@@ -98,6 +102,11 @@
       margin: 0 auto;
       z-index: 20;
       width: fit-content;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    &:hover .slider-link-this-week {
+      opacity: 1;
     }
 
     @media (max-width: 768px) {

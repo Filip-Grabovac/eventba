@@ -6,7 +6,7 @@ import { setUserID } from "./store/userSlice";
 
 function App() {
   const dispatch = useDispatch();
-  const userId = sessionStorage.getItem("userId");
+  const userId = localStorage.getItem("userId");
   if (userId) {
     dispatch(setUserID(userId));
   }

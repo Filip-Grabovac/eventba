@@ -205,3 +205,21 @@
     }
   }
 }
+
+//Verification page edit
+.verification {
+  margin: 10% auto;
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+
+  @media only screen and (max-width: 670px) {
+    flex-direction: column;
+  }
+  .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

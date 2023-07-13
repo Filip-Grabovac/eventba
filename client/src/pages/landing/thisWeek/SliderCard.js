@@ -30,18 +30,18 @@ export const SliderCard = (props) => {
       onMouseLeave={handleMouseLeave}
       className="slider-card"
     >
+      <div
+        className={`this-week-overlay ${isMouseOver ? "visible" : ""}`}
+      ></div>
       {isMouseOver && (
-        <>
-          <div className="this-week-overlay"></div>
-          <Link
-            className="slider-link-this-week"
-            onClick={() => {
-              window.location.href = `/single?id=${props.data._id}`;
-            }}
-          >
-            Pogledaj
-          </Link>
-        </>
+        <Link
+          className="slider-link-this-week"
+          onClick={() => {
+            window.location.href = `/single?id=${props.data._id}`;
+          }}
+        >
+          Pogledaj
+        </Link>
       )}
       <img
         src={require(`../../../../../server/event-images/${src}`)}

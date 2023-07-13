@@ -7,6 +7,7 @@ import { ProtectedRoute } from "./ProtectedRoutes";
 import { BuyPage } from "../pages/buy/BuyPage";
 import { ThankYou } from "../pages/paymentResult-page/ThankYou";
 import { Failed } from "../pages/paymentResult-page/Failed";
+import { Verification } from "../auth/Verification";
 
 export const AllRoutes = () => {
   return (
@@ -14,14 +15,7 @@ export const AllRoutes = () => {
       <Routes>
         <Route path="" element={<Landing />} />
 
-        <Route
-          path="/single"
-          element={
-            <ProtectedRoute>
-              <SinglePage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/single" element={<SinglePage />} />
 
         <Route
           path="/profile"
@@ -52,6 +46,14 @@ export const AllRoutes = () => {
           element={
             <ProtectedRoute>
               <Failed />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/verify/:verificationCode"
+          element={
+            <ProtectedRoute>
+              <Verification />
             </ProtectedRoute>
           }
         />

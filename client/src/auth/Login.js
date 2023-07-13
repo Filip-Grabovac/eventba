@@ -67,7 +67,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
         Decrypt(userPassword, secretKey) === e.target.elements.password.value
       ) {
         dispatch(setUserID(id));
-        sessionStorage.setItem("userId", id);
+        localStorage.setItem("userId", id);
         toast.success("Uspješna prijava!", toastSetup);
         setIsLoginOpen(false);
       } else {
@@ -92,47 +92,39 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
   const responseFacebook = async (fbResponse) => {
     if (fbResponse.accessToken) {
       const fbUserEmail = fbResponse.email;
-
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/v1/users/email/${fbUserEmail}`,
+          `${process.env.REACT_APP_API_URL}/api/v1/users/fbEmail/${fbUserEmail}`,
           {
             headers: {
               "Content-Type": "application/json",
             },
           }
         );
-        const { id, password: userPassword } = response.data;
-
+        const { id } = response.data;
         dispatch(setUserID(id));
-        sessionStorage.setItem("userId", id);
+        localStorage.setItem("userId", id);
       } catch (error) {
         const user = {
           name: fbResponse.name.split(" ")[0],
           lname:
             fbResponse.name.split(" ")[fbResponse.name.split(" ").length - 1],
           email: fbResponse.email,
+          fbEmail: fbResponse.email,
           profileImg: fbResponse.picture.data.url,
           role: "standard",
         };
 
         await axios
-          .post(
-            process.env.REACT_APP_API_URL + "/api/v1/users",
-            {
-              ...user,
-              isVerified: false,
+          .post(process.env.REACT_APP_API_URL + "/api/v1/users", user, {
+            headers: {
+              "Content-Type": "application/json",
             },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
+          })
 
           .then((response) => {
             dispatch(setUserID(response.data.user._id));
-            sessionStorage.setItem("userId", response.data.user._id);
+            localStorage.setItem("userId", response.data.user._id);
             setIsLoginOpen(false);
           })
 

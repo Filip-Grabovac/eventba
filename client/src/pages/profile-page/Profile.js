@@ -3,15 +3,14 @@ import { ProfileLeft } from "./ProfileLeft";
 import { ProfileForm } from "./ProfileForm";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 
 export const Profile = () => {
   const [profileData, setProfileData] = useState(null);
   const userId = useSelector((state) => state.userState.user);
   const [navItems, setNavItems] = useState([]);
   const [activeNavItem, setActiveNavItem] = useState("Ažuriraj podatke");
+
   const [entranceData, setEntranceData] = useState();
-  const dispatch = useDispatch();
 
   const fetchProfileData = async () => {
     try {

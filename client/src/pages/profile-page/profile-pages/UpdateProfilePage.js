@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { Encrypt } from "../../../auth/Encrypt";
 import axios from "axios";
 import { toast } from "react-toastify";
+import PhoneInput from "react-phone-number-input";
+import countryMap from "../../../components/helper/countryMap";
 
 export const UpdateProfilePage = (props) => {
   const profileData = props.profileData;
@@ -20,6 +22,10 @@ export const UpdateProfilePage = (props) => {
   const id = useSelector((state) => state.userState.user);
   const secretKey = process.env.REACT_APP_SECRET_KEY;
 
+  const handleCountry = (country) => {
+    const fullName = countryMap[country];
+    setCountry(fullName);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = {
@@ -97,7 +103,8 @@ export const UpdateProfilePage = (props) => {
     progress: undefined,
     theme: "dark",
   };
-
+  const element = document.querySelector("PhoneInputCountrySelect");
+  // console.log(element.value || "");
   return (
     <form className="form container" onSubmit={handleSubmit}>
       <div className="row">
@@ -147,18 +154,6 @@ export const UpdateProfilePage = (props) => {
         </div>
         <div className=" col">
           <input
-            placeholder="Država"
-            type="text"
-            id="country"
-            value={country || ""}
-            onChange={(e) => setCountry(e.target.value)}
-            required
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className=" col">
-          <input
             placeholder="Zip"
             type="text"
             id="zip"
@@ -167,14 +162,17 @@ export const UpdateProfilePage = (props) => {
             required
           />
         </div>
-        <div className=" col">
-          <input
+      </div>
+      <div className="row">
+        <div className=" phone-col col">
+          <PhoneInput
             placeholder="Mobitel"
-            type="text"
-            id="phone"
             value={phone || ""}
-            onChange={(e) => setPhone(e.target.value)}
-            required
+            onChange={setPhone}
+            onCountryChange={handleCountry}
+            defaultCountry="BA"
+            international={true}
+            countryCallingCodeEditable={false}
           />
         </div>
       </div>
