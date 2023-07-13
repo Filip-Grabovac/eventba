@@ -174,19 +174,19 @@ export const Register = ({
                 isRequired={false}
               />
               <RegisterInput
-                placeholder="Država"
+                placeholder="Poštanski broj"
                 type="text"
                 icon=""
-                name="country"
+                name="zipcode"
                 isRequired={false}
               />
             </div>
             <div className="multiple-inputs-wrapper">
               <RegisterInput
-                placeholder="Poštanski broj"
+                placeholder="Država"
                 type="text"
                 icon=""
-                name="zipcode"
+                name="country"
                 isRequired={false}
               />
               <RegisterInput
