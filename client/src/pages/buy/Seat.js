@@ -37,7 +37,7 @@ export const Seat = (props) => {
         anchorId={`${props.seatId}-${ticketID}`}
         place="top"
         variant="info"
-        content={props.free ? `Slobodno Cijena: ${seatPrice} €` : "Zauzeto"}
+        content={props.free ? `Slobodno Cijena: ${seatPrice} BAM` : "Zauzeto"}
       />
     </div>
   );

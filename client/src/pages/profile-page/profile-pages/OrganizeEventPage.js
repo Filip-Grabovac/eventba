@@ -18,10 +18,7 @@ export const OrganizeEventPage = () => {
   const [zones, setZones] = useState([]);
   const [ticketInputs, setTicketInputs] = useState([]);
   const [typeOfPlace, setTypeOfPlace] = useState("");
-  const [normalTicketAmount, setNormalTicketAmount] = useState("");
-  const [normalTicketPrice, setNormalTicketPrice] = useState("");
-  const [vipTicketAmount, setVipTicketAmount] = useState("");
-  const [vipTicketPrice, setVipTicketPrice] = useState("");
+
   const userId = useSelector((state) => state.userState.user);
 
   const toastSetup = {
@@ -49,7 +46,6 @@ export const OrganizeEventPage = () => {
 
   const handlePlaceChange = (e) => {
     const selectedHall = e.target.value;
-    console.log(selectedHall);
     setSelectedPlace(selectedHall);
 
     axios
@@ -77,7 +73,6 @@ export const OrganizeEventPage = () => {
     // Update the specified field of the ticket input
     updatedInputs[index][field] = value;
     setTicketInputs(updatedInputs);
-    console.log(ticketInputs);
   };
 
   const renderConcertHallOptions = () => {
@@ -91,10 +86,23 @@ export const OrganizeEventPage = () => {
       </option>
     ));
   };
-
   const renderTicketInputs = () => {
+    if (typeOfPlace !== "hall") {
+      return null;
+    }
+
     return zones.map((zone, index) => (
       <div className="organize-middle-part" style={{ gap: "20px" }} key={index}>
+        <input
+          name={`ticketName-${index}`}
+          type="text"
+          className="location-input event-input"
+          placeholder={`Naziv ulaznice ${zone.name}`}
+          value={ticketInputs[index]?.name || ""}
+          onChange={(e) =>
+            handleTicketInputChange(index, "name", e.target.value)
+          }
+        />
         <input
           name={`ticketAmount-${index}`}
           type="number"
@@ -121,7 +129,6 @@ export const OrganizeEventPage = () => {
       </div>
     ));
   };
-
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value);
   };
@@ -210,8 +217,6 @@ export const OrganizeEventPage = () => {
       default:
         mappedEventType = [eventType];
     }
-
-    // Create event
     const event = {
       performer_name: form.get("performerName"),
       poster: {
@@ -219,30 +224,34 @@ export const OrganizeEventPage = () => {
         portrait: "45.png",
       },
       tickets: {
-        total_amount: 2000,
-        type: {
-          vip: {
-            amount: vipTicketAmount,
-            price: vipTicketPrice,
-          },
-          normal: {
-            amount: normalTicketAmount,
-            price: normalTicketPrice,
-          },
-        },
+        total_amount: 0,
+        type: {},
       },
       time_of_event: form.get("timeOfEvent"),
       place: {
         country: form.get("country"),
         city: form.get("city"),
         place: form.get("place"),
-        type: typeOfPlace, // Use the selected place type
+        type: typeOfPlace,
       },
       type: mappedEventType,
       is_promoted_event: false,
       description: form.get("eventDescription"),
       organizer: userId,
     };
+
+    ticketInputs.forEach((ticket, index) => {
+      const categoryKey = `category${index + 1}`;
+      event.tickets.type[categoryKey] = {
+        amount: ticket.amount,
+        price: ticket.price,
+        name: ticket.name,
+      };
+
+      event.tickets.total_amount += parseInt(ticket.amount);
+    });
+
+    console.log(event);
     // Check if everything is valid(all fields + images)
     if (
       !selectedImages[0].includes("uplad_img_placeholder") &&

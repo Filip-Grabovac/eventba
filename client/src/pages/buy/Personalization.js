@@ -10,6 +10,7 @@ export const Personalization = ({
   toolTipOpen,
   setShowPaymentForm,
   profileData,
+  concertData,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [name, setName] = useState(profileData?.name);
@@ -150,11 +151,30 @@ export const Personalization = ({
         ""
       )}
 
-      <h4 className="choose-place">Odaberi mjesto:</h4>
-      <PlanWrapper ticketID={ticketID} />
+      <h4 className="choose-place">Odaberi ulaznicu:</h4>
+      {concertData?.place?.type === "hall" ? (
+        <div className="ticket-card">
+          {concertData.tickets &&
+            concertData.tickets.type &&
+            Object.keys(concertData.tickets.type).map((category) => (
+              <div className="ticket-card-inner" key={category}>
+                <p>{category}</p>
+                {concertData.tickets.type[category] && (
+                  <div>
+                    <p>Price: {concertData.tickets.type[category].price}</p>
+                    <p>Amount: {concertData.tickets.type[category].amount}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+        </div>
+      ) : (
+        <PlanWrapper ticketID={ticketID} />
+      )}
+
       <h4 className="choose-place">{`Cijena ulaznice: ${
         curentTicket ? curentTicket.price : 0
-      } €`}</h4>
+      } BAM`}</h4>
     </div>
   );
 };

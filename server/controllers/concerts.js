@@ -1,5 +1,4 @@
 const Concert = require("../models/Concert");
-const Ticket = require("../models/Ticket");
 
 const getAllConcerts = async (req, res) => {
   try {
@@ -58,75 +57,7 @@ const createEvent = async (req, res) => {
   try {
     // Create new event
     const event = await Concert.create(req.body);
-
-    console.log(event);
-    let tickets = [];
-
-    if (event.place.type === "stadium") {
-      // Generate tickets for each seat in the stadium
-      const seats = ["A1", "A2", "B1", "B2"]; // Replace with actual seat data
-
-      seats.forEach((seat) => {
-        const ticket = new Ticket({
-          concert: event._id,
-          seatNumber: seat,
-          // additional ticket details
-        });
-
-        tickets.push(ticket);
-      });
-    } else if (event.place.type === "theater") {
-      // Generate tickets for the theater (e.g., one ticket for the entire event)
-      const ticket = new Ticket({
-        concert: event._id,
-        // additional ticket details
-      });
-
-      tickets.push(ticket);
-    } else if (event.place.type === "hall") {
-      // Generate tickets for the hall (e.g., normal and vip ticket types)
-
-      // Create normal ticket(s) with price and amount
-      for (let i = 0; i < event.tickets.type.normal.amount; i++) {
-        const normalTicket = new Ticket({
-          concert: event._id,
-          type: {
-            normal: {
-              price: event.tickets.type.normal.price,
-              amount: 1, // Set the amount for each normal ticket to 1
-            },
-          },
-          // additional ticket details for normal ticket
-        });
-        tickets.push(normalTicket);
-      }
-
-      // Create vip ticket(s) with price and amount
-      for (let i = 0; i < event.tickets.type.vip.amount; i++) {
-        const vipTicket = new Ticket({
-          concert: event._id,
-          type: {
-            vip: {
-              price: event.tickets.type.vip.price,
-              amount: 1, // Set the amount for each vip ticket to 1
-            },
-          },
-          // additional ticket details for vip ticket
-        });
-        tickets.push(vipTicket);
-      }
-    }
-
-    // Save the ticket documents
-    const createdTickets = await Ticket.insertMany(tickets);
-
-    // Update the event with the ticket references
-    event.tickets = createdTickets.map((ticket) => ticket._id);
-    await event.save();
-
-    res
-      .status(201)
-      .json({ message: "Successfully added the event", eventData: event });
+    res.status(201).json({ message: "Uspješno dodan event", eventData: event });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "An error occurred while adding the event" });

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const connectDB = require("../db/connect");
-const tickets = connectDB(process.env.DATABASE_URL_TICKET);
 
 const TicketSchema = new mongoose.Schema({
   concert: { type: mongoose.Schema.Types.ObjectId, ref: "Concert" },
@@ -20,4 +19,8 @@ const TicketSchema = new mongoose.Schema({
   // additional ticket fields
 });
 
-module.exports = tickets.model("Ticket", TicketSchema, "tickets");
+module.exports = connectDB(process.env.DATABASE_URL_TICKET).model(
+  "Ticket",
+  TicketSchema,
+  "tickets"
+);

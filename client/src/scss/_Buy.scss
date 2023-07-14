@@ -112,6 +112,21 @@
         h4 {
           margin-top: 3%;
         }
+
+        .ticket-card {
+          display: flex;
+          text-align: center;
+          justify-content: space-around;
+          align-items: center;
+          margin: 4%;
+        }
+        .ticket-card-inner {
+          width: 40%;
+          background-color: #455cd9;
+          color: #fff;
+          padding: 15px;
+          border-radius: 10px;
+        }
         .person-check-flex {
           display: flex;
           margin: 0 0 5% 3%;

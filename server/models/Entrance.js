@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const connectDB = require("../db/connect");
 
 const EntranceShema = new mongoose.Schema({
   id: { type: Number },
@@ -9,7 +10,7 @@ const EntranceShema = new mongoose.Schema({
   organizer_id: { type: String },
 });
 
-module.exports = mongoose.model(
+module.exports = connectDB(process.env.DATABASE_URL).model(
   "Entrance",
   EntranceShema,
   "entrance_controllers"

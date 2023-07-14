@@ -250,6 +250,7 @@ export const BuyPage = () => {
                 <Personalization
                   key={i}
                   i={i}
+                  concertData={concertData}
                   profileData={profileData}
                   setShowPaymentForm={setShowPaymentForm}
                   toolTipOpen={ticketsIdWithoutEmail.includes(i + 1)}
@@ -275,10 +276,9 @@ export const BuyPage = () => {
           </div>
           <div className="saldo">
             <p>Ukupna cijena</p>
-            <span>{totalAmount} €</span>
+            <span>{totalAmount} BAM</span>
           </div>
           <div className="payment-method">
-            {/* <p></p> */}
             <button className="pay-method" onClick={handleButtonClick}>
               Plati
             </button>
