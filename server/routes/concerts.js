@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
-
+const uploadImage = require("../controllers/uploadFile");
 const {
   findConcert,
   getAllConcerts,
   createEvent,
-  uploadImage,
 } = require("../controllers/concerts");
 
 router.route("/this_week").get(findConcert);

@@ -128,6 +128,7 @@ export const BuyPage = () => {
     fetchProfileData();
   }, []);
 
+  // BUY BUTTON
   // Chek if mails are there, to enable pay button
   const handleButtonClick = () => {
     const ticketsWithoutEmails = allTickets.filter(
@@ -204,7 +205,7 @@ export const BuyPage = () => {
         <img
           src={
             concertData?.poster?.landscape
-              ? require(`../../../../server/event-images/${concertData.poster.landscape}`)
+              ? require(`../../../../server/ticket-gen/public/event-images/${concertData.poster.landscape}`)
               : ""
           }
           alt="concertData.poster.landscape"
@@ -261,7 +262,7 @@ export const BuyPage = () => {
           <img
             src={
               concertData?.poster?.landscape
-                ? require(`../../../../server/event-images/${concertData.poster.landscape}`)
+                ? require(`../../../../server/ticket-gen/public/event-images/${concertData.poster.landscape}`)
                 : ""
             }
             alt="concertData.poster.landscape"

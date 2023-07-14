@@ -173,7 +173,7 @@ export const UpdateProfilePage = (props) => {
             value={phone || ""}
             onChange={setPhone}
             onCountryChange={setCountry}
-            defaultCountry={country}
+            defaultCountry={country || "BA"}
             international={true}
             countryCallingCodeEditable={false}
             label={country}

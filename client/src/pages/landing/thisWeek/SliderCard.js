@@ -44,7 +44,7 @@ export const SliderCard = (props) => {
         </Link>
       )}
       <img
-        src={require(`../../../../../server/event-images/${src}`)}
+        src={require(`../../../../../server/ticket-gen/public/event-images/${src}`)}
         alt={description}
       />
       <p className="type">KONCERT</p>

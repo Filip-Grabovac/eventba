@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UploadImage from "../../../assets/images/uplad_img_placeholder.png";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import placeTypes from "../../../components/helper/placeType";
 
 export const OrganizeEventPage = () => {
   const [selectedValue, setSelectedValue] = useState("");
@@ -12,7 +14,16 @@ export const OrganizeEventPage = () => {
   ]);
   const [selectedImagesForUpload, setImages] = useState([]);
   const [sponsors, setSponsors] = useState([]);
+  const [concertHalls, setConcertHalls] = useState([]);
   const [selectedPlace, setSelectedPlace] = useState("");
+  const [zones, setZones] = useState([]);
+  const [ticketInputs, setTicketInputs] = useState([]);
+  const [typeOfPlace, setTypeOfPlace] = useState("");
+  const [normalTicketAmount, setNormalTicketAmount] = useState("");
+  const [normalTicketPrice, setNormalTicketPrice] = useState("");
+  const [vipTicketAmount, setVipTicketAmount] = useState("");
+  const [vipTicketPrice, setVipTicketPrice] = useState("");
+  const userId = useSelector((state) => state.userState.user);
 
   const toastSetup = {
     position: "top-center",
@@ -25,11 +36,86 @@ export const OrganizeEventPage = () => {
     theme: "dark",
   };
 
+  // Fetch halls
+  useEffect(() => {
+    axios
+      .get(process.env.REACT_APP_API_URL + "/api/v1/places") // Replace with your API endpoint for fetching concert halls
+      .then((response) => {
+        setConcertHalls(response.data.places);
+      })
+      .catch((error) => {
+        console.error("Error fetching concert halls:", error);
+      });
+  }, []);
+
+  const handlePlaceChange = (e) => {
+    const selectedHall = e.target.value;
+    console.log(selectedHall);
+    setSelectedPlace(selectedHall);
+
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/v1/places/zones`, {
+        params: { selectedHall: selectedHall }, // Pass the selected hall via query parameter
+      })
+      .then((response) => {
+        setZones(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching zones:", error);
+      });
+  };
+  const handleTicketInputChange = (index, field, value) => {
+    const updatedInputs = [...ticketInputs];
+    updatedInputs[index][field] = value;
+    setTicketInputs(updatedInputs);
+  };
+
+  const renderConcertHallOptions = () => {
+    if (!Array.isArray(concertHalls)) {
+      return null; // or return an appropriate fallback if concertHalls is not an array
+    }
+
+    return concertHalls.map((hall) => (
+      <option key={hall._id} value={hall.name}>
+        {hall.name}
+      </option>
+    ));
+  };
+
+  const renderTicketInputs = () => {
+    return zones.map((zone, index) => (
+      <div className="organize-middle-part" style={{ gap: "20px" }} key={index}>
+        <input
+          name={`ticketAmount-${index}`}
+          type="number"
+          min="0"
+          className="location-input event-input"
+          placeholder={`Amount of ${zone.name} Tickets`}
+          value={ticketInputs[index]?.amount || ""}
+          onChange={(e) =>
+            handleTicketInputChange(index, "amount", e.target.value)
+          }
+        />
+        <input
+          name={`ticketPrice-${index}`}
+          type="number"
+          min="0"
+          step="0.01"
+          className="location-input event-input"
+          placeholder={`Price of ${zone.name} Tickets`}
+          value={ticketInputs[index]?.price || ""}
+          onChange={(e) =>
+            handleTicketInputChange(index, "price", e.target.value)
+          }
+        />
+      </div>
+    ));
+  };
+
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value);
   };
 
-  // Image upload logic
   const handleImageClick = (index, aspectRatio) => () => {
     const input = document.createElement("input");
     input.classList.add("portrait-img");
@@ -51,7 +137,7 @@ export const OrganizeEventPage = () => {
           const imageAspectRatio = width / height;
 
           // Set 0.05 for both 4:5 and 16:9
-          if (Math.abs(imageAspectRatio - aspectRatio) < 0.05) {
+          if (Math.abs(imageAspectRatio - aspectRatio) < 0.2) {
             // Remove outline if user set image
             if (index === 0)
               document.querySelector(".portrait-wrapper").style =
@@ -63,13 +149,17 @@ export const OrganizeEventPage = () => {
             const updatedImages = [...selectedImages];
             updatedImages[index] = newImage;
             setSelectedImages(updatedImages);
+            setImages((prevImages) => [...prevImages, input.files[0]]);
           } else {
             toast.warn(
               `Molimo dodajte sliku s ${
-                aspectRatio === 4 / 5 ? "4:5" : "16:9"
+                aspectRatio === 2 / 3 ? "2:3" : "16:9"
               } formatom.`,
               toastSetup
             );
+
+            // Remove the selected image from the file input
+            input.value = null;
           }
         };
 
@@ -77,8 +167,8 @@ export const OrganizeEventPage = () => {
       };
 
       reader.readAsDataURL(file);
-      setImages((prevImages) => [...prevImages, input.files[0]]);
     };
+
     input.click();
   };
 
@@ -86,6 +176,30 @@ export const OrganizeEventPage = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     const form = new FormData(e.target);
+
+    // Map event type
+    const eventType = form.get("eventType");
+    let mappedEventType;
+
+    switch (eventType) {
+      case "Koncert":
+        mappedEventType = ["concert"];
+        break;
+      case "Pozorište":
+        mappedEventType = ["theater"];
+        break;
+      case "Ostalo":
+        mappedEventType = ["other"];
+        break;
+      case "Šou":
+        mappedEventType = ["show"];
+        break;
+      case "Festival":
+        mappedEventType = ["festival"];
+        break;
+      default:
+        mappedEventType = [eventType];
+    }
 
     // Create event
     const event = {
@@ -97,10 +211,13 @@ export const OrganizeEventPage = () => {
       tickets: {
         total_amount: 2000,
         type: {
-          parter: {
-            amount: 123,
-            sold_amount: 123,
-            price: "5€",
+          vip: {
+            amount: vipTicketAmount,
+            price: vipTicketPrice,
+          },
+          normal: {
+            amount: normalTicketAmount,
+            price: normalTicketPrice,
           },
         },
       },
@@ -109,12 +226,14 @@ export const OrganizeEventPage = () => {
         country: form.get("country"),
         city: form.get("city"),
         place: form.get("place"),
+        type: typeOfPlace, // Use the selected place type
       },
-      type: form.get("eventType"),
+      type: mappedEventType,
       is_promoted_event: false,
       description: form.get("eventDescription"),
+      organizer: userId,
     };
-
+    console.log(event);
     // Check if everything is valid(all fields + images)
     if (
       !selectedImages[0].includes("uplad_img_placeholder") &&
@@ -127,13 +246,34 @@ export const OrganizeEventPage = () => {
       event.time_of_event &&
       event.description
     ) {
-      // Add event
+      // Generate unique names for the uploaded files
+      const uniqueNames = selectedImagesForUpload.map((_, index) => {
+        const timestamp = Date.now();
+        const randomNum = Math.floor(Math.random() * 10000);
+        const extension = ".jpg";
+        const suffix = index === 0 ? "_portrait" : "_landscape";
+        return `${timestamp}_${randomNum}${suffix}${extension}`;
+      });
+
+      // Create an array to store the updated selected images with unique names
+      const updatedSelectedImages = selectedImages.map((image, index) => {
+        return image.includes("uplad_img_placeholder")
+          ? image
+          : uniqueNames[index];
+      });
+
+      // Add event with updated selected images
       try {
+        const updatedEvent = {
+          ...event,
+          poster: {
+            landscape: updatedSelectedImages[1],
+            portrait: updatedSelectedImages[0],
+          },
+        };
         const response = await axios.post(
           process.env.REACT_APP_API_URL + "/api/v1/concerts/create_event",
-          {
-            ...event,
-          },
+          updatedEvent,
           {
             headers: {
               "Content-Type": "application/json",
@@ -149,15 +289,21 @@ export const OrganizeEventPage = () => {
         }
 
         for (let i = 0; i < selectedImagesForUpload.length; i++) {
-          formData.append("secondFiles", selectedImagesForUpload[i]);
+          formData.append(
+            "secondFiles",
+            selectedImagesForUpload[i],
+            uniqueNames[i]
+          );
         }
 
         // Send formData to the backend
-        await fetch(
+        await axios.post(
           process.env.REACT_APP_API_URL + "/api/v1/concerts/upload_img",
+          formData,
           {
-            method: "POST",
-            body: formData,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           }
         );
 
@@ -221,7 +367,7 @@ export const OrganizeEventPage = () => {
       <div className="organize-top-part">
         <div>
           <h3>
-            Portretna slika <span>(4:5)</span>
+            Portretna slika <span>(2:3)</span>
           </h3>
         </div>
         <div>
@@ -234,7 +380,7 @@ export const OrganizeEventPage = () => {
             <img
               src={selectedImages[0]}
               alt="Upload"
-              onClick={handleImageClick(0, 4 / 5)}
+              onClick={handleImageClick(0, 2 / 3)}
             />
           </div>
           <div className="landscape-wrapper">
@@ -339,9 +485,7 @@ export const OrganizeEventPage = () => {
             type="text"
             className="location-input event-input"
             value={selectedPlace}
-            onChange={(e) => {
-              setSelectedPlace(e.target.value);
-            }}
+            onChange={handlePlaceChange}
             onChangeCapture={(e) => {
               e.target.style = "outline: none;";
             }}
@@ -349,10 +493,13 @@ export const OrganizeEventPage = () => {
             <option value="" disabled hidden>
               Mjesto
             </option>
-            <option value="Dvorana Travnik">Dvorana Travnik</option>
+            {renderConcertHallOptions()}
           </select>
         </div>
       </div>
+      {/* Render input fields for ticket amount and price when "Dvorana Novi Travnik" is selected */}
+      {selectedPlace && <>{renderTicketInputs()}</>}
+
       <div className="organize-bottom-part">
         <p className="textarea-limit">{textareaLimit}-300</p>
         <textarea

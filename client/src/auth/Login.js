@@ -104,6 +104,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
         const { id } = response.data;
         dispatch(setUserID(id));
         localStorage.setItem("userId", id);
+        toast.success("Uspješna prijava!", toastSetup);
       } catch (error) {
         const user = {
           name: fbResponse.name.split(" ")[0],
@@ -126,6 +127,10 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
             dispatch(setUserID(response.data.user._id));
             localStorage.setItem("userId", response.data.user._id);
             setIsLoginOpen(false);
+            toast.success(
+              "Uspješna prijava Facebookom! Ažurirajte svoje podatke na profilnoj stranici!",
+              toastSetup
+            );
           })
 
           .catch((error) => {
@@ -138,7 +143,6 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
           });
       }
       setIsLoginOpen(false);
-      toast.success("Uspješna prijava!", toastSetup);
     }
   };
 

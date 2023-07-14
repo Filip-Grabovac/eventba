@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+
 import { useDispatch, useSelector } from "react-redux";
 import { addTicket } from "../../store/ticketSlice";
 import { PlanWrapper } from "./PlanWrapper";
@@ -12,19 +12,20 @@ export const Personalization = ({
   profileData,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
-  const [name, setName] = useState(profileData?.name || "");
-  const [surname, setSurname] = useState(profileData?.lname || "");
-  const [email, setEmail] = useState(profileData?.email || "");
+  const [name, setName] = useState(profileData?.name);
+  const [surname, setSurname] = useState(profileData?.lname);
+  const [email, setEmail] = useState(profileData?.email);
   const dispatch = useDispatch();
   const ticketID = i + 1;
-  const ticket = {
-    id: ticketID,
-    name: name,
-    lname: surname,
-    email: email,
-    price: 0,
-  };
+
   useEffect(() => {
+    const ticket = {
+      id: ticketID,
+      name: name,
+      lname: surname,
+      email: email,
+      price: 0,
+    };
     dispatch(addTicket(ticket));
   }, []);
 
@@ -90,7 +91,7 @@ export const Personalization = ({
                 anchorId={`name-${i}`}
                 place="top"
                 variant="info"
-                content={`Unesite ime i prezime vlasnika ulaznice ${i + 1}`}
+                content={`Unesite ime vlasnika ulaznice ${i + 1}`}
               />
               <div className="item2 col">
                 <input
@@ -119,9 +120,7 @@ export const Personalization = ({
                   anchorId={`email-${i}`}
                   place="bottom"
                   variant="info"
-                  content={`Potvrdite email na koji će ulaznica ${
-                    i + 1
-                  } biti poslana!`}
+                  content={`Email na koji će ulaznica ${i + 1} biti poslana!`}
                 />
               </div>
             </div>

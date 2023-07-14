@@ -6,6 +6,7 @@ const users = require("./routes/users");
 const concerts = require("./routes/concerts");
 const payment = require("./routes/payments");
 const entrance_controller = require("./routes/entrances");
+const places = require("./routes/places");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 
@@ -18,6 +19,7 @@ app.use("/api/v1/users", users);
 app.use("/api/v1/concerts", concerts);
 app.use("/api/v1/payment", payment);
 app.use("/api/v1/entrance_controllers", entrance_controller);
+app.use("/api/v1/places", places);
 
 const start = async () => {
   try {

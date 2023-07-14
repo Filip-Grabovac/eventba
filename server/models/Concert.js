@@ -10,6 +10,7 @@ const ConcertSchema = new mongoose.Schema({
   type: { type: Array },
   is_promoted_event: { type: Boolean },
   description: { type: String },
+  organizer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
 module.exports = mongoose.model("Concert", ConcertSchema, "concerts");
