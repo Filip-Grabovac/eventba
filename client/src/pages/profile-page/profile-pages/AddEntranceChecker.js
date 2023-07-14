@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import InfoIcon from "../../../assets/ikonice/info.svg";
+import LinkIcon from "../../../assets/ikonice/link_icon.svg";
 import { Tooltip } from "react-tooltip";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -94,7 +95,22 @@ export const EntranceChecker = (props) => {
           variant="info"
           content="Ovdje možete dodavati račune za kontolore ulaza. Takav račun će imati QR code skener"
         />
+        <Tooltip
+          style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
+          anchorId="scanner_link"
+          place="bottom"
+          variant="info"
+          content="Kliknite ovdje da odete na prijavu kontrolora ulaza"
+        />
         <img id="info-icon" src={InfoIcon} alt="Info" />
+        <a
+          target="_blank"
+          id="scanner_link"
+          className="link-icon"
+          href="/controller_login"
+        >
+          <img src={LinkIcon} alt="Link" />
+        </a>
       </div>
       <div className="row">
         <h6>Dodajte kontrolora ulaza</h6>

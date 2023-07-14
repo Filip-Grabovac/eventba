@@ -53,8 +53,34 @@ const deleteEntranceController = async (req, res) => {
   }
 };
 
+const getEntranceControllerByUsername = async (req, res) => {
+  try {
+    const username = req.body.name;
+    const password = req.body.password;
+
+    const entranceController = await EntranceController.find({
+      name: username,
+      password: password,
+    }).select("-password");
+    if (entranceController[0] !== undefined)
+      res
+        .status(200)
+        .json({
+          message: "Uspješno ste se prijavili",
+          id: entranceController[0]._id,
+        });
+    else
+      res
+        .status(401)
+        .json({ message: "Korisničko ime ili lozinka nisu točni" });
+  } catch (error) {
+    res.status(500).json({ message: "Korisničko ime ili lozinka nisu točni" });
+  }
+};
+
 module.exports = {
   getEntranceControllerById,
   addEntranceController,
   deleteEntranceController,
+  getEntranceControllerByUsername,
 };

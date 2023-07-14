@@ -5,8 +5,16 @@ import instagram from "../assets/logos/Instagram.svg";
 import twitter from "../assets/logos/twitter.svg";
 import facebook from "../assets/logos/facebook.svg";
 import gmail from "../assets/logos/gmail.svg";
+import { useLocation } from "react-router-dom";
 
 export const Footer = () => {
+  const location = useLocation();
+
+  if (
+    location.pathname === "/qr_scanner" ||
+    location.pathname === "/controller_login"
+  )
+    return;
   return (
     <div className="Footer">
       <div className="sponsor-scroll">

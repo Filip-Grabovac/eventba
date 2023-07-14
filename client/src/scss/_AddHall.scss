@@ -1,0 +1,53 @@
+.add-hall-container {
+  .row {
+    width: 100%;
+    margin: 0 auto;
+    justify-content: space-between;
+
+    .event-input {
+      width: 44%;
+    }
+    #info-icon {
+      width: 20px;
+      margin-left: auto;
+      padding: 0;
+    }
+
+    h6 {
+      color: #455cd9;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 0;
+      margin-top: 30px;
+    }
+  }
+
+  .hall-categories-container {
+    background-color: #fff;
+    padding: 5px;
+
+    .row {
+      width: 100%;
+      margin: 0 auto;
+      gap: 0;
+
+      .event-input {
+        background-color: rgba(69, 91, 217, 0.108);
+      }
+
+      .col-lg-6 {
+        display: flex;
+        flex-direction: column;
+        input {
+          width: 90%;
+        }
+      }
+
+      .add-hall-right-col {
+        .event-input {
+          margin-left: auto;
+        }
+      }
+    }
+  }
+}

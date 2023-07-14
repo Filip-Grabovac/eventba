@@ -8,6 +8,9 @@ import { BuyPage } from "../pages/buy/BuyPage";
 import { ThankYou } from "../pages/paymentResult-page/ThankYou";
 import { Failed } from "../pages/paymentResult-page/Failed";
 import { Verification } from "../auth/Verification";
+import { QRscanner } from "../pages/entranceController/QRscanner";
+import { ProtectedControllerRoute } from "./ProtectedControllerRoute";
+import { EntranceControllerLogin } from "../pages/entranceController/EntranceControllerLogin";
 
 export const AllRoutes = () => {
   return (
@@ -57,6 +60,15 @@ export const AllRoutes = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/qr_scanner"
+          element={
+            <ProtectedControllerRoute>
+              <QRscanner />
+            </ProtectedControllerRoute>
+          }
+        />
+        <Route path="/controller_login" element={<EntranceControllerLogin />} />
       </Routes>
     </div>
   );

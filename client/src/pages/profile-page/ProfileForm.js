@@ -3,6 +3,7 @@ import { UpdateProfilePage } from "./profile-pages/UpdateProfilePage.js";
 import { OrganizeEventPage } from "./profile-pages/OrganizeEventPage.js";
 import { AdminSettings } from "./profile-pages/AdminSettings.js";
 import { EntranceChecker } from "./profile-pages/AddEntranceChecker.js";
+import { AddHall } from "./profile-pages/AddHall.js";
 
 export function ProfileForm(props) {
   return (
@@ -18,6 +19,8 @@ export function ProfileForm(props) {
         <AdminSettings />
       ) : props.activeNavItem === "Postavke ulaza" ? (
         <EntranceChecker entranceData={props.entranceData} />
+      ) : props.activeNavItem === "Dodaj dvoranu" ? (
+        <AddHall />
       ) : (
         ""
       )}

@@ -243,7 +243,6 @@ export const OrganizeEventPage = () => {
       description: form.get("eventDescription"),
       organizer: userId,
     };
-    console.log(event);
     // Check if everything is valid(all fields + images)
     if (
       !selectedImages[0].includes("uplad_img_placeholder") &&
@@ -463,7 +462,7 @@ export const OrganizeEventPage = () => {
             name="timeOfEvent"
             className="profile-date-input event-input"
             placeholder="Vrijeme izvođenja"
-            type="date"
+            type="datetime-local"
             onInput={(e) => {
               e.target.style = "outline: none;";
             }}
