@@ -3,7 +3,6 @@ import UploadImage from "../../../assets/images/uplad_img_placeholder.png";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import placeTypes from "../../../components/helper/placeType";
 
 export const OrganizeEventPage = () => {
   const [selectedValue, setSelectedValue] = useState("");
@@ -58,16 +57,27 @@ export const OrganizeEventPage = () => {
         params: { selectedHall: selectedHall }, // Pass the selected hall via query parameter
       })
       .then((response) => {
-        setZones(response.data);
+        setZones(response.data.zones);
+        setTypeOfPlace(response.data.type);
       })
       .catch((error) => {
         console.error("Error fetching zones:", error);
       });
   };
+
   const handleTicketInputChange = (index, field, value) => {
     const updatedInputs = [...ticketInputs];
+
+    // Check if the ticket input at the specified index exists
+    if (!updatedInputs[index]) {
+      // If it doesn't exist, initialize it with an empty object
+      updatedInputs[index] = {};
+    }
+
+    // Update the specified field of the ticket input
     updatedInputs[index][field] = value;
     setTicketInputs(updatedInputs);
+    console.log(ticketInputs);
   };
 
   const renderConcertHallOptions = () => {
@@ -90,7 +100,7 @@ export const OrganizeEventPage = () => {
           type="number"
           min="0"
           className="location-input event-input"
-          placeholder={`Amount of ${zone.name} Tickets`}
+          placeholder={`Ukupan broj ulaznica ${zone.name}`}
           value={ticketInputs[index]?.amount || ""}
           onChange={(e) =>
             handleTicketInputChange(index, "amount", e.target.value)
@@ -102,7 +112,7 @@ export const OrganizeEventPage = () => {
           min="0"
           step="0.01"
           className="location-input event-input"
-          placeholder={`Price of ${zone.name} Tickets`}
+          placeholder={`Cijena ${zone.name} ulaznice`}
           value={ticketInputs[index]?.price || ""}
           onChange={(e) =>
             handleTicketInputChange(index, "price", e.target.value)
@@ -249,7 +259,7 @@ export const OrganizeEventPage = () => {
       // Generate unique names for the uploaded files
       const uniqueNames = selectedImagesForUpload.map((_, index) => {
         const timestamp = Date.now();
-        const randomNum = Math.floor(Math.random() * 10000);
+        const randomNum = Math.floor(Math.random() * 1000);
         const extension = ".jpg";
         const suffix = index === 0 ? "_portrait" : "_landscape";
         return `${timestamp}_${randomNum}${suffix}${extension}`;

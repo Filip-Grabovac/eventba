@@ -19,7 +19,7 @@ const getZones = async (req, res) => {
       return res.status(404).json({ msg: "Concert hall not found" });
     }
 
-    res.status(200).json(place.zones);
+    res.status(200).json(place);
   } catch (error) {
     res.status(500).json({ msg: error });
   }

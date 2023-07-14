@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const connectDB = require("../db/connect");
+const eventba = connectDB(process.env.DATABASE_URL);
 
 const UserSchema = new mongoose.Schema({
   id: { type: Number },
@@ -19,4 +21,4 @@ const UserSchema = new mongoose.Schema({
   profileImg: { type: String },
 });
 
-module.exports = mongoose.model("User", UserSchema, "users");
+module.exports = eventba.model("User", UserSchema, "users");

@@ -59,6 +59,7 @@ const createEvent = async (req, res) => {
     // Create new event
     const event = await Concert.create(req.body);
 
+    console.log(event);
     let tickets = [];
 
     if (event.place.type === "stadium") {

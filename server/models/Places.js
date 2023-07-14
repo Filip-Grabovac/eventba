@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const connectDB = require("../db/connect");
+const eventba = connectDB(process.env.DATABASE_URL);
 
 const PlaceSchema = new mongoose.Schema({
   name: { type: String },
@@ -6,4 +8,4 @@ const PlaceSchema = new mongoose.Schema({
   zones: { type: Array },
 });
 
-module.exports = mongoose.model("Place", PlaceSchema, "places");
+module.exports = eventba.model("Place", PlaceSchema, "places");

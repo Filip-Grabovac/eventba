@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const connectDB = require("../db/connect");
+const eventba = connectDB(process.env.DATABASE_URL);
 
 const ConcertSchema = new mongoose.Schema({
   id: { type: Number },
@@ -13,4 +15,4 @@ const ConcertSchema = new mongoose.Schema({
   organizer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
-module.exports = mongoose.model("Concert", ConcertSchema, "concerts");
+module.exports = eventba.model("Concert", ConcertSchema, "concerts");
