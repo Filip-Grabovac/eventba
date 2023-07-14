@@ -47,6 +47,11 @@ export const Navbar = () => {
   }, [location]);
 
   useEffect(() => {
+    if (
+      location.pathname === "/qr_scanner" ||
+      location.pathname === "/controller_login"
+    )
+      return;
     // Sticky navbar
     const el = document.querySelector(".nav-wrapper");
 
@@ -79,6 +84,12 @@ export const Navbar = () => {
       }
     }, 150);
   }, [isLoginOpen, isRegisterOpen]);
+
+  if (
+    location.pathname === "/qr_scanner" ||
+    location.pathname === "/controller_login"
+  )
+    return;
 
   return (
     <div className="nav-wrapper">

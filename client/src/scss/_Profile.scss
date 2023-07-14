@@ -303,6 +303,16 @@
           width: 45px;
           margin-left: auto;
         }
+        .link-icon {
+          width: 20px;
+          padding: 0;
+          display: block;
+          margin-right: 13px;
+
+          img {
+            width: 100%;
+          }
+        }
 
         .col-lg-6 {
           display: flex;

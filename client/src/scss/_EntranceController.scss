@@ -1,0 +1,44 @@
+.entrance-controller-login-section {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("assets/images/controller_login_bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#html5-qrcode-anchor-scan-type-change {
+  display: none;
+}
+img[alt="Info icon"] {
+  display: none;
+}
+#html5-qrcode-button-camera-permission,
+.controller-logout-btn {
+  background-color: #f4cd46;
+  border: none;
+  font-size: 0;
+  border-radius: 10px;
+  padding: 5px 15px;
+  margin-top: 30px;
+}
+#html5-qrcode-button-camera-permission::before {
+  content: "Dozvolite Pristup Kameri";
+  color: #343434;
+  font-size: 16px;
+  font-weight: 600;
+}
+.controller-logout-btn {
+  font-size: 14px;
+  margin: 0;
+  min-width: fit-content;
+
+  img {
+    width: 17px;
+    margin-left: 10px;
+  }
+
+  &:hover {
+    img {
+      transform: translateX(2px);
+    }
+  }
+}

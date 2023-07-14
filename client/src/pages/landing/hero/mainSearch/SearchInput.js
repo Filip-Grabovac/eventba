@@ -22,6 +22,10 @@ const SearchInput = ({ setEvents, setCategory }) => {
       setCategory(null);
       setLoader(true);
       fetchEvents();
+    } else {
+      if (!document.querySelector(".searchActive")) {
+        document.querySelector(".suggested-search-link").click();
+      }
     }
   }, [searchValue]);
 

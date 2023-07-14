@@ -38,7 +38,9 @@ const MainSearchNav = ({ setEvents, setLoader }) => {
       <ul className="search-nav-left">
         <li>
           <a
-            className={category === "suggested" ? "active" : ""}
+            className={`${
+              category === "suggested" ? "searchActive" : ""
+            } suggested-search-link`}
             onClick={() => handleClick("suggested")}
           >
             Preporuka
@@ -46,7 +48,7 @@ const MainSearchNav = ({ setEvents, setLoader }) => {
         </li>
         <li>
           <a
-            className={category === "concert" ? "active" : ""}
+            className={category === "concert" ? "searchActive" : ""}
             onClick={() => handleClick("concert")}
           >
             Koncerti
@@ -54,7 +56,7 @@ const MainSearchNav = ({ setEvents, setLoader }) => {
         </li>
         <li>
           <a
-            className={category === "festival" ? "active" : ""}
+            className={category === "festival" ? "searchActive" : ""}
             onClick={() => handleClick("festival")}
           >
             Festivali
@@ -62,7 +64,7 @@ const MainSearchNav = ({ setEvents, setLoader }) => {
         </li>
         <li>
           <a
-            className={category === "theaters" ? "active" : ""}
+            className={category === "theaters" ? "searchActive" : ""}
             onClick={() => handleClick("theaters")}
           >
             Pozorište
@@ -70,7 +72,7 @@ const MainSearchNav = ({ setEvents, setLoader }) => {
         </li>
         <li>
           <a
-            className={category === "show" ? "active" : ""}
+            className={category === "show" ? "searchActive" : ""}
             onClick={() => handleClick("show")}
           >
             Šou
@@ -78,7 +80,7 @@ const MainSearchNav = ({ setEvents, setLoader }) => {
         </li>
         <li>
           <a
-            className={category === "other" ? "active" : ""}
+            className={category === "other" ? "searchActive" : ""}
             onClick={() => handleClick("other")}
           >
             Ostalo
