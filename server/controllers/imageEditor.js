@@ -47,12 +47,13 @@ const processImages = async () => {
 
 const compressImage = (filePath) => {
   return new Promise((resolve, reject) => {
-    const command = `npx imagemin ${filePath} --out-dir ${outputDir} --plugin=jpegtran --plugin=pngquant --quality=80-90`;
+    const command = `npx imagemin ${filePath} --out-dir ${outputDir} --plugin=jpegtran --plugin=pngquant --quality=65-80`;
 
     exec(command, (error, stdout, stderr) => {
       if (error) {
         reject(error);
       } else {
+        console.log("SUCCES IMAGE SHAPENING");
         resolve();
       }
     });

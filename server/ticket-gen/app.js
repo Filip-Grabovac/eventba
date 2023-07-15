@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const mime = require("mime-types");
-const { generateBarcode, generateQRCode } = require("./controllers/qr&barGen");
+const { generateQRCode } = require("./controllers/qr&barGen");
 const { generatePdfAndSendEmail } = require("./controllers/generatePdf");
 
 // Serve static files with the correct MIME type
@@ -16,6 +16,11 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
     const price = ticket.price;
     const name = ticket.name || "";
     const lname = ticket.lname || "";
+    const type = ticket.category;
+    const ticketName = ticket.ticketName;
+    const sponsors = concertData.sponsors.map(
+      (sponsor) => `sponsors/${sponsor}`
+    );
     const place = `
       ${concertData.place.place}, ${concertData.place.city}, ${concertData.place.country};`;
     const posterRoutePortrait = `event-images/${concertData.poster.portrait}`;
@@ -32,7 +37,6 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
     });
 
     // Generate barcode and QR code for the current ticket
-    await generateBarcode("N" + serialNumber);
 
     await generateQRCode("N" + serialNumber);
     function generateRandomPort(min, max) {
@@ -71,10 +75,13 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
         price,
         name,
         lname,
+        type,
+        ticketName,
         formattedDate,
         concertData,
         posterRoutePortrait,
         posterRouteLandscape,
+        sponsors,
       });
     });
     console.log(`Working on ${serialNumber} ${concertData.performer_name}`);
@@ -90,7 +97,5 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
     server.close();
   }
 }
-
-// Call the function to generate barcode and QR code
 
 module.exports = { generateTicketAndSendEmail };

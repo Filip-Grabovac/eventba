@@ -23,7 +23,7 @@
   .left {
     display: flex;
     flex-direction: column;
-    .info {
+    .top-buy-page {
       border-width: 2px !important;
       border-style: solid;
       border-image-slice: 1;
@@ -36,6 +36,38 @@
         rgba(53, 66, 134, 0.5960784314) 0%,
         rgba(39, 148, 167, 0.5254901961) 100%
       );
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      @media only screen and (max-width: 360px) {
+        flex-direction: column;
+      }
+      .info {
+        @media only screen and (max-width: 600px) {
+          transform: scale(0.9);
+        }
+        @media only screen and (max-width: 360px) {
+          text-align: center;
+          h3,
+          p {
+            margin-bottom: 3px;
+          }
+        }
+      }
+      .info-buy-page-image {
+        display: none;
+        width: 200px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        @media only screen and (max-width: 600px) {
+          width: 150px;
+          display: block;
+        }
+        @media only screen and (max-width: 360px) {
+          width: 80%;
+        }
+      }
     }
     .amount {
       display: flex;
@@ -55,6 +87,7 @@
         margin-left: auto;
         gap: 10%;
         flex-direction: row;
+
         button {
           border: none;
           transform: scale(0.8);
@@ -76,6 +109,7 @@
       height: auto;
       flex-grow: 1;
       .slider-bar {
+        text-align: center;
         width: 80%;
         padding: 8px 20px;
         border-radius: 10px 10px 0 0;
@@ -96,10 +130,11 @@
             color: #fff;
           }
           height: 25px;
-          transform: translateX(-20px);
+          transform: translateX(-10px);
           .active-card {
             color: #455cd9;
             background-color: #fff;
+            font-weight: 700;
           }
         }
       }
@@ -109,8 +144,14 @@
         background-color: #dadada;
         border-radius: 10px;
         flex-grow: 1;
+        max-height: 450px;
+        overflow-y: auto;
+
         h4 {
           margin-top: 3%;
+          @media only screen and (max-width: 600px) {
+            font-size: 19px;
+          }
         }
 
         .ticket-card {
@@ -119,14 +160,59 @@
           justify-content: space-around;
           align-items: center;
           margin: 4%;
+          transition: all 0.2s ease;
+          flex-wrap: wrap;
+          gap: 15px;
+          .active {
+            transform: scale(1.1);
+            box-shadow: 1px 1px 20px 3px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(to top, #181785 0%, #2692da 100%);
+          }
         }
+
         .ticket-card-inner {
-          width: 40%;
-          background-color: #455cd9;
+          margin-bottom: 15px;
+          max-width: 280px;
+          background: linear-gradient(to top, #243bad 0%, #2692da 100%);
           color: #fff;
           padding: 15px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
           border-radius: 10px;
+          @media only screen and (max-width: 600px) {
+            padding: 5px;
+            transform: scale(0.95);
+            width: 100px;
+          }
+          &:hover,
+          .acitve {
+            transform: scale(1.1);
+            box-shadow: 1px 1px 20px 3px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(to top, #181785 0%, #2692da 100%);
+          }
+          .ticket-card-name {
+            border-radius: 10px;
+            background-color: #3541f1;
+            padding: 3px 8px;
+          }
+          .VIP,
+          .Vip {
+            background: radial-gradient(
+              circle at center,
+              #fdffc1,
+              #fff025,
+              #ddbe0e
+            );
+            color: #4e4e4e;
+            font-weight: bold;
+          }
+          .Standard {
+            background-color: #e6e6e6;
+            color: #343434;
+          }
         }
+
         .person-check-flex {
           display: flex;
           margin: 0 0 5% 3%;
@@ -200,7 +286,7 @@
           }
 
           button {
-            margin: 0 auto;
+            margin: 5px auto;
             right: 50%;
             max-width: 180px;
             text-align: center;
@@ -248,6 +334,10 @@
       margin: 0 auto;
       border-radius: 10px;
       overflow-y: auto;
+      @media only screen and (max-width: 600px) {
+        max-height: 150px;
+      }
+
       .ticket-bill {
         display: flex;
         flex-direction: row;

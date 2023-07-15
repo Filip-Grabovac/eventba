@@ -21,7 +21,7 @@ export const ImageCard = (props) => {
     <div className="slider-image-container">
       <img
         className="slider-img"
-        src={require(`../../../../../../server/ticket-gen/public/event-images/${src}`)}
+        src={`${process.env.REACT_APP_API_URL}/static/event-images/${src}`}
       />
       <div
         onMouseOver={(e) => {

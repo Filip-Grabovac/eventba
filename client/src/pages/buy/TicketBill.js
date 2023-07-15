@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 export const TicketBill = ({ i }) => {
   const ticketID = i + 1;
@@ -9,7 +9,9 @@ export const TicketBill = ({ i }) => {
   return (
     <div className="ticket-bill">
       <div className="ticket">Ulaznica {ticketID}:</div>
-      <span>{ticket ? ticket.price : 0} BAM</span>
+      <span>
+        {ticket ? ticket.price : 0} <small> BAM</small>
+      </span>
     </div>
   );
 };

@@ -15,7 +15,7 @@ const MainSearchCard = ({ event }) => {
   return (
     <div className="search-card-container">
       <img
-        src={require(`../../../../../../server/ticket-gen/public/event-images/${event.poster.landscape}`)}
+        src={`${process.env.REACT_APP_API_URL}/static/event-images/${event.poster.landscape}`}
         alt="Poster Image"
       />
       <div className="search-card-content-wrapper">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Encrypt } from "../../../auth/Encrypt";
 import axios from "axios";
@@ -26,7 +26,9 @@ export const UpdateProfilePage = (props) => {
     }
     return null; // Return null if the country name is not found in the map
   };
-  const [country, setCountry] = useState(reverseCountry(profileData.country));
+  const [country, setCountry] = useState(
+    reverseCountry(profileData.country) || "BA"
+  );
   const id = useSelector((state) => state.userState.user);
   const secretKey = process.env.REACT_APP_SECRET_KEY;
 

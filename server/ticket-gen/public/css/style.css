@@ -44,7 +44,7 @@ body {
     }
     .line {
       background-color: black;
-      width: 50%;
+      width: 95%;
       height: 1px;
       display: flex;
       justify-self: center;
@@ -55,10 +55,7 @@ body {
       display: flex;
       justify-content: space-between;
       .qr {
-        height: 80px;
-      }
-      .bar {
-        width: 150px;
+        height: 110px;
       }
     }
   }
@@ -182,10 +179,14 @@ p {
         .ticket-location,
         .serial-number,
         .price {
+          text-align: center;
           font-size: 15px;
           display: inline-block;
           font-weight: 600;
           margin-bottom: 8px;
+        }
+        .ticket-location {
+          text-transform: uppercase;
         }
         .preformer {
           margin: 0;
@@ -228,23 +229,24 @@ p {
           }
         }
         .sponsor {
-          height: 20px;
+          height: 25px;
         }
       }
     }
     .right {
+      transform: translateY(1px);
       width: 28.57%;
       height: 210.5px;
       border-left: 0.8px solid #7c8ce4;
-      height: 95%;
       display: flex;
-
+      flex-direction: column;
       .left-part {
         height: 284px;
-        width: 50%;
         display: flex;
         align-items: center;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
         justify-content: space-around;
       }
       .left-part span {
@@ -259,20 +261,13 @@ p {
         justify-content: center;
       }
       .right-part {
-        width: 50%;
-        margin: 15px 0 0;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
 
-        .bar {
-          height: 80px;
-          width: 160px;
-          transform: rotate(-90deg) translatex(-45px);
-        }
         .qr {
-          width: 100px;
+          width: 150px;
         }
       }
     }
@@ -286,6 +281,7 @@ p {
 .color-text {
   color: #3d627a;
   font-weight: 700;
+  text-transform: uppercase;
 }
 .section4 {
   display: flex;
@@ -294,18 +290,14 @@ p {
     display: flex;
     flex-direction: column;
 
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     align-content: center;
     width: 12%;
     border-top: 0.5px solid rgba(124, 140, 228, 0.604);
-    .bar {
-      height: 70px;
-      width: 150px;
-      transform: rotate(-90deg) translateX(-60px);
-    }
+
     .qr {
-      width: 100px;
+      width: 110px;
     }
   }
   .section4-2nd {

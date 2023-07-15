@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addTicket } from "../../store/ticketSlice";
 import { PlanWrapper } from "./PlanWrapper";
 import { Tooltip } from "react-tooltip";
-
+import { addTicketPrice } from "../../store/ticketSlice";
 export const Personalization = ({
   i,
   toolTipOpen,
@@ -13,9 +13,11 @@ export const Personalization = ({
   concertData,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
-  const [name, setName] = useState(profileData?.name);
-  const [surname, setSurname] = useState(profileData?.lname);
-  const [email, setEmail] = useState(profileData?.email);
+  const [name, setName] = useState(profileData?.name || "");
+  const [surname, setSurname] = useState(profileData?.lname || "");
+  const [email, setEmail] = useState(profileData?.email || "");
+  const [ticketPrice, setTicketPrice] = useState(0);
+  const [activeCategory, setActiveCategory] = useState(null);
   const dispatch = useDispatch();
   const ticketID = i + 1;
 
@@ -29,6 +31,23 @@ export const Personalization = ({
     };
     dispatch(addTicket(ticket));
   }, []);
+
+  const handleClick = (category) => {
+    setActiveCategory(category);
+
+    const ticketType = concertData.tickets.type[category];
+    const price = ticketType.price;
+    console.log(ticketType);
+    setTicketPrice(price);
+    dispatch(
+      addTicketPrice({
+        ticketPrice: Number(price),
+        ticketID,
+        category,
+        name: ticketType.name,
+      })
+    );
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -156,25 +175,41 @@ export const Personalization = ({
         <div className="ticket-card">
           {concertData.tickets &&
             concertData.tickets.type &&
-            Object.keys(concertData.tickets.type).map((category) => (
-              <div className="ticket-card-inner" key={category}>
-                <p>{category}</p>
-                {concertData.tickets.type[category] && (
-                  <div>
-                    <p>Price: {concertData.tickets.type[category].price}</p>
-                    <p>Amount: {concertData.tickets.type[category].amount}</p>
+            Object.keys(concertData.tickets.type).map((category) => {
+              const ticketType = concertData.tickets.type[category];
+              return (
+                <div
+                  className={
+                    activeCategory === category
+                      ? "ticket-card-inner active"
+                      : "ticket-card-inner"
+                  }
+                  onClick={() => handleClick(category)}
+                  key={category}
+                >
+                  <div className={`ticket-card-name ${ticketType.name}`}>
+                    {ticketType.name}
                   </div>
-                )}
-              </div>
-            ))}
+                  <div className="ticket-card-content">
+                    <div>
+                      Cijena: {ticketType.price}
+                      <small> BAM</small>
+                    </div>
+                    <div>Količina: {ticketType.amount}</div>
+                  </div>
+                </div>
+              );
+            })}
         </div>
       ) : (
-        <PlanWrapper ticketID={ticketID} />
+        <>
+          <PlanWrapper ticketID={ticketID} />
+          <h4 className="choose-place">
+            {`Cijena ulaznice: ${curentTicket ? curentTicket.price : 0}`}{" "}
+            <small> BAM</small>
+          </h4>
+        </>
       )}
-
-      <h4 className="choose-place">{`Cijena ulaznice: ${
-        curentTicket ? curentTicket.price : 0
-      } BAM`}</h4>
     </div>
   );
 };
