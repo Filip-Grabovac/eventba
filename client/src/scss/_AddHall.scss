@@ -23,13 +23,16 @@
   }
 
   .hall-categories-container {
-    background-color: #fff;
-    padding: 5px;
+    padding: 0;
 
     .row {
+      padding: 5px;
       width: 100%;
       margin: 0 auto;
       gap: 0;
+      background-color: #fff;
+      border-radius: 10px;
+      margin-bottom: 10px;
 
       .event-input {
         background-color: rgba(69, 91, 217, 0.108);
@@ -44,10 +47,25 @@
       }
 
       .add-hall-right-col {
+        border-left: 2px solid rgba(69, 91, 217, 0.505);
+
         .event-input {
           margin-left: auto;
         }
       }
+    }
+  }
+  .add-category-icon {
+    width: 30px;
+    cursor: pointer;
+    margin: 20px auto 0 auto;
+    display: block;
+  }
+
+  form {
+    .add-hall-btn {
+      margin: 36px auto 20px auto;
+      display: block;
     }
   }
 }
