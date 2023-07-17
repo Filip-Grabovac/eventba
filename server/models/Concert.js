@@ -15,6 +15,8 @@ const ConcertSchema = new mongoose.Schema({
   sponsors: { type: Array },
 });
 
-module.exports = connectDB(
-  "semongodb://eventba:AqpRhnhu7DA4M8nYDVLIqIDdtbFFewSkIdedmr8fzdkpEZqKje@185.99.2.232:27017/eventba?authSource=admin"
-).model("Concert", ConcertSchema, "concerts");
+module.exports = connectDB(process.env.DATABASE_URL).model(
+  "Concert",
+  ConcertSchema,
+  "concerts"
+);

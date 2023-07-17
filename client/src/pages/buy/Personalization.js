@@ -195,7 +195,7 @@ export const Personalization = ({
                       Cijena: {ticketType.price}
                       <small> BAM</small>
                     </div>
-                    <div>Količina: {ticketType.amount}</div>
+                    <div>Preostalo: {ticketType.amount}</div>
                   </div>
                 </div>
               );

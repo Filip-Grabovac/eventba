@@ -36,8 +36,12 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
       }
     );
 
-    const ticketNumber = checkAndUpdateAmount(concertData._id, category, price);
-    console.log(ticketNumber);
+    const ticketNumber = await checkAndUpdateAmount(
+      concertData._id,
+      category,
+      price
+    );
+
     // Create a new ticket document
     const ticketData = {
       concert: concertData._id,

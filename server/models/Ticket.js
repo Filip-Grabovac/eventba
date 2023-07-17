@@ -14,4 +14,4 @@ const TicketSchema = new mongoose.Schema({
   // additional ticket fields
 });
 
-module.exports = mongoose.model("Ticket", TicketSchema);
+module.exports = TicketSchema;

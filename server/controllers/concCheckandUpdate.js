@@ -24,7 +24,7 @@ async function checkAndUpdateAmount(concertId, category, price) {
 
         const ticketNumber = concert.tickets.sold_amount
           .toString()
-          .padStart(7, "0");
+          .padStart(6, "0");
         // Update the total amount
         concert.tickets.total_amount -= 1;
 
