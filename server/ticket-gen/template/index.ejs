@@ -17,7 +17,6 @@
         </div>
         <div class="line"></div>
         <div class="codes">
-          <img src="images/barCode.png" class="bar" />
           <img src="images/qrCode.png" class="qr" />
         </div>
       </nav>
@@ -58,8 +57,8 @@
       <p class="important">
         Važno! Ulaznica je vrijednosni dokument, stoga je trebate čuvati na
         sigurnom mjestu i ne dijeliti je s drugima niti je objavljivati na
-        internetu. Barkod na ulaznici vrijedi samo prilikom prvog skeniranja, a
-        naknadni pokušaji ulaska s istim barkodom neće biti mogući. Molimo vas
+        internetu. Qr code na ulaznici vrijedi samo prilikom prvog skeniranja, a
+        naknadni pokušaji ulaska s istim qr codom neće biti mogući. Molimo vas
         da kupujete ulaznice isključivo na web stranici www.event.ba ili na
         ovlaštenim prodajnim mjestima Event.ba. Ulaznice koje nisu kupljene na
         ovim službenim kanalima možda neće biti važeće, te Event.ba ne može
@@ -89,13 +88,13 @@
                 <span class="time"><%= formattedDate %></span>
                 <span class="location"><%= place %></span>
                 <span class="ticket-location"
-                  >Parter 1 - Red - 12 Sjedalo 18</span
+                  ><%= type %> <strong> <%= ticketName %></strong></span
                 >
                 <h5 class="ticket-owner h5"><%= name %> <%= lname %></h5>
                 <div class="price-qr">
                   <span class="serial-number">N0000<%= serialNumber %></span>
                   <div class="price">
-                    Cijena: <strong><%= price %>BAM</strong>
+                    Cijena: <strong><%= price %> BAM</strong>
                   </div>
                 </div>
               </div>
@@ -105,34 +104,29 @@
                 <img class="logo" src="images/Logo.png" alt="" />
                 <p class="event">event.ba</p>
               </div>
-              <img class="sponsor" src="images/sponsor.png" alt="" />
-              <img class="sponsor" src="images/sponsor.png" alt="" />
-              <img class="sponsor" src="images/sponsor.png" alt="" />
-              <img class="sponsor" src="images/sponsor.png" alt="" />
+              <% for (const sponsor of sponsors) { %>
+              <img class="sponsor" src="<%= sponsor %>" alt="" />
+              <% } %>
             </div>
           </div>
           <div class="right">
             <div class="left-part">
               <span class="serial-number">N0000<%= serialNumber %></span>
               <div>
-                <span>Sektor</span>
-                <span class="color-text">PARTER 1</span>
+                <span>Kategorija:</span>
+                <span class="color-text"><%= type %></span>
               </div>
               <div>
-                <span>Red</span>
-                <span class="color-text">1</span>
+                <span>Tip ulaznice:</span>
+                <span class="color-text"><%= ticketName %></span>
               </div>
-              <div>
-                <span>Sjedalo</span>
-                <span class="color-text">18</span>
-              </div>
+
               <div>
                 <span>Cijena</span>
-                <span class="color-text"><%= price %>BAM</span>
+                <span class="color-text"><%= price %> BAM</span>
               </div>
             </div>
             <div class="right-part">
-              <img src="images/barCode.png" class="bar" alt="" />
               <img src="images/qrCode.png" class="qr" alt="" />
             </div>
           </div>
@@ -142,7 +136,6 @@
     </div>
     <div class="section4">
       <div class="section4-1st">
-        <img src="images/barCode.png" class="bar" />
         <img src="images/qrCode.png" class="qr" />
       </div>
       <div class="section4-2nd">
@@ -157,7 +150,7 @@
           događanja. Nakon kupovine, ulaznicu nije moguće zamijeniti niti
           vratiti, osim u slučaju otkazivanja ili promjene datuma događaja.
           Event.ba ne preuzima odgovornost u slučaju oštećenja, gubitka ili
-          krađe ulaznice ili njenih zaštitnih podataka (kao što su barkod,
+          krađe ulaznice ili njenih zaštitnih podataka (kao što su qr kod,
           serijski broj, zaštitni kod itd.), te u tim situacijama nije moguć
           povrat novca niti zamjena ulaznice. Oštećena, ukradena, krivotvorena
           ili ulaznica bez odreska ili zaštitnih podataka smatra se nevažećom, a

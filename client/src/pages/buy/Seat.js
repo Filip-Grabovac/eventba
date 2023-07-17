@@ -10,7 +10,7 @@ export const Seat = (props) => {
   const ticketID = props.ticketID;
 
   const handleClick = () => {
-    dispatch(addTicketPrice({ seatPrice, ticketID }));
+    dispatch(addTicketPrice({ ticketPrice: seatPrice, ticketID }));
     props.setActiveSeat(props.seatId);
   };
 

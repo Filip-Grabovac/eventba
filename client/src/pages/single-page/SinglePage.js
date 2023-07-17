@@ -30,7 +30,7 @@ const SinglePage = () => {
         <div>
           <div className="single-page-top">
             <img
-              src={require(`../../../../server/ticket-gen/public/event-images/${concertData[0].poster.landscape}`)}
+              src={`${process.env.REACT_APP_API_URL}/static/event-images/${concertData[0].poster.landscape}`}
               alt=""
             />
             <div className="cover-overlay"></div>

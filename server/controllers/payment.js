@@ -38,6 +38,7 @@ const handlePaymentEndpoint = async (req, res) => {
         const ticketInfo = ticketInfoMap.get(Number(data.order_number));
 
         if (ticketInfo) {
+          console.log(ticketInfo);
           generateTicketAndSendEmail(ticketInfo);
           res.redirect("/thankyou");
         } else {
@@ -59,7 +60,7 @@ const handlePaymentEndpoint = async (req, res) => {
 
 const handleTicketData = async (req, res) => {
   try {
-    const orderNumber = req.body.orderNumber; // Assuming you have user authentication
+    const orderNumber = req.body.orderNumber; // Getting order number
     const ticketInfo = req.body; // Get ticket info from the request body
     // Store the ticket info in the map using the user ID as the key
     ticketInfoMap.set(orderNumber, ticketInfo);

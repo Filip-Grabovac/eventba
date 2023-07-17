@@ -216,7 +216,7 @@ export const OrganizeEventPage = () => {
         mappedEventType = ["concert"];
         break;
       case "Pozorište":
-        mappedEventType = ["theater"];
+        mappedEventType = ["theaters"];
         break;
       case "Ostalo":
         mappedEventType = ["other"];
@@ -240,6 +240,7 @@ export const OrganizeEventPage = () => {
         total_amount: 0,
         type: {},
       },
+      sponsors: sponsors,
       time_of_event: form.get("timeOfEvent"),
       place: {
         country: form.get("country"),
@@ -388,7 +389,7 @@ export const OrganizeEventPage = () => {
     );
 
     if (!isFileExists) {
-      setSponsors((s) => [...s, fileList[0]]);
+      setSponsors((s) => [...s, fileList[0].name]);
     }
   };
 
@@ -496,7 +497,7 @@ export const OrganizeEventPage = () => {
           <ul className="sponsors-ul">
             {sponsors[0] !== undefined ? (
               sponsors.map((e, i) => {
-                return <li key={i}>{e.name}</li>;
+                return <li key={i}>{e}</li>;
               })
             ) : (
               <li className="not-selected-sponsor">

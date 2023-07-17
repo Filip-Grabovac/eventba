@@ -3,7 +3,17 @@ const { createSlice } = require("@reduxjs/toolkit");
 const ticketSlice = createSlice({
   name: "ticket",
   initialState: {
-    ticketList: [{ id: 1, name: "", lname: "", email: "", price: 0 }],
+    ticketList: [
+      {
+        id: 1,
+        name: "",
+        lname: "",
+        email: "",
+        price: 0,
+        category: "",
+        name: "",
+      },
+    ],
     totalAmount: 0,
   },
   reducers: {
@@ -66,7 +76,7 @@ const ticketSlice = createSlice({
       return state;
     },
     addTicketPrice(state, action) {
-      const { seatPrice, ticketID } = action.payload;
+      const { ticketPrice, ticketID, category, name } = action.payload;
 
       // Find the index of the ticket to update based on the provided ticketID
 
@@ -79,7 +89,9 @@ const ticketSlice = createSlice({
         const updatedTicketList = [...state.ticketList];
         updatedTicketList[ticketIndex] = {
           ...updatedTicketList[ticketIndex],
-          price: seatPrice,
+          price: ticketPrice,
+          category: category,
+          ticketName: name,
         };
 
         // Calculate the new total amount based on the updated ticketList
@@ -103,6 +115,7 @@ const ticketSlice = createSlice({
             lname: action.payload.lname,
             email: action.payload.email,
             price: 0,
+            category: "",
           },
         ],
         totalAmount: 0,

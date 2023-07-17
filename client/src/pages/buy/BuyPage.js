@@ -19,6 +19,7 @@ export const BuyPage = () => {
   const [orderNumber, setOrderNumber] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const [toolTipOpen, setToolTipOpen] = useState(false);
+  const activeCardRef = useRef(null);
   const allTickets = useSelector((state) => state.ticketState.ticketList);
   const ticketsWithoutEmails = allTickets.filter(
     (ticket) => ticket.email === ""
@@ -61,6 +62,15 @@ export const BuyPage = () => {
     setActiveCardIndex(index);
     carouselRef.current.goTo(index);
   };
+  useEffect(() => {
+    if (activeCardRef.current) {
+      activeCardRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "start",
+      });
+    }
+  }, [activeCardIndex]);
 
   const renderSliderCards = () => {
     const sliderCards = [];
@@ -69,7 +79,8 @@ export const BuyPage = () => {
         <button
           className={`slider-cards ${
             activeCardIndex === i ? "active-card" : ""
-          } `}
+          }`}
+          ref={activeCardIndex === i ? activeCardRef : null}
           key={i}
           onClick={() => handleSliderCardClick(i)}
         >
@@ -145,13 +156,44 @@ export const BuyPage = () => {
     if (ticketsIdWithoutEmail.length === 0) {
       if (ticketsIdWithoutSeat.length === 0) {
         setShowPaymentForm(true);
-        toast.success(
-          "Sve je uredu s vašim ulaznicama. Odaberite način plaćanja.",
-          toastSetup
-        );
+
+        const allEmails = allTickets.map((ticket) => ticket.email);
+
+        const uniqueEmails = allEmails.filter((email, index) => {
+          return allEmails.indexOf(email) === index;
+        });
+        const timeOfToast = uniqueEmails * 2000;
+        if (uniqueEmails.length === 1) {
+          toast.success(
+            `Vaše ulaznice će biti poslane na mail ${uniqueEmails}. Odaberite način plaćanja.`,
+            toastSetup
+          );
+        } else {
+          toast.success(
+            `Vaše ulaznice će biti poslane na iduće emailove:\n${uniqueEmails.join(
+              "\n"
+            )}. Odaberite način plaćanja.`,
+
+            {
+              position: "top-right",
+              autoClose: timeOfToast,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            }
+          );
+        }
 
         async function sendPostRequest() {
           try {
+            console.log({
+              ticketGenData: ticketGenData,
+              concertData: concertData,
+              orderNumber,
+            });
             // Send the POST request using Axios and wait for the response
             await axios.post(
               `${process.env.REACT_APP_API_URL}/api/v1/payment/get_ticket_data`,
@@ -205,7 +247,7 @@ export const BuyPage = () => {
         <img
           src={
             concertData?.poster?.landscape
-              ? require(`../../../../server/ticket-gen/public/event-images/${concertData.poster.landscape}`)
+              ? `${process.env.REACT_APP_API_URL}/static/event-images/${concertData.poster.landscape}`
               : ""
           }
           alt="concertData.poster.landscape"
@@ -215,12 +257,23 @@ export const BuyPage = () => {
       </div>
       <div className="buy-container">
         <div className="left">
-          <div className="info">
-            <h3>{concertData.performer_name}</h3>
-            <p className="card-main-info">
-              {timeOfEvent} - {concertData?.place?.city},{" "}
-              {concertData?.place?.place}
-            </p>
+          <div className="top-buy-page">
+            <div className="info">
+              <h3>{concertData.performer_name}</h3>
+              <p className="card-main-info">
+                {timeOfEvent} - {concertData?.place?.city},{" "}
+                {concertData?.place?.place}
+              </p>
+            </div>
+            <img
+              className="info-buy-page-image"
+              src={
+                concertData?.poster?.landscape
+                  ? `${process.env.REACT_APP_API_URL}/static/event-images/${concertData.poster.landscape}`
+                  : ""
+              }
+              alt="concertData.poster.landscape"
+            />
           </div>
 
           <div className="specification">
@@ -263,7 +316,7 @@ export const BuyPage = () => {
           <img
             src={
               concertData?.poster?.landscape
-                ? require(`../../../../server/ticket-gen/public/event-images/${concertData.poster.landscape}`)
+                ? `${process.env.REACT_APP_API_URL}/static/event-images/${concertData.poster.landscape}`
                 : ""
             }
             alt="concertData.poster.landscape"
@@ -275,8 +328,10 @@ export const BuyPage = () => {
             ))}
           </div>
           <div className="saldo">
-            <p>Ukupna cijena</p>
-            <span>{totalAmount} BAM</span>
+            <p>Ukupna cijena:</p>
+            <span>
+              {totalAmount} <small> BAM</small>
+            </span>
           </div>
           <div className="payment-method">
             <button className="pay-method" onClick={handleButtonClick}>
