@@ -91,6 +91,7 @@ export const AddHall = () => {
       document.querySelectorAll(".event-input").forEach((e) => {
         e.value = "";
       });
+      setRowNum(1);
       toast.success(response.data.msg, toastSetup);
     } catch (error) {
       console.error(error);
