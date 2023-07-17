@@ -4,10 +4,10 @@ const { exec } = require("child_process");
 const sharp = require("sharp");
 const fs = require("fs");
 
-const inputDir = "../server/event-images-temporary";
-const outputDir = "../server/ticket-gen/public/event-images";
+const processImages = async (input, output) => {
+  const inputDir = `../server/${input}`;
+  const outputDir = `../server/ticket-gen/public/${output}`;
 
-const processImages = async () => {
   const imageFiles = await fs.promises.readdir(inputDir);
 
   for (const file of imageFiles) {
@@ -30,12 +30,18 @@ const processImages = async () => {
         fit: sharp.fit.cover,
         position: sharp.strategy.entropy,
       };
+    } else {
+      resizeOptions = {
+        height: 200,
+        fit: sharp.fit.cover,
+        position: sharp.strategy.entropy,
+      };
     }
 
     try {
       await sharp(inputPath).resize(resizeOptions).toFile(outputPath);
 
-      await compressImage(outputPath);
+      await compressImage(outputPath, outputDir);
 
       console.log("Optimized image:", outputPath);
     } catch (error) {
@@ -43,21 +49,20 @@ const processImages = async () => {
       console.error(error);
     }
   }
-};
+  const compressImage = (filePath, outputDir) => {
+    return new Promise((resolve, reject) => {
+      const command = `npx imagemin ${filePath} --out-dir ${outputDir} --plugin=jpegtran --plugin=pngquant --quality=65-80`;
 
-const compressImage = (filePath) => {
-  return new Promise((resolve, reject) => {
-    const command = `npx imagemin ${filePath} --out-dir ${outputDir} --plugin=jpegtran --plugin=pngquant --quality=65-80`;
-
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        reject(error);
-      } else {
-        console.log("SUCCES IMAGE SHAPENING");
-        resolve();
-      }
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          reject(error);
+        } else {
+          console.log("Image compression completed successfully");
+          resolve();
+        }
+      });
     });
-  });
+  };
 };
 
 module.exports = {

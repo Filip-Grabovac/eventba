@@ -12,6 +12,7 @@ const ConcertSchema = new mongoose.Schema({
   is_promoted_event: { type: Boolean },
   description: { type: String },
   organizer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  sponsors: { type: Array },
 });
 
 module.exports = connectDB(process.env.DATABASE_URL).model(

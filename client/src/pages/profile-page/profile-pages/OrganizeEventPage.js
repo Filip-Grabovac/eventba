@@ -13,6 +13,7 @@ export const OrganizeEventPage = () => {
   ]);
   const [selectedImagesForUpload, setImages] = useState([]);
   const [sponsors, setSponsors] = useState([]);
+  const [sponsorNames, setSponsorNames] = useState([]);
   const [concertHalls, setConcertHalls] = useState([]);
   const [selectedPlace, setSelectedPlace] = useState("");
   const [zones, setZones] = useState([]);
@@ -163,10 +164,17 @@ export const OrganizeEventPage = () => {
               document.querySelector(".landscape-wrapper").style =
                 "outline: none";
 
-            const updatedImages = [...selectedImages];
-            updatedImages[index] = newImage;
-            setSelectedImages(updatedImages);
-            setImages((prevImages) => [...prevImages, input.files[0]]);
+            setSelectedImages((prevImages) => {
+              const updatedImages = [...prevImages];
+              updatedImages[index] = newImage;
+              return updatedImages;
+            });
+
+            setImages((prevImages) => {
+              const updatedFiles = [...prevImages];
+              updatedFiles[index] = file;
+              return updatedFiles;
+            });
           } else {
             toast.warn(
               `Molimo dodajte sliku s ${
@@ -217,6 +225,7 @@ export const OrganizeEventPage = () => {
       default:
         mappedEventType = [eventType];
     }
+
     const event = {
       performer_name: form.get("performerName"),
       poster: {
@@ -227,7 +236,7 @@ export const OrganizeEventPage = () => {
         total_amount: 0,
         type: {},
       },
-      sponsors: sponsors,
+      sponsors: sponsorNames,
       time_of_event: form.get("timeOfEvent"),
       place: {
         country: form.get("country"),
@@ -303,7 +312,7 @@ export const OrganizeEventPage = () => {
         const formData = new FormData();
 
         for (let i = 0; i < sponsors.length; i++) {
-          formData.append("firstFiles", sponsors[i]);
+          formData.append("firstFiles", sponsors[i], sponsorNames[i]);
         }
 
         for (let i = 0; i < selectedImagesForUpload.length; i++) {
@@ -315,6 +324,7 @@ export const OrganizeEventPage = () => {
         }
 
         // Send formData to the backend
+
         await axios.post(
           process.env.REACT_APP_API_URL + "/api/v1/concerts/upload_img",
           formData,
@@ -369,14 +379,18 @@ export const OrganizeEventPage = () => {
   // Event handler for file selection
   const handleFileSelect = (event) => {
     const fileList = event.target.files;
-
-    // Check if the file already exists
-    const isFileExists = sponsors.some(
-      (sponsor) => sponsor.name === fileList[0].name
+    const selectedFiles = Array.from(fileList);
+    // Check if any of the selected files already exist in the sponsors list
+    const isFileExists = selectedFiles.some((file) =>
+      sponsors.some((sponsor) => sponsor.name === file.name)
     );
 
     if (!isFileExists) {
-      setSponsors((s) => [...s, fileList[0].name]);
+      setSponsors((prevSponsors) => [...prevSponsors, ...selectedFiles]);
+      setSponsorNames((prevNames) => [
+        ...prevNames,
+        ...selectedFiles.map((file) => file.name),
+      ]);
     }
   };
 
@@ -457,7 +471,7 @@ export const OrganizeEventPage = () => {
           <ul className="sponsors-ul">
             {sponsors[0] !== undefined ? (
               sponsors.map((e, i) => {
-                return <li key={i}>{e}</li>;
+                return <li key={i}>{e.name}</li>;
               })
             ) : (
               <li className="not-selected-sponsor">

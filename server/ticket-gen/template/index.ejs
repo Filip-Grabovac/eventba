@@ -88,11 +88,11 @@
                 <span class="time"><%= formattedDate %></span>
                 <span class="location"><%= place %></span>
                 <span class="ticket-location"
-                  ><%= type %> <strong> <%= ticketName %></strong></span
+                  ><%= category %> <strong> <%= ticketName %></strong></span
                 >
                 <h5 class="ticket-owner h5"><%= name %> <%= lname %></h5>
                 <div class="price-qr">
-                  <span class="serial-number">N0000<%= serialNumber %></span>
+                  <span class="serial-number">N0000</span>
                   <div class="price">
                     Cijena: <strong><%= price %> BAM</strong>
                   </div>
@@ -111,10 +111,10 @@
           </div>
           <div class="right">
             <div class="left-part">
-              <span class="serial-number">N0000<%= serialNumber %></span>
+              <span class="serial-number">N0000</span>
               <div>
                 <span>Kategorija:</span>
-                <span class="color-text"><%= type %></span>
+                <span class="color-text"><%= category %></span>
               </div>
               <div>
                 <span>Tip ulaznice:</span>

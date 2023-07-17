@@ -3,7 +3,20 @@ const path = require("path");
 const mime = require("mime-types");
 const { generateQRCode } = require("./controllers/qr&barGen");
 const { generatePdfAndSendEmail } = require("./controllers/generatePdf");
+const mongoose = require("mongoose");
+const connectDB = require("../db/connect");
 
+const TicketSchema = new mongoose.Schema({
+  concert: { type: mongoose.Schema.Types.ObjectId, ref: "Concert" },
+  performer_name: { type: String },
+  category: { type: String },
+  price: { type: Number },
+  ticketName: { type: String },
+  owner: { type: String },
+  sentOnEmail: { type: String },
+  seatNumber: { type: String },
+  // additional ticket fields
+});
 // Serve static files with the correct MIME type
 
 async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
@@ -11,13 +24,9 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
 
   // Iterate over the ticketList array sequentially
   for (const ticket of ticketList) {
-    const serialNumber = ticket.id;
-    const email = ticket.email;
-    const price = ticket.price;
-    const name = ticket.name || "";
-    const lname = ticket.lname || "";
-    const type = ticket.category;
-    const ticketName = ticket.ticketName;
+    // Extract ticket data
+    const { email, price, name, lname, category, ticketName } = ticket;
+
     const sponsors = concertData.sponsors.map(
       (sponsor) => `sponsors/${sponsor}`
     );
@@ -25,20 +34,46 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
       ${concertData.place.place}, ${concertData.place.city}, ${concertData.place.country};`;
     const posterRoutePortrait = `event-images/${concertData.poster.portrait}`;
     const posterRouteLandscape = `event-images/${concertData.poster.landscape}`;
-    const eventDate = new Date(concertData.time_of_event);
-    const formattedDate = eventDate.toLocaleString("hr-HR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-      timeZone: "Europe/Zagreb",
-    });
+    const formattedDate = new Date(concertData.time_of_event).toLocaleString(
+      "hr-HR",
+      {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        timeZone: "Europe/Zagreb",
+      }
+    );
 
-    // Generate barcode and QR code for the current ticket
+    // Create a new ticket document
+    const ticketData = {
+      concert: concertData._id,
+      performer_name: concertData.performer_name,
+      category: category, // Set the category dynamically
+      price: price, // Set the price dynamically
+      ticketName: ticketName, // Set the ticket name dynamically
+      owner: name + " " + lname,
+      sentOnEmail: email,
+    };
 
-    await generateQRCode("N" + serialNumber);
+    // Create a new ticket document with the concert ID
+    const Ticket = connectDB(process.env.DATABASE_URL_TICKET).model(
+      "Ticket",
+      TicketSchema,
+      `tickets_for_${concertData._id}`
+    );
+
+    const savedTicket = await new Ticket(ticketData).save();
+    const serialNumber = savedTicket._id; // Retrieve the ticket's _id
+
+    // Generate QR code for the current ticket
+
+    console.log(String(serialNumber));
+
+    await generateQRCode(String(serialNumber));
+
     function generateRandomPort(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
@@ -75,7 +110,7 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
         price,
         name,
         lname,
-        type,
+        category,
         ticketName,
         formattedDate,
         concertData,

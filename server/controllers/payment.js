@@ -38,7 +38,6 @@ const handlePaymentEndpoint = async (req, res) => {
         const ticketInfo = ticketInfoMap.get(Number(data.order_number));
 
         if (ticketInfo) {
-          console.log(ticketInfo);
           generateTicketAndSendEmail(ticketInfo);
           res.redirect("/thankyou");
         } else {
