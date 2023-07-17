@@ -4,6 +4,7 @@ const eventba = connectDB(process.env.DATABASE_URL);
 
 const PlaceSchema = new mongoose.Schema({
   name: { type: String },
+  location: { type: String },
   type: { type: String },
   zones: { type: Array },
 });
