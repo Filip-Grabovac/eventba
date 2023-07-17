@@ -32,7 +32,7 @@ const processImages = async (input, output) => {
       };
     } else {
       resizeOptions = {
-        height: 200,
+        height: 80,
         fit: sharp.fit.cover,
         position: sharp.strategy.entropy,
       };

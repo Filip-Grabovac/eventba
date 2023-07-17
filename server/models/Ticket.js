@@ -1,26 +1,17 @@
 const mongoose = require("mongoose");
-const connectDB = require("../db/connect");
 
 const TicketSchema = new mongoose.Schema({
   concert: { type: mongoose.Schema.Types.ObjectId, ref: "Concert" },
-  type: {
-    normal: {
-      price: { type: Number },
-      amount: { type: Number },
-      // additional fields specific to the normal type
-    },
-    vip: {
-      price: { type: Number },
-      amount: { type: Number },
-      // fields specific to the vip type
-    },
-  },
-  seatNumber: { type: String }, // Optional field for seat number
+  performer_name: { type: String },
+  category: { type: String },
+  price: { type: Number },
+  ticketName: { type: String },
+  owner: { type: String },
+  sentOnEmail: { type: String },
+  seatNumber: { type: String },
+  isValid: { type: Boolean },
+
   // additional ticket fields
 });
 
-module.exports = connectDB(process.env.DATABASE_URL_TICKET).model(
-  "Ticket",
-  TicketSchema,
-  "tickets"
-);
+module.exports = mongoose.model("Ticket", TicketSchema);

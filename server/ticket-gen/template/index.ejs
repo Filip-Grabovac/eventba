@@ -92,7 +92,7 @@
                 >
                 <h5 class="ticket-owner h5"><%= name %> <%= lname %></h5>
                 <div class="price-qr">
-                  <span class="serial-number">N0000</span>
+                  <span class="serial-number">N<%= ticketNumber %></span>
                   <div class="price">
                     Cijena: <strong><%= price %> BAM</strong>
                   </div>
@@ -111,7 +111,7 @@
           </div>
           <div class="right">
             <div class="left-part">
-              <span class="serial-number">N0000</span>
+              <span class="serial-number">N<%= ticketNumber %></span>
               <div>
                 <span>Kategorija:</span>
                 <span class="color-text"><%= category %></span>

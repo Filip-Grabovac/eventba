@@ -44,7 +44,7 @@ const uploadImage = async (req, res) => {
 
     // Remove images from temporary folders
     await removeTemporaryFiles("../server/event-images-temporary");
-    // await removeTemporaryFiles("../server/ticket-gen/public/sponsors-temp");
+    await removeTemporaryFiles("../server/ticket-gen/public/sponsors-temp");
 
     res.status(200).json({ message: "Files uploaded successfully." });
   } catch (error) {

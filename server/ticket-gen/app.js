@@ -3,20 +3,9 @@ const path = require("path");
 const mime = require("mime-types");
 const { generateQRCode } = require("./controllers/qr&barGen");
 const { generatePdfAndSendEmail } = require("./controllers/generatePdf");
-const mongoose = require("mongoose");
 const connectDB = require("../db/connect");
-
-const TicketSchema = new mongoose.Schema({
-  concert: { type: mongoose.Schema.Types.ObjectId, ref: "Concert" },
-  performer_name: { type: String },
-  category: { type: String },
-  price: { type: Number },
-  ticketName: { type: String },
-  owner: { type: String },
-  sentOnEmail: { type: String },
-  seatNumber: { type: String },
-  // additional ticket fields
-});
+const TicketSchema = require("../models/Ticket");
+const checkAndUpdateAmount = require("../controllers/concCheckandUpdate");
 // Serve static files with the correct MIME type
 
 async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
@@ -47,6 +36,8 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
       }
     );
 
+    const ticketNumber = checkAndUpdateAmount(concertData._id, category, price);
+    console.log(ticketNumber);
     // Create a new ticket document
     const ticketData = {
       concert: concertData._id,
@@ -56,6 +47,7 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
       ticketName: ticketName, // Set the ticket name dynamically
       owner: name + " " + lname,
       sentOnEmail: email,
+      isValid: true,
     };
 
     // Create a new ticket document with the concert ID
@@ -69,8 +61,6 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
     const serialNumber = savedTicket._id; // Retrieve the ticket's _id
 
     // Generate QR code for the current ticket
-
-    console.log(String(serialNumber));
 
     await generateQRCode(String(serialNumber));
 
@@ -117,6 +107,7 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
         posterRoutePortrait,
         posterRouteLandscape,
         sponsors,
+        ticketNumber,
       });
     });
     console.log(`Working on ${serialNumber} ${concertData.performer_name}`);

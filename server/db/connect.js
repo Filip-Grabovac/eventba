@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const connectDB = (databaseUrl) => {
   try {
+    console.log("Connected to db");
     const connection = mongoose.createConnection(databaseUrl, {
       useNewUrlParser: true,
       useCreateIndex: true,

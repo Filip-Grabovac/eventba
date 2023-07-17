@@ -248,6 +248,8 @@ export const OrganizeEventPage = () => {
       tickets: {
         total_amount: 0,
         type: {},
+        sold_amount: 0,
+        amount_inBAM: 0,
       },
       sponsors: sponsorNames,
       time_of_event: form.get("timeOfEvent"),
@@ -267,7 +269,7 @@ export const OrganizeEventPage = () => {
       const categoryKey = `category${index + 1}`;
       event.tickets.type[categoryKey] = {
         amount: ticket.amount,
-        price: ticket.price,
+        price: Number(ticket.price),
         name: ticket.name,
       };
 
