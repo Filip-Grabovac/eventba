@@ -19,6 +19,8 @@ export const OrganizeEventPage = () => {
   const [zones, setZones] = useState([]);
   const [ticketInputs, setTicketInputs] = useState([]);
   const [typeOfPlace, setTypeOfPlace] = useState("");
+  const [cities, setCities] = useState();
+  const [cityInputValue, setCityInputValue] = useState("");
 
   const userId = useSelector((state) => state.userState.user);
 
@@ -35,15 +37,22 @@ export const OrganizeEventPage = () => {
 
   // Fetch halls
   useEffect(() => {
+    if (cityInputValue === "") {
+      setConcertHalls([]);
+      return;
+    }
     axios
-      .get(process.env.REACT_APP_API_URL + "/api/v1/places") // Replace with your API endpoint for fetching concert halls
+      .get(
+        process.env.REACT_APP_API_URL +
+          `/api/v1/places/place_by_location/${cityInputValue}`
+      )
       .then((response) => {
-        setConcertHalls(response.data.places);
+        setConcertHalls(response.data.placeNames);
       })
       .catch((error) => {
         console.error("Error fetching concert halls:", error);
       });
-  }, []);
+  }, [cityInputValue]);
 
   const handlePlaceChange = (e) => {
     const selectedHall = e.target.value;
@@ -81,11 +90,15 @@ export const OrganizeEventPage = () => {
       return null; // or return an appropriate fallback if concertHalls is not an array
     }
 
-    return concertHalls.map((hall) => (
-      <option key={hall._id} value={hall.name}>
-        {hall.name}
-      </option>
-    ));
+    return concertHalls[0] === undefined ? (
+      <option disabled>Ne postoji mjesto u tom gradu</option>
+    ) : (
+      concertHalls.map((hall, i) => (
+        <option key={i} value={hall}>
+          {hall}
+        </option>
+      ))
+    );
   };
   const renderTicketInputs = () => {
     if (typeOfPlace !== "hall") {
@@ -394,6 +407,33 @@ export const OrganizeEventPage = () => {
     }
   };
 
+  // Get cities in input
+  async function getCities(e) {
+    const cityName = e.target.value;
+
+    // Fetch cities by city name
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_API_URL + `/api/v1/places/city_name/${cityName}`
+      );
+      setCities(response.data.city);
+    } catch (error) {
+      // If input is empty close dropdown
+      if (cityName === "") {
+        document.querySelector(".all-cities").style =
+          "visibility: hidden; opacity: 0;";
+        setCities();
+        return;
+      } else {
+        setCities([error.response.data.msg]);
+      }
+    }
+
+    // If there is value open the dropdown
+    document.querySelector(".all-cities").style =
+      "visibility: visible; opacity: 1;";
+  }
+
   return (
     <form className="form container organize-form" onSubmit={handleSubmit}>
       <div className="organize-top-part">
@@ -494,39 +534,74 @@ export const OrganizeEventPage = () => {
       </div>
       <div className="organize-middle-part">
         <div>
-          <input
-            name="country"
-            type="text"
-            className="location-input event-input"
-            placeholder="Država"
-            onInput={(e) => {
-              e.target.style = "outline: none;";
-            }}
-          />
-          <input
-            name="city"
-            type="text"
-            className="location-input event-input"
-            placeholder="Grad"
-            onInput={(e) => {
-              e.target.style = "outline: none;";
-            }}
-          />
-          <select
-            name="place"
-            type="text"
-            className="location-input event-input"
-            value={selectedPlace}
-            onChange={handlePlaceChange}
-            onChangeCapture={(e) => {
-              e.target.style = "outline: none;";
-            }}
-          >
-            <option value="" disabled hidden>
-              Mjesto
-            </option>
-            {renderConcertHallOptions()}
-          </select>
+          <div>
+            <input
+              name="country"
+              type="text"
+              className="location-input event-input"
+              placeholder="Država"
+              onInput={(e) => {
+                e.target.style = "outline: none;";
+              }}
+            />
+          </div>
+          <div>
+            <input
+              name="city"
+              type="text"
+              className="location-input event-input"
+              placeholder="Grad"
+              autoComplete="off"
+              value={cityInputValue}
+              onInput={(e) => {
+                setCityInputValue(e.target.value);
+                e.target.style = "outline: none;";
+                getCities(e);
+              }}
+            />
+            <div className="all-cities">
+              <ul>
+                {cities &&
+                  cities.map((e, i) => {
+                    return (
+                      <li
+                        className={e.includes("ne nalazi") ? "city-error" : ""}
+                        key={i}
+                      >
+                        <a
+                          onClick={(e) => {
+                            setCityInputValue(e.target.textContent);
+                            document.querySelector(".all-cities").style =
+                              "visibility: hidden; opacity: 0;";
+                          }}
+                          href="#"
+                        >
+                          {e}
+                        </a>
+                      </li>
+                    );
+                  })}
+                <div></div>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <select
+              name="place"
+              type="text"
+              className="location-input event-input"
+              value={selectedPlace}
+              onChange={handlePlaceChange}
+              onChangeCapture={(e) => {
+                e.target.style = "outline: none;";
+              }}
+            >
+              <option value="" disabled hidden>
+                Mjesto
+              </option>
+              {renderConcertHallOptions()}
+            </select>
+          </div>
         </div>
       </div>
       {/* Render input fields for ticket amount and price when "Dvorana Novi Travnik" is selected */}
