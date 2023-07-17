@@ -48,6 +48,9 @@ export const OrganizeEventPage = () => {
       )
       .then((response) => {
         setConcertHalls(response.data.placeNames);
+
+        // Clear places UI if no matching halls
+        if (response.data.placeNames[0] === undefined) setSelectedPlace("");
       })
       .catch((error) => {
         console.error("Error fetching concert halls:", error);
@@ -90,59 +93,81 @@ export const OrganizeEventPage = () => {
       return null; // or return an appropriate fallback if concertHalls is not an array
     }
 
-    return concertHalls[0] === undefined ? (
-      <option disabled>Ne postoji mjesto u tom gradu</option>
-    ) : (
-      concertHalls.map((hall, i) => (
-        <option key={i} value={hall}>
-          {hall}
-        </option>
-      ))
-    );
+    return concertHalls.map((hall, i) => (
+      <option key={i} value={hall}>
+        {hall}
+      </option>
+    ));
   };
+
   const renderTicketInputs = () => {
     if (typeOfPlace !== "hall") {
       return null;
     }
+    return zones.map((zone, index) => {
+      const ticketInput = ticketInputs[index] || {};
+      const {
+        name: inputName,
+        amount: inputAmount,
+        price: inputPrice,
+      } = ticketInput;
 
-    return zones.map((zone, index) => (
-      <div className="organize-middle-part" style={{ gap: "20px" }} key={index}>
-        <input
-          name={`ticketName-${index}`}
-          type="text"
-          className="location-input event-input"
-          placeholder={`Naziv ulaznice ${zone.name}`}
-          value={ticketInputs[index]?.name || ""}
-          onChange={(e) =>
-            handleTicketInputChange(index, "name", e.target.value)
-          }
-        />
-        <input
-          name={`ticketAmount-${index}`}
-          type="number"
-          min="0"
-          className="location-input event-input"
-          placeholder={`Ukupan broj ulaznica ${zone.name}`}
-          value={ticketInputs[index]?.amount || ""}
-          onChange={(e) =>
-            handleTicketInputChange(index, "amount", e.target.value)
-          }
-        />
-        <input
-          name={`ticketPrice-${index}`}
-          type="number"
-          min="0"
-          step="0.01"
-          className="location-input event-input"
-          placeholder={`Cijena ${zone.name} ulaznice`}
-          value={ticketInputs[index]?.price || ""}
-          onChange={(e) =>
-            handleTicketInputChange(index, "price", e.target.value)
-          }
-        />
-      </div>
-    ));
+      return (
+        <div
+          className="organize-middle-part"
+          style={{ gap: "20px" }}
+          key={index}
+        >
+          <input
+            name={`ticketName-${index}`}
+            type="text"
+            className="location-input event-input"
+            placeholder="Naziv kategorije"
+            value={inputName !== undefined ? inputName : zone.name}
+            onChange={(e) =>
+              handleTicketInputChange(index, "name", e.target.value)
+            }
+          />
+          <input
+            name={`ticketAmount-${index}`}
+            type="number"
+            min="0"
+            className="location-input event-input"
+            placeholder="Ukupan broj ulaznica"
+            value={
+              inputAmount !== undefined
+                ? inputAmount
+                : zone.ticket
+                ? zone.ticket.amount || ""
+                : ""
+            }
+            onChange={(e) =>
+              handleTicketInputChange(index, "amount", e.target.value)
+            }
+          />
+          <input
+            name={`ticketPrice-${index}`}
+            type="number"
+            min="0"
+            step="0.01"
+            className="location-input event-input"
+            placeholder="Cijena ulaznice"
+            value={
+              inputPrice !== undefined
+                ? inputPrice
+                : zone.ticket
+                ? zone.ticket.price || ""
+                : ""
+            }
+            onChange={(e) =>
+              handleTicketInputChange(index, "price", e.target.value)
+            }
+          />
+        </div>
+      );
+    });
   };
+
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value);
   };
@@ -423,6 +448,9 @@ export const OrganizeEventPage = () => {
         document.querySelector(".all-cities").style =
           "visibility: hidden; opacity: 0;";
         setCities();
+
+        // Clear places UI if input is empty = no halls
+        setSelectedPlace("");
         return;
       } else {
         setCities([error.response.data.msg]);
@@ -433,7 +461,6 @@ export const OrganizeEventPage = () => {
     document.querySelector(".all-cities").style =
       "visibility: visible; opacity: 1;";
   }
-
   return (
     <form className="form container organize-form" onSubmit={handleSubmit}>
       <div className="organize-top-part">
@@ -596,15 +623,29 @@ export const OrganizeEventPage = () => {
                 e.target.style = "outline: none;";
               }}
             >
-              <option value="" disabled hidden>
+              <option className="place-option" value="" disabled hidden>
                 Mjesto
               </option>
+              {concertHalls[0] === undefined ? (
+                <option disabled>Ne postoji mjesto u tom gradu</option>
+              ) : (
+                ""
+              )}
               {renderConcertHallOptions()}
             </select>
           </div>
         </div>
       </div>
       {/* Render input fields for ticket amount and price when "Dvorana Novi Travnik" is selected */}
+      {zones[0] !== undefined ? (
+        <div className="preset-category">
+          <p>Naziv kategorije</p>
+          <p>Broj ulaznica</p>
+          <p>Cijena ulaznice</p>
+        </div>
+      ) : (
+        ""
+      )}
       {selectedPlace && <>{renderTicketInputs()}</>}
 
       <div className="organize-bottom-part">
