@@ -8,11 +8,13 @@ import { setUserID } from "../../store/entranceControllerSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import LogoutIcon from "../../assets/ikonice/logout_btn.svg";
+import axios from "axios";
 
 export const QRscanner = () => {
-  const [scanResult, setScanResult] = useState(null);
+  const [isSuccess, setState] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  let dbLocalStorage = localStorage.getItem("dbId");
 
   const toastSetup = {
     position: "top-right",
@@ -36,8 +38,17 @@ export const QRscanner = () => {
 
     scanner.render(success, error);
 
-    function success(decodedText) {
-      setScanResult(decodedText);
+    // Successfull scan
+    async function success(ticketId) {
+      try {
+        const response = await axios.post(
+          process.env.REACT_APP_API_URL +
+            `/api/v1/tickets/${dbLocalStorage}/${ticketId}`
+        );
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     function error(err) {
@@ -48,6 +59,7 @@ export const QRscanner = () => {
   function logout() {
     dispatch(setUserID(""));
     localStorage.setItem("entranceControllerId", "");
+    localStorage.setItem("dbId", "");
     navigate("/controller_login");
     toast.success("Uspješna odjava", toastSetup);
   }
@@ -67,7 +79,7 @@ export const QRscanner = () => {
         </button>
       </nav>
       <div id="reader"></div>
-      <div>{scanResult}</div>
+      <div></div>
     </div>
   );
 };

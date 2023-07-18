@@ -12,8 +12,9 @@ export const EntranceControllerLogin = () => {
   const dispatch = useDispatch();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   let controllerLocalStorage = localStorage.getItem("entranceControllerId");
+  let dbLocalStorage = localStorage.getItem("dbId");
   const entranceControllerId = useSelector(
-    (state) => state.entranceControllerState.entranceController
+    (state) => state.entranceControllerState.entranceController.controllerId
   );
   const navigate = useNavigate();
 
@@ -32,9 +33,13 @@ export const EntranceControllerLogin = () => {
     document.querySelector(".App").style = "min-height: 100vh";
 
     if (controllerLocalStorage) {
-      dispatch(setUserID(controllerLocalStorage));
+      dispatch(
+        setUserID({
+          controllerId: controllerLocalStorage,
+          dbId: dbLocalStorage,
+        })
+      );
     }
-
     if (entranceControllerId) {
       navigate("/qr_scanner");
     }
@@ -57,8 +62,14 @@ export const EntranceControllerLogin = () => {
       );
 
       toast.success(response.data.message, toastSetup);
-      dispatch(setUserID(response.data.id));
+      dispatch(
+        setUserID({
+          controllerId: response.data.id,
+          dbId: response.data.collectionName,
+        })
+      );
       localStorage.setItem("entranceControllerId", response.data.id);
+      localStorage.setItem("dbId", response.data.collectionName);
     } catch (error) {
       toast.warn(error.response.data.message, toastSetup);
     }

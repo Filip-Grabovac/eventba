@@ -8,6 +8,7 @@ const EntranceShema = new mongoose.Schema({
   name: { type: String },
   password: { type: String },
   organizer_id: { type: String },
+  collectionName: { type: String },
 });
 
 module.exports = connectDB(process.env.DATABASE_URL).model(

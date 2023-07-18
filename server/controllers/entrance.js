@@ -62,13 +62,13 @@ const getEntranceControllerByUsername = async (req, res) => {
       name: username,
       password: password,
     }).select("-password");
+
     if (entranceController[0] !== undefined)
-      res
-        .status(200)
-        .json({
-          message: "Uspješno ste se prijavili",
-          id: entranceController[0]._id,
-        });
+      res.status(200).json({
+        message: "Uspješno ste se prijavili",
+        id: entranceController[0]._id,
+        collectionName: entranceController[0].collectionName,
+      });
     else
       res
         .status(401)
