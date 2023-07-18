@@ -293,7 +293,8 @@ export const OrganizeEventPage = () => {
     ticketInputs.forEach((ticket, index) => {
       const categoryKey = `category${index + 1}`;
       event.tickets.type[categoryKey] = {
-        amount: ticket.amount,
+        amount: Number(ticket.amount),
+        maxAmount: Number(ticket.amount),
         price: Number(ticket.price),
         name: ticket.name,
       };

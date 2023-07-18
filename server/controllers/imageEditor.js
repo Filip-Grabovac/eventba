@@ -14,19 +14,19 @@ const processImages = async (input, output) => {
     const inputPath = `${inputDir}/${file}`;
     const outputPath = `${outputDir}/${file}`;
 
-    let resizeOptions = {
-      width: 1920,
-      height: 1080,
-      fit: sharp.fit.cover,
-      position: sharp.strategy.entropy,
-    };
+    let resizeOptions = {};
 
     if (file.endsWith("_landscape.jpg")) {
-      resizeOptions.height = 1080;
+      resizeOptions = {
+        width: 1120,
+        height: 630,
+        fit: sharp.fit.cover,
+        position: sharp.strategy.entropy,
+      };
     } else if (file.endsWith("_portrait.jpg")) {
       resizeOptions = {
-        width: 800,
-        height: 1200,
+        width: 600,
+        height: 900,
         fit: sharp.fit.cover,
         position: sharp.strategy.entropy,
       };
@@ -51,7 +51,7 @@ const processImages = async (input, output) => {
   }
   const compressImage = (filePath, outputDir) => {
     return new Promise((resolve, reject) => {
-      const command = `npx imagemin ${filePath} --out-dir ${outputDir} --plugin=jpegtran --plugin=pngquant --quality=65-80`;
+      const command = `npx imagemin ${filePath} --out-dir ${outputDir} --plugin=jpegtran --plugin=pngquant --quality=20-40`;
 
       exec(command, (error, stdout, stderr) => {
         if (error) {

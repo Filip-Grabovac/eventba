@@ -19,10 +19,7 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
     const sponsors = concertData.sponsors.map(
       (sponsor) => `sponsors/${sponsor}`
     );
-    const place = `
-      ${concertData.place.place}, ${concertData.place.city}, ${concertData.place.country};`;
-    const posterRoutePortrait = `event-images/${concertData.poster.portrait}`;
-    const posterRouteLandscape = `event-images/${concertData.poster.landscape}`;
+
     const formattedDate = new Date(concertData.time_of_event).toLocaleString(
       "hr-HR",
       {
@@ -100,7 +97,8 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
       // Render the "index.ejs" file as the response
       res.render("index", {
         serialNumber,
-        place,
+        place: `
+      ${concertData.place.place}, ${concertData.place.city}, ${concertData.place.country};`,
         price,
         name,
         lname,
@@ -108,8 +106,8 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
         ticketName,
         formattedDate,
         concertData,
-        posterRoutePortrait,
-        posterRouteLandscape,
+        posterRoutePortrait: `event-images/${concertData.poster.portrait}`,
+        posterRouteLandscape: `event-images/${concertData.poster.landscape}`,
         sponsors,
         ticketNumber,
       });

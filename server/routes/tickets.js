@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const ticketCheck = require("../controllers/tickets");
 
-const { getAllTickets } = require("../controllers/tickets");
-
-router.route("/").get(getAllTickets);
+router.route("/:collection_name/:id").patch(ticketCheck);
 
 module.exports = router;
