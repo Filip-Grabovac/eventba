@@ -10,13 +10,9 @@ export default class Facebook extends Component {
     picture: "",
   };
 
-  responseFacebook = (response) => {
-    // console.log(response);
-  };
+  responseFacebook = () => {};
 
-  componentClicked = () => {
-    // console.log("clicked");
-  };
+  componentClicked = () => {};
 
   render() {
     let fbContent;

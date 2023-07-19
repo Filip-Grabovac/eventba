@@ -1,47 +1,45 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+// Images
 import X from "../assets/ikonice/X.svg";
-import { RegisterInput } from "./RegisterInput";
 import UserCard from "../assets/ikonice/user_card_icon.svg";
 import Mail from "../assets/ikonice/mail.svg";
 import PinIcon from "../assets/ikonice/pin_icon.svg";
 import PasswordEye from "../assets/ikonice/invisible.svg";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { Encrypt } from "./Encrypt";
-import { Decrypt } from "./Decrypt";
-import ReCAPTCHA from "react-google-recaptcha";
+// Redux
 import { useDispatch } from "react-redux";
 import { setUserID } from "../store/userSlice";
+// Components
+import { Link } from "react-router-dom";
+import { RegisterInput } from "./RegisterInput";
+import { toast } from "react-toastify";
+import ReCAPTCHA from "react-google-recaptcha";
+// Functions
+import { Encrypt } from "./Encrypt";
+import { Decrypt } from "./Decrypt";
 import { toastSetup } from "../functions/toastSetup";
+import { closeModalOnEsc } from "../functions/closeModalOnEsc";
 
 export const Register = ({
   isRegisterOpen,
   setIsRegisterOpen,
   setIsLoginOpen,
 }) => {
+  const secretKey = process.env.REACT_APP_SECRET_KEY;
   const [verified, setVerified] = useState(false);
   const dispatch = useDispatch();
-
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const repeatPasswordRef = useRef(null);
   const emailRef = useRef(null);
 
+  // Press escape key exit register
   useEffect(() => {
-    const handleKeyPress = (e) => {
-      if (e.key === "Escape") {
-        setIsRegisterOpen(false);
-      }
-    };
-    document.addEventListener("keydown", handleKeyPress);
-    return () => {
-      document.removeEventListener("keydown", handleKeyPress);
-    };
+    closeModalOnEsc(setIsRegisterOpen);
   }, [setIsRegisterOpen]);
 
+  // Register a user
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const secretKey = process.env.REACT_APP_SECRET_KEY;
 
     const user = {
       name: e.target.elements.name.value,
@@ -73,13 +71,12 @@ export const Register = ({
           }
         )
         .then((response) => {
-          console.log(response);
           toast.success(
             `Uspješna registracija. Provjerite ${user.email} zbog verifikacije!`,
             toastSetup("top-right", 3000)
           );
           setIsRegisterOpen(false);
-
+          // Login user
           dispatch(setUserID(response.data.user._id));
           localStorage.setItem("userId", response.data.user._id);
         })
@@ -109,7 +106,7 @@ export const Register = ({
     setIsLoginOpen(true);
   };
 
-  function onChange(value) {
+  function onChange() {
     setVerified(true);
   }
 

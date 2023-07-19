@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
+// Images
 import Logo from "../assets/logo/logo.svg";
 import UserIcon from "../assets/ikonice/user_icon.svg";
 import Menu from "../assets/ikonice/menu.svg";
-import SearchInput from "../pages/landing/hero/mainSearch/SearchInput";
+// Components
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Login } from "../auth/Login";
 import { Register } from "../auth/Register";
-import { useSelector, useDispatch } from "react-redux";
-import { setUserID } from "../store/userSlice";
 import { toast } from "react-toastify";
 import { toastSetup } from "../functions/toastSetup";
+// Other
+import { useSelector, useDispatch } from "react-redux";
+import { setUserID } from "../store/userSlice";
 
 export const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -40,15 +42,17 @@ export const Navbar = () => {
     }
   }, [location]);
 
+  //Hide sticky navbar functinality for /qr_scanner and /controller_login
   useEffect(() => {
+    const el = document.querySelector(".nav-wrapper");
+
     if (
       location.pathname === "/qr_scanner" ||
       location.pathname === "/controller_login"
     )
       return;
-    // Sticky navbar
-    const el = document.querySelector(".nav-wrapper");
 
+    // Sticky navbar functionality
     function handleIntersection(entries) {
       if (entries[0].isIntersecting) {
         document.querySelector(".navbar").classList.remove("sticky-nav");
@@ -64,6 +68,8 @@ export const Navbar = () => {
   // Disable scroll when modal windows opened
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    // Check if login or register modal window opened
     setTimeout(() => {
       if (isLoginOpen || isRegisterOpen) {
         document.body.style.overflow = "hidden";
@@ -79,6 +85,7 @@ export const Navbar = () => {
     }, 150);
   }, [isLoginOpen, isRegisterOpen]);
 
+  // Hide navbar for /qr_scanner and /controller_login
   if (
     location.pathname === "/qr_scanner" ||
     location.pathname === "/controller_login"
@@ -102,7 +109,6 @@ export const Navbar = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            {/* <span className="navbar-toggler-icon"></span> */}
             <img src={Menu} className="navbar-toggler-icon" alt="Menu" />
           </button>
           <div className="collapse navbar-collapse" id="navbarNavDropdown">
@@ -204,9 +210,6 @@ export const Navbar = () => {
                   </div>
                 )}
               </li>
-              {/* <li className="nav-item input-nav-link">
-                <SearchInput />
-              </li> */}
             </ul>
           </div>
         </div>
