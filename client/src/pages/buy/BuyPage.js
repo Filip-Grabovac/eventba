@@ -4,7 +4,7 @@ import plus from "../../assets/ikonice/plus.svg";
 import Carousel from "react-elastic-carousel";
 import { Personalization } from "./Personalization";
 import { TicketBill } from "./TicketBill";
-import { removeLastTicket, resetState } from "../../store/ticketSlice";
+import { removeLastTicket } from "../../store/ticketSlice";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentForm from "./PaymentForm";
 import axios from "axios";
@@ -20,6 +20,7 @@ export const BuyPage = () => {
   const [orderNumber, setOrderNumber] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const [toolTipOpen, setToolTipOpen] = useState(false);
+
   const activeCardRef = useRef(null);
   const allTickets = useSelector((state) => state.ticketState.ticketList);
   const ticketsWithoutEmails = allTickets.filter(
@@ -84,20 +85,20 @@ export const BuyPage = () => {
 
   //TAKE ID and fetch data
 
+  const fetchBuyPage = async () => {
+    try {
+      const id = new URLSearchParams(new URL(window.location.href).search).get(
+        "id"
+      );
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${id}`
+      );
+      setConcertData(response.data[0]);
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
+  };
   useEffect(() => {
-    const fetchBuyPage = async () => {
-      try {
-        const id = new URLSearchParams(
-          new URL(window.location.href).search
-        ).get("id");
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${id}`
-        );
-        setConcertData(response.data[0]);
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
-      }
-    };
     fetchBuyPage();
   }, []);
 
@@ -115,24 +116,33 @@ export const BuyPage = () => {
   // Fetching data for payment
 
   const userId = useSelector((state) => state.userState.user);
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
+  const fetchProfileData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
+      );
+      setProfileData(response.data);
+      if (!response.data.isVerified) {
+        toast.error(
+          `Verificirajte vaš račun na: "${response.data.email}" da biste mogli obaviti kupovinu!`,
+          toastSetup("top-right", 3000)
         );
-        setProfileData(response.data);
-        dispatch(resetState(response.data));
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchProfileData();
   }, []);
 
   // BUY BUTTON
   // Chek if mails are there, to enable pay button
   const handleButtonClick = () => {
+    fetchBuyPage();
+    fetchProfileData();
+    console.log(profileData);
     const ticketsWithoutEmails = allTickets.filter(
       (ticket) => ticket.email === ""
     );
@@ -143,92 +153,96 @@ export const BuyPage = () => {
       (ticket) => ticket.price === 0
     );
     const ticketsIdWithoutSeat = ticketsWithoutSeat.map((ticket) => ticket.id);
+    {
+      if (ticketsIdWithoutEmail.length === 0 && profileData.isVerified) {
+        if (ticketsIdWithoutSeat.length === 0) {
+          setShowPaymentForm(true);
 
-    if (ticketsIdWithoutEmail.length === 0) {
-      if (ticketsIdWithoutSeat.length === 0) {
-        setShowPaymentForm(true);
+          const allEmails = allTickets.map((ticket) => ticket.email);
 
-        const allEmails = allTickets.map((ticket) => ticket.email);
+          const uniqueEmails = allEmails.filter((email, index) => {
+            return allEmails.indexOf(email) === index;
+          });
+          const timeOfToast = uniqueEmails * 2000;
+          if (uniqueEmails.length === 1) {
+            toast.success(
+              `Vaše ulaznice će biti poslane na mail ${uniqueEmails}. Odaberite način plaćanja.`,
+              toastSetup("top-right", 3000)
+            );
+          } else {
+            toast.success(
+              `Vaše ulaznice će biti poslane na iduće emailove:\n${uniqueEmails.join(
+                "\n"
+              )}. Odaberite način plaćanja.`,
 
-        const uniqueEmails = allEmails.filter((email, index) => {
-          return allEmails.indexOf(email) === index;
-        });
-        const timeOfToast = uniqueEmails * 2000;
-        if (uniqueEmails.length === 1) {
-          toast.success(
-            `Vaše ulaznice će biti poslane na mail ${uniqueEmails}. Odaberite način plaćanja.`,
-            toastSetup("top-right", 3000)
-          );
-        } else {
-          toast.success(
-            `Vaše ulaznice će biti poslane na iduće emailove:\n${uniqueEmails.join(
-              "\n"
-            )}. Odaberite način plaćanja.`,
-
-            {
-              position: "top-right",
-              autoClose: timeOfToast,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "dark",
-            }
-          );
-        }
-
-        async function sendPostRequest() {
-          try {
-            console.log({
-              ticketGenData: ticketGenData,
-              concertData: concertData,
-              orderNumber,
-            });
-            // Send the POST request using Axios and wait for the response
-            await axios.post(
-              `${process.env.REACT_APP_API_URL}/api/v1/payment/get_ticket_data`,
               {
+                position: "top-right",
+                autoClose: timeOfToast,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              }
+            );
+          }
+
+          async function sendPostRequest() {
+            try {
+              console.log({
                 ticketGenData: ticketGenData,
                 concertData: concertData,
                 orderNumber,
-              }
-            );
-          } catch (error) {
-            // Handle any errors that occurred during the request
-            console.error(error);
+              });
+              // Send the POST request using Axios and wait for the response
+              await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/v1/payment/get_ticket_data`,
+                {
+                  ticketGenData: ticketGenData,
+                  concertData: concertData,
+                  orderNumber,
+                }
+              );
+            } catch (error) {
+              // Handle any errors that occurred during the request
+              toast.error(
+                `Problem sa slanjem podataka na server, pokušajte kasnije...`,
+                toastSetup("top-right", 3000)
+              );
+            }
           }
-        }
 
-        // Call the async function
-        sendPostRequest();
+          // Call the async function
+          sendPostRequest();
+        } else {
+          if (ticketsIdWithoutSeat.length === 1) {
+            toast.error(
+              `Odaberite mjesto na ulaznici: ${ticketsIdWithoutSeat}`,
+              toastSetup("top-right", 3000)
+            );
+          } else
+            toast.error(
+              `Odaberite mjesto na ulaznicama: ${ticketsIdWithoutSeat}`,
+              toastSetup("top-right", 3000)
+            );
+        }
       } else {
-        if (ticketsIdWithoutSeat.length === 1) {
+        setToolTipOpen(true);
+        setTimeout(() => {
+          setToolTipOpen(false);
+        }, 2000);
+        if (ticketsIdWithoutEmail.length === 1) {
           toast.error(
-            `Odaberite mjesto na ulaznici: ${ticketsIdWithoutSeat}`,
+            `Niste potvrdili email za ulaznicu: ${ticketsIdWithoutEmail}`,
             toastSetup("top-right", 3000)
           );
         } else
           toast.error(
-            `Odaberite mjesto na ulaznicama: ${ticketsIdWithoutSeat}`,
+            `Niste potvrdili email za ulaznice: ${ticketsIdWithoutEmail}`,
             toastSetup("top-right", 3000)
           );
       }
-    } else {
-      setToolTipOpen(true);
-      setTimeout(() => {
-        setToolTipOpen(false);
-      }, 2000);
-      if (ticketsIdWithoutEmail.length === 1) {
-        toast.error(
-          `Niste potvrdili email za ulaznicu: ${ticketsIdWithoutEmail}`,
-          toastSetup("top-right", 3000)
-        );
-      } else
-        toast.error(
-          `Niste potvrdili email za ulaznice: ${ticketsIdWithoutEmail}`,
-          toastSetup("top-right", 3000)
-        );
     }
   };
 

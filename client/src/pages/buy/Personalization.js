@@ -22,6 +22,14 @@ export const Personalization = ({
   const ticketID = i + 1;
 
   useEffect(() => {
+    if (profileData) {
+      setName(profileData.name || "");
+      setSurname(profileData.lname || "");
+      setEmail(profileData.email || "");
+    }
+  }, [profileData]);
+
+  useEffect(() => {
     const ticket = {
       id: ticketID,
       name: name,
@@ -30,7 +38,7 @@ export const Personalization = ({
       price: 0,
     };
     dispatch(addTicket(ticket));
-  }, []);
+  }, [ticketID, name, surname, email, dispatch]);
 
   const handleClick = (category) => {
     setActiveCategory(category);
@@ -53,17 +61,6 @@ export const Personalization = ({
     e.preventDefault();
   };
 
-  const saveTicketData = () => {
-    setShowPaymentForm(false);
-    dispatch(
-      addTicket({
-        id: i + 1,
-        name: name,
-        lname: surname,
-        email: email,
-      })
-    );
-  };
   const curentTicket = useSelector((state) =>
     state.ticketState.ticketList.find((ticket) => ticket.id === ticketID)
   );
@@ -143,26 +140,6 @@ export const Personalization = ({
                   content={`Email na koji će ulaznica ${i + 1} biti poslana!`}
                 />
               </div>
-            </div>
-
-            <div className="row">
-              <button
-                id={`button-${i}`}
-                onClick={saveTicketData}
-                className="item7"
-                type="submit"
-              >
-                Spremi promjene
-              </button>
-              <Tooltip
-                style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
-                anchorId={`button-${i}`}
-                place="bottom"
-                variant="info"
-                content={"Spremite podatke o ulaznici"}
-                isOpen={toolTipOpen}
-                delayShow={2000}
-              />
             </div>
           </form>
         </div>

@@ -1,6 +1,6 @@
 .buy-container {
   min-height: 700px;
-  width: 95%;
+  max-width: 1300px;
   background-color: #eceefb;
   margin: 50px auto;
   border-radius: 10px;
@@ -37,7 +37,7 @@
         rgba(39, 148, 167, 0.5254901961) 100%
       );
       display: flex;
-      justify-content: center;
+
       align-items: center;
       gap: 10px;
       @media only screen and (max-width: 360px) {
@@ -215,7 +215,7 @@
 
         .person-check-flex {
           display: flex;
-          margin: 0 0 5% 3%;
+          margin-left: 3%;
           padding: 10px;
           justify-content: space-between;
           align-items: center;
@@ -273,7 +273,7 @@
         .profile-form {
           line-height: 14px;
           margin: 0 auto 5%;
-          padding: 4%;
+          padding: 0 4%;
           max-width: 800px;
           border-radius: 15px;
 

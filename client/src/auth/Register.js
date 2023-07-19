@@ -74,7 +74,10 @@ export const Register = ({
         )
         .then((response) => {
           console.log(response);
-          toast.success("Uspješna registracija", toastSetup("top-right", 3000));
+          toast.success(
+            `Uspješna registracija. Provjerite ${user.email} zbog verifikacije!`,
+            toastSetup("top-right", 3000)
+          );
           setIsRegisterOpen(false);
 
           dispatch(setUserID(response.data.user._id));
