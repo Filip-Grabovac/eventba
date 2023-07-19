@@ -16,22 +16,26 @@ export const Navbar = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const userId = useSelector((state) => state.userState.user);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Logout function
   const logout = () => {
     dispatch(setUserID(""));
     localStorage.clear();
     navigate("/");
     toast.success("Uspješna odjava", toastSetup("top-right", 2000));
   };
-  const location = useLocation();
 
   //Pop login window if not logged in.
   useEffect(() => {
     setIsDropdownOpen(false);
     // Check if the route navigation state has "openLogin" property and its value is true
-    if (location.pathname === "/buy" && userId === "") {
+    if (
+      (location.pathname === "/buy" || location.pathname === "/profile") &&
+      userId === ""
+    ) {
       setIsLoginOpen(true);
     }
   }, [location]);
