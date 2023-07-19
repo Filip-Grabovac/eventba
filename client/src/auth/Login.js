@@ -12,18 +12,9 @@ import FacebookLogin from "react-facebook-login";
 // REDUX
 import { useDispatch } from "react-redux";
 import { setUserID } from "../store/userSlice";
+import { toastSetup } from "../functions/toastSetup";
 
 export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
-  const toastSetup = {
-    position: "top-right",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-  };
   const dispatch = useDispatch();
   const [loggedin, setState] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -68,10 +59,10 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
       ) {
         dispatch(setUserID(id));
         localStorage.setItem("userId", id);
-        toast.success("Uspješna prijava!", toastSetup);
+        toast.success("Uspješna prijava!", toastSetup("top-center", 3000));
         setIsLoginOpen(false);
       } else {
-        toast.error(`Lozinka nije ispravna!`, toastSetup);
+        toast.error(`Lozinka nije ispravna!`, toastSetup("top-center", 3000));
         passwordRef.current.focus();
       }
     } catch (error) {
@@ -80,10 +71,13 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
       if (error) {
         toast.error(
           `Došlo je do pogreške prilikom prijave. ${error.response.data.error}!`,
-          toastSetup
+          toastSetup("top-center", 3000)
         );
       } else {
-        toast.error("Došlo je do pogreške prilikom registracije.", toastSetup);
+        toast.error(
+          "Došlo je do pogreške prilikom registracije.",
+          toastSetup("top-center", 3000)
+        );
       }
     }
   };
@@ -104,7 +98,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
         const { id } = response.data;
         dispatch(setUserID(id));
         localStorage.setItem("userId", id);
-        toast.success("Uspješna prijava!", toastSetup);
+        toast.success("Uspješna prijava!", toastSetup("top-center", 3000));
       } catch (error) {
         const user = {
           name: fbResponse.name.split(" ")[0],
@@ -129,7 +123,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
             setIsLoginOpen(false);
             toast.success(
               "Uspješna prijava Facebookom! Ažurirajte svoje podatke na profilnoj stranici!",
-              toastSetup
+              toastSetup("top-center", 3000)
             );
           })
 
@@ -138,7 +132,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
             console.error("Error:");
             toast.error(
               `Došlo je do pogreške prilikom registracije. ${error.response.data.error}!`,
-              toastSetup
+              toastSetup("top-center", 3000)
             );
           });
       }

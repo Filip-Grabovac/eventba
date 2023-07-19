@@ -1,44 +1,125 @@
-.entrance-controller-login-section {
-  width: 100vw;
-  height: 100vh;
-  background-image: url("assets/images/controller_login_bg.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-#html5-qrcode-anchor-scan-type-change {
-  display: none;
-}
-img[alt="Info icon"] {
-  display: none;
-}
-#html5-qrcode-button-camera-permission,
-.controller-logout-btn {
-  background-color: #f4cd46;
-  border: none;
-  font-size: 0;
-  border-radius: 10px;
-  padding: 5px 15px;
-  margin-top: 30px;
-}
-#html5-qrcode-button-camera-permission::before {
-  content: "Dozvolite Pristup Kameri";
-  color: #343434;
-  font-size: 16px;
-  font-weight: 600;
-}
-.controller-logout-btn {
-  font-size: 14px;
-  margin: 0;
-  min-width: fit-content;
-
-  img {
-    width: 17px;
-    margin-left: 10px;
+.qr-scanner-container {
+  .custom-navbar {
+    @media only screen and (max-width: 236px) {
+      padding: 10px 0;
+    }
   }
+  .qr-sacnner-nav {
+    justify-content: flex-end;
 
-  &:hover {
+    .nav-item {
+      justify-content: center;
+    }
+  }
+  .entrance-controller-login-section {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("assets/images/controller_login_bg.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  #html5-qrcode-anchor-scan-type-change {
+    display: none;
+  }
+  img[alt="Info icon"] {
+    display: none;
+  }
+  #html5-qrcode-button-camera-permission,
+  .controller-logout-btn {
+    background-color: #f4cd46;
+    border: none;
+    font-size: 0;
+    border-radius: 10px;
+    padding: 5px 15px;
+    margin-top: 30px;
+  }
+  #html5-qrcode-button-camera-permission::before {
+    content: "Dozvolite Pristup Kameri";
+    color: #343434;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .controller-logout-btn {
+    font-size: 14px;
+    margin: 0;
+    min-width: fit-content;
+
     img {
-      transform: translateX(2px);
+      width: 17px;
+      margin-left: 10px;
+    }
+
+    &:hover {
+      img {
+        transform: translateX(2px);
+      }
+    }
+  }
+  .success-scan {
+    background-color: #008000;
+  }
+  .failed-scan {
+    background-color: #ff0000;
+  }
+  .scan-in-process {
+    background-color: #ffa500;
+  }
+  .qr-message {
+    width: 50%;
+    margin: 40px auto;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+
+    span {
+      color: #fff;
+    }
+
+    @media only screen and (max-width: 640px) {
+      width: 90%;
+      height: 150px;
+    }
+    @media only screen and (max-width: 290px) {
+      width: 96%;
+    }
+
+    p {
+      color: #fff;
+      font-size: 50px;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-align: center;
+      margin: 0;
+
+      @media only screen and (max-width: 640px) {
+        font-size: 40px;
+      }
+      @media only screen and (max-width: 290px) {
+        font-size: 30px;
+      }
+    }
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid #fff;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+      margin-left: 20px;
+    }
+
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
     }
   }
 }

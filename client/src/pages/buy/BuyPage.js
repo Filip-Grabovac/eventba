@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PaymentForm from "./PaymentForm";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { toastSetup } from "../../functions/toastSetup";
 
 export const BuyPage = () => {
   const [concertData, setConcertData] = useState({});
@@ -26,16 +27,6 @@ export const BuyPage = () => {
   );
   const ticketsIdWithoutEmail = ticketsWithoutEmails.map((ticket) => ticket.id);
 
-  const toastSetup = {
-    position: "top-right",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-  };
   const dispatch = useDispatch();
   const totalAmount = useSelector((state) => state.ticketState.totalAmount);
   const ticketGenData = useSelector((state) => state.ticketState);
@@ -166,7 +157,7 @@ export const BuyPage = () => {
         if (uniqueEmails.length === 1) {
           toast.success(
             `Vaše ulaznice će biti poslane na mail ${uniqueEmails}. Odaberite način plaćanja.`,
-            toastSetup
+            toastSetup("top-right", 3000)
           );
         } else {
           toast.success(
@@ -215,12 +206,12 @@ export const BuyPage = () => {
         if (ticketsIdWithoutSeat.length === 1) {
           toast.error(
             `Odaberite mjesto na ulaznici: ${ticketsIdWithoutSeat}`,
-            toastSetup
+            toastSetup("top-right", 3000)
           );
         } else
           toast.error(
             `Odaberite mjesto na ulaznicama: ${ticketsIdWithoutSeat}`,
-            toastSetup
+            toastSetup("top-right", 3000)
           );
       }
     } else {
@@ -231,12 +222,12 @@ export const BuyPage = () => {
       if (ticketsIdWithoutEmail.length === 1) {
         toast.error(
           `Niste potvrdili email za ulaznicu: ${ticketsIdWithoutEmail}`,
-          toastSetup
+          toastSetup("top-right", 3000)
         );
       } else
         toast.error(
           `Niste potvrdili email za ulaznice: ${ticketsIdWithoutEmail}`,
-          toastSetup
+          toastSetup("top-right", 3000)
         );
     }
   };

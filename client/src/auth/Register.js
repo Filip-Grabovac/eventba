@@ -13,6 +13,7 @@ import { Decrypt } from "./Decrypt";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useDispatch } from "react-redux";
 import { setUserID } from "../store/userSlice";
+import { toastSetup } from "../functions/toastSetup";
 
 export const Register = ({
   isRegisterOpen,
@@ -21,16 +22,7 @@ export const Register = ({
 }) => {
   const [verified, setVerified] = useState(false);
   const dispatch = useDispatch();
-  const toastSetup = {
-    position: "top-center",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-  };
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const repeatPasswordRef = useRef(null);
   const emailRef = useRef(null);
@@ -82,7 +74,7 @@ export const Register = ({
         )
         .then((response) => {
           console.log(response);
-          toast.success("Uspješna registracija", toastSetup);
+          toast.success("Uspješna registracija", toastSetup("top-right", 3000));
           setIsRegisterOpen(false);
 
           dispatch(setUserID(response.data.user._id));
@@ -93,11 +85,11 @@ export const Register = ({
           emailRef.current.focus();
           toast.error(
             `Došlo je do pogreške prilikom registracije. ${error.response.data.error}!`,
-            toastSetup
+            toastSetup("top-right", 3000)
           );
         });
     } else {
-      toast.warn("Lozinke se ne podudaraju!", toastSetup);
+      toast.warn("Lozinke se ne podudaraju!", toastSetup("top-right", 3000));
       repeatPasswordRef.current.focus();
     }
   };

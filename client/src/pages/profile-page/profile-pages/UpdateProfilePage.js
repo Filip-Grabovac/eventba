@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import PhoneInput from "react-phone-number-input";
 import countryMap from "../../../components/helper/countryMap";
+import { toastSetup } from "../../../functions/toastSetup";
 
 export const UpdateProfilePage = (props) => {
   const profileData = props.profileData;
@@ -58,7 +59,10 @@ export const UpdateProfilePage = (props) => {
           },
         })
         .then((response) => {
-          toast.success("Uspješno ste ažurirali podatke", toastSetup);
+          toast.success(
+            "Uspješno ste ažurirali podatke",
+            toastSetup("top-right", 2000)
+          );
           props.onProfileFormSubmit();
         })
         .catch((error) => {
@@ -66,7 +70,7 @@ export const UpdateProfilePage = (props) => {
           console.error("Error:");
           toast.error(
             `Došlo je do pogreške prilikom ažuriranja podataka. ${error.response.data.error}!`,
-            toastSetup
+            toastSetup("top-right", 2000)
           );
         });
     } else if (password === "") {
@@ -79,7 +83,10 @@ export const UpdateProfilePage = (props) => {
           },
         })
         .then((response) => {
-          toast.success("Uspješno ste ažurirali podatke", toastSetup);
+          toast.success(
+            "Uspješno ste ažurirali podatke",
+            toastSetup("top-right", 2000)
+          );
           props.onProfileFormSubmit();
         })
         .catch((error) => {
@@ -88,26 +95,15 @@ export const UpdateProfilePage = (props) => {
           console.log(error);
           toast.error(
             `Došlo je do pogreške prilikom ažuriranja podataka. ${error.response.data.error}!`,
-            toastSetup
+            toastSetup("top-right", 2000)
           );
         });
     } else {
       toast.warn(
         "Lozinke se ne poklapaju ili su kraće od 6 znamenki!",
-        toastSetup
+        toastSetup("top-right", 2000)
       );
     }
-  };
-
-  const toastSetup = {
-    position: "top-right",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
   };
 
   return (

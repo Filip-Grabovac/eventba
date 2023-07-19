@@ -4,6 +4,7 @@ import PlusIcon from "../../../assets/ikonice/plus_icon.svg";
 import { Tooltip } from "react-tooltip";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { toastSetup } from "../../../functions/toastSetup";
 
 export const AddHall = () => {
   const [rowNum, setRowNum] = useState(1);
@@ -11,17 +12,6 @@ export const AddHall = () => {
   const [hallName, setHallName] = useState();
   const [hallLocation, setHallLocation] = useState();
   const [hallData, setHallData] = useState();
-
-  const toastSetup = {
-    position: "top-center",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-  };
 
   // Submit form
   async function handleFormSubmit(e) {
@@ -69,7 +59,7 @@ export const AddHall = () => {
 
       // If there is an empty field return
       if (counter > 0) {
-        toast.warn("Molimo unesite sva polja", toastSetup);
+        toast.warn("Molimo unesite sva polja", toastSetup("top-right", 3000));
         return;
       }
 
@@ -92,7 +82,7 @@ export const AddHall = () => {
         e.value = "";
       });
       setRowNum(1);
-      toast.success(response.data.msg, toastSetup);
+      toast.success(response.data.msg, toastSetup("top-right", 3000));
     } catch (error) {
       console.error(error);
     }

@@ -9,6 +9,7 @@ import { Register } from "../auth/Register";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserID } from "../store/userSlice";
 import { toast } from "react-toastify";
+import { toastSetup } from "../functions/toastSetup";
 
 export const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -16,24 +17,13 @@ export const Navbar = () => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const userId = useSelector((state) => state.userState.user);
 
-  const toastSetup = {
-    position: "top-right",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-  };
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logout = () => {
     dispatch(setUserID(""));
     localStorage.clear();
     navigate("/");
-    toast.success("Uspješna odjava", toastSetup);
+    toast.success("Uspješna odjava", toastSetup("top-right", 2000));
   };
   const location = useLocation();
 

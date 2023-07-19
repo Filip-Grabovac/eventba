@@ -6,22 +6,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { EntranceControllerCard } from "../EntranceControllerCard";
+import { toastSetup } from "../../../functions/toastSetup";
 
 export const EntranceChecker = (props) => {
   const [entranceControllorAcc, setEntranceControllorAcc] = useState(
     props.entranceData.entranceController
   );
   const userId = useSelector((state) => state.userState.user);
-  const toastSetup = {
-    position: "top-right",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-  };
 
   // Handle form submit
   async function handleFormSubmit(e) {
@@ -58,7 +49,7 @@ export const EntranceChecker = (props) => {
           },
         ]);
 
-        toast.success(response.data.message, toastSetup);
+        toast.success(response.data.message, toastSetup("top-right", 2000));
 
         document.querySelectorAll(".control-input").forEach((e) => {
           e.value = "";
@@ -76,9 +67,12 @@ export const EntranceChecker = (props) => {
       });
 
       if (counter > 0) {
-        toast.warn("Molimo unesite sva polja", toastSetup);
+        toast.warn("Molimo unesite sva polja", toastSetup("top-right", 3000));
       } else {
-        toast.warn("Sifra mora biti duga minimalno 6 karaktera", toastSetup);
+        toast.warn(
+          "Sifra mora biti duga minimalno 6 karaktera",
+          toastSetup("top-right", 3000)
+        );
         document.querySelector(".control-password-input").style =
           "outline: 2px solid #f4cd46;";
       }

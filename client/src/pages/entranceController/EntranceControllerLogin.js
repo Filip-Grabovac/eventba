@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserID } from "../../store/entranceControllerSlice";
 import { useNavigate } from "react-router-dom";
+import { toastSetup } from "../../functions/toastSetup";
 
 export const EntranceControllerLogin = () => {
   const dispatch = useDispatch();
@@ -17,17 +18,6 @@ export const EntranceControllerLogin = () => {
     (state) => state.entranceControllerState.entranceController.controllerId
   );
   const navigate = useNavigate();
-
-  const toastSetup = {
-    position: "top-right",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-  };
 
   useEffect(() => {
     document.querySelector(".App").style = "min-height: 100vh";
@@ -61,7 +51,7 @@ export const EntranceControllerLogin = () => {
         }
       );
 
-      toast.success(response.data.message, toastSetup);
+      toast.success(response.data.message, toastSetup("top-right", 3000));
       dispatch(
         setUserID({
           controllerId: response.data.id,
@@ -71,7 +61,7 @@ export const EntranceControllerLogin = () => {
       localStorage.setItem("entranceControllerId", response.data.id);
       localStorage.setItem("dbId", response.data.collectionName);
     } catch (error) {
-      toast.warn(error.response.data.message, toastSetup);
+      toast.warn(error.response.data.message, toastSetup("top-right", 3000));
     }
   }
 

@@ -3,6 +3,7 @@ import UploadImage from "../../../assets/images/uplad_img_placeholder.png";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { toastSetup } from "../../../functions/toastSetup";
 
 export const OrganizeEventPage = () => {
   const [selectedValue, setSelectedValue] = useState("");
@@ -23,17 +24,6 @@ export const OrganizeEventPage = () => {
   const [cityInputValue, setCityInputValue] = useState("");
 
   const userId = useSelector((state) => state.userState.user);
-
-  const toastSetup = {
-    position: "top-center",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-  };
 
   // Fetch halls
   useEffect(() => {
@@ -218,7 +208,7 @@ export const OrganizeEventPage = () => {
               `Molimo dodajte sliku s ${
                 aspectRatio === 2 / 3 ? "2:3" : "16:9"
               } formatom.`,
-              toastSetup
+              toastSetup("top-right", 3000)
             );
 
             // Remove the selected image from the file input
@@ -376,12 +366,12 @@ export const OrganizeEventPage = () => {
           }
         );
 
-        toast.success(response.data.message, toastSetup);
+        toast.success(response.data.message, toastSetup("top-right", 3000));
       } catch (error) {
         // Handle any errors
         toast.error(
           `Došlo je do pogreške prilikom dodavanja događaja. ${error.response.data.error}!`,
-          toastSetup
+          toastSetup("top-right", 3000)
         );
       }
     } else {
@@ -409,11 +399,14 @@ export const OrganizeEventPage = () => {
       if (document.querySelector(".event-description").value.length > 300) {
         toast.warn(
           `Opis događaja ne smije sadržavati više od 300 znakova`,
-          toastSetup
+          toastSetup("top-right", 3000)
         );
       }
 
-      toast.warn(`Molimo popunite sva polja i dodajte obje slike`, toastSetup);
+      toast.warn(
+        `Molimo popunite sva polja i dodajte obje slike`,
+        toastSetup("top-right", 3000)
+      );
     }
   }
 

@@ -3,21 +3,11 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Bars } from "react-loader-spinner";
+import { toastSetup } from "../functions/toastSetup";
 
 export const Verification = () => {
   const { verificationCode } = useParams();
   const navigate = useNavigate();
-
-  const toastSetup = {
-    position: "top-right",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-  };
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -28,12 +18,15 @@ export const Verification = () => {
 
         setTimeout(() => {
           navigate("/");
-          toast.success(response.data.msg, toastSetup);
+          toast.success(response.data.msg, toastSetup("top-right", 3000));
         }, 1000);
       } catch (error) {
         setTimeout(() => {
           navigate("/");
-          toast.error("Verifikacija nije uspjela!", toastSetup);
+          toast.error(
+            "Verifikacija nije uspjela!",
+            toastSetup("top-right", 3000)
+          );
         }, 1000);
       }
     };
