@@ -65,7 +65,8 @@ body {
       margin: 0 10px;
       .mini-poster {
         border-radius: 10px;
-        width: 180px;
+        width: 170px;
+        transform: translateY(-10px);
       }
     }
     .guidence {
@@ -94,6 +95,7 @@ p {
     font-weight: 700;
     background-image: linear-gradient(to top, #dfdfdf, #f0f0f0);
     border-radius: 0 10px 10px 10px;
+    z-index: 10;
   }
   .guide {
     display: flex;

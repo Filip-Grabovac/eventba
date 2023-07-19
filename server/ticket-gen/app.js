@@ -5,14 +5,15 @@ const { generateQRCode } = require("./controllers/qr&barGen");
 const { generatePdfAndSendEmail } = require("./controllers/generatePdf");
 const connectDB = require("../db/connect");
 const TicketSchema = require("../models/Ticket");
-const checkAndUpdateAmount = require("../controllers/concCheckandUpdate");
+const { updateTicketAmount } = require("../controllers/concCheckandUpdate");
 // Serve static files with the correct MIME type
 
 async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
   const ticketList = ticketGenData.ticketList;
 
   // Iterate over the ticketList array sequentially
-  for (const ticket of ticketList) {
+  const ticketsArray = Array.isArray(ticketList) ? ticketList : [ticketList];
+  for (const ticket of ticketsArray) {
     // Extract ticket data
     const { email, price, name, lname, category, ticketName } = ticket;
 
@@ -33,7 +34,7 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
       }
     );
 
-    const ticketNumber = await checkAndUpdateAmount(
+    const ticketNumber = await updateTicketAmount(
       concertData._id,
       category,
       price

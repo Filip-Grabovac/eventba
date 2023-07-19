@@ -45,7 +45,7 @@ const createUser = async (req, res) => {
 const verifyUser = async (req, res) => {
   try {
     const { verificationCode } = req.params;
-    console.log(Number(verificationCode));
+
     const existingUserWithCode = await User.findOneAndUpdate(
       { verificationCode: Number(verificationCode) },
       { $set: { isVerified: true }, $unset: { verificationCode: "" } },

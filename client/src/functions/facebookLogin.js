@@ -36,6 +36,7 @@ export const useFacebookLogin = (setIsLoginOpen, setUserID) => {
           fbEmail: fbResponse.email,
           profileImg: fbResponse.picture.data.url,
           role: "standard",
+          isVerified: true,
         };
 
         try {

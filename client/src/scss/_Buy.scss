@@ -163,14 +163,20 @@
           transition: all 0.2s ease;
           flex-wrap: wrap;
           gap: 15px;
+
           .active {
             transform: scale(1.1);
             box-shadow: 1px 1px 20px 3px rgba(0, 0, 0, 0.25);
             background: linear-gradient(to top, #181785 0%, #2692da 100%);
           }
+          .sold-out {
+            opacity: 0.5;
+            pointer-events: none;
+          }
         }
 
         .ticket-card-inner {
+          cursor: pointer;
           margin-bottom: 15px;
           max-width: 280px;
           background: linear-gradient(to top, #243bad 0%, #2692da 100%);

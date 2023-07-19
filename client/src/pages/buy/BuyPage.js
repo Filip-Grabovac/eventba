@@ -85,7 +85,7 @@ export const BuyPage = () => {
 
   //TAKE ID and fetch data
 
-  const fetchBuyPage = async () => {
+  const fetchConcertData = async () => {
     try {
       const id = new URLSearchParams(new URL(window.location.href).search).get(
         "id"
@@ -98,23 +98,6 @@ export const BuyPage = () => {
       console.error("Error fetching profile data:", error);
     }
   };
-  useEffect(() => {
-    fetchBuyPage();
-  }, []);
-
-  const timeOfEvent = new Date(concertData.time_of_event).toLocaleString(
-    "en-GB",
-    {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }
-  );
-
-  // Fetching data for payment
-
   const userId = useSelector((state) => state.userState.user);
   const fetchProfileData = async () => {
     try {
@@ -134,15 +117,52 @@ export const BuyPage = () => {
   };
 
   useEffect(() => {
+    fetchConcertData();
     fetchProfileData();
   }, []);
+
+  const timeOfEvent = new Date(concertData.time_of_event).toLocaleString(
+    "en-GB",
+    {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+  // Update the areEnoughTicketsAvailable function to return the category with not enough tickets
+  const areEnoughTicketsAvailable = (concertData, ticketGenData) => {
+    const missingCategories = new Set();
+
+    for (const ticket of ticketGenData.ticketList) {
+      const category = String(ticket?.category);
+      const concertTickets = concertData.tickets.type[category]?.amount;
+      const ticketCount = ticketGenData.ticketList.filter(
+        (t) => t.category === category
+      ).length;
+
+      if (concertTickets >= ticketCount) {
+        // Enough tickets available for this category
+        continue;
+      } else {
+        // Not enough tickets available for this category
+        const ticketName = ticketGenData.ticketList.find(
+          (t) => t.category === category
+        )?.ticketName;
+        missingCategories.add(ticketName || category);
+      }
+    }
+
+    return Array.from(missingCategories);
+  };
 
   // BUY BUTTON
   // Chek if mails are there, to enable pay button
   const handleButtonClick = () => {
-    fetchBuyPage();
-    fetchProfileData();
-    console.log(profileData);
+    fetchConcertData();
+    profileData.isVerified || fetchProfileData();
+
     const ticketsWithoutEmails = allTickets.filter(
       (ticket) => ticket.email === ""
     );
@@ -153,77 +173,77 @@ export const BuyPage = () => {
       (ticket) => ticket.price === 0
     );
     const ticketsIdWithoutSeat = ticketsWithoutSeat.map((ticket) => ticket.id);
+    const categoryWithNotEnoughTickets = areEnoughTicketsAvailable(
+      concertData,
+      ticketGenData
+    );
+
     {
-      if (ticketsIdWithoutEmail.length === 0 && profileData.isVerified) {
+      if (ticketsIdWithoutEmail.length === 0) {
         if (ticketsIdWithoutSeat.length === 0) {
-          setShowPaymentForm(true);
+          if (categoryWithNotEnoughTickets.length === 0) {
+            setShowPaymentForm(true);
+            const allEmails = allTickets.map((ticket) => ticket.email);
+            const uniqueEmails = allEmails.filter((email, index) => {
+              return allEmails.indexOf(email) === index;
+            });
 
-          const allEmails = allTickets.map((ticket) => ticket.email);
+            const timeOfToast = uniqueEmails * 2000;
 
-          const uniqueEmails = allEmails.filter((email, index) => {
-            return allEmails.indexOf(email) === index;
-          });
-          const timeOfToast = uniqueEmails * 2000;
-          if (uniqueEmails.length === 1) {
             toast.success(
-              `Vaše ulaznice će biti poslane na mail ${uniqueEmails}. Odaberite način plaćanja.`,
-              toastSetup("top-right", 3000)
+              `Vaše ${
+                ticketAmount === 1
+                  ? "ulaznica će biti poslana"
+                  : "ulaznice će biti poslane"
+              }  na ${
+                uniqueEmails.length === 1 ? "mail" : "mailove"
+              }:\n${uniqueEmails.join("\n")}. Odaberite način plaćanja.`,
+              toastSetup("top-right", timeOfToast)
             );
-          } else {
-            toast.success(
-              `Vaše ulaznice će biti poslane na iduće emailove:\n${uniqueEmails.join(
-                "\n"
-              )}. Odaberite način plaćanja.`,
 
-              {
-                position: "top-right",
-                autoClose: timeOfToast,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
+            async function sendPostRequest() {
+              try {
+                // Send the POST request using Axios and wait for the response
+                await axios.post(
+                  `${process.env.REACT_APP_API_URL}/api/v1/payment/get_ticket_data`,
+                  {
+                    ticketGenData: ticketGenData,
+                    concertData: concertData,
+                    orderNumber,
+                  }
+                );
+              } catch (error) {
+                // Handle any errors that occurred during the request
+                toast.error(
+                  `Problem sa slanjem podataka na server, pokušajte kasnije...`,
+                  toastSetup("top-right", 3000)
+                );
               }
-            );
-          }
+            }
 
-          async function sendPostRequest() {
-            try {
-              console.log({
-                ticketGenData: ticketGenData,
-                concertData: concertData,
-                orderNumber,
-              });
-              // Send the POST request using Axios and wait for the response
-              await axios.post(
-                `${process.env.REACT_APP_API_URL}/api/v1/payment/get_ticket_data`,
-                {
-                  ticketGenData: ticketGenData,
-                  concertData: concertData,
-                  orderNumber,
-                }
-              );
-            } catch (error) {
-              // Handle any errors that occurred during the request
+            // Call the async function
+            sendPostRequest();
+          } else {
+            {
               toast.error(
-                `Problem sa slanjem podataka na server, pokušajte kasnije...`,
+                `Nema dovoljno ulaznica za ${
+                  categoryWithNotEnoughTickets.length === 1
+                    ? "kategoriju"
+                    : "kategorije"
+                }: ${categoryWithNotEnoughTickets}.`,
                 toastSetup("top-right", 3000)
               );
             }
           }
-
-          // Call the async function
-          sendPostRequest();
         } else {
           if (ticketsIdWithoutSeat.length === 1) {
             toast.error(
-              `Odaberite mjesto na ulaznici: ${ticketsIdWithoutSeat}`,
+              `Odaberite tip za ulaznicu: ${ticketsIdWithoutSeat}`,
               toastSetup("top-right", 3000)
             );
           } else
             toast.error(
-              `Odaberite mjesto na ulaznicama: ${ticketsIdWithoutSeat}`,
+              `Odaberite tip na ulaznicama: ${ticketsIdWithoutSeat}`,
               toastSetup("top-right", 3000)
             );
         }
@@ -242,6 +262,12 @@ export const BuyPage = () => {
             `Niste potvrdili email za ulaznice: ${ticketsIdWithoutEmail}`,
             toastSetup("top-right", 3000)
           );
+        if (!profileData.isVerified) {
+          toast.error(
+            `Verificirajte vaš račun na: "${profileData.email}" da biste mogli obaviti kupovinu!`,
+            toastSetup("top-right", 3000)
+          );
+        }
       }
     }
   };

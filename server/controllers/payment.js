@@ -1,4 +1,5 @@
 const { generateTicketAndSendEmail } = require("../ticket-gen/app");
+const { updateCategoryAmount } = require("../controllers/concCheckandUpdate");
 
 const ticketInfoMap = new Map();
 const requestQueue = []; // Array to store the requests
@@ -38,6 +39,10 @@ const handlePaymentEndpoint = async (req, res) => {
         const ticketInfo = ticketInfoMap.get(Number(data.order_number));
 
         if (ticketInfo) {
+          updateCategoryAmount(
+            ticketInfo.concertData._id,
+            ticketInfo.ticketGenData.ticketList
+          );
           generateTicketAndSendEmail(ticketInfo);
           res.redirect("/thankyou");
         } else {

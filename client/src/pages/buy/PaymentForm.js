@@ -21,7 +21,7 @@ const MyComponent = (props) => {
   };
 
   useEffect(() => {
-    handleTextInput(key + orderNumber.toString() + amount + "EUR");
+    handleTextInput(key + orderNumber.toString() + amount + "BAM");
     if (orderNumber && hashedCode) {
       const script1 = document.createElement("script");
       script1.src = "https://ipgtest.monri.com/dist/components.js";
@@ -32,7 +32,7 @@ const MyComponent = (props) => {
       script2.className = "lightbox-button";
       script2.setAttribute("data-authenticity-token", "000d6675b8e33b0eb0c6b");
       script2.setAttribute("data-amount", amount);
-      script2.setAttribute("data-currency", "EUR");
+      script2.setAttribute("data-currency", "BAM");
       script2.setAttribute("data-order-number", orderNumber);
       script2.setAttribute("data-order-info", "Lightbox example");
       script2.setAttribute("data-digest", hashedCode);
@@ -66,7 +66,7 @@ const MyComponent = (props) => {
           className="lightbox-button"
           data-authenticity-token="000d667d189f7255a6737ccc025b8e33b0eb0c6b"
           data-amount={amount}
-          data-currency="EUR"
+          data-currency="BAM"
           data-order-number={orderNumber}
           data-order-info="Lightbox example"
           data-digest={hashedCode}

@@ -5,6 +5,7 @@ import { addTicket } from "../../store/ticketSlice";
 import { PlanWrapper } from "./PlanWrapper";
 import { Tooltip } from "react-tooltip";
 import { addTicketPrice } from "../../store/ticketSlice";
+import HallTickets from "./ticket-type/HallTickets";
 export const Personalization = ({
   i,
   toolTipOpen,
@@ -45,7 +46,7 @@ export const Personalization = ({
 
     const ticketType = concertData.tickets.type[category];
     const price = ticketType.price;
-    console.log(ticketType);
+
     setTicketPrice(price);
     dispatch(
       addTicketPrice({
@@ -149,35 +150,11 @@ export const Personalization = ({
 
       <h4 className="choose-place">Odaberi ulaznicu:</h4>
       {concertData?.place?.type === "hall" ? (
-        <div className="ticket-card">
-          {concertData.tickets &&
-            concertData.tickets.type &&
-            Object.keys(concertData.tickets.type).map((category) => {
-              const ticketType = concertData.tickets.type[category];
-              return (
-                <div
-                  className={
-                    activeCategory === category
-                      ? "ticket-card-inner active"
-                      : "ticket-card-inner"
-                  }
-                  onClick={() => handleClick(category)}
-                  key={category}
-                >
-                  <div className={`ticket-card-name ${ticketType.name}`}>
-                    {ticketType.name}
-                  </div>
-                  <div className="ticket-card-content">
-                    <div>
-                      Cijena: {ticketType.price}
-                      <small> BAM</small>
-                    </div>
-                    <div>Preostalo: {ticketType.amount}</div>
-                  </div>
-                </div>
-              );
-            })}
-        </div>
+        <HallTickets
+          concertData={concertData}
+          activeCategory={activeCategory}
+          handleClick={handleClick}
+        />
       ) : (
         <>
           <PlanWrapper ticketID={ticketID} />
