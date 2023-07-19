@@ -1,49 +1,46 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { RegisterInput } from "./RegisterInput";
+import axios from "axios";
+// Images
 import X from "../assets/ikonice/X.svg";
-
 import PasswordEye from "../assets/ikonice/invisible.svg";
 import mail from "../assets/ikonice/mail.svg";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { Decrypt } from "./Decrypt";
-import FacebookLogin from "react-facebook-login";
-// REDUX
+// Redux
 import { useDispatch } from "react-redux";
 import { setUserID } from "../store/userSlice";
+// Components
+import { Link } from "react-router-dom";
+import { RegisterInput } from "./RegisterInput";
+import { toast } from "react-toastify";
+import FacebookLogin from "react-facebook-login";
+// Functions
+import { Decrypt } from "./Decrypt";
+import { closeModalOnEsc } from "../functions/closeModalOnEsc";
+import { useFacebookLogin } from "../functions/facebookLogin";
 import { toastSetup } from "../functions/toastSetup";
 
 export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
   const dispatch = useDispatch();
-  const [loggedin, setState] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const passwordRef = useRef(null);
   const secretKey = process.env.REACT_APP_SECRET_KEY;
+  const facebookLogin = useFacebookLogin(setIsLoginOpen, setUserID);
+
   // Around modal click exit login
   const handleModalClick = (e) => {
-    if (e.target.classList.contains("login-screen")) {
-      setIsLoginOpen(false);
-    }
+    if (e.target.classList.contains("login-screen")) setIsLoginOpen(false);
   };
+
   // Press escape key exit login
   useEffect(() => {
-    const handleKeyPress = (e) => {
-      if (e.key === "Escape") {
-        setIsLoginOpen(false);
-      }
-    };
-    document.addEventListener("keydown", handleKeyPress);
-    return () => {
-      document.removeEventListener("keydown", handleKeyPress);
-    };
+    closeModalOnEsc(setIsLoginOpen);
   }, [setIsLoginOpen]);
 
-  // Handle submit button
+  // Login user
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.elements.email.value;
 
+    // Get user from database
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/v1/users/email/${email}`,
@@ -53,101 +50,35 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
           },
         }
       );
+
       const { id, password: userPassword } = response.data;
+
+      // Decrypt and check user passwor vs password input
       if (
         Decrypt(userPassword, secretKey) === e.target.elements.password.value
       ) {
         dispatch(setUserID(id));
         localStorage.setItem("userId", id);
-        toast.success("Uspješna prijava!", toastSetup("top-center", 3000));
         setIsLoginOpen(false);
+
+        toast.success("Uspješna prijava!", toastSetup("top-center", 3000));
       } else {
         toast.error(`Lozinka nije ispravna!`, toastSetup("top-center", 3000));
         passwordRef.current.focus();
       }
     } catch (error) {
-      console.error(error);
-
-      if (error) {
-        toast.error(
-          `Došlo je do pogreške prilikom prijave. ${error.response.data.error}!`,
-          toastSetup("top-center", 3000)
-        );
-      } else {
-        toast.error(
-          "Došlo je do pogreške prilikom registracije.",
-          toastSetup("top-center", 3000)
-        );
-      }
+      toast.error(
+        `Došlo je do pogreške prilikom prijave. ${error.response.data.error}!`,
+        toastSetup("top-center", 3000)
+      );
     }
   };
 
-  // FACEBOOK LOGIC
-  const responseFacebook = async (fbResponse) => {
-    if (fbResponse.accessToken) {
-      const fbUserEmail = fbResponse.email;
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/v1/users/fbEmail/${fbUserEmail}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const { id } = response.data;
-        dispatch(setUserID(id));
-        localStorage.setItem("userId", id);
-        toast.success("Uspješna prijava!", toastSetup("top-center", 3000));
-      } catch (error) {
-        const user = {
-          name: fbResponse.name.split(" ")[0],
-          lname:
-            fbResponse.name.split(" ")[fbResponse.name.split(" ").length - 1],
-          email: fbResponse.email,
-          fbEmail: fbResponse.email,
-          profileImg: fbResponse.picture.data.url,
-          role: "standard",
-        };
-
-        await axios
-          .post(process.env.REACT_APP_API_URL + "/api/v1/users", user, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-
-          .then((response) => {
-            dispatch(setUserID(response.data.user._id));
-            localStorage.setItem("userId", response.data.user._id);
-            setIsLoginOpen(false);
-            toast.success(
-              "Uspješna prijava Facebookom! Ažurirajte svoje podatke na profilnoj stranici!",
-              toastSetup("top-center", 3000)
-            );
-          })
-
-          .catch((error) => {
-            // Handle any errors
-            console.error("Error:");
-            toast.error(
-              `Došlo je do pogreške prilikom registracije. ${error.response.data.error}!`,
-              toastSetup("top-center", 3000)
-            );
-          });
-      }
-      setIsLoginOpen(false);
-    }
-  };
-
+  // Close login and open register
   const handleOpenRegister = (e) => {
     e.preventDefault();
     setIsLoginOpen(false);
     setIsRegisterOpen(true);
-  };
-
-  const logout = () => {
-    setState(false);
   };
 
   return (
@@ -183,18 +114,14 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
               isPasswordVisible={isPasswordVisible}
               setIsPasswordVisible={setIsPasswordVisible}
             />
-            {/* <div className="other-login">
-                <div className="facebook">
-                  <img src={facebook} alt="Facebook logo" />
-                  <p>Nastavi sa Facebook-om</p>
-                </div>
-              </div> */}
             <FacebookLogin
               textButton="Prijavi se s Facebook-om"
               appId="934444414490428"
               autoLoad={false}
               fields="name,email,picture"
-              callback={responseFacebook}
+              callback={(fbResponse) => {
+                facebookLogin(fbResponse);
+              }}
             />
             <p>
               Nemaš event.ba račun?{" "}
