@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+// Images
 import InfoIcon from "../../../assets/ikonice/info.svg";
 import LinkIcon from "../../../assets/ikonice/link_icon.svg";
+// Components
 import { Tooltip } from "react-tooltip";
-import axios from "axios";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
-import { EntranceControllerCard } from "../EntranceControllerCard";
 import { toastSetup } from "../../../functions/toastSetup";
+import { EntranceControllerCard } from "../EntranceControllerCard";
 
 export const EntranceChecker = (props) => {
   const [entranceControllorAcc, setEntranceControllorAcc] = useState(
@@ -27,7 +29,7 @@ export const EntranceChecker = (props) => {
       organizer_id: userId,
     };
 
-    // Check all form data
+    // Check all form data before adding a entrance controller
     if (
       formData.event !== "" &&
       formData.entrance_num !== "" &&
@@ -49,16 +51,17 @@ export const EntranceChecker = (props) => {
           },
         ]);
 
-        toast.success(response.data.message, toastSetup("top-right", 2000));
-
         document.querySelectorAll(".control-input").forEach((e) => {
           e.value = "";
         });
+        toast.success(response.data.message, toastSetup("top-right", 2000));
       } catch (error) {
         console.error(error);
       }
     } else {
       let counter = 0;
+
+      // Shou outline on each input that is ==== ""
       document.querySelectorAll(".control-input").forEach((e) => {
         if (e.value === "") {
           e.style = "outline: 2px solid #f4cd46;";
@@ -66,6 +69,7 @@ export const EntranceChecker = (props) => {
         }
       });
 
+      // Display different errors
       if (counter > 0) {
         toast.warn("Molimo unesite sva polja", toastSetup("top-right", 3000));
       } else {

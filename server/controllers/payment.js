@@ -1,5 +1,6 @@
 const { generateTicketAndSendEmail } = require("../ticket-gen/app");
 const { updateCategoryAmount } = require("../controllers/concCheckandUpdate");
+const updateUserBuyHistory = require("../functions/user/updateUserBuyHistory");
 
 const ticketInfoMap = new Map();
 const requestQueue = []; // Array to store the requests
@@ -39,6 +40,7 @@ const handlePaymentEndpoint = async (req, res) => {
         const ticketInfo = ticketInfoMap.get(Number(data.order_number));
 
         if (ticketInfo) {
+          updateUserBuyHistory(ticketInfo);
           updateCategoryAmount(
             ticketInfo.concertData._id,
             ticketInfo.ticketGenData.ticketList

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Hero from "./hero/Hero";
-import { ThisWeek } from "../landing/thisWeek/ThisWeek";
+import { ThisWeek } from "../../components/thisWeek/ThisWeek";
 import axios from "axios";
 
 const SinglePage = () => {

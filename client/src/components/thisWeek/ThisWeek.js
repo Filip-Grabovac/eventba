@@ -5,6 +5,8 @@ import axios from "axios";
 
 export const ThisWeek = (props) => {
   const [thisWeek, setThisWeekData] = useState(null);
+
+  // Slider setup
   const breakpoints = [
     { width: 200, itemsToShow: 1 },
     { width: 400, itemsToShow: 2 },
@@ -12,6 +14,7 @@ export const ThisWeek = (props) => {
     { width: 1500, itemsToShow: 3 },
   ];
 
+  // Fetch the data
   useEffect(() => {
     const fetchThisWeekData = async () => {
       try {
@@ -37,7 +40,7 @@ export const ThisWeek = (props) => {
           pagination={false}
           breakPoints={breakpoints}
         >
-          {!thisWeek || !Array.isArray(thisWeek) // Dodajte provjeru da li je thisWeek niz
+          {!thisWeek || !Array.isArray(thisWeek)
             ? Array.from({ length: 3 }, (_, index) => (
                 <div className="skeleton" key={index}>
                   <div></div>

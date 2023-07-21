@@ -1,9 +1,10 @@
 import React from "react";
 import { UpdateProfilePage } from "./profile-pages/UpdateProfilePage.js";
-import { OrganizeEventPage } from "./profile-pages/OrganizeEventPage.js";
+import { OrganizeEventPage } from "./organizeEventPage/OrganizeEventPage.js";
 import { AdminSettings } from "./profile-pages/AdminSettings.js";
 import { EntranceChecker } from "./profile-pages/AddEntranceChecker.js";
 import { AddHall } from "./profile-pages/AddHall.js";
+import { MyTickets } from "./MyTicket/MyTickets.js";
 
 export function ProfileForm(props) {
   return (
@@ -21,6 +22,8 @@ export function ProfileForm(props) {
         <EntranceChecker entranceData={props.entranceData} />
       ) : props.activeNavItem === "Dodaj dvoranu" ? (
         <AddHall />
+      ) : props.activeNavItem === "Moje ulaznice" ? (
+        <MyTickets buyHistory={props.buyHistory} />
       ) : (
         ""
       )}

@@ -1,25 +1,29 @@
 import React from "react";
-import { Html5QrcodeScanner } from "html5-qrcode";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+// Images
 import Logo from "../../assets/logo/logo.svg";
+import LogoutIcon from "../../assets/ikonice/logout_btn.svg";
+import Menu from "../../assets/ikonice/menu.svg";
+// Components
+import { Html5QrcodeScanner } from "html5-qrcode";
+import { Link } from "react-router-dom";
+import { toastSetup } from "../../functions/toastSetup";
+import { toast } from "react-toastify";
+// Redux
 import { useDispatch } from "react-redux";
 import { setUserID } from "../../store/entranceControllerSlice";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import LogoutIcon from "../../assets/ikonice/logout_btn.svg";
-import axios from "axios";
-import Menu from "../../assets/ikonice/menu.svg";
-import { toastSetup } from "../../functions/toastSetup";
 
 export const QRscanner = () => {
-  const [ticketState, setState] = useState();
-  const [errorMsg, setErrorMsg] = useState();
-  const [scanningProcess, setScanningProcess] = useState("done");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   let dbLocalStorage = localStorage.getItem("dbId");
+  const [ticketState, setState] = useState();
+  const [errorMsg, setErrorMsg] = useState();
+  const [scanningProcess, setScanningProcess] = useState("done");
 
+  // Scanner setup
   useEffect(() => {
     const scanner = new Html5QrcodeScanner("reader", {
       qrbox: {
@@ -34,17 +38,22 @@ export const QRscanner = () => {
     // Successfull scan
     async function success(ticketId) {
       setScanningProcess("scanning");
+
+      // Try to find ticket with id and event name, display "Uspjesno"
       try {
         const response = await axios.patch(
           process.env.REACT_APP_API_URL +
             `/api/v1/tickets/${dbLocalStorage}/${ticketId}`
         );
+
         setState(response.data.msg);
         setTimeout(() => {
           setState();
           setErrorMsg();
         }, 1500);
         setScanningProcess("done");
+
+        // Dispay "Neuspjesno"
       } catch (error) {
         setErrorMsg(error.response.data.msgInfo);
         setState(error.response.data.msg);
@@ -61,6 +70,7 @@ export const QRscanner = () => {
     }
   }, []);
 
+  // Logout from QR scanner
   function logout() {
     dispatch(setUserID(""));
     localStorage.setItem("entranceControllerId", "");
@@ -86,7 +96,6 @@ export const QRscanner = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            {/* <span className="navbar-toggler-icon"></span> */}
             <img src={Menu} className="navbar-toggler-icon" alt="Menu" />
           </button>
           <div className="collapse navbar-collapse" id="navbarNavDropdown">

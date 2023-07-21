@@ -6,6 +6,7 @@ import { ImageCard } from "./ImageCard";
 const ImageSlider = () => {
   const [hotEventsData, setHotEvents] = useState([]);
 
+  // Slider setup
   const breakpoints = [
     { width: 300, itemsToShow: 1 },
     { width: 350, itemsToShow: 2 },
@@ -16,6 +17,7 @@ const ImageSlider = () => {
     { width: 1400, itemsToShow: 7 },
   ];
 
+  // Fetch the data
   useEffect(() => {
     const fetchHotConcerts = async () => {
       try {
@@ -30,6 +32,7 @@ const ImageSlider = () => {
 
     fetchHotConcerts();
   }, []);
+
   return (
     <Carousel
       breakPoints={breakpoints}

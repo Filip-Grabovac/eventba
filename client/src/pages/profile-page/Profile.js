@@ -8,6 +8,7 @@ export const Profile = () => {
   const [profileData, setProfileData] = useState(null);
   const userId = useSelector((state) => state.userState.user);
   const [navItems, setNavItems] = useState([]);
+  const [buyHistory, setBuyHistory] = useState();
   const [activeNavItem, setActiveNavItem] = useState("Ažuriraj podatke");
 
   const [entranceData, setEntranceData] = useState();
@@ -18,21 +19,27 @@ export const Profile = () => {
         `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
       );
       setProfileData(response.data);
+      setBuyHistory(response.data.buyHistory);
 
       // Set profile navbar based on role
       if (response.data.role === "standard") {
         setNavItems(["Ažuriraj podatke", "Moje ulaznice"]);
       } else if (response.data.role === "reseller") {
-        setNavItems(["Ažuriraj podatke", "Prodajna statistika"]);
+        setNavItems([
+          "Ažuriraj podatke",
+          "Moje ulaznice",
+          "Prodajna statistika",
+        ]);
       } else if (response.data.role === "organizer") {
         setNavItems([
           "Ažuriraj podatke",
+          "Moje ulaznice",
           "Organiziraj događaj",
           "Postavke ulaza",
           "Dodaj dvoranu",
         ]);
       } else if (response.data.role === "admin") {
-        setNavItems(["Ažuriraj podatke", "Admin postavke"]);
+        setNavItems(["Ažuriraj podatke", "Moje ulaznice", "Admin postavke"]);
       }
     } catch (error) {
       console.error("Error fetching profile data:", error);
@@ -99,6 +106,7 @@ export const Profile = () => {
               profileData={profileData}
               entranceData={entranceData}
               onProfileFormSubmit={handleProfileFormSubmit}
+              buyHistory={buyHistory}
             />
           </div>
         </div>

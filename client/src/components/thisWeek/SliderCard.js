@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 
 export const SliderCard = (props) => {
   const description = "";
+  const [isMouseOver, setIsMouseOver] = useState(false);
   const performerName = props.data.performer_name;
+  const place = props.data.place.city + ", " + props.data.place.place;
+  const src = props.data.poster.landscape;
   const formattedDate = new Date(props.data.time_of_event)
     .toLocaleDateString("en-GB", {
       day: "2-digit",
@@ -11,23 +14,15 @@ export const SliderCard = (props) => {
       year: "numeric",
     })
     .replace(/\//g, ".");
-  const place = props.data.place.city + ", " + props.data.place.place;
-  const src = props.data.poster.landscape;
-
-  const [isMouseOver, setIsMouseOver] = useState(false);
-
-  const handleMouseOver = () => {
-    setIsMouseOver(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsMouseOver(false);
-  };
 
   return (
     <div
-      onMouseOver={handleMouseOver}
-      onMouseLeave={handleMouseLeave}
+      onMouseOver={() => {
+        setIsMouseOver(true);
+      }}
+      onMouseLeave={() => {
+        setIsMouseOver(false);
+      }}
       className="slider-card"
     >
       <div

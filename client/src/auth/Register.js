@@ -53,6 +53,7 @@ export const Register = ({
       phone: e.target.elements.phoneNumber.value,
       password: Encrypt(e.target.elements.password.value, secretKey),
       repeatPassword: e.target.elements.repeatPassword.value,
+      buyHistory: [],
     };
 
     if (Decrypt(user.password, secretKey) === user.repeatPassword) {

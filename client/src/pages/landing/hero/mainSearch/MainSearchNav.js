@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import SearchInput from "../../hero/mainSearch/SearchInput";
 import axios from "axios";
+import { SearchNavLink } from "./SearchNavLink";
 
 const MainSearchNav = ({ setEvents, setLoader }) => {
-  // Dodajte vitičaste zagrade za destrukturiranje props-a
   const [category, setCategory] = useState("suggested");
 
   useEffect(() => {
     setEvents([]);
     setLoader(true);
 
+    // Fetch the searched events
     const fetchEvents = async () => {
       try {
         if (category) {
-          // Provjerite da li category ima vrijednost
           const response = await axios.get(
             `${process.env.REACT_APP_API_URL}/api/v1/concerts/type/${category}`
           );
@@ -29,6 +29,7 @@ const MainSearchNav = ({ setEvents, setLoader }) => {
     fetchEvents();
   }, [category]);
 
+  // Set active link
   const handleClick = (category) => {
     setCategory(category);
   };
@@ -36,56 +37,42 @@ const MainSearchNav = ({ setEvents, setLoader }) => {
   return (
     <div className="search-mini-nav">
       <ul className="search-nav-left">
-        <li>
-          <a
-            className={`${
-              category === "suggested" ? "searchActive" : ""
-            } suggested-search-link`}
-            onClick={() => handleClick("suggested")}
-          >
-            Preporuka
-          </a>
-        </li>
-        <li>
-          <a
-            className={category === "concert" ? "searchActive" : ""}
-            onClick={() => handleClick("concert")}
-          >
-            Koncerti
-          </a>
-        </li>
-        <li>
-          <a
-            className={category === "festival" ? "searchActive" : ""}
-            onClick={() => handleClick("festival")}
-          >
-            Festivali
-          </a>
-        </li>
-        <li>
-          <a
-            className={category === "theaters" ? "searchActive" : ""}
-            onClick={() => handleClick("theaters")}
-          >
-            Pozorište
-          </a>
-        </li>
-        <li>
-          <a
-            className={category === "show" ? "searchActive" : ""}
-            onClick={() => handleClick("show")}
-          >
-            Šou
-          </a>
-        </li>
-        <li>
-          <a
-            className={category === "other" ? "searchActive" : ""}
-            onClick={() => handleClick("other")}
-          >
-            Ostalo
-          </a>
-        </li>
+        <SearchNavLink
+          isActive={category === "suggested" ? "searchActive" : ""}
+          handleClick={handleClick}
+          content="Preporuka"
+          category="suggested"
+        />
+        <SearchNavLink
+          isActive={category === "concert" ? "searchActive" : ""}
+          handleClick={handleClick}
+          content="Koncerti"
+          category="concert"
+        />
+        <SearchNavLink
+          isActive={category === "festival" ? "searchActive" : ""}
+          handleClick={handleClick}
+          content="Festivali"
+          category="festival"
+        />
+        <SearchNavLink
+          isActive={category === "theaters" ? "searchActive" : ""}
+          handleClick={handleClick}
+          content="Pozorište"
+          category="theaters"
+        />
+        <SearchNavLink
+          isActive={category === "show" ? "searchActive" : ""}
+          handleClick={handleClick}
+          content="Šou"
+          category="show"
+        />
+        <SearchNavLink
+          isActive={category === "other" ? "searchActive" : ""}
+          handleClick={handleClick}
+          content="Ostalo"
+          category="other"
+        />
       </ul>
       <ul className="search-nav-right">
         <li>
