@@ -6,7 +6,6 @@ import SearchIcon from "../../assets/ikonice/search_icon.png";
 
 export const ListPage = () => {
   const [events, setEvents] = useState();
-  const [anyResponse, setAnyResponse] = useState();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const typeParam = searchParams.get("type");

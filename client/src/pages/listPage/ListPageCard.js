@@ -1,17 +1,13 @@
 import React from "react";
+import { hrTimeFormat } from "../../components/helper/timeFormat";
 
 export const ListPageCard = ({ data }) => {
   if (!data) return;
-  const formattedDate = new Date(data.time_of_event)
-    .toLocaleDateString("hr-HR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      timeZone: "Europe/Zagreb",
-    })
-    .replace(/\//g, ".");
+  const date = new Date(data.time_of_event).toLocaleDateString(
+    "hr-HR",
+    hrTimeFormat
+  );
+  const formattedDate = date.charAt(0).toUpperCase() + date.slice(1);
   return (
     <div className="list-page-card">
       <div className="list-page-overlay"></div>
