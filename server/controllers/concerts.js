@@ -69,8 +69,37 @@ const createEvent = async (req, res) => {
   }
 };
 
+const searchEventByType = async (req, res) => {
+  const { type, search_value } = req.params;
+  let query;
+
+  if (search_value) {
+    query = {
+      $or: [
+        { performer_name: { $regex: search_value, $options: "i" } },
+        { "place.country": { $regex: search_value, $options: "i" } },
+        { "place.city": { $regex: search_value, $options: "i" } },
+        { "place.place": { $regex: search_value, $options: "i" } },
+        { description: { $regex: search_value, $options: "i" } },
+      ],
+      $and: [{ type: type }],
+    };
+  } else {
+    // Check for the type without any search_value filtering
+    query = { type: type };
+  }
+
+  try {
+    const concert = await Concert.find(query);
+    res.status(200).json(concert);
+  } catch (err) {
+    res.status(500).json({ message: "Error searching for events." });
+  }
+};
+
 module.exports = {
   getAllConcerts,
   findConcert,
   createEvent,
+  searchEventByType,
 };

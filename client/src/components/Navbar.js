@@ -22,6 +22,11 @@ export const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const isLinkActive = (type) => {
+    const urlParams = new URLSearchParams(location.search);
+    return urlParams.get("type") === type;
+  };
+
   // Logout function
   const logout = () => {
     dispatch(setUserID(""));
@@ -85,6 +90,12 @@ export const Navbar = () => {
     }, 150);
   }, [isLoginOpen, isRegisterOpen]);
 
+  const isActive = (path) => {
+    const typeParam = new URLSearchParams(location.search).get("type");
+    // Check if the current location matches the given path
+    return typeParam === path;
+  };
+
   // Hide navbar for /qr_scanner and /controller_login
   if (
     location.pathname === "/qr_scanner" ||
@@ -116,7 +127,9 @@ export const Navbar = () => {
               <div className="navbar-middle-part">
                 <li className="nav-item">
                   <NavLink
-                    className="nav-link active"
+                    className={`nav-link ${
+                      location.pathname === "/" ? "navlink-active" : ""
+                    }`}
                     aria-current="page"
                     to="/"
                   >
@@ -125,53 +138,49 @@ export const Navbar = () => {
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    className="nav-link active"
-                    aria-current="page"
-                    to="/"
+                    className={`nav-link ${
+                      isActive("concert") ? "navlink-active" : ""
+                    }`}
+                    to="/list_page?type=concert"
                   >
                     Koncerti
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    className="nav-link active"
-                    aria-current="page"
-                    to="#"
+                    className={`nav-link ${
+                      isActive("sport") ? "navlink-active" : ""
+                    }`}
+                    to="/list_page?type=sport"
                   >
                     Sport
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    className="nav-link active"
+                    className={`nav-link ${
+                      isActive("festival") ? "navlink-active" : ""
+                    }`}
                     aria-current="page"
-                    to="#"
+                    to="/list_page?type=festival"
                   >
                     Festivali
                   </NavLink>
                 </li>
-                <li className="nav-item">
-                  <NavLink
-                    className="nav-link active"
-                    aria-current="page"
-                    to="#"
-                  >
+                {/* <li className="nav-item">
+                  <NavLink className="nav-link" aria-current="page" to="#">
                     Izvođači
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink
-                    className="nav-link active"
-                    aria-current="page"
-                    to="#"
-                  >
+                  <NavLink className="nav-link" aria-current="page" to="#">
                     Kontakt
                   </NavLink>
-                </li>
+                </li> */}
               </div>
               <li className="nav-item profile-link">
                 <button
-                  className="nav-link active user-icon-link"
+                  className="nav-link user-icon-link"
                   onClick={() => {
                     setIsDropdownOpen(!isDropdownOpen);
                   }}

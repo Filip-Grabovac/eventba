@@ -17,7 +17,7 @@ export const AllRoutes = () => {
   return (
     <div>
       <Routes>
-        <Route path="" element={<Landing />} />
+        <Route exact path="/" element={<Landing />} />
 
         <Route path="/single" element={<SinglePage />} />
 
