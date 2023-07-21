@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ArrowIcon from "../../../assets/ikonice/arrow_icon.svg";
 import { MyTicketCard } from "./MyTicketCard";
 
-export const ProfileEventCard = ({ data }) => {
+export const ProfileEventCard = ({ data, i }) => {
   const [dropdown, setDropdown] = useState(false);
   const [formattedDate, setFormattedDate] = useState();
   const [hasBorderRadius, setBorderRadius] = useState(true);
@@ -63,7 +63,7 @@ export const ProfileEventCard = ({ data }) => {
     >
       <img
         style={{ borderBottomLeftRadius: hasBorderRadius ? "7px" : "0" }}
-        src={`${process.env.REACT_APP_API_URL}/static/event-images/ana_nikolic_portrait.jpg`}
+        src={`${process.env.REACT_APP_API_URL}/static/event-images/${data.event.poster.portrait}`}
         alt=""
       />
       <div className="mytickets-card-part">
@@ -78,7 +78,7 @@ export const ProfileEventCard = ({ data }) => {
       <div className="mytickets-card-part">
         <div>
           <div>
-            <h5>{data.event.name}</h5>
+            <h5>Kupovina: {i + 1}</h5>
             <p>07.jun.2023 22:00 </p>
           </div>
           <div>

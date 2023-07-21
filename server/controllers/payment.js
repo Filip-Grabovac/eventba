@@ -41,12 +41,12 @@ const handlePaymentEndpoint = async (req, res) => {
 
         if (ticketInfo) {
           updateUserBuyHistory(ticketInfo);
-          updateCategoryAmount(
-            ticketInfo.concertData._id,
-            ticketInfo.ticketGenData.ticketList
-          );
-          generateTicketAndSendEmail(ticketInfo);
-          res.redirect("/thankyou");
+          // updateCategoryAmount(
+          //   ticketInfo.concertData._id,
+          //   ticketInfo.ticketGenData.ticketList
+          // );
+          // generateTicketAndSendEmail(ticketInfo);
+          // res.redirect("/thankyou");
         } else {
           res.redirect("/failed");
         }
