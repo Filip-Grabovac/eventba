@@ -61,10 +61,10 @@ export const Register = ({
       email: e.target.elements.email.value,
       address: e.target.elements.address.value,
       city: e.target.elements.city.value,
-      country: e.target.elements.country.value,
+      country: countryMap[country],
       role: "standard",
       zip: e.target.elements.zipcode.value,
-      phone: e.target.elements.phoneNumber.value,
+      phone: phone,
       password: Encrypt(e.target.elements.password.value, secretKey),
       repeatPassword: e.target.elements.repeatPassword.value,
       buyHistory: [],
@@ -77,7 +77,7 @@ export const Register = ({
           {
             ...user,
             isVerified: false,
-            verificationCode: Math.floor(Math.random() * 100000000) + 1,
+            verificationCode: Math.floor(Math.random() * 100000000000) + 1,
           },
           {
             headers: {
