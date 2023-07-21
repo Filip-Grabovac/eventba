@@ -63,7 +63,9 @@ export const ProfileEventCard = ({ data, i }) => {
     >
       <img
         style={{ borderBottomLeftRadius: hasBorderRadius ? "7px" : "0" }}
-        src={`${process.env.REACT_APP_API_URL}/static/event-images/${data.event.poster.portrait}`}
+        src={`${process.env.REACT_APP_API_URL}/static/event-images/${
+          data.event.poster && data.event.poster.portrait
+        }`}
         alt=""
       />
       <div className="mytickets-card-part">
