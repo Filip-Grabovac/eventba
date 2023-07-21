@@ -81,27 +81,25 @@ export const ProfileEventCard = ({ data, i }) => {
       <div className="mytickets-card-part">
         <div>
           <h5>{data.event.performer}</h5>
+          <p>{formattedDate}</p>
           <p>
-            {formattedDate} - {data.event.location.place},{" "}
-            {data.event.location.city}
+            {data.event.location.place}, {data.event.location.city}
           </p>
         </div>
       </div>
       <div className="mytickets-card-part">
         <div>
-          <div>
-            <h5>Kupovina: {i + 1}</h5>
-            <p>{buyTime}</p>
-          </div>
-          <div>
-            <p>Ukupna cijena: {data.event.pricesSum} BAM</p>
-            <img
-              onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
-              src={ArrowIcon}
-              alt="Drop"
-            />
-          </div>
+          <h5>Kupovina: {i + 1}</h5>
+          <p>{buyTime}</p>
+          <p>Ukupna cijena: {data.event.pricesSum} BAM</p>
         </div>
+      </div>
+      <div className="mytickets-card-part">
+        <img
+          onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
+          src={ArrowIcon}
+          alt="Drop"
+        />
       </div>
       <div
         style={{ maxHeight: dropdown ? dropdownHeight : 0 }}
