@@ -31,6 +31,7 @@ export const BuyPage = () => {
   const dispatch = useDispatch();
   const totalAmount = useSelector((state) => state.ticketState.totalAmount);
   const ticketGenData = useSelector((state) => state.ticketState);
+  const loggedinUser = useSelector((state) => state.userState.user);
 
   // Setting order number 1. time u get on buy page
   useEffect(() => {
@@ -210,6 +211,7 @@ export const BuyPage = () => {
                     ticketGenData: ticketGenData,
                     concertData: concertData,
                     orderNumber,
+                    loggedinUser: loggedinUser,
                   }
                 );
               } catch (error) {

@@ -18,6 +18,7 @@ const UserSchema = new mongoose.Schema({
   verificationCode: { type: Number },
   accountType: { type: String },
   profileImg: { type: String },
+  buyHistory: { type: Array },
 });
 
 module.exports = connectDB(process.env.DATABASE_URL).model(

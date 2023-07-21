@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
+// Images
 import InfoIcon from "../../../assets/ikonice/info.svg";
 import PlusIcon from "../../../assets/ikonice/plus_icon.svg";
+// Components
 import { Tooltip } from "react-tooltip";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
 
 export const AddHall = () => {
   const [rowNum, setRowNum] = useState(1);
-  const [tickets, setTickets] = useState([]);
-  const [hallName, setHallName] = useState();
-  const [hallLocation, setHallLocation] = useState();
-  const [hallData, setHallData] = useState();
 
   // Submit form
   async function handleFormSubmit(e) {
@@ -63,16 +61,8 @@ export const AddHall = () => {
         return;
       }
 
-      // Wait for all data to be populated befor posting
-      await Promise.all([
-        setHallName(hallName),
-        setHallLocation(hallLocation),
-        setTickets(tickets),
-        setHallData(hallData),
-      ]);
-
-      // Post data and return success message
-      const response = await axios.post(
+      // Wait for all data to be populated before posting
+      await axios.post(
         process.env.REACT_APP_API_URL + "/api/v1/places/add_place",
         hallData
       );
@@ -82,7 +72,7 @@ export const AddHall = () => {
         e.value = "";
       });
       setRowNum(1);
-      toast.success(response.data.msg, toastSetup("top-right", 3000));
+      toast.success("Uspješno dodana dvorana", toastSetup("top-right", 3000));
     } catch (error) {
       console.error(error);
     }

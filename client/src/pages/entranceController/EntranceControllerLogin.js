@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+// Images
 import UserIcon from "../../assets/ikonice/user_icon.svg";
 import PasswordEye from "../../assets/ikonice/invisible.svg";
+// Components
 import { RegisterInput } from "../../auth/RegisterInput";
-import axios from "axios";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
+// Functions
 import { setUserID } from "../../store/entranceControllerSlice";
 import { useNavigate } from "react-router-dom";
 import { toastSetup } from "../../functions/toastSetup";
 
 export const EntranceControllerLogin = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   let controllerLocalStorage = localStorage.getItem("entranceControllerId");
   let dbLocalStorage = localStorage.getItem("dbId");
   const entranceControllerId = useSelector(
     (state) => state.entranceControllerState.entranceController.controllerId
   );
-  const navigate = useNavigate();
 
+  // Disable scroll, check if there is a user in local storage
   useEffect(() => {
     document.querySelector(".App").style = "min-height: 100vh";
 
@@ -35,6 +39,7 @@ export const EntranceControllerLogin = () => {
     }
   });
 
+  // Login entrance checker account
   async function handleFormSubmit(e) {
     e.preventDefault();
 
@@ -51,15 +56,20 @@ export const EntranceControllerLogin = () => {
         }
       );
 
-      toast.success(response.data.message, toastSetup("top-right", 3000));
       dispatch(
         setUserID({
           controllerId: response.data.id,
           dbId: response.data.collectionName,
         })
       );
-      localStorage.setItem("entranceControllerId", response.data.id);
+      localStorage.setItem(
+        "entranceControllerId",
+        response.data.id,
+        "dbId",
+        response.data.collectionName
+      );
       localStorage.setItem("dbId", response.data.collectionName);
+      toast.success(response.data.message, toastSetup("top-right", 3000));
     } catch (error) {
       toast.warn(error.response.data.message, toastSetup("top-right", 3000));
     }

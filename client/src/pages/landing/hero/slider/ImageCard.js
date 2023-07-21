@@ -11,6 +11,7 @@ export const ImageCard = (props) => {
     overlay.style = "opacity: 1";
     btn.style = "opacity: 1";
   };
+
   const removeOverlayCard = (e) => {
     const btn = e.target.parentNode.querySelector(".slider-link");
     e.target.style = "opacity: 0";

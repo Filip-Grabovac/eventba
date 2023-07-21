@@ -17,7 +17,7 @@ const MainSearch = () => {
       setLoader(false);
       setTimeout(() => {
         setShow(true);
-      }, 200); // Promijeni vrijeme prema potrebama
+      }, 200); // Change the time according to your needs
     }
   }, [events]);
 

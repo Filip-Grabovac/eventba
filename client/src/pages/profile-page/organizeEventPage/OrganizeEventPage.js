@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import UploadImage from "../../../assets/images/uplad_img_placeholder.png";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
+// Images
+import UploadImage from "../../../assets/images/uplad_img_placeholder.png";
+// Components
+import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
+import { OrganizeEventCategories } from "./OrganizeEventCategories";
 
 export const OrganizeEventPage = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const [textareaLimit, setTextareaLimit] = useState("0");
-  const [selectedImages, setSelectedImages] = useState([
-    UploadImage,
-    UploadImage,
-  ]);
   const [selectedImagesForUpload, setImages] = useState([]);
   const [sponsors, setSponsors] = useState([]);
   const [sponsorNames, setSponsorNames] = useState([]);
@@ -22,15 +21,19 @@ export const OrganizeEventPage = () => {
   const [typeOfPlace, setTypeOfPlace] = useState("");
   const [cities, setCities] = useState();
   const [cityInputValue, setCityInputValue] = useState("");
-
   const userId = useSelector((state) => state.userState.user);
+  const [selectedImages, setSelectedImages] = useState([
+    UploadImage,
+    UploadImage,
+  ]);
 
-  // Fetch halls
+  // Fetch halls with the city name
   useEffect(() => {
     if (cityInputValue === "") {
       setConcertHalls([]);
       return;
     }
+
     axios
       .get(
         process.env.REACT_APP_API_URL +
@@ -47,13 +50,14 @@ export const OrganizeEventPage = () => {
       });
   }, [cityInputValue]);
 
+  // Get zones after hall select
   const handlePlaceChange = (e) => {
     const selectedHall = e.target.value;
     setSelectedPlace(selectedHall);
 
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/v1/places/zones`, {
-        params: { selectedHall: selectedHall }, // Pass the selected hall via query parameter
+        params: { selectedHall: selectedHall },
       })
       .then((response) => {
         setZones(response.data.zones);
@@ -62,20 +66,6 @@ export const OrganizeEventPage = () => {
       .catch((error) => {
         console.error("Error fetching zones:", error);
       });
-  };
-
-  const handleTicketInputChange = (index, field, value) => {
-    const updatedInputs = [...ticketInputs];
-
-    // Check if the ticket input at the specified index exists
-    if (!updatedInputs[index]) {
-      // If it doesn't exist, initialize it with an empty object
-      updatedInputs[index] = {};
-    }
-
-    // Update the specified field of the ticket input
-    updatedInputs[index][field] = value;
-    setTicketInputs(updatedInputs);
   };
 
   const renderConcertHallOptions = () => {
@@ -88,74 +78,6 @@ export const OrganizeEventPage = () => {
         {hall}
       </option>
     ));
-  };
-
-  const renderTicketInputs = () => {
-    if (typeOfPlace !== "hall") {
-      return null;
-    }
-    return zones.map((zone, index) => {
-      const ticketInput = ticketInputs[index] || {};
-      const {
-        name: inputName,
-        amount: inputAmount,
-        price: inputPrice,
-      } = ticketInput;
-
-      return (
-        <div
-          className="organize-middle-part"
-          style={{ gap: "20px" }}
-          key={index}
-        >
-          <input
-            name={`ticketName-${index}`}
-            type="text"
-            className="location-input event-input"
-            placeholder="Naziv kategorije"
-            value={inputName !== undefined ? inputName : zone.name}
-            onChange={(e) =>
-              handleTicketInputChange(index, "name", e.target.value)
-            }
-          />
-          <input
-            name={`ticketAmount-${index}`}
-            type="number"
-            min="0"
-            className="location-input event-input"
-            placeholder="Ukupan broj ulaznica"
-            value={
-              inputAmount !== undefined
-                ? inputAmount
-                : zone.ticket
-                ? zone.ticket.amount || ""
-                : ""
-            }
-            onChange={(e) =>
-              handleTicketInputChange(index, "amount", e.target.value)
-            }
-          />
-          <input
-            name={`ticketPrice-${index}`}
-            type="number"
-            min="0"
-            step="0.01"
-            className="location-input event-input"
-            placeholder="Cijena ulaznice"
-            value={
-              inputPrice !== undefined
-                ? inputPrice
-                : zone.ticket
-                ? zone.ticket.price || ""
-                : ""
-            }
-            onChange={(e) =>
-              handleTicketInputChange(index, "price", e.target.value)
-            }
-          />
-        </div>
-      );
-    });
   };
 
   const handleSelectChange = (event) => {
@@ -232,33 +154,12 @@ export const OrganizeEventPage = () => {
 
     // Map event type
     const eventType = form.get("eventType");
-    let mappedEventType;
-
-    switch (eventType) {
-      case "Koncert":
-        mappedEventType = ["concert"];
-        break;
-      case "Pozorište":
-        mappedEventType = ["theaters"];
-        break;
-      case "Ostalo":
-        mappedEventType = ["other"];
-        break;
-      case "Šou":
-        mappedEventType = ["show"];
-        break;
-      case "Festival":
-        mappedEventType = ["festival"];
-        break;
-      default:
-        mappedEventType = [eventType];
-    }
 
     const event = {
       performer_name: form.get("performerName"),
       poster: {
-        landscape: "169.png",
-        portrait: "45.png",
+        landscape: "",
+        portrait: "",
       },
       tickets: {
         total_amount: 0,
@@ -274,7 +175,7 @@ export const OrganizeEventPage = () => {
         place: form.get("place"),
         type: typeOfPlace,
       },
-      type: mappedEventType,
+      type: eventType,
       is_promoted_event: false,
       description: form.get("eventDescription"),
       organizer: userId,
@@ -457,6 +358,36 @@ export const OrganizeEventPage = () => {
     document.querySelector(".all-cities").style =
       "visibility: visible; opacity: 1;";
   }
+
+  // After selecting the hall, render the inputs
+  const renderTicketInputs = () => {
+    if (typeOfPlace !== "hall") {
+      return null;
+    }
+    return zones.map((zone, index) => {
+      const ticketInput = ticketInputs[index] || {};
+      const {
+        name: inputName,
+        amount: inputAmount,
+        price: inputPrice,
+      } = ticketInput;
+
+      return (
+        <OrganizeEventCategories
+          key={index}
+          index={index}
+          inputName={inputName}
+          zoneName={zone.name}
+          inputAmount={inputAmount}
+          zoneTicket={zone.ticket}
+          inputPrice={inputPrice}
+          ticketInputs={ticketInputs}
+          setTicketInputs={setTicketInputs}
+        />
+      );
+    });
+  };
+
   return (
     <form className="form container organize-form" onSubmit={handleSubmit}>
       <div className="organize-top-part">
@@ -513,11 +444,11 @@ export const OrganizeEventPage = () => {
             <option value="" disabled hidden>
               Odaberi tip događaja
             </option>
-            <option value="Koncert">Koncert</option>
-            <option value="Festival">Festival</option>
-            <option value="Pozorište">Pozorište</option>
-            <option value="Šou">Šou</option>
-            <option value="Ostalo">Ostalo</option>
+            <option value="concert">Koncert</option>
+            <option value="festival">Festival</option>
+            <option value="theaters">Pozorište</option>
+            <option value="show">Šou</option>
+            <option value="other">Ostalo</option>
           </select>
         </div>
       </div>
@@ -632,7 +563,6 @@ export const OrganizeEventPage = () => {
           </div>
         </div>
       </div>
-      {/* Render input fields for ticket amount and price when "Dvorana Novi Travnik" is selected */}
       {zones[0] !== undefined ? (
         <div className="preset-category">
           <p>Naziv kategorije</p>

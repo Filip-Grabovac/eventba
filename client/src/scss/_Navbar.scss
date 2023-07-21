@@ -121,12 +121,16 @@
   width: 100%;
   max-width: 231px;
 
+  form {
+    position: relative;
+  }
+
   input {
     background-color: #fff;
     border: none;
     outline: none;
     color: #455cd9;
-    padding: 5px 10px;
+    padding: 5px 20px 5px 10px;
     border-radius: 10px;
     font-size: 14px;
     width: 100%;
@@ -149,6 +153,29 @@
     top: 50%;
     transform: translateY(-50%);
     width: 17px;
+  }
+
+  .loader {
+    width: 15px;
+    height: 15px;
+    border: 2px solid #576cdc;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    position: absolute;
+    right: 3px;
+    top: 8px;
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 }
 .search-nav-right {

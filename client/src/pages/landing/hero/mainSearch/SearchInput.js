@@ -6,13 +6,14 @@ const SearchInput = ({ setEvents, setCategory }) => {
   const [loader, setLoader] = useState(false);
 
   useEffect(() => {
+    // Fetch events based on search value
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/v1/concerts/search/${searchValue}`
         );
-        setLoader(false);
         setEvents(response.data);
+        setLoader(false);
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }
@@ -20,35 +21,29 @@ const SearchInput = ({ setEvents, setCategory }) => {
 
     if (searchValue) {
       setCategory(null);
-      setLoader(true);
       fetchEvents();
     } else {
       if (!document.querySelector(".searchActive")) {
         document.querySelector(".suggested-search-link").click();
       }
+      setLoader(false);
     }
   }, [searchValue]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Provjerite valjanost unosa ili dodajte dodatne provjere prema potrebi
-    if (searchValue.trim() !== "") {
-      setLoader(true);
-    }
-  };
-
   return (
     <div className="nav-search-wrapper">
-      <form onSubmit={handleSubmit}>
+      <form>
         <input
           type="text"
           placeholder="Pretražite..."
           value={searchValue}
           onChange={(e) => {
             setSearchValue(e.target.value);
+            setLoader(true);
           }}
         />
       </form>
+      {loader ? <span className="loader"></span> : ""}
     </div>
   );
 };
