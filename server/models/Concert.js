@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const connectDB = require("../db/connect");
 
 const ConcertSchema = new mongoose.Schema({
   id: { type: Number },
@@ -15,8 +14,4 @@ const ConcertSchema = new mongoose.Schema({
   sponsors: { type: Array },
 });
 
-module.exports = connectDB(process.env.DATABASE_URL).model(
-  "Concert",
-  ConcertSchema,
-  "concerts"
-);
+module.exports = ConcertSchema;

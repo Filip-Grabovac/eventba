@@ -1,8 +1,14 @@
-const Concert = require("../models/Concert");
+const concertSchema = require("../models/Concert");
+const connectDB = require("../db/connect");
 
 async function updateTicketAmount(concertId, price) {
   try {
     // Connect to the MongoDB database
+    const Concert = connectDB(process.env.DATABASE_URL).model(
+      "Concert",
+      concertSchema,
+      "concerts"
+    );
 
     // Retrieve the concert document from the collection
     const concert = await Concert.findById(concertId);
@@ -12,12 +18,12 @@ async function updateTicketAmount(concertId, price) {
       {
         concert.tickets.sold_amount += 1;
         concert.tickets.amount_inBAM += price;
+        concert.tickets.total_amount -= 1;
 
         const ticketNumber = await concert.tickets.sold_amount
           .toString()
           .padStart(6, "0");
         // Update the total amount
-        concert.tickets.total_amount -= 1;
 
         // Save the updated concert document
         await Concert.updateOne({ _id: concertId }, concert);
@@ -34,6 +40,11 @@ async function updateTicketAmount(concertId, price) {
 
 async function updateCategoryAmount(concertId, ticketList) {
   try {
+    const Concert = connectDB(process.env.DATABASE_URL).model(
+      "Concert",
+      concertSchema,
+      "concerts"
+    );
     // Retrieve the concert document from the collection
     const concert = await Concert.findById(concertId);
 

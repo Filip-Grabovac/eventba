@@ -1,5 +1,10 @@
-const Concert = require("../models/Concert");
-
+const concertSchema = require("../models/Concert");
+const connectDB = require("../db/connect");
+const Concert = connectDB(process.env.DATABASE_URL).model(
+  "Concert",
+  concertSchema,
+  "concerts"
+);
 const getAllConcerts = async (req, res) => {
   try {
     const concerts = await Concert.find({});
