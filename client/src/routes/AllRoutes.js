@@ -11,6 +11,7 @@ import { Verification } from "../auth/Verification";
 import { QRscanner } from "../pages/entranceController/QRscanner";
 import { ProtectedControllerRoute } from "./ProtectedControllerRoute";
 import { EntranceControllerLogin } from "../pages/entranceController/EntranceControllerLogin";
+import { ListPage } from "../pages/listPage/ListPage";
 
 export const AllRoutes = () => {
   return (
@@ -69,6 +70,7 @@ export const AllRoutes = () => {
           }
         />
         <Route path="/controller_login" element={<EntranceControllerLogin />} />
+        <Route path="/list_page" element={<ListPage />} />
       </Routes>
     </div>
   );
