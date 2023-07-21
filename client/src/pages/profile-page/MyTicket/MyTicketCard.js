@@ -6,7 +6,9 @@ export const MyTicketCard = ({ data }) => {
       <div>
         <div className="ticket-parts">
           <span>Vlasnik:</span>
-          <h6>{data.owner}</h6>
+          <h6>
+            {data.name} {data.lname}
+          </h6>
         </div>
         <div className="ticket-parts">
           <span>Email:</span>
@@ -16,11 +18,11 @@ export const MyTicketCard = ({ data }) => {
       <div>
         <div className="ticket-parts">
           <span>Tip:</span>
-          <p>{data.ticketType}</p>
+          <p>{data.category}</p>
         </div>
         <div className="ticket-parts">
           <span>Pozicija:</span>
-          <p>{data.position}</p>
+          <p>{data.ticketName}</p>
         </div>
       </div>
       <div>

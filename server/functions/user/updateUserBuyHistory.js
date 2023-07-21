@@ -4,17 +4,6 @@ async function updateUserBuyHistory(data) {
   const loggedinUserId = data.loggedinUser;
   const eventInfo = data.concertData;
   const tickets = data.ticketGenData.ticketList;
-  const buyHistoryTickets = [];
-
-  for (const t of tickets) {
-    buyHistoryTickets.push({
-      owner: t.name + " " + t.lname,
-      email: t.email,
-      ticketType: t.category,
-      position: t.ticketName,
-      price: t.price,
-    });
-  }
 
   const buyHistoryObj = {
     event: {
@@ -23,7 +12,7 @@ async function updateUserBuyHistory(data) {
       location: eventInfo.place,
       name: "Kupovina1",
       pricesSum: data.ticketGenData.totalAmount,
-      tickets: buyHistoryTickets,
+      tickets: tickets,
     },
   };
 
