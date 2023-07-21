@@ -87,9 +87,9 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-// input[type="number"] {
-//   -moz-appearance: textfield !important;
-// }
+input[type="number"] {
+  -moz-appearance: textfield !important;
+}
 
 @keyframes infiniteAnimation {
   0%,

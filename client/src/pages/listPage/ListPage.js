@@ -6,7 +6,6 @@ import SearchIcon from "../../assets/ikonice/search_icon.png";
 
 export const ListPage = () => {
   const [events, setEvents] = useState();
-  const [anyResponse, setAnyResponse] = useState();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const typeParam = searchParams.get("type");
@@ -36,8 +35,7 @@ export const ListPage = () => {
 
   // Search with enter
   function handleKeyPress(e) {
-    if (e.keyCode === 13 || e.target.value === "") {
-      // 13 is the key code for "Enter" key
+    if (e.keyCode === 13) {
       searchEvents();
     }
   }
