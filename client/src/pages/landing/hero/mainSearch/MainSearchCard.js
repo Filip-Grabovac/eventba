@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 
 const MainSearchCard = ({ event }) => {
   const timeOfEvent = new Date(event.time_of_event);
-  const formattedDate = timeOfEvent.toLocaleString("en-GB", {
-    day: "2-digit",
-    month: "short",
+  const formattedDate = timeOfEvent.toLocaleString("hr-HR", {
     year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    timeZone: "Europe/Zagreb",
   });
   const place = `${event.place.city}, ${event.place.place}`;
 

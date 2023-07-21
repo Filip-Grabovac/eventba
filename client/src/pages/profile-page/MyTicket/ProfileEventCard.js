@@ -39,18 +39,28 @@ export const ProfileEventCard = ({ data, i }) => {
   useEffect(() => {
     if (data) {
       setFormattedDate(
-        new Date(data.event.time).toLocaleString("en-GB", {
-          day: "2-digit",
-          month: "short",
+        new Date(data.event.time).toLocaleString("hr-HR", {
           year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          timeZone: "Europe/Zagreb",
         })
       );
     }
   }, [data]);
 
   if (!data) return;
+
+  const buyTime = new Date(data.event.date).toLocaleString("hr-HR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    timeZone: "Europe/Zagreb",
+  });
 
   return (
     <div
@@ -81,7 +91,7 @@ export const ProfileEventCard = ({ data, i }) => {
         <div>
           <div>
             <h5>Kupovina: {i + 1}</h5>
-            <p>07.jun.2023 22:00 </p>
+            <p>{buyTime}</p>
           </div>
           <div>
             <p>Ukupna cijena: {data.event.pricesSum} BAM</p>

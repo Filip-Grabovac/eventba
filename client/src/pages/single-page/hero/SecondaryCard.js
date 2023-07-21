@@ -4,12 +4,13 @@ export const SecondaryCard = (props) => {
   const portraitImg = props.concertData[0].poster.portrait;
   const performerName = props.concertData[0].performer_name;
   const timeOfEvent = new Date(props.concertData[0].time_of_event);
-  const formattedDate = timeOfEvent.toLocaleString("en-GB", {
-    day: "2-digit",
-    month: "short",
+  const formattedDate = timeOfEvent.toLocaleString("hr-HR", {
     year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    timeZone: "Europe/Zagreb",
   });
   const place = `${props.concertData[0].place.city}, ${props.concertData[0].place.place}`;
 

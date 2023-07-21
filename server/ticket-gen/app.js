@@ -29,7 +29,6 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
         day: "numeric",
         hour: "numeric",
         minute: "numeric",
-        second: "numeric",
         timeZone: "Europe/Zagreb",
       }
     );

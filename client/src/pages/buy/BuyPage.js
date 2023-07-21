@@ -123,13 +123,14 @@ export const BuyPage = () => {
   }, []);
 
   const timeOfEvent = new Date(concertData.time_of_event).toLocaleString(
-    "en-GB",
+    "hr-HR",
     {
-      day: "2-digit",
-      month: "short",
       year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      timeZone: "Europe/Zagreb",
     }
   );
   // Update the areEnoughTicketsAvailable function to return the category with not enough tickets

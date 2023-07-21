@@ -8,10 +8,13 @@ export const SliderCard = (props) => {
   const place = props.data.place.city + ", " + props.data.place.place;
   const src = props.data.poster.landscape;
   const formattedDate = new Date(props.data.time_of_event)
-    .toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
+    .toLocaleDateString("hr-HR", {
       year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      timeZone: "Europe/Zagreb",
     })
     .replace(/\//g, ".");
 
