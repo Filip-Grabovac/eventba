@@ -5,8 +5,6 @@ async function updateUserBuyHistory(data) {
   const eventInfo = data.concertData;
   const tickets = data.ticketGenData.ticketList;
 
-  console.log(eventInfo);
-
   const buyHistoryObj = {
     event: {
       performer: eventInfo.performer_name,
