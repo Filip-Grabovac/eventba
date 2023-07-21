@@ -13,12 +13,12 @@ export const UpdateProfilePage = (props) => {
   const [lname, setLname] = useState(profileData.lname);
   const [email, setEmail] = useState(profileData.email);
   const [city, setCity] = useState(profileData.city);
-
   const [zip, setZip] = useState(profileData.zip);
-  const [phone, setPhone] = useState(profileData.phone);
   const [address, setAddress] = useState(profileData.address);
   const [password, setPassword] = useState("");
   const [repatePassword, setRepatePassword] = useState("");
+
+  const [phone, setPhone] = useState(profileData.phone);
   const reverseCountry = (fullName) => {
     for (const code in countryMap) {
       if (countryMap[code] === fullName) {
@@ -100,7 +100,7 @@ export const UpdateProfilePage = (props) => {
         });
     } else {
       toast.warn(
-        "Lozinke se ne poklapaju ili su kraće od 6 znamenki!",
+        "Lozinke se ne podudaraju ili su kraće od 6 znamenki!",
         toastSetup("top-right", 2000)
       );
     }
@@ -175,6 +175,22 @@ export const UpdateProfilePage = (props) => {
             international={true}
             countryCallingCodeEditable={false}
             label={country}
+            countryOptionsOrder={[
+              "AL",
+              "BA",
+              "BG",
+              "HR",
+              "GR",
+              "XK",
+              "ME",
+              "MK",
+              "RO",
+              "RS",
+              "SI",
+              "DE",
+              "AT",
+              "IT",
+            ]}
           />
         </div>
       </div>

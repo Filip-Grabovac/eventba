@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUserID } from "../store/userSlice";
 
 export const Navbar = () => {
+  const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -29,6 +30,7 @@ export const Navbar = () => {
 
   // Logout function
   const logout = () => {
+    setIsDropdownOpen(false);
     dispatch(setUserID(""));
     localStorage.clear();
     navigate("/");
@@ -47,6 +49,9 @@ export const Navbar = () => {
     }
   }, [location]);
 
+  function handleScroll() {
+    setIsNavbarCollapsed(true);
+  }
   //Hide sticky navbar functinality for /qr_scanner and /controller_login
   useEffect(() => {
     const el = document.querySelector(".nav-wrapper");
@@ -58,16 +63,30 @@ export const Navbar = () => {
       return;
 
     // Sticky navbar functionality
+    let lastIntersecting = true;
+
     function handleIntersection(entries) {
-      if (entries[0].isIntersecting) {
+      const isIntersecting = entries[0].isIntersecting;
+      if (isIntersecting && !lastIntersecting) {
         document.querySelector(".navbar").classList.remove("sticky-nav");
-      } else {
+        setIsNavbarCollapsed(true);
+        setIsDropdownOpen(false); // Ensure dropdown is closed when the navbar collapses
+      } else if (!isIntersecting && lastIntersecting) {
         document.querySelector(".navbar").classList.add("sticky-nav");
       }
+      lastIntersecting = isIntersecting;
     }
 
     const observer = new IntersectionObserver(handleIntersection);
     observer.observe(el);
+
+    // Scroll event listener to collapse navbar on scroll
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   // Disable scroll when modal windows opened
@@ -105,7 +124,7 @@ export const Navbar = () => {
 
   return (
     <div className="nav-wrapper">
-      <nav className="navbar navbar-expand-lg bg-body-tertiary custom-navbar">
+      <nav className="navbar navbar-expand-lg custom-navbar">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             <img src={Logo} alt="Logo" />
@@ -117,12 +136,18 @@ export const Navbar = () => {
             data-bs-toggle="collapse"
             data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown"
-            aria-expanded="false"
+            aria-expanded={!isNavbarCollapsed} // Toggle the aria-expanded attribute based on the state
             aria-label="Toggle navigation"
+            onClick={() => setIsNavbarCollapsed((prevState) => !prevState)} // Toggle the state on click
           >
             <img src={Menu} className="navbar-toggler-icon" alt="Menu" />
           </button>
-          <div className="collapse navbar-collapse" id="navbarNavDropdown">
+          <div
+            className={`collapse navbar-collapse ${
+              isNavbarCollapsed ? "" : "show"
+            }`}
+            id="navbarNavDropdown"
+          >
             <ul className="navbar-nav">
               <div className="navbar-middle-part">
                 <li className="nav-item">
@@ -132,6 +157,11 @@ export const Navbar = () => {
                     }`}
                     aria-current="page"
                     to="/"
+                    onClick={() => {
+                      if (!isNavbarCollapsed) {
+                        setIsNavbarCollapsed(true);
+                      }
+                    }}
                   >
                     Naslovna
                   </NavLink>
@@ -195,6 +225,7 @@ export const Navbar = () => {
                           <button
                             onClick={() => {
                               setIsLoginOpen(!isLoginOpen);
+                              setIsDropdownOpen(false);
                             }}
                           >
                             Prijava
@@ -206,6 +237,7 @@ export const Navbar = () => {
                           <button
                             onClick={() => {
                               setIsRegisterOpen(!isRegisterOpen);
+                              setIsDropdownOpen(false);
                             }}
                           >
                             Registriraj se
@@ -214,7 +246,15 @@ export const Navbar = () => {
                       )}
                       {userId && (
                         <li>
-                          <Link to={"/profile"}>
+                          <Link
+                            to={"/profile"}
+                            onClick={() => {
+                              if (!isNavbarCollapsed) {
+                                setIsNavbarCollapsed(true);
+                              }
+                              setIsDropdownOpen(false);
+                            }}
+                          >
                             <span>Profil</span>
                           </Link>
                         </li>

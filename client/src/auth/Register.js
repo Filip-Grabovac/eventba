@@ -19,6 +19,9 @@ import { Encrypt } from "./Encrypt";
 import { Decrypt } from "./Decrypt";
 import { toastSetup } from "../functions/toastSetup";
 import { closeModalOnEsc } from "../functions/closeModalOnEsc";
+// Phone Input
+import PhoneInput from "react-phone-number-input";
+import countryMap from "../components/helper/countryMap";
 
 export const Register = ({
   isRegisterOpen,
@@ -31,6 +34,17 @@ export const Register = ({
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const repeatPasswordRef = useRef(null);
   const emailRef = useRef(null);
+  // Phone Input settings
+  const [phone, setPhone] = useState("");
+  const reverseCountry = (fullName) => {
+    for (const code in countryMap) {
+      if (countryMap[code] === fullName) {
+        return code;
+      }
+    }
+    return null; // Return null if the country name is not found in the map
+  };
+  const [country, setCountry] = useState("BA");
 
   // Press escape key exit register
   useEffect(() => {
@@ -174,22 +188,33 @@ export const Register = ({
                 isRequired={false}
               />
             </div>
-            <div className="multiple-inputs-wrapper">
-              <RegisterInput
-                placeholder="Država"
-                type="text"
-                icon=""
-                name="country"
-                isRequired={false}
-              />
-              <RegisterInput
-                placeholder="Telefon"
-                type="text"
-                icon=""
-                name="phoneNumber"
-                isRequired={false}
-              />
-            </div>
+
+            <PhoneInput
+              placeholder="Mobitel"
+              value={phone || ""}
+              onChange={setPhone}
+              onCountryChange={setCountry}
+              defaultCountry={country || "BA"}
+              international={true}
+              countryCallingCodeEditable={false}
+              countryOptionsOrder={[
+                "AL",
+                "BA",
+                "BG",
+                "HR",
+                "GR",
+                "XK",
+                "ME",
+                "MK",
+                "RO",
+                "RS",
+                "SI",
+                "DE",
+                "AT",
+                "IT",
+              ]}
+            />
+
             <RegisterInput
               placeholder="Lozinka"
               type="password"

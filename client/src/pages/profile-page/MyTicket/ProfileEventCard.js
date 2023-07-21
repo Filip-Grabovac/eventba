@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ArrowIcon from "../../../assets/ikonice/arrow_icon.svg";
 import { MyTicketCard } from "./MyTicketCard";
+import { hrTimeFormat } from "../../../components/helper/timeFormat";
 
 export const ProfileEventCard = ({ data, i }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -38,16 +39,12 @@ export const ProfileEventCard = ({ data, i }) => {
 
   useEffect(() => {
     if (data) {
-      setFormattedDate(
-        new Date(data.event.time).toLocaleString("hr-HR", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-          timeZone: "Europe/Zagreb",
-        })
+      const date = new Date(data.event.time).toLocaleString(
+        "hr-HR",
+        hrTimeFormat
       );
+      const timeOfEvent = date.charAt(0).toUpperCase() + date.slice(1);
+      setFormattedDate(timeOfEvent);
     }
   }, [data]);
 

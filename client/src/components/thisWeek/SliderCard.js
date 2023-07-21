@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { hrTimeFormat } from "../helper/timeFormat";
 
 export const SliderCard = (props) => {
   const description = "";
@@ -7,16 +8,11 @@ export const SliderCard = (props) => {
   const performerName = props.data.performer_name;
   const place = props.data.place.city + ", " + props.data.place.place;
   const src = props.data.poster.landscape;
-  const formattedDate = new Date(props.data.time_of_event)
-    .toLocaleDateString("hr-HR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      timeZone: "Europe/Zagreb",
-    })
-    .replace(/\//g, ".");
+  const date = new Date(props.data.time_of_event).toLocaleDateString(
+    "hr-HR",
+    hrTimeFormat
+  );
+  const formattedDate = date.charAt(0).toUpperCase() + date.slice(1);
 
   return (
     <div

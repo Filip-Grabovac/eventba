@@ -40,11 +40,11 @@ const handlePaymentEndpoint = async (req, res) => {
         const ticketInfo = ticketInfoMap.get(Number(data.order_number));
 
         if (ticketInfo) {
-          await updateUserBuyHistory(ticketInfo);
           await updateCategoryAmount(
             ticketInfo.concertData._id,
             ticketInfo.ticketGenData.ticketList
           );
+          await updateUserBuyHistory(ticketInfo);
           await generateTicketAndSendEmail(ticketInfo);
           res.redirect("/thankyou");
         } else {

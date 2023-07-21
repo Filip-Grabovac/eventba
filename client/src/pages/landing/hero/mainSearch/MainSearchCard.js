@@ -1,16 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { hrTimeFormat } from "../../../../components/helper/timeFormat";
 
 const MainSearchCard = ({ event }) => {
   const timeOfEvent = new Date(event.time_of_event);
-  const formattedDate = timeOfEvent.toLocaleString("hr-HR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    timeZone: "Europe/Zagreb",
-  });
+  const date = timeOfEvent.toLocaleString("hr-HR", hrTimeFormat);
+  const formattedDate = date.charAt(0).toUpperCase() + date.slice(1);
   const place = `${event.place.city}, ${event.place.place}`;
 
   return (

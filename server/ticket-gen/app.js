@@ -20,18 +20,16 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
     const sponsors = concertData.sponsors.map(
       (sponsor) => `sponsors/${sponsor}`
     );
-
-    const formattedDate = new Date(concertData.time_of_event).toLocaleString(
-      "hr-HR",
-      {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        timeZone: "Europe/Zagreb",
-      }
-    );
+    const date = new Date(concertData.time_of_event).toLocaleString("hr-HR", {
+      weekday: "long", // Adds the name of the day
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      timeZone: "Europe/Zagreb",
+    });
+    const formattedDate = date.charAt(0).toUpperCase() + date.slice(1);
 
     const ticketNumber = await updateTicketAmount(concertData._id, price);
 
