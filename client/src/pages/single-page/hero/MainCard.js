@@ -1,15 +1,11 @@
 import React from "react";
+import { hrTimeFormat } from "../../../components/helper/timeFormat";
 
 const MainCard = (props) => {
   const performerName = props.concertData[0].performer_name;
   const timeOfEvent = new Date(props.concertData[0].time_of_event);
-  const formattedDate = timeOfEvent.toLocaleString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const date = timeOfEvent.toLocaleString("hr-HR", hrTimeFormat);
+  const formattedDate = date.charAt(0).toUpperCase() + date.slice(1);
   const place = `${props.concertData[0].place.city}, ${props.concertData[0].place.place}`;
   const description = props.concertData[0].description;
   const landscapeImg = props.concertData[0].poster.landscape;

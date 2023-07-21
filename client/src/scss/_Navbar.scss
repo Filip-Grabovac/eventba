@@ -6,7 +6,7 @@
   border-bottom-right-radius: 10px;
   padding: 10px 67px;
   color: #fff;
-  z-index: 9999;
+  z-index: 999;
   backdrop-filter: none !important;
   .navbar-brand {
     display: flex;
@@ -32,7 +32,10 @@
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 0;
+        box-shadow: none;
+      }
+      &:hover {
+        transform: scale(1.1);
       }
 
       img {
@@ -277,7 +280,7 @@
   background-color: rgba(46, 110, 152, 0.404) !important;
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(20px) !important;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
 }
 .nav-wrapper {
   height: 70px;

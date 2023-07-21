@@ -10,6 +10,7 @@ import PaymentForm from "./PaymentForm";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { toastSetup } from "../../functions/toastSetup";
+import { hrTimeFormat } from "../../components/helper/timeFormat";
 
 export const BuyPage = () => {
   const [concertData, setConcertData] = useState({});
@@ -122,16 +123,11 @@ export const BuyPage = () => {
     fetchProfileData();
   }, []);
 
-  const timeOfEvent = new Date(concertData.time_of_event).toLocaleString(
-    "en-GB",
-    {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }
+  const date = new Date(concertData.time_of_event).toLocaleString(
+    "hr-HR",
+    hrTimeFormat
   );
+  const timeOfEvent = date.charAt(0).toUpperCase() + date.slice(1);
   // Update the areEnoughTicketsAvailable function to return the category with not enough tickets
   const areEnoughTicketsAvailable = (concertData, ticketGenData) => {
     const missingCategories = new Set();

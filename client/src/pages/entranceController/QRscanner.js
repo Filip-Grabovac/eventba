@@ -81,7 +81,7 @@ export const QRscanner = () => {
 
   return (
     <div className="qr-scanner-container">
-      <nav className="navbar navbar-expand-lg bg-body-tertiary custom-navbar">
+      <nav className="navbar navbar-expand-lg custom-navbar">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             <img src={Logo} alt="Logo" />

@@ -182,7 +182,7 @@ export const OrganizeEventPage = () => {
     };
 
     ticketInputs.forEach((ticket, index) => {
-      const categoryKey = `category${index + 1}`;
+      const categoryKey = `Kategorija ${index + 1}`;
       event.tickets.type[categoryKey] = {
         amount: Number(ticket.amount),
         maxAmount: Number(ticket.amount),
@@ -359,6 +359,19 @@ export const OrganizeEventPage = () => {
       "visibility: visible; opacity: 1;";
   }
 
+  // Update ticketInputs when zones changes
+  useEffect(() => {
+    // Populate ticketInputs with data from zones if they are not already set
+    if (zones.length > 0 && ticketInputs.length === 0) {
+      const initialTicketInputs = zones.map((zone) => ({
+        name: zone.name,
+        amount: zone.ticket ? zone.ticket.amount : "",
+        price: zone.ticket ? zone.ticket.price : "",
+      }));
+      setTicketInputs(initialTicketInputs);
+    }
+  }, [zones]);
+
   // After selecting the hall, render the inputs
   const renderTicketInputs = () => {
     if (typeOfPlace !== "hall") {
@@ -524,6 +537,7 @@ export const OrganizeEventPage = () => {
                       >
                         <a
                           onClick={(e) => {
+                            e.preventDefault();
                             setCityInputValue(e.target.textContent);
                             document.querySelector(".all-cities").style =
                               "visibility: hidden; opacity: 0;";
@@ -588,7 +602,7 @@ export const OrganizeEventPage = () => {
         ></textarea>
       </div>
       <div className="row">
-        <button type="submit">Završi događaj</button>
+        <button type="submit">Dodaj događaj</button>
       </div>
     </form>
   );

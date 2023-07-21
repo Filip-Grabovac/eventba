@@ -89,7 +89,8 @@ export const Profile = () => {
                           className={`${
                             activeNavItem === e ? "active-profile-nav-link" : ""
                           }`}
-                          onClick={() => {
+                          onClick={(event) => {
+                            event.preventDefault();
                             setActiveNavItem(e);
                           }}
                           href="#"
