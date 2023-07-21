@@ -6,7 +6,7 @@ export const MyTickets = ({ buyHistory }) => {
     <div className="mytickets-container">
       {buyHistory[0] !== undefined ? (
         buyHistory.map((e, i) => {
-          return <ProfileEventCard key={i} data={e} />;
+          return <ProfileEventCard key={i} data={e} i={i} />;
         })
       ) : (
         <p className="no-bought-tickets-msg">
