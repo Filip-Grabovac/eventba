@@ -32,6 +32,7 @@
   .rec-slider-container {
     margin: 0 !important;
   }
+
   .rec-carousel-wrapper {
     position: relative !important;
     height: auto;
@@ -233,8 +234,7 @@
       border-bottom-left-radius: 10px;
 
       @media only screen and (max-width: 470px) {
-        width: 50%;
-        height: 40%;
+        width: 55%;
       }
     }
 
@@ -275,13 +275,20 @@
           p {
             text-align: center;
             @media only screen and (max-width: 470px) {
-              transform: scale(0.8);
+              transform: scale(0.88);
             }
             @media only screen and (max-width: 350px) {
-              transform: scale(0.7);
               padding: 0;
-              line-height: 20px;
+              line-height: 18px;
               letter-spacing: 0.01px;
+              p {
+                font-size: 12px;
+              }
+            }
+          }
+          h3 {
+            @media only screen and (max-width: 470px) {
+              font-size: 18px;
             }
           }
         }
@@ -294,21 +301,6 @@
     overflow-y: auto;
     overflow-x: hidden;
     padding-top: 5px;
-
-    &::-webkit-scrollbar {
-      width: 12px;
-      background-color: #dfdfdf;
-      border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: #8f9de8;
-      border-radius: 10px;
-
-      &:hover {
-        background-color: #808dd0;
-      }
-    }
 
     .card-info-wrapper {
       margin: 0 10px 0 20px;

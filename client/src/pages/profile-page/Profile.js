@@ -74,7 +74,7 @@ export const Profile = () => {
   return (
     <div className="profile">
       <div className="container-fluid">
-        <div className="row">
+        <div className="row profile-row">
           <div className="col-lg-3">
             <ProfileLeft profileData={profileData} />
           </div>

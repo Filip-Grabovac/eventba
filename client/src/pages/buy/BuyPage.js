@@ -4,7 +4,7 @@ import plus from "../../assets/ikonice/plus.svg";
 import Carousel from "react-elastic-carousel";
 import { Personalization } from "./Personalization";
 import { TicketBill } from "./TicketBill";
-import { removeLastTicket } from "../../store/ticketSlice";
+import { removeLastTicket, resetState } from "../../store/ticketSlice";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentForm from "./PaymentForm";
 import axios from "axios";
@@ -21,23 +21,20 @@ export const BuyPage = () => {
   const [orderNumber, setOrderNumber] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const [toolTipOpen, setToolTipOpen] = useState(false);
-
+  const dispatch = useDispatch();
   const activeCardRef = useRef(null);
   const allTickets = useSelector((state) => state.ticketState.ticketList);
-  const ticketsWithoutEmails = allTickets.filter(
-    (ticket) => ticket.email === ""
-  );
-  const ticketsIdWithoutEmail = ticketsWithoutEmails.map((ticket) => ticket.id);
-
-  const dispatch = useDispatch();
-  const totalAmount = useSelector((state) => state.ticketState.totalAmount);
-  const ticketGenData = useSelector((state) => state.ticketState);
   const loggedinUser = useSelector((state) => state.userState.user);
-
   // Setting order number 1. time u get on buy page
   useEffect(() => {
     setOrderNumber(Math.floor(Math.random() * 100000000000000) + 1);
+    dispatch(resetState());
+    fetchConcertData();
+    fetchProfileData();
   }, []);
+
+  const totalAmount = useSelector((state) => state.ticketState.totalAmount);
+  const ticketGenData = useSelector((state) => state.ticketState);
 
   const addTicket = async () => {
     await setTicketAmount(ticketAmount + 1);
@@ -117,11 +114,6 @@ export const BuyPage = () => {
       console.error("Error fetching profile data:", error);
     }
   };
-
-  useEffect(() => {
-    fetchConcertData();
-    fetchProfileData();
-  }, []);
 
   const date = new Date(concertData.time_of_event).toLocaleString(
     "hr-HR",
@@ -252,12 +244,12 @@ export const BuyPage = () => {
         }, 2000);
         if (ticketsIdWithoutEmail.length === 1) {
           toast.error(
-            `Niste potvrdili email za ulaznicu: ${ticketsIdWithoutEmail}`,
+            `Niste unijeli email za ulaznicu: ${ticketsIdWithoutEmail}`,
             toastSetup("top-right", 3000)
           );
         } else
           toast.error(
-            `Niste potvrdili email za ulaznice: ${ticketsIdWithoutEmail}`,
+            `Niste unijeli email za ulaznice: ${ticketsIdWithoutEmail}`,
             toastSetup("top-right", 3000)
           );
         if (!profileData.isVerified) {
@@ -335,7 +327,6 @@ export const BuyPage = () => {
                   concertData={concertData}
                   profileData={profileData}
                   setShowPaymentForm={setShowPaymentForm}
-                  toolTipOpen={ticketsIdWithoutEmail.includes(i + 1)}
                 />
               ))}
             </Carousel>

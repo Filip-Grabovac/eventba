@@ -1,46 +1,61 @@
 .profile {
   min-height: 600px;
-  padding: 8% 5%;
+  padding: 100px 0;
   background: linear-gradient(
     0deg,
     rgba(114, 114, 114, 0.28) 0,
     rgb(239, 240, 252) 100%
   );
-  .row {
+  .profile-row {
     justify-content: center;
     gap: 80px;
 
     nav {
-      margin-top: -40px;
+      margin: -70px auto 0;
+
+      max-width: 800px;
+      border-radius: 15px;
+      overflow-x: auto;
 
       ul {
         list-style: none;
-        padding: 0;
+        padding: 10px;
         max-width: 800px;
-        margin: 0 auto 16px auto;
+        margin: 0 auto;
         display: flex;
         justify-content: center;
-
+        gap: 10px;
+        @media only screen and (max-width: 600px) {
+          width: 500px;
+        }
         li {
-          display: inline-block;
-          margin-right: 25px;
+          display: block;
+          text-align: center;
 
           a {
-            color: #343434;
+            width: 90%;
+            margin: 0 auto;
+            display: block;
+            color: #343434c5;
             font-weight: 600;
-            padding: 3px 5px;
-            border-radius: 5px;
+            padding: 3px 3px;
+            border-radius: 8px;
+            text-decoration: none;
 
+            @media only screen and (max-width: 600px) {
+              font-size: 14px;
+            }
             &:hover {
               color: #455cd9;
-              background-color: #fff;
+              background-color: #ffffff54;
               text-decoration: none;
             }
           }
           .active-profile-nav-link {
             color: #455cd9;
-            background-color: #fff;
+            background-color: #ffffff54;
             text-decoration: none;
+            box-shadow: 0 0 50px 5px rgba(94, 94, 94, 0.2);
           }
         }
       }
@@ -53,9 +68,9 @@
     padding: 1% 1%;
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
+    margin: 17px auto 20px;
     gap: 5%;
-    height: 100%;
+
     background-color: #f3f3f3;
     border-radius: 10px;
     box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
@@ -101,17 +116,16 @@
       }
       span {
         padding: 5px;
-        color: #7c8ce4;
+        color: #455cd9;
         font-weight: 600;
       }
     }
   }
   .profile-form {
     line-height: 14px;
-    margin: 0 auto;
-    padding: 2% 4% 0;
+    margin: 13px auto;
+    padding: 2% 4%;
     max-width: 800px;
-    height: 400px;
     background-color: #f3f3f3;
     overflow-y: auto;
     border-radius: 15px;
@@ -120,6 +134,12 @@
     -moz-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
     @media only screen and (max-width: 500px) {
       font-size: 13px;
+    }
+    @media only screen and (max-width: 370px) {
+      padding: 5px;
+    }
+    button:hover {
+      background-color: #dfbf4d;
     }
     .form {
       height: 100%;
@@ -192,8 +212,9 @@
           align-items: center;
 
           .sponsors-ul {
-            margin: 0 auto 0 auto;
-            padding: 0 5px;
+            margin-left: auto;
+            text-align: center;
+            padding: 2px 5px;
             list-style: none;
             overflow-y: auto;
             height: 50px;
@@ -219,7 +240,7 @@
           }
 
           .custom-file-input {
-            width: 136px;
+            width: 150px;
           }
 
           .custom-file-input::-webkit-file-upload-button {
@@ -230,11 +251,12 @@
             content: "Odaberi sponzore";
             display: inline-block;
             background: linear-gradient(top, #f9f9f9, #e3e3e3);
-            border: 1px solid #999;
-            border-radius: 3px;
+            border: 2px solid #999;
+            border-radius: 10px;
             padding: 5px 8px;
             outline: none;
             white-space: nowrap;
+            height: 28px;
             -webkit-user-select: none;
             cursor: pointer;
             text-shadow: 1px 1px #fff;
@@ -364,6 +386,25 @@
           }
         }
       }
+      @media only screen and (max-width: 600px) {
+        .time-sponsors {
+          flex-direction: column;
+          div {
+            .custom-file-input {
+              padding: 1px;
+            }
+            input {
+              width: 100%;
+            }
+            .sponsors-ul {
+              margin-left: auto;
+              @media only screen and (max-width: 350px) {
+                margin-left: 4px;
+              }
+            }
+          }
+        }
+      }
       .preset-category {
         display: flex;
         justify-content: space-around;
@@ -405,6 +446,7 @@
         }
 
         .col-lg-6 {
+          width: 50%;
           display: flex;
           flex-direction: column;
 

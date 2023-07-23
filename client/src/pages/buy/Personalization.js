@@ -8,7 +8,6 @@ import { addTicketPrice } from "../../store/ticketSlice";
 import HallTickets from "./ticket-type/HallTickets";
 export const Personalization = ({
   i,
-  toolTipOpen,
   setShowPaymentForm,
   profileData,
   concertData,
@@ -38,6 +37,8 @@ export const Personalization = ({
       email: email,
       price: 0,
     };
+
+    setShowPaymentForm(false);
     dispatch(addTicket(ticket));
   }, [ticketID, name, surname, email, dispatch]);
 
@@ -109,7 +110,7 @@ export const Personalization = ({
                 anchorId={`name-${i}`}
                 place="top"
                 variant="info"
-                content={`Unesite ime vlasnika ulaznice ${i + 1}`}
+                content={`Ime vlasnika ulaznice ${i + 1}`}
               />
               <div className="item2 col">
                 <input
@@ -138,7 +139,7 @@ export const Personalization = ({
                   anchorId={`email-${i}`}
                   place="bottom"
                   variant="info"
-                  content={`Email na koji će ulaznica ${i + 1} biti poslana!`}
+                  content={`Email za ulaznicu ${i + 1}`}
                 />
               </div>
             </div>

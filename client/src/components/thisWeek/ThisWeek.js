@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Carousel from "react-elastic-carousel";
+import Carousel, { consts } from "react-elastic-carousel";
 import { SliderCard } from "./SliderCard";
 import axios from "axios";
 
@@ -8,9 +8,9 @@ export const ThisWeek = (props) => {
 
   // Slider setup
   const breakpoints = [
-    { width: 200, itemsToShow: 1 },
+    { width: 200, itemsToShow: 1.2 },
     { width: 400, itemsToShow: 2 },
-    { width: 1000, itemsToShow: 2 },
+    { width: 1000, itemsToShow: 2.4 },
     { width: 1500, itemsToShow: 3 },
   ];
 
@@ -34,6 +34,7 @@ export const ThisWeek = (props) => {
       <h3>{props.heading}</h3>
       <div className="slider">
         <Carousel
+          itemPosition={consts.CENTER}
           itemsToShow={3}
           enableAutoPlay={true}
           autoPlaySpeed={5000}

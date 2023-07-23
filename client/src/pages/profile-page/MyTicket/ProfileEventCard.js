@@ -51,12 +51,7 @@ export const ProfileEventCard = ({ data, i }) => {
   if (!data) return;
 
   const buyTime = new Date(data.event.date).toLocaleString("hr-HR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    timeZone: "Europe/Zagreb",
+    hrTimeFormat,
   });
 
   return (
@@ -91,7 +86,15 @@ export const ProfileEventCard = ({ data, i }) => {
           <p>Ukupna cijena: {data.event.pricesSum} BAM</p>
         </div>
       </div>
-      <div className="mytickets-card-part">
+      <div
+        className="mytickets-card-part"
+        style={{
+          borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
+          backgroundColor: hasBorderRadius
+            ? "rgba(69, 91, 217, 0.7)"
+            : "rgba(69, 91, 217, 0.5)",
+        }}
+      >
         <img
           onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
           src={ArrowIcon}

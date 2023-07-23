@@ -1,8 +1,17 @@
 .list-page-container {
   width: 100%;
+  min-height: 110vh;
   padding: 30px 0;
   position: relative;
+  /* CSS file or inline styles within the component */
+  .fade-in {
+    opacity: 0; /* Set initial opacity to 0 (invisible) */
+    transition: opacity 0.5s ease-in-out; /* Add a smooth transition for the opacity property */
+  }
 
+  .fade-in.visible {
+    opacity: 1; /* When the "visible" class is added, set opacity to 1 (visible) */
+  }
   .search-overlay {
     position: absolute;
     top: 0;
@@ -21,7 +30,7 @@
   }
 
   .list-page-search-wrapper {
-    width: 488px;
+    max-width: 488px;
     margin: 0 auto 30px auto;
     position: relative;
 
@@ -72,6 +81,15 @@
     position: relative;
     width: 100%;
     height: 400px;
+    @media only screen and (max-width: 800px) {
+      height: 300px;
+    }
+    @media only screen and (max-width: 600px) {
+      height: 250px;
+    }
+    @media only screen and (max-width: 450px) {
+      min-height: calc(100vw - 20px);
+    }
 
     .list-page-landscape,
     .list-page-overlay {
@@ -81,18 +99,20 @@
       position: absolute;
       top: 0;
       left: 0;
+      z-index: -6;
     }
 
     .list-page-overlay {
       backdrop-filter: blur(12.5px);
       background: rgba(6, 6, 6, 0.1);
-      z-index: 1;
+      z-index: -2;
       border-radius: 10px;
     }
   }
   .list-page-type-wrapper {
-    width: 75%;
+    max-width: 1400px;
     height: 85%;
+    margin: 0 2%;
     background: rgba(58, 58, 58, 0.4);
     background-color: rgba(58, 58, 58, 0.4);
     backdrop-filter: blur(20px);
@@ -100,55 +120,127 @@
     border-radius: 15px;
     display: flex;
     color: rgba(255, 255, 255, 0.903);
-
+    @media only screen and (max-width: 600px) {
+      height: 80%;
+    }
+    @media only screen and (max-width: 450px) {
+      flex-direction: column;
+      justify-content: space-between;
+    }
     h5 {
       font-size: 33px;
+      @media only screen and (max-width: 600px) {
+        font-size: 23px;
+        text-align: center;
+        margin-bottom: 0;
+      }
+      @media only screen and (max-width: 450px) {
+        width: 100%;
+        font-size: 20px;
+      }
     }
-
-    div:nth-child(1) {
-      width: 50%;
+    .media-helper {
+      width: 100%;
+      @media only screen and (max-width: 450px) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    .first-child {
+      width: 40%;
       height: 100%;
       display: flex;
       flex-direction: column;
-      padding: 30px 40px;
+      padding: 2% 0 2% 2%;
+      @media only screen and (max-width: 450px) {
+        flex-direction: row;
+        width: 100%;
+        height: 40%;
+        margin: 0 auto;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
 
       .list-page-date {
         background-color: rgba(255, 255, 255, 0.457);
-        width: fit-content;
         padding: 10px;
         border-radius: 7px;
         color: #343434;
         font-weight: 600;
         margin: 10px 0 20px 0;
-        font-size: 18px;
+        font-size: 17px;
+        @media only screen and (max-width: 600px) {
+          font-size: 13px;
+          margin: 5px;
+          padding: 5px;
+          text-align: center;
+        }
+        @media only screen and (max-width: 450px) {
+          font-size: 12px;
+          letter-spacing: -0.7px;
+        }
       }
 
       .list-page-line {
         height: 1px;
-        width: 80%;
+        width: 100%;
         background-color: rgba(255, 255, 255, 0.802);
+        @media only screen and (max-width: 450px) {
+          display: none;
+        }
       }
 
       .list-page-desc {
-        width: 80%;
-        margin-top: 20px;
         font-size: 16px;
+        height: 53%;
+        overflow: auto; /* Hide any overflowing content */
+        margin: 12px 0 0 0; /* Remove any default margins that may interfere with height calculation */
+        display: -webkit-box; /* For Safari, iOS, and older versions of Android */
+        -webkit-box-orient: vertical; /* Set the layout mode to vertical */
+        &::-webkit-scrollbar {
+          display: none;
+        }
+        @media only screen and (max-width: 800px) {
+          font-size: 14px;
+        }
+        @media only screen and (max-width: 450px) {
+          width: 60%;
+          height: 100%;
+          margin: 2px;
+          font-size: 12px;
+          letter-spacing: -0.3px;
+        }
       }
     }
-    div:nth-child(2) {
-      width: 44%;
+    .media-helper-2nd {
+      display: flex;
+      @media only screen and (max-width: 450px) {
+        display: flex;
+      }
+    }
+    .second-child {
       height: 100%;
       display: flex;
-
+      flex-grow: 1;
       .list-page-landscape2 {
-        width: 96%;
+        width: 90%;
         height: 100%;
         object-fit: cover;
         margin-left: auto;
+        @media only screen and (max-width: 800px) {
+          width: 95%;
+        }
+        @media only screen and (max-width: 450px) {
+          width: 100%;
+          margin: 0 0 auto 0;
+          border-radius: 0 0 0 10px;
+        }
       }
     }
-    div:nth-child(3) {
-      width: 6%;
+    .third-child {
+      width: max(75px, 6%);
       height: 100%;
       display: flex;
 
@@ -157,12 +249,13 @@
         width: 100%;
         margin-left: auto;
         padding: 0;
-        background-color: rgba(244, 206, 70, 0.859);
-        border-top-right-radius: 15px;
-        border-bottom-right-radius: 15px;
-
         display: flex;
         flex-direction: column;
+        background-color: rgba(244, 206, 70, 0.859);
+        border-radius: 0 10px 10px 0;
+        @media only screen and (max-width: 450px) {
+          border-radius: 0 0 10px 0;
+        }
 
         a {
           height: 49.75%;
@@ -198,13 +291,14 @@
   }
   .card-transition {
     width: 100%;
-    height: 35px;
+    height: 40px;
     margin: -20px 0;
     background: rgb(217, 217, 217);
     background: linear-gradient(
       180deg,
       rgba(217, 217, 217, 0) 0%,
-      rgba(211, 211, 211, 0.7) 50%,
+      #dfdfdf 30%,
+      #e2e2e2 60%,
       rgba(217, 217, 217, 0) 100%
     );
     position: relative;

@@ -6,7 +6,7 @@
 .pnp.js
 style.css
 .env
-/build
+# /build //for sever upload
 # testing
 /coverage
 

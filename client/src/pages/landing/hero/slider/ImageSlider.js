@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Carousel from "react-elastic-carousel";
+import Carousel, { consts } from "react-elastic-carousel";
 import axios from "axios";
 import { ImageCard } from "./ImageCard";
 
@@ -8,7 +8,8 @@ const ImageSlider = () => {
 
   // Slider setup
   const breakpoints = [
-    { width: 300, itemsToShow: 1 },
+    { width: 250, itemsToShow: 1 },
+    { width: 300, itemsToShow: 1.6 },
     { width: 350, itemsToShow: 2 },
     { width: 500, itemsToShow: 2.5 },
     { width: 700, itemsToShow: 4 },
@@ -35,6 +36,7 @@ const ImageSlider = () => {
 
   return (
     <Carousel
+      itemPosition={consts.CENTER}
       breakPoints={breakpoints}
       itemsToShow={7}
       enableAutoPlay={true}

@@ -59,6 +59,7 @@ export const Register = ({
       name: e.target.elements.name.value,
       lname: e.target.elements.lname.value,
       email: e.target.elements.email.value,
+      fbEmail: e.target.elements.email.value,
       address: e.target.elements.address.value,
       city: e.target.elements.city.value,
       country: countryMap[country],

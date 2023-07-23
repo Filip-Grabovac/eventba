@@ -10,29 +10,32 @@ export const ListPage = () => {
   const searchParams = new URLSearchParams(location.search);
   const typeParam = searchParams.get("type");
   const [type, setType] = useState(typeParam);
+  const [dataReady, setDataReady] = useState(false);
 
   useEffect(() => {
-    setEvents();
     setType(typeParam);
   }, [location.search]);
 
-  // Fetch the events
   useEffect(() => {
-    if (!type) return;
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/v1/concerts/type/${type}`
-        );
-        setEvents(response.data);
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
-      }
-    };
-
     fetchData();
   }, [type]);
 
+  async function fetchData() {
+    if (!type) return;
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/concerts/type/${type}`
+      );
+      setEvents(response.data);
+      setDataReady(false); // Reset data readiness before fetching
+      setTimeout(() => {
+        setDataReady(true); // Set dataReady to true after a short delay
+      }, 50); // You can adjust the delay time as needed
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
+  }
+  console.log(dataReady);
   // Search with enter
   function handleKeyPress(e) {
     if (e.keyCode === 13) {
@@ -40,10 +43,10 @@ export const ListPage = () => {
     }
   }
 
-  // Search events
   function searchEvents() {
     const searchValue = document.querySelector(".list-page-search").value;
-    setEvents();
+    setEvents([]);
+    setDataReady(false); // Reset data readiness before fetching
 
     axios
       .get(
@@ -54,6 +57,10 @@ export const ListPage = () => {
       )
       .then((response) => {
         setEvents(response.data);
+        setDataReady(false); // Reset dataReady before showing the results
+        setTimeout(() => {
+          setDataReady(true); // Set dataReady to true after a short delay
+        }, 50); // You can adjust the delay time as needed
       })
       .catch((error) => {});
   }
@@ -77,16 +84,10 @@ export const ListPage = () => {
           }}
         />
       </div>
-      {events ? <div className="search-overlay"></div> : ""}
-      {events ? <div className="card-transition"></div> : ""}
-      {events && events[0] === undefined ? (
-        <p className="no-search-results">Nema rezultata</p>
-      ) : (
-        ""
-      )}
-
+      <div className="search-overlay"></div>
+      <div className="card-transition"></div>
       {!events
-        ? Array.from({ length: 7 }, (_, index) => (
+        ? Array.from({ length: 4 }, (_, index) => (
             <div className="skeleton" key={index}>
               <div></div>
               <div></div>
@@ -94,9 +95,18 @@ export const ListPage = () => {
             </div>
           ))
         : events.map((e, i) => (
-            <div className="list-page-card-wrapper" key={i}>
+            <div
+              className={`list-page-card-wrapper fade-in ${
+                dataReady ? "visible" : ""
+              }`}
+              key={i}
+            >
               <ListPageCard data={e} />
-              <div className="card-transition"></div>
+              <div
+                className={`card-transition fade-in ${
+                  dataReady ? "visible" : ""
+                }`}
+              ></div>
             </div>
           ))}
       <ListPageCard />

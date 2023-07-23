@@ -17,26 +17,30 @@ export const ListPageCard = ({ data }) => {
         alt="Landscape"
       />
       <div className="list-page-type-wrapper">
-        <div>
-          <h5>{data.performer_name}</h5>
-          <p className="list-page-date">
-            {formattedDate} - {data.place.place}, {data.place.city}
-          </p>
+        <div className="first-child">
+          <div className="media-helper">
+            <h5>{data.performer_name}</h5>
+            <p className="list-page-date">
+              {formattedDate} - {data.place.place}, {data.place.city}
+            </p>
+          </div>
           <div className="list-page-line"></div>
           <p className="list-page-desc">{data.description}</p>
         </div>
-        <div>
-          <img
-            className="list-page-landscape2"
-            src={`${process.env.REACT_APP_API_URL}/static/event-images/${data.poster.landscape}`}
-            alt="Portrait"
-          />
-        </div>
-        <div>
-          <div className="list-page-btns-wrapper">
-            <a href={`/buy?id=${data._id}`}>Kupi</a>
-            <div className="list-page-btns-line"></div>
-            <a href={`/single?id=${data._id}`}>Pogledaj</a>
+        <div className="media-helper-2nd">
+          <div className="second-child">
+            <img
+              className="list-page-landscape2"
+              src={`${process.env.REACT_APP_API_URL}/static/event-images/${data.poster.landscape}`}
+              alt="Portrait"
+            />
+          </div>
+          <div className="third-child">
+            <div className="list-page-btns-wrapper">
+              <a href={`/buy?id=${data._id}`}>Kupi</a>
+              <div className="list-page-btns-line"></div>
+              <a href={`/single?id=${data._id}`}>Pogledaj</a>
+            </div>
           </div>
         </div>
       </div>

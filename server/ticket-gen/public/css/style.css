@@ -221,7 +221,7 @@ p {
           align-items: center;
           gap: 5px;
           .logo {
-            height: 30px;
+            height: 40px;
           }
           .event {
             color: #555555;

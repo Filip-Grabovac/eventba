@@ -111,9 +111,9 @@ const ticketSlice = createSlice({
         ticketList: [
           {
             id: 1,
-            name: action.payload.name,
-            lname: action.payload.lname,
-            email: action.payload.email,
+            name: "",
+            lname: "",
+            email: "",
             price: 0,
             category: "",
           },

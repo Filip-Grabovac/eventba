@@ -23,6 +23,7 @@ export const SliderCard = (props) => {
         setIsMouseOver(false);
       }}
       className="slider-card"
+      style={{ scrollSnapAlign: "center" }}
     >
       <div
         className={`this-week-overlay ${isMouseOver ? "visible" : ""}`}
@@ -41,7 +42,9 @@ export const SliderCard = (props) => {
         src={`${process.env.REACT_APP_API_URL}/static/event-images/${src}`}
         alt={description}
       />
-      <p className="type">KONCERT</p>
+      <p className="type" style={{ textTransform: "uppercase" }}>
+        {props.data.type[0]}
+      </p>
       <p className="performer">{performerName}</p>
       <p className="date">{formattedDate}</p>
       <p className="location">{place}</p>

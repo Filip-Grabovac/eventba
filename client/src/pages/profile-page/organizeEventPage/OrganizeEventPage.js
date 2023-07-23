@@ -370,7 +370,7 @@ export const OrganizeEventPage = () => {
       }));
       setTicketInputs(initialTicketInputs);
     }
-  }, [zones]);
+  }, [zones, ticketInputs.length]);
 
   // After selecting the hall, render the inputs
   const renderTicketInputs = () => {
@@ -465,7 +465,7 @@ export const OrganizeEventPage = () => {
           </select>
         </div>
       </div>
-      <div className="organize-middle-part">
+      <div className="organize-middle-part time-sponsors">
         <div>
           <input
             name="sponsors"

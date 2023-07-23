@@ -20,7 +20,7 @@ async function updateUserBuyHistory(data) {
   try {
     // Find the user by ID
     const user = await User.findById(loggedinUserId);
-    console.log(user);
+
     // If the user doesn't exist, return an error
     if (!user) {
       throw new Error(`Nema korisnika s ovim id-om: ${loggedinUserId}`);

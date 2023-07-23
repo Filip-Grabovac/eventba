@@ -12,9 +12,10 @@
   animation: fadeIn 0.15s ease-in;
   backdrop-filter: blur(20px);
   .container {
-    color: #fff;
+    color: #ebebeb;
     position: relative;
-    background-color: rgba(69, 91, 217, 0.8);
+    background-color: rgba(69, 91, 217, 0.6);
+
     height: auto;
     width: 500px;
     border-radius: 10px;
@@ -74,10 +75,11 @@
         .PhoneInputCountryIconImg {
           position: absolute;
           right: 0;
-          border-radius: 10px;
           top: -38px;
-          width: 40px;
+          width: 47px;
           height: 32px;
+          border-radius: 10px;
+          border: #ffffffc9 2px solid;
         }
       }
       form {
@@ -136,7 +138,7 @@
           }
         }
         input {
-          color: white;
+          color: #ffffffc9;
           background-color: #677adf;
           padding: 5px;
           border: none;

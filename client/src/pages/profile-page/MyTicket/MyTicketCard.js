@@ -6,9 +6,9 @@ export const MyTicketCard = ({ data }) => {
       <div>
         <div className="ticket-parts">
           <span>Vlasnik:</span>
-          <h6>
+          <p>
             {data.name} {data.lname}
-          </h6>
+          </p>
         </div>
         <div className="ticket-parts">
           <span>Email:</span>

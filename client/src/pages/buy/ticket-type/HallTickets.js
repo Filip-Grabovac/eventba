@@ -16,21 +16,38 @@ const HallTickets = ({ concertData, activeCategory, handleClick }) => {
             ? "ticket-card-inner active"
             : "ticket-card-inner";
 
+          const backgroundImageStyle = {
+            backgroundImage: `url("${
+              concertData?.poster?.landscape
+                ? `${process.env.REACT_APP_API_URL}/static/event-images/${concertData.poster.portrait}`
+                : ""
+            }")`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          };
+
           return (
             <div
               className={cardClass}
               onClick={() => handleClick(category)}
               key={category}
+              style={backgroundImageStyle}
             >
-              <div className={`ticket-card-name ${ticketType.name}`}>
-                {ticketType.name}
-              </div>
-              <div className="ticket-card-content">
-                <div>
-                  Cijena: {ticketType.price}
-                  <small> BAM</small>
+              <div
+                className={`glassy-overlay ${
+                  isActiveCategory ? "activeGloss" : ""
+                }`}
+              >
+                <div className={`ticket-card-name ${ticketType.name}`}>
+                  {ticketType.name}
                 </div>
-                <div>Preostalo: {ticketType.amount}</div>
+                <div className="ticket-card-content">
+                  <div>
+                    Cijena: {ticketType.price}
+                    <small> BAM</small>
+                  </div>
+                  <div>Preostalo: {ticketType.amount}</div>
+                </div>
               </div>
             </div>
           );

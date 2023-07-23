@@ -4,18 +4,26 @@
   box-sizing: border-box;
   transition: all 0.2s ease;
   &::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 8px;
     background-color: #dfdfdf;
     border-radius: 10px;
+    @media only screen and (max-width: 600px) {
+      width: 8px;
+      height: 6px;
+    }
   }
 
   &::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #5c70e0 0, #3e93cc 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(36, 63, 214, 0.8) 0,
+      rgba(52, 169, 247, 0.8) 100%
+    );
     border-radius: 10px;
 
     &:hover {
-      background-color: #808dd0;
+      background: linear-gradient(180deg, #243fd6 0, #34a9f7 100%);
     }
   }
 }
@@ -47,11 +55,12 @@ body {
   overflow: hidden;
 }
 .skeleton {
+  background-color: #bebebe;
   -webkit-box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.2);
   box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.2);
   height: 355px;
   width: 90%;
-  margin: 0 auto;
+  margin: 10px auto;
   border-radius: 10px;
   border-radius: 10px;
   padding: 10px;
@@ -64,7 +73,7 @@ body {
     background-color: #ebebeb;
     border-radius: 10px;
     margin-bottom: 10px;
-
+    background-color: #9692927c;
     &:nth-child(1) {
       height: 75%;
       margin: 0 auto 10px auto;
