@@ -46,7 +46,7 @@ const handlePaymentEndpoint = async (req, res) => {
           );
           await updateUserBuyHistory(ticketInfo);
           await generateTicketAndSendEmail(ticketInfo);
-          res.redirect("/thankyou");
+          res.redirect("https://event.ba");
         } else {
           res.redirect("/failed");
         }
