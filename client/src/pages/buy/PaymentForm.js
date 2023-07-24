@@ -59,7 +59,7 @@ const MyComponent = (props) => {
       <form
         className="payment-form"
         method="POST"
-        action="/api/v1/payment/get_payment_info"
+        action={`${process.env.REACT_APP_API_URL}/api/v1/payment/get_payment_info`}
       >
         <script
           src="https://ipgtest.monri.com/dist/lightbox.js"
