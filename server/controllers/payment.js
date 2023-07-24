@@ -71,7 +71,6 @@ const handleTicketData = async (req, res) => {
     // Store the ticket info in the map using the user ID as the key
     ticketInfoMap.set(orderNumber, ticketInfo);
 
-    console.log(ticketInfoMap);
     res.status(200).json(ticketInfo);
   } catch (error) {
     res.status(500).json({ msg: error });
