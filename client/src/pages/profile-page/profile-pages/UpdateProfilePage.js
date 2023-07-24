@@ -92,7 +92,7 @@ export const UpdateProfilePage = (props) => {
         .catch((error) => {
           // Handle any errors
           console.error("Error:");
-          console.log(error);
+
           toast.error(
             `Došlo je do pogreške prilikom ažuriranja podataka. ${error.response.data.error}!`,
             toastSetup("top-right", 2000)

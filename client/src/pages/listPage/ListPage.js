@@ -35,7 +35,7 @@ export const ListPage = () => {
       console.error("Error fetching profile data:", error);
     }
   }
-  console.log(dataReady);
+
   // Search with enter
   function handleKeyPress(e) {
     if (e.keyCode === 13) {
