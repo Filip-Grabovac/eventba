@@ -6,14 +6,11 @@ const uploadImage = async (req, res) => {
   try {
     let { firstFiles, secondFiles } = req.files;
     console.log(firstFiles, secondFiles);
-    // If it's just one file to upload, it will be an object so we transform it to an array
 
     // Upload firstFiles to another folder
     for (let i = 0; i < firstFiles.length; i++) {
       const file = firstFiles[i];
-      const uploadPath = path.join(
-        __dirname,
-        "..",
+      const uploadPath = path.resolve(
         "ticket-gen",
         "public",
         "sponsors-temp",
@@ -28,12 +25,7 @@ const uploadImage = async (req, res) => {
     // Upload secondFiles to another folder
     for (let i = 0; i < secondFiles.length; i++) {
       const file = secondFiles[i];
-      const uploadPath = path.join(
-        __dirname,
-        "..",
-        "event-images-temporary",
-        file.name
-      );
+      const uploadPath = path.resolve("event-images-temporary", file.name);
       console.log("2nd file_listed");
       await fs.promises.writeFile(uploadPath, file.data, { flag: "w" });
       console.log("File moved successfully:", file.name);
@@ -43,8 +35,12 @@ const uploadImage = async (req, res) => {
     await processImages("event-images-temporary", "event-images");
 
     // Remove images from temporary folders
-    await removeTemporaryFiles("../server/event-images-temporary");
-    await removeTemporaryFiles("../server/ticket-gen/public/sponsors-temp");
+    await removeTemporaryFiles(
+      path.resolve("server", "event-images-temporary")
+    );
+    await removeTemporaryFiles(
+      path.resolve("server", "ticket-gen", "public", "sponsors-temp")
+    );
 
     res.status(200).json({ message: "Files uploaded successfully." });
   } catch (error) {
