@@ -29,3 +29,4 @@ const generatePdfAndSendEmail = async (email, port) => {
 module.exports = {
   generatePdfAndSendEmail,
 };
+
