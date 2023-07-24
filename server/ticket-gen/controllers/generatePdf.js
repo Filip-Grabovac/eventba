@@ -1,9 +1,12 @@
-const puppeteer = require("puppeteer");
 const { sendEmailWithAttachment } = require("./sendEmail");
+const puppeteer = require("puppeteer");
 
 const generatePdfAndSendEmail = async (email, port) => {
   try {
-    const browser = await puppeteer.launch({ headless: "new" });
+    const browser = await puppeteer.launch({
+      args: ["--no-sandbox"],
+      headless: true,
+    });
     const page = await browser.newPage();
     await page.goto(`http://localhost:${port}`, {
       waitUntil: "networkidle2",
@@ -17,7 +20,7 @@ const generatePdfAndSendEmail = async (email, port) => {
     });
     await browser.close();
 
-    await sendEmailWithAttachment(email, pdfBuffer); // Use the provided email parameter instead of a hard-coded email
+    await sendEmailWithAttachment(email, pdfBuffer); // Use the provided email parameter if you have defined the sendEmailWithAttachment function
   } catch (error) {
     console.log("Error generating PDF and sending email:", error);
   }

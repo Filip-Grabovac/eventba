@@ -5,7 +5,7 @@ const { processImages } = require("../controllers/imageEditor");
 const uploadImage = async (req, res) => {
   try {
     let { firstFiles, secondFiles } = req.files;
-
+    console.log(firstFiles, secondFiles);
     // If it's just one file to upload, it will be an object so we transform it to an array
 
     // Upload firstFiles to another folder
@@ -19,7 +19,7 @@ const uploadImage = async (req, res) => {
         "sponsors-temp",
         file.name
       );
-
+      console.log("file_listed");
       await fs.promises.writeFile(uploadPath, file.data, { flag: "w" });
       console.log("File moved successfully:", file.name);
       await processImages("ticket-gen/public/sponsors-temp", "sponsors");
@@ -34,7 +34,7 @@ const uploadImage = async (req, res) => {
         "event-images-temporary",
         file.name
       );
-
+      console.log("2nd file_listed");
       await fs.promises.writeFile(uploadPath, file.data, { flag: "w" });
       console.log("File moved successfully:", file.name);
     }
