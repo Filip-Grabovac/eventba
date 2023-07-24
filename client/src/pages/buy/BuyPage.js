@@ -27,7 +27,7 @@ export const BuyPage = () => {
   const loggedinUser = useSelector((state) => state.userState.user);
   // Setting order number 1. time u get on buy page
   useEffect(() => {
-    setOrderNumber(Math.floor(Math.random() * 100000000000000) + 1);
+    setOrderNumber(Math.floor(Math.random() * 10000000000000) + 1);
     dispatch(resetState());
     fetchConcertData();
     fetchProfileData();
