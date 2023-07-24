@@ -90,7 +90,7 @@ export const BuyPage = () => {
         "id"
       );
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${id}`
+        `https://event.ba:5000/api/v1/concerts/id/${id}`
       );
       setConcertData(response.data[0]);
     } catch (error) {
