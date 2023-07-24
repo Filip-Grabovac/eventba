@@ -1,5 +1,7 @@
 require("dotenv").config();
 const express = require("express");
+const https = require("https");
+const fs = require("fs");
 const app = express();
 const connectDB = require("./db/connect");
 const users = require("./routes/users");
@@ -10,7 +12,6 @@ const places = require("./routes/places");
 const tickets = require("./routes/tickets");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
-
 
 app.use(fileUpload());
 app.use(cors());
@@ -27,12 +28,18 @@ app.use("/api/v1/tickets", tickets);
 
 const start = async () => {
   try {
-    app.listen(port, console.log(`Server is listening on port ${port}`));
+    const httpsOptions = {
+      key: fs.readFileSync("/etc/letsencrypt/live/event.ba/privkey.pem"),
+      cert: fs.readFileSync("/etc/letsencrypt/live/event.ba/fullchain.pem"),
+    };
+    const server = https.createServer(httpsOptions, app);
+    server.listen(
+      5000,
+      console.log("Server is listening on port 5000 (HTTPS)")
+    );
   } catch (error) {
     console.error(error);
   }
 };
-
-const port = 5000;
 
 start();
