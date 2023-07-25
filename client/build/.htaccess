@@ -1,8 +1,0 @@
-Options -MultiViews
-RewriteEngine On
-RewriteBase /
-
-# Redirect all requests to index.html
-
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^ index.html [QSA,L]
