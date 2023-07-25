@@ -1,31 +1,34 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import React from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 // Images
-import Logo from "../../assets/logo/logo.svg";
-import LogoutIcon from "../../assets/ikonice/logout_btn.svg";
-import Menu from "../../assets/ikonice/menu.svg";
+import Logo from '../../assets/logo/logo.svg';
+import LogoutIcon from '../../assets/ikonice/logout_btn.svg';
+import Menu from '../../assets/ikonice/menu.svg';
 // Components
-import { Html5QrcodeScanner } from "html5-qrcode";
-import { Link } from "react-router-dom";
-import { toastSetup } from "../../functions/toastSetup";
-import { toast } from "react-toastify";
+import { Html5QrcodeScanner } from 'html5-qrcode';
+import { Link } from 'react-router-dom';
+import { toastSetup } from '../../functions/toastSetup';
+import { toast } from 'react-toastify';
 // Redux
-import { useDispatch } from "react-redux";
-import { setUserID } from "../../store/entranceControllerSlice";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { setUserID } from '../../store/entranceControllerSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const QRscanner = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let dbLocalStorage = localStorage.getItem("dbId");
+  let dbLocalStorage = localStorage.getItem('dbId');
   const [ticketState, setState] = useState();
   const [errorMsg, setErrorMsg] = useState();
-  const [scanningProcess, setScanningProcess] = useState("done");
+  const [scanningProcess, setScanningProcess] = useState('done');
+  const [loader, setLoader] = useState(false);
 
   // Scanner setup
   useEffect(() => {
-    const scanner = new Html5QrcodeScanner("reader", {
+    if (scanningProcess !== 'done') return;
+
+    const scanner = new Html5QrcodeScanner('reader', {
       qrbox: {
         width: 250,
         height: 250,
@@ -34,10 +37,12 @@ export const QRscanner = () => {
     });
 
     scanner.render(success, error);
+  }, [scanningProcess]);
 
-    // Successfull scan
-    async function success(ticketId) {
-      setScanningProcess("scanning");
+  async function success(ticketId) {
+    if (scanningProcess === 'done') {
+      setScanningProcess('scanning');
+      setLoader(true);
 
       // Try to find ticket with id and event name, display "Uspjesno"
       try {
@@ -50,9 +55,10 @@ export const QRscanner = () => {
         setTimeout(() => {
           setState();
           setErrorMsg();
+          setScanningProcess('done');
         }, 1500);
-        setScanningProcess("done");
 
+        setLoader(false);
         // Dispay "Neuspjesno"
       } catch (error) {
         setErrorMsg(error.response.data.msgInfo);
@@ -60,23 +66,24 @@ export const QRscanner = () => {
         setTimeout(() => {
           setState();
           setErrorMsg();
+          setScanningProcess('done');
         }, 1500);
-        setScanningProcess("done");
+        setLoader(false);
       }
     }
+  }
 
-    function error(err) {
-      console.warn(err);
-    }
-  }, []);
+  function error(err) {
+    console.warn(err);
+  }
 
   // Logout from QR scanner
   function logout() {
-    dispatch(setUserID(""));
-    localStorage.setItem("entranceControllerId", "");
-    localStorage.setItem("dbId", "");
-    navigate("/controller_login");
-    toast.success("Uspješna odjava", toastSetup("top-right", 2000));
+    dispatch(setUserID(''));
+    localStorage.setItem('entranceControllerId', '');
+    localStorage.setItem('dbId', '');
+    navigate('/controller_login');
+    toast.success('Uspješna odjava', toastSetup('top-right', 2000));
   }
 
   return (
@@ -110,23 +117,23 @@ export const QRscanner = () => {
           </div>
         </div>
       </nav>
-      <div id="reader"></div>
+      {scanningProcess === 'done' && <div id="reader"></div>}
       <div
         className={`qr-message ${
-          ticketState === "Uspješno"
-            ? "success-scan"
-            : ticketState === "Neuspješno"
-            ? "failed-scan"
-            : "scan-in-process"
+          ticketState === 'Uspješno'
+            ? 'success-scan'
+            : ticketState === 'Neuspješno'
+            ? 'failed-scan'
+            : 'scan-in-process'
         }`}
       >
         <p>
-          {ticketState !== "Uspješno" && ticketState !== "Neuspješno"
-            ? "Skeniraj"
+          {ticketState !== 'Uspješno' && ticketState !== 'Neuspješno'
+            ? 'Skeniraj'
             : ticketState}
         </p>
-        {scanningProcess === "scanning" ? <span className="loader"></span> : ""}
-        <span>{errorMsg ? errorMsg : ""}</span>
+        {loader ? <span className="loader"></span> : ''}
+        <span>{errorMsg ? errorMsg : ''}</span>
       </div>
     </div>
   );
