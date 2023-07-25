@@ -34,7 +34,7 @@
       font-size: 26px;
     }
     h2::after {
-      content: '';
+      content: "";
       display: block;
       width: 70%;
       border-bottom: solid 1px rgb(255, 255, 255);
@@ -69,6 +69,7 @@
           position: relative;
           background-color: #677adf;
           color: #ccd1f4;
+          width: 80%;
           &:focus {
             border: none;
             outline: 2px solid #f4cd46;
@@ -94,7 +95,7 @@
         .kep-login-facebook {
           border-radius: 50px;
           font-size: inherit;
-          font-family: 'Nunito', sans-serif;
+          font-family: "Nunito", sans-serif;
           padding: 10px 20px;
           margin-bottom: 30px;
           background-color: #0d6efd;

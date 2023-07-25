@@ -22,12 +22,13 @@ import { closeModalOnEsc } from '../functions/closeModalOnEsc';
 // Phone Input
 import PhoneInput from 'react-phone-number-input';
 import countryMap from '../components/helper/countryMap';
-
+import hr from '../components/helper/hr';
 export const Register = ({
   isRegisterOpen,
   setIsRegisterOpen,
   setIsLoginOpen,
 }) => {
+  console.log(hr);
   const secretKey = process.env.REACT_APP_SECRET_KEY;
   const [verified, setVerified] = useState(false);
   const dispatch = useDispatch();
@@ -199,21 +200,23 @@ export const Register = ({
               international={true}
               countryCallingCodeEditable={false}
               countryOptionsOrder={[
-                'AL',
                 'BA',
-                'BG',
                 'HR',
+                'RS',
+                'AL',
+                'BG',
                 'GR',
                 'XK',
                 'ME',
                 'MK',
                 'RO',
-                'RS',
                 'SI',
                 'DE',
                 'AT',
                 'IT',
               ]}
+              labels={hr}
+              locales="hr"
             />
 
             <RegisterInput
