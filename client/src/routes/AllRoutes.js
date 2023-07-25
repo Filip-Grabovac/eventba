@@ -1,17 +1,17 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import { Landing } from "../pages/landing/Landing";
-import SinglePage from "../pages/single-page/SinglePage";
-import { Profile } from "../pages/profile-page/Profile";
-import { ProtectedRoute } from "./ProtectedRoutes";
-import { BuyPage } from "../pages/buy/BuyPage";
-import { ThankYou } from "../pages/paymentResult-page/ThankYou";
-import { Failed } from "../pages/paymentResult-page/Failed";
-import { Verification } from "../auth/Verification";
-import { QRscanner } from "../pages/entranceController/QRscanner";
-import { ProtectedControllerRoute } from "./ProtectedControllerRoute";
-import { EntranceControllerLogin } from "../pages/entranceController/EntranceControllerLogin";
-import { ListPage } from "../pages/listPage/ListPage";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { Landing } from '../pages/landing/Landing';
+import SinglePage from '../pages/single-page/SinglePage';
+import { Profile } from '../pages/profile-page/Profile';
+import { ProtectedRoute } from './ProtectedRoutes';
+import { BuyPage } from '../pages/buy/BuyPage';
+import { ThankYou } from '../pages/paymentResult-page/ThankYou';
+import { Failed } from '../pages/paymentResult-page/Failed';
+import { Verification } from '../auth/Verification';
+import { QRscanner } from '../pages/entranceController/QRscanner';
+import { ProtectedControllerRoute } from './ProtectedControllerRoute';
+import { EntranceControllerLogin } from '../pages/entranceController/EntranceControllerLogin';
+import { ListPage } from '../pages/listPage/ListPage';
 
 export const AllRoutes = () => {
   return (

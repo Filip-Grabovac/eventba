@@ -248,7 +248,7 @@
           }
 
           .custom-file-input::before {
-            content: "Odaberi sponzore";
+            content: 'Odaberi sponzore';
             display: inline-block;
             background: linear-gradient(top, #f9f9f9, #e3e3e3);
             border: 2px solid #999;
@@ -513,8 +513,8 @@
         }
 
         img {
-          width: 35px;
-          height: 35px;
+          width: 30px;
+          height: 30px;
           cursor: pointer;
           border-radius: 50%;
           padding: 7px;
@@ -523,6 +523,9 @@
           &:hover {
             transform: scale(1.05);
           }
+        }
+        img:nth-child(6) {
+          margin-right: 5px;
         }
 
         p {
@@ -564,6 +567,10 @@
 
     select {
       color: #455cd9;
+    }
+
+    .organizer-events-select {
+      width: 90%;
     }
 
     textarea {

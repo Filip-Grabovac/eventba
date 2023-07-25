@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import Carousel, { consts } from "react-elastic-carousel";
-import axios from "axios";
-import { ImageCard } from "./ImageCard";
+import React, { useEffect, useState } from 'react';
+import Carousel, { consts } from 'react-elastic-carousel';
+import axios from 'axios';
+import { ImageCard } from './ImageCard';
 
 const ImageSlider = () => {
   const [hotEventsData, setHotEvents] = useState([]);
@@ -27,7 +27,7 @@ const ImageSlider = () => {
         );
         setHotEvents(response.data);
       } catch (error) {
-        console.error("Error fetching profile data:", error);
+        console.error('Error fetching profile data:', error);
       }
     };
 

@@ -34,7 +34,7 @@
       font-size: 26px;
     }
     h2::after {
-      content: "";
+      content: '';
       display: block;
       width: 70%;
       border-bottom: solid 1px rgb(255, 255, 255);
@@ -44,7 +44,9 @@
 
     .text-section {
       margin: 0 auto;
-      max-width: 75%;
+      // max-width: 75%;
+      max-width: max(75%, 280px);
+
       .PhoneInput {
         display: flex;
         flex-direction: column;
@@ -88,10 +90,11 @@
         align-items: center;
         justify-content: center;
         height: auto;
+
         .kep-login-facebook {
-          border-radius: 15px;
+          border-radius: 50px;
           font-size: inherit;
-          font-family: "Nunito", sans-serif;
+          font-family: 'Nunito', sans-serif;
           padding: 10px 20px;
           margin-bottom: 30px;
           background-color: #0d6efd;
@@ -205,20 +208,31 @@
         }
         p {
           margin: 0 15px 15px 15px;
+          text-align: center;
 
           a {
             color: #f4cd46;
             text-decoration: none;
           }
         }
+        .login-btns-wrapper {
+          margin-bottom: 20px;
+          height: auto;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
         .login-btn {
+          height: 46px;
+          display: block;
           background-color: #f4cd46;
-          padding: 10px 30px;
+          padding: 10px 28px;
           font-weight: bold;
           border: none;
           border-radius: 50px;
           margin-bottom: 20px;
           color: #343434;
+          margin-right: 5px;
         }
         .multiple-inputs-wrapper {
           display: flex;

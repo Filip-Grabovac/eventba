@@ -1,22 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 // Images
-import X from "../assets/ikonice/X.svg";
-import PasswordEye from "../assets/ikonice/invisible.svg";
-import mail from "../assets/ikonice/mail.svg";
+import X from '../assets/ikonice/X.svg';
+import PasswordEye from '../assets/ikonice/invisible.svg';
+import mail from '../assets/ikonice/mail.svg';
 // Redux
-import { useDispatch } from "react-redux";
-import { setUserID } from "../store/userSlice";
+import { useDispatch } from 'react-redux';
+import { setUserID } from '../store/userSlice';
 // Components
-import { Link } from "react-router-dom";
-import { RegisterInput } from "./RegisterInput";
-import { toast } from "react-toastify";
-import FacebookLogin from "react-facebook-login";
+import { Link } from 'react-router-dom';
+import { RegisterInput } from './RegisterInput';
+import { toast } from 'react-toastify';
+import FacebookLogin from 'react-facebook-login';
 // Functions
-import { Decrypt } from "./Decrypt";
-import { closeModalOnEsc } from "../functions/closeModalOnEsc";
-import { useFacebookLogin } from "../functions/facebookLogin";
-import { toastSetup } from "../functions/toastSetup";
+import { Decrypt } from './Decrypt';
+import { closeModalOnEsc } from '../functions/closeModalOnEsc';
+import { useFacebookLogin } from '../functions/facebookLogin';
+import { toastSetup } from '../functions/toastSetup';
 
 export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
 
   // Around modal click exit login
   const handleModalClick = (e) => {
-    if (e.target.classList.contains("login-screen")) setIsLoginOpen(false);
+    if (e.target.classList.contains('login-screen')) setIsLoginOpen(false);
   };
 
   // Press escape key exit login
@@ -46,7 +46,7 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
         `${process.env.REACT_APP_API_URL}/api/v1/users/email/${email}`,
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         }
       );
@@ -58,18 +58,18 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
         Decrypt(userPassword, secretKey) === e.target.elements.password.value
       ) {
         dispatch(setUserID(id));
-        localStorage.setItem("userId", id);
+        localStorage.setItem('userId', id);
         setIsLoginOpen(false);
 
-        toast.success("Uspješna prijava!", toastSetup("top-center", 3000));
+        toast.success('Uspješna prijava!', toastSetup('top-center', 3000));
       } else {
-        toast.error(`Lozinka nije ispravna!`, toastSetup("top-center", 3000));
+        toast.error(`Lozinka nije ispravna!`, toastSetup('top-center', 3000));
         passwordRef.current.focus();
       }
     } catch (error) {
       toast.error(
         `Došlo je do pogreške prilikom prijave. ${error.response.data.error}!`,
-        toastSetup("top-center", 3000)
+        toastSetup('top-center', 3000)
       );
     }
   };
@@ -114,22 +114,24 @@ export const Login = ({ isLoginOpen, setIsLoginOpen, setIsRegisterOpen }) => {
               isPasswordVisible={isPasswordVisible}
               setIsPasswordVisible={setIsPasswordVisible}
             />
-            <FacebookLogin
-              textButton="Prijavi se s Facebook-om"
-              appId="934444414490428"
-              autoLoad={false}
-              fields="name,email,picture"
-              callback={(fbResponse) => {
-                facebookLogin(fbResponse);
-              }}
-            />
+            <div className="login-btns-wrapper">
+              <button type="submit" className="login-btn">
+                Prijavi se!
+              </button>
+              <FacebookLogin
+                textButton="Prijavi se s Facebook-om"
+                appId="934444414490428"
+                autoLoad={false}
+                fields="name,email,picture"
+                callback={(fbResponse) => {
+                  facebookLogin(fbResponse);
+                }}
+              />
+            </div>
             <p>
-              Nemaš event.ba račun?{" "}
+              Nemaš event.ba račun?{' '}
               <Link onClick={handleOpenRegister}>Registriraj</Link> se!
             </p>
-            <button type="submit" className="login-btn">
-              Prijavi se!
-            </button>
           </form>
         </div>
       </div>
