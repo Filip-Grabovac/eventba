@@ -1,27 +1,27 @@
-import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 // Images
-import X from "../assets/ikonice/X.svg";
-import UserCard from "../assets/ikonice/user_card_icon.svg";
-import Mail from "../assets/ikonice/mail.svg";
-import PinIcon from "../assets/ikonice/pin_icon.svg";
-import PasswordEye from "../assets/ikonice/invisible.svg";
+import X from '../assets/ikonice/X.svg';
+import UserCard from '../assets/ikonice/user_card_icon.svg';
+import Mail from '../assets/ikonice/mail.svg';
+import PinIcon from '../assets/ikonice/pin_icon.svg';
+import PasswordEye from '../assets/ikonice/invisible.svg';
 // Redux
-import { useDispatch } from "react-redux";
-import { setUserID } from "../store/userSlice";
+import { useDispatch } from 'react-redux';
+import { setUserID } from '../store/userSlice';
 // Components
-import { Link } from "react-router-dom";
-import { RegisterInput } from "./RegisterInput";
-import { toast } from "react-toastify";
-import ReCAPTCHA from "react-google-recaptcha";
+import { Link } from 'react-router-dom';
+import { RegisterInput } from './RegisterInput';
+import { toast } from 'react-toastify';
+import ReCAPTCHA from 'react-google-recaptcha';
 // Functions
-import { Encrypt } from "./Encrypt";
-import { Decrypt } from "./Decrypt";
-import { toastSetup } from "../functions/toastSetup";
-import { closeModalOnEsc } from "../functions/closeModalOnEsc";
+import { Encrypt } from './Encrypt';
+import { Decrypt } from './Decrypt';
+import { toastSetup } from '../functions/toastSetup';
+import { closeModalOnEsc } from '../functions/closeModalOnEsc';
 // Phone Input
-import PhoneInput from "react-phone-number-input";
-import countryMap from "../components/helper/countryMap";
+import PhoneInput from 'react-phone-number-input';
+import countryMap from '../components/helper/countryMap';
 
 export const Register = ({
   isRegisterOpen,
@@ -35,7 +35,7 @@ export const Register = ({
   const repeatPasswordRef = useRef(null);
   const emailRef = useRef(null);
   // Phone Input settings
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState('');
   const reverseCountry = (fullName) => {
     for (const code in countryMap) {
       if (countryMap[code] === fullName) {
@@ -44,7 +44,7 @@ export const Register = ({
     }
     return null; // Return null if the country name is not found in the map
   };
-  const [country, setCountry] = useState("BA");
+  const [country, setCountry] = useState('BA');
 
   // Press escape key exit register
   useEffect(() => {
@@ -63,7 +63,7 @@ export const Register = ({
       address: e.target.elements.address.value,
       city: e.target.elements.city.value,
       country: countryMap[country],
-      role: "standard",
+      role: 'standard',
       zip: e.target.elements.zipcode.value,
       phone: phone,
       password: Encrypt(e.target.elements.password.value, secretKey),
@@ -74,7 +74,7 @@ export const Register = ({
     if (Decrypt(user.password, secretKey) === user.repeatPassword) {
       await axios
         .post(
-          process.env.REACT_APP_API_URL + "/api/v1/users",
+          process.env.REACT_APP_API_URL + '/api/v1/users',
           {
             ...user,
             isVerified: false,
@@ -82,36 +82,36 @@ export const Register = ({
           },
           {
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           }
         )
         .then((response) => {
           toast.success(
             `Uspješna registracija. Provjerite ${user.email} zbog verifikacije!`,
-            toastSetup("top-right", 3000)
+            toastSetup('top-right', 3000)
           );
           setIsRegisterOpen(false);
           // Login user
           dispatch(setUserID(response.data.user._id));
-          localStorage.setItem("userId", response.data.user._id);
+          localStorage.setItem('userId', response.data.user._id);
         })
         .catch((error) => {
           // Handle any errors
           emailRef.current.focus();
           toast.error(
             `Došlo je do pogreške prilikom registracije. ${error.response.data.error}!`,
-            toastSetup("top-right", 3000)
+            toastSetup('top-right', 3000)
           );
         });
     } else {
-      toast.warn("Lozinke se ne podudaraju!", toastSetup("top-right", 3000));
+      toast.warn('Lozinke se ne podudaraju!', toastSetup('top-right', 3000));
       repeatPasswordRef.current.focus();
     }
   };
 
   const handleModalClick = (e) => {
-    if (e.target.classList.contains("login-screen")) {
+    if (e.target.classList.contains('login-screen')) {
       setIsRegisterOpen(false);
     }
   };
@@ -192,27 +192,27 @@ export const Register = ({
 
             <PhoneInput
               placeholder="Mobitel"
-              value={phone || ""}
+              value={phone || ''}
               onChange={setPhone}
               onCountryChange={setCountry}
-              defaultCountry={country || "BA"}
+              defaultCountry={country || 'BA'}
               international={true}
               countryCallingCodeEditable={false}
               countryOptionsOrder={[
-                "AL",
-                "BA",
-                "BG",
-                "HR",
-                "GR",
-                "XK",
-                "ME",
-                "MK",
-                "RO",
-                "RS",
-                "SI",
-                "DE",
-                "AT",
-                "IT",
+                'AL',
+                'BA',
+                'BG',
+                'HR',
+                'GR',
+                'XK',
+                'ME',
+                'MK',
+                'RO',
+                'RS',
+                'SI',
+                'DE',
+                'AT',
+                'IT',
               ]}
             />
 
@@ -239,13 +239,14 @@ export const Register = ({
               setIsPasswordVisible={setIsPasswordVisible}
             />
             <p>
-              Imas event.ba račun?{" "}
+              Imas event.ba račun?{' '}
               <Link onClick={handleOpenLogin}>Prijavi se.</Link>
             </p>
             <ReCAPTCHA
               className="recaptcha"
-              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+              sitekey="6LeMm1MnAAAAAOElXfMI6txzQnUG3q2F4QVUnYYq"
               onChange={onChange}
+              theme="dark"
             />
             <button type="submit" className="login-btn" disabled={!verified}>
               Registriraj se!

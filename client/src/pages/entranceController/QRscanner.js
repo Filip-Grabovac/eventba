@@ -23,12 +23,13 @@ export const QRscanner = () => {
   const [errorMsg, setErrorMsg] = useState();
   const [scanningProcess, setScanningProcess] = useState('done');
   const [loader, setLoader] = useState(false);
+  let scanner;
 
   // Scanner setup
   useEffect(() => {
     if (scanningProcess !== 'done') return;
 
-    const scanner = new Html5QrcodeScanner('reader', {
+    scanner = new Html5QrcodeScanner('reader', {
       qrbox: {
         width: 250,
         height: 250,
@@ -40,6 +41,7 @@ export const QRscanner = () => {
   }, [scanningProcess]);
 
   async function success(ticketId) {
+    scanner.clear();
     if (scanningProcess === 'done') {
       setScanningProcess('scanning');
       setLoader(true);
