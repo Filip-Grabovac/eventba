@@ -26,6 +26,7 @@ app.use("/api/v1/entrance_controllers", entrance_controller);
 app.use("/api/v1/places", places);
 app.use("/api/v1/tickets", tickets);
 
+console.log("kreso");
 const start = async () => {
   try {
     const httpsOptions = {
