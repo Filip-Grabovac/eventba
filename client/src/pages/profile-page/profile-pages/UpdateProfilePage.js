@@ -4,6 +4,7 @@ import { Encrypt } from "../../../auth/Encrypt";
 import axios from "axios";
 import { toast } from "react-toastify";
 import PhoneInput from "react-phone-number-input";
+import hr from "../../../components/helper/hr";
 import countryMap from "../../../components/helper/countryMap";
 import { toastSetup } from "../../../functions/toastSetup";
 
@@ -176,21 +177,23 @@ export const UpdateProfilePage = (props) => {
             countryCallingCodeEditable={false}
             label={country}
             countryOptionsOrder={[
-              "AL",
               "BA",
-              "BG",
               "HR",
+              "RS",
+              "AL",
+              "BG",
               "GR",
               "XK",
               "ME",
               "MK",
               "RO",
-              "RS",
               "SI",
               "DE",
               "AT",
               "IT",
             ]}
+            labels={hr}
+            locales="hr"
           />
         </div>
       </div>
