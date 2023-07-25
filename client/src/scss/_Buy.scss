@@ -120,7 +120,7 @@
         width: 80%;
         padding: 8px 20px;
         border-radius: 10px 10px 0 0;
-        margin: 0 auto;
+        margin: 20px auto 0;
         white-space: nowrap;
         overflow-x: auto;
         background-color: #455cd9;
@@ -408,8 +408,23 @@
         }
         span {
           font-size: 20px;
+          small {
+            margin-right: 10px;
+          }
           @media only screen and (max-width: 600px) {
             font-size: 14px;
+          }
+          img {
+            opacity: 0.7;
+            margin-bottom: 5px;
+            height: 25px;
+            width: 25px;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 4px;
+            &:hover {
+              opacity: 1;
+              transform: scale(1.1);
+            }
           }
         }
       }
@@ -440,13 +455,13 @@
         margin: 5px 5px 10px;
         color: #fff;
         font-size: 22px;
-        max-width: 180px;
+        max-width: 150px;
         text-align: center;
         font-weight: 600;
         color: #343434;
         background-color: #f4cd46;
         border-radius: 20px;
-        padding: 5px 35px;
+        padding: 5px 15px;
         border: none;
         cursor: pointer;
         &:hover {

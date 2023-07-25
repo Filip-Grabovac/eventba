@@ -8,7 +8,9 @@ export const TicketBill = ({ i }) => {
   );
   return (
     <div className="ticket-bill">
-      <div className="ticket">Ulaznica {ticketID}:</div>
+      <div className="ticket">
+        Ulaznica {ticketID} - {ticket?.ticketName} :
+      </div>
       <span>
         {ticket ? ticket.price : 0} <small> BAM</small>
       </span>

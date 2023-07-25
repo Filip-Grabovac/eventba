@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 // Images
 import InfoIcon from "../../../assets/ikonice/info.svg";
@@ -7,9 +7,28 @@ import PlusIcon from "../../../assets/ikonice/plus_icon.svg";
 import { Tooltip } from "react-tooltip";
 import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
+import bosnianCities from "../../../components/helper/bosnianCities";
 
 export const AddHall = () => {
   const [rowNum, setRowNum] = useState(1);
+  //Dropdown forcity input
+  const [selectedCity, setSelectedCity] = useState("");
+  const [showDropdown, setShowDropdown] = useState(true);
+
+  const [filteredCities, setFilteredCities] = useState([]);
+
+  // Update the filtered cities based on the user input
+  useEffect(() => {
+    const filtered = bosnianCities.filter((city) =>
+      city.toLowerCase().includes(selectedCity.toLowerCase())
+    );
+    setFilteredCities(filtered);
+  }, [selectedCity]);
+
+  const handleCitySelect = (city) => {
+    setSelectedCity(city);
+    setShowDropdown(false);
+  };
 
   // Submit form
   async function handleFormSubmit(e) {
@@ -123,12 +142,29 @@ export const AddHall = () => {
           <input
             className="event-input"
             name="hallLocation"
-            placeholder="Dodaj mjesto"
+            placeholder="Select a city"
             type="text"
-            onInput={(e) => {
-              e.target.style = "outline: none;";
-            }}
+            value={selectedCity}
+            onChange={(e) => setSelectedCity(e.target.value)}
+            onFocus={() => setShowDropdown(true)}
           />
+          {showDropdown && (
+            <div className="dropdown">
+              {filteredCities.length > 0 ? (
+                filteredCities.map((city, index) => (
+                  <div
+                    key={index}
+                    className="dropdown-item"
+                    onClick={() => handleCitySelect(city)}
+                  >
+                    {city}
+                  </div>
+                ))
+              ) : (
+                <div className="dropdown-item">No results</div>
+              )}
+            </div>
+          )}
         </div>
         <div className="row">
           <h6>Dodaj kategorije</h6>

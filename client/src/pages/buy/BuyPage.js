@@ -47,6 +47,7 @@ export const BuyPage = () => {
     if (ticketAmount === 1) return;
     setTicketAmount(ticketAmount - 1);
     dispatch(removeLastTicket({ id: ticketAmount }));
+    setShowPaymentForm(false);
   };
 
   const handleSliderCardClick = (index) => {
@@ -148,8 +149,8 @@ export const BuyPage = () => {
 
   // BUY BUTTON
   // Chek if mails are there, to enable pay button
-  const handleButtonClick = () => {
-    fetchConcertData();
+  const handleButtonClick = async () => {
+    await fetchConcertData();
     profileData.isVerified || fetchProfileData();
 
     const ticketsWithoutEmails = allTickets.filter(
@@ -172,6 +173,7 @@ export const BuyPage = () => {
         if (ticketsIdWithoutSeat.length === 0) {
           if (categoryWithNotEnoughTickets.length === 0) {
             setShowPaymentForm(true);
+
             const allEmails = allTickets.map((ticket) => ticket.email);
             const uniqueEmails = allEmails.filter((email, index) => {
               return allEmails.indexOf(email) === index;
@@ -261,7 +263,26 @@ export const BuyPage = () => {
       }
     }
   };
+  useEffect(() => {
+    // Check if showPaymentForm is true and click the button if it is
+    if (showPaymentForm) {
+      // Function to handle the click logic when the button is found
+      const clickButton = () => {
+        const buttonElement = document.querySelector(
+          ".monri-lightbox-button-el"
+        );
+        if (buttonElement) {
+          buttonElement.click();
+        } else {
+          // Retry after a short delay if the button is not found yet
+          setTimeout(clickButton, 100);
+        }
+      };
 
+      // Call the clickButton function to start the click logic
+      clickButton();
+    }
+  }, [showPaymentForm]);
   return (
     <div className="single-page-container">
       <div className="single-page-top">
@@ -324,6 +345,7 @@ export const BuyPage = () => {
                 <Personalization
                   key={i}
                   i={i}
+                  ticketAmount={ticketAmount}
                   concertData={concertData}
                   profileData={profileData}
                   setShowPaymentForm={setShowPaymentForm}
@@ -355,10 +377,11 @@ export const BuyPage = () => {
           </div>
           <div className="payment-method">
             <button className="pay-method" onClick={handleButtonClick}>
-              Plati
+              Odvedi na plaćanje
             </button>
             {showPaymentForm && (
               <PaymentForm
+                showPaymentForm={showPaymentForm}
                 totalAmount={totalAmount}
                 profileData={profileData}
                 orderNumber={orderNumber}

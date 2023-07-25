@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const HallTickets = ({ concertData, activeCategory, handleClick }) => {
+  useEffect(() => {
+    // Get the first category
+    const firstCategory = Object.keys(concertData.tickets.type)[0];
+
+    // Call the handleClick function with the first category as the parameter
+    handleClick(firstCategory);
+  }, []);
+
   return (
     <div className="ticket-card">
       {concertData.tickets &&

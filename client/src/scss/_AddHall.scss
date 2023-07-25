@@ -6,6 +6,7 @@
 
     .event-input {
       width: 44%;
+      position: relative;
     }
     #info-icon {
       width: 20px;
@@ -21,7 +22,19 @@
       margin-top: 30px;
     }
   }
-
+  .dropdown {
+    background-color: #fff;
+    padding: 7px;
+    border-radius: 10px;
+    max-height: 50px;
+    margin-left: auto;
+    overflow: auto;
+    width: 44%;
+    right: 0;
+    .dropdown-item {
+      margin-bottom: 4px;
+    }
+  }
   .hall-categories-container {
     padding: 0;
 

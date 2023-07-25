@@ -23,8 +23,8 @@ export const Personalization = ({
 
   useEffect(() => {
     if (profileData) {
-      setName(profileData.name || "");
-      setSurname(profileData.lname || "");
+      setName("");
+      setSurname("");
       setEmail(profileData.email || "");
     }
   }, [profileData]);
@@ -42,13 +42,13 @@ export const Personalization = ({
     dispatch(addTicket(ticket));
   }, [ticketID, name, surname, email, dispatch]);
 
-  const handleClick = (category) => {
+  const handleClick = async (category) => {
     setActiveCategory(category);
-
+    setShowPaymentForm(false);
     const ticketType = concertData.tickets.type[category];
     const price = ticketType.price;
 
-    setTicketPrice(price);
+    await setTicketPrice(price);
     dispatch(
       addTicketPrice({
         ticketPrice: Number(price),

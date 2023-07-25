@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { sha512 } from "crypto-hash";
 
-const MyComponent = (props) => {
+const MyComponent = ({
+  totalAmount,
+  profileData,
+
+  orderNumber,
+}) => {
   const [hashedCode, setHashCode] = useState();
 
   const key = "key-7db98c681752b62dc6fac2ec4daa93c1";
-  const amount = props.totalAmount * 100;
-  const fullName = props.profileData.name + " " + props.profileData.lname;
-  const zip = props.profileData.zip;
-  const phone = props.profileData.phone;
-  const email = props.profileData.email;
-  const address = props.profileData.address;
-  const city = props.profileData.city;
-  const country = props.profileData.country;
-
-  const orderNumber = props.orderNumber;
+  const amount = totalAmount * 100;
+  const fullName = profileData.name + " " + profileData.lname;
+  const zip = profileData.zip;
+  const phone = profileData.phone;
+  const email = profileData.email;
+  const address = profileData.address;
+  const city = profileData.city;
+  const country = profileData.country;
 
   const handleTextInput = async (value) => {
     setHashCode(await sha512(value));
