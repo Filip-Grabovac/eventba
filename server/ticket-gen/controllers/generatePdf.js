@@ -12,11 +12,13 @@ const generatePdfAndSendEmail = async (email, port) => {
       waitUntil: "networkidle2",
     });
 
-    await page.setViewport({ width: 1680, height: 1050 });
+    // await page.setViewport({ width: 1680, height: 1050 });
+    await page.setViewport({ width: 800, height: 600 });
 
     const pdfBuffer = await page.pdf({
       format: "A4",
       printBackground: true,
+      quality: 50,
     });
     await browser.close();
 

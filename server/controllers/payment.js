@@ -44,9 +44,9 @@ const handlePaymentEndpoint = async (req, res) => {
             ticketInfo.concertData._id,
             ticketInfo.ticketGenData.ticketList
           );
+          res.redirect("https://event.ba/thankyou");
           await updateUserBuyHistory(ticketInfo);
           await generateTicketAndSendEmail(ticketInfo);
-          res.redirect("https://event.ba");
         } else {
           res.redirect("/failed");
         }
