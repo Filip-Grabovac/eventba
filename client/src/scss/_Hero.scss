@@ -129,6 +129,7 @@
       .search-nav-right {
         width: 70%;
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         list-style: none;
         padding: 0 0 5px 0;
@@ -146,7 +147,15 @@
           #35428698 0%,
           #2794a786 100%
         );
+        @media only screen and (max-width: 838px) {
+          justify-content: unset;
+        }
         li {
+          margin-bottom: 10px;
+          @media only screen and (max-width: 838px) {
+            min-width: 14.28%;
+            margin-bottom: 10px;
+          }
           @media only screen and (max-width: 670px) {
             transform: scale(0.92);
           }
@@ -198,7 +207,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    [data-testid="bars-loading"] {
+    [data-testid='bars-loading'] {
       transform: translate(-128%, 20%);
       @media only screen and (max-width: 670px) {
         transform: translate(-70%, 20%);

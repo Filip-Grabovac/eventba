@@ -21,8 +21,8 @@ export const QRscanner = () => {
   let dbLocalStorage = localStorage.getItem('dbId');
   const [ticketState, setState] = useState();
   const [errorMsg, setErrorMsg] = useState();
-  const [scanningProcess, setScanningProcess] = useState('done');
   const [loader, setLoader] = useState(false);
+  let scanningProcess = 'done';
   let scanner;
 
   // Scanner setup
@@ -34,16 +34,19 @@ export const QRscanner = () => {
         width: 250,
         height: 250,
       },
-      fps: 5,
+      fps: 2,
     });
 
     scanner.render(success, error);
-  }, [scanningProcess]);
+  }, []);
 
   async function success(ticketId) {
-    scanner.clear();
     if (scanningProcess === 'done') {
-      setScanningProcess('scanning');
+      let time =
+        document.querySelector('.qr-time-msg-input').value === ''
+          ? 1
+          : document.querySelector('.qr-time-msg-input').value;
+      scanningProcess = 'scanning';
       setLoader(true);
 
       // Try to find ticket with id and event name, display "Uspjesno"
@@ -57,8 +60,8 @@ export const QRscanner = () => {
         setTimeout(() => {
           setState();
           setErrorMsg();
-          setScanningProcess('done');
-        }, 1500);
+          scanningProcess = 'done';
+        }, time * 1000);
 
         setLoader(false);
         // Dispay "Neuspjesno"
@@ -68,8 +71,8 @@ export const QRscanner = () => {
         setTimeout(() => {
           setState();
           setErrorMsg();
-          setScanningProcess('done');
-        }, 1500);
+          scanningProcess = 'done';
+        }, time * 1000);
         setLoader(false);
       }
     }
@@ -119,7 +122,7 @@ export const QRscanner = () => {
           </div>
         </div>
       </nav>
-      {scanningProcess === 'done' && <div id="reader"></div>}
+      <div id="reader"></div>
       <div
         className={`qr-message ${
           ticketState === 'Uspješno'
@@ -137,6 +140,16 @@ export const QRscanner = () => {
         {loader ? <span className="loader"></span> : ''}
         <span>{errorMsg ? errorMsg : ''}</span>
       </div>
+      <label className="msg-time-label" htmlFor="msgTime">
+        Unesite vrijeme trajanja poruke u sekundama
+      </label>
+      <input
+        id="msgTime"
+        name="msgTime"
+        className="qr-time-msg-input"
+        type="number"
+        placeholder="1"
+      />
     </div>
   );
 };

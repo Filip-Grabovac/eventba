@@ -1,4 +1,21 @@
 .qr-scanner-container {
+  .qr-time-msg-input {
+    width: 100%;
+    max-width: 240px;
+    padding: 3px 5px;
+    margin: 0 auto;
+    display: block;
+    border-radius: 10px;
+    border: 1px solid #7c8ce4;
+    text-align: center;
+  }
+
+  .msg-time-label {
+    text-align: center;
+    margin: 0 auto 10px;
+    display: block;
+  }
+
   .custom-navbar {
     @media only screen and (max-width: 236px) {
       padding: 10px 0;
@@ -12,9 +29,30 @@
     }
   }
   #html5-qrcode-anchor-scan-type-change {
-    display: none;
+    // display: none !important;
   }
-  img[alt="Info icon"] {
+  select#html5-qrcode-select-camera {
+    display: block !important;
+    margin: 10px auto !important;
+    border: 1px solid #7c8ce4 !important;
+    border-radius: 10px !important;
+    padding: 3px !important;
+  }
+
+  #reader__dashboard_section_csr {
+    span {
+      margin-right: 0 !important;
+    }
+    button {
+      border: none !important;
+      background: #f4cd46 !important;
+      padding: 5px 10px !important;
+      border-radius: 10px !important;
+      color: #343434 !important;
+    }
+  }
+
+  img[alt='Info icon'] {
     display: none;
   }
   #html5-qrcode-button-camera-permission,
@@ -27,7 +65,7 @@
     margin-top: 30px;
   }
   #html5-qrcode-button-camera-permission::before {
-    content: "Dozvolite Pristup Kameri";
+    content: 'Dozvolite Pristup Kameri';
     color: #343434;
     font-size: 16px;
     font-weight: 600;
@@ -119,7 +157,7 @@
 .entrance-controller-login-section {
   width: 100vw;
   height: 100vh;
-  background-image: url("assets/images/controller_login_bg.png");
+  background-image: url('assets/images/controller_login_bg.png');
   background-size: cover;
   background-repeat: no-repeat;
 }
