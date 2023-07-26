@@ -274,7 +274,7 @@
           padding: 10px;
           justify-content: space-between;
           align-items: center;
-          input[type='checkbox'] {
+          input[type="checkbox"] {
             -webkit-appearance: none;
             appearance: none;
             background-color: #fff;
@@ -291,8 +291,8 @@
             border: #555555 solid 3px;
           }
 
-          input[type='checkbox']::before {
-            content: '✓';
+          input[type="checkbox"]::before {
+            content: "✓";
             transform: scale(1.3);
             font-size: 1em;
             font-weight: bold;
@@ -301,11 +301,11 @@
             transition: 120ms opacity ease-in-out;
           }
 
-          input[type='checkbox']:checked::before {
+          input[type="checkbox"]:checked::before {
             opacity: 1;
           }
 
-          input[type='checkbox']:focus {
+          input[type="checkbox"]:focus {
             outline: none;
           }
 
@@ -313,7 +313,7 @@
             --form-control-disabled: #959495;
           }
 
-          input[type='checkbox']:disabled {
+          input[type="checkbox"]:disabled {
             --form-control-color: var(--form-control-disabled);
             color: #455cd9;
             cursor: not-allowed;
@@ -470,6 +470,8 @@
       }
       .payment-form {
         .monri-lightbox-button-el {
+          opacity: 0;
+          pointer-events: none;
           position: relative;
           &::before {
             font-family: Nunito;
@@ -482,7 +484,7 @@
             letter-spacing: 1px;
             background-color: #f4cd46;
             left: 10px;
-            content: 'Karticom💳';
+            content: "Karticom💳";
             position: absolute;
             left: 1px;
             display: flex;

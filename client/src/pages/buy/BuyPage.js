@@ -286,7 +286,7 @@ export const BuyPage = () => {
           buttonElement.click();
         } else {
           // Retry after a short delay if the button is not found yet
-          setTimeout(clickButton, 100);
+          setTimeout(clickButton, 200);
         }
       };
 
