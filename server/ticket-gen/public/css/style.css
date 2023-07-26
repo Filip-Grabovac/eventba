@@ -212,9 +212,8 @@ p {
         background-image: linear-gradient(to top, #ececec, #fff);
         display: flex;
         padding: 3px;
-        justify-content: space-evenly;
+        justify-content: space-between;
         align-items: center;
-        gap: 20px;
         .logos {
           display: flex;
           justify-content: center;
@@ -231,7 +230,8 @@ p {
           }
         }
         .sponsor {
-          height: 25px;
+          max-height: 25px;
+          max-width: 40px;
         }
       }
     }

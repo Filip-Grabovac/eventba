@@ -5,7 +5,7 @@ const generatePdfAndSendEmail = async (email, port) => {
   try {
     const browser = await puppeteer.launch({
       args: ["--no-sandbox"],
-      headless: true,
+      headless: "new",
     });
     const page = await browser.newPage();
     await page.goto(`http://localhost:${port}`, {
@@ -29,4 +29,3 @@ const generatePdfAndSendEmail = async (email, port) => {
 module.exports = {
   generatePdfAndSendEmail,
 };
-

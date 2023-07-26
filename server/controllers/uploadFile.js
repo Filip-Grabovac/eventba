@@ -5,41 +5,46 @@ const { processImages } = require("../controllers/imageEditor");
 const uploadImage = async (req, res) => {
   try {
     let { firstFiles, secondFiles } = req.files;
-    console.log(firstFiles, secondFiles);
 
     // Upload firstFiles to another folder
     for (let i = 0; i < firstFiles.length; i++) {
       const file = firstFiles[i];
-      const uploadPath = path.resolve(
+      const uploadPath = path.join(
+        __dirname, // Get the current directory path
+        "..",
         "ticket-gen",
         "public",
         "sponsors-temp",
         file.name
       );
-      console.log("file_listed");
+
       await fs.promises.writeFile(uploadPath, file.data, { flag: "w" });
       console.log("File moved successfully:", file.name);
-      await processImages("ticket-gen/public/sponsors-temp", "sponsors");
     }
 
     // Upload secondFiles to another folder
     for (let i = 0; i < secondFiles.length; i++) {
       const file = secondFiles[i];
-      const uploadPath = path.resolve("event-images-temporary", file.name);
+      const uploadPath = path.join(
+        __dirname, // Get the current directory path
+        "..",
+        "event-images-temporary",
+        file.name
+      );
       console.log("2nd file_listed");
       await fs.promises.writeFile(uploadPath, file.data, { flag: "w" });
       console.log("File moved successfully:", file.name);
     }
 
-    // Call the function
+    // Call the function to optimize and compress the images in event-images-temporary
     await processImages("event-images-temporary", "event-images");
-
+    await processImages("ticket-gen/public/sponsors-temp", "sponsors");
     // Remove images from temporary folders
     await removeTemporaryFiles(
-      path.resolve("server", "event-images-temporary")
+      path.resolve(__dirname, "..", "event-images-temporary")
     );
     await removeTemporaryFiles(
-      path.resolve("server", "ticket-gen", "public", "sponsors-temp")
+      path.resolve(__dirname, "..", "ticket-gen", "public", "sponsors-temp")
     );
 
     res.status(200).json({ message: "Files uploaded successfully." });

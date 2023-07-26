@@ -215,6 +215,12 @@ export const BuyPage = () => {
                     loggedinUser: loggedinUser,
                   }
                 );
+                console.log({
+                  ticketGenData: ticketGenData,
+                  concertData: concertData,
+                  orderNumber,
+                  loggedinUser: loggedinUser,
+                });
               } catch (error) {
                 // Handle any errors that occurred during the request
                 toast.error(
