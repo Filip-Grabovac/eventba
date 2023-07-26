@@ -23,7 +23,7 @@ const checkTicket = async (req, res) => {
     if (!thatTicket) {
       // If the ticket is not found or already used (isValid=false), respond with an error message
       return res
-        .status(404)
+        .status(200)
         .json({ msg: "Neuspješno", msgInfo: "Ulaznica je već iskorištena!" });
     }
 
@@ -32,9 +32,10 @@ const checkTicket = async (req, res) => {
   } catch (error) {
     // Handle any other errors that might occur during the process
     res
-      .status(500)
+      .status(200)
       .json({ msg: "Neuspješno", msgInfo: "Nepostojeća ulaznica!" });
   }
 };
 
 module.exports = checkTicket;
+

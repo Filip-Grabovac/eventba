@@ -1,11 +1,11 @@
-const EntranceController = require('../models/Entrance');
+const EntranceController = require("../models/Entrance");
 
 const getEntranceControllerById = async (req, res) => {
   try {
     const id = req.body.id;
     const entranceController = await EntranceController.find({
       organizer_id: id,
-    }).select('-password');
+    }).select("-password");
     res.status(200).json({ entranceController });
   } catch (error) {
     res.status(500).json({ msg: error });
@@ -38,12 +38,12 @@ const addEntranceController = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: 'Uspješno ste dodali kontrolora ulaza.',
+      message: "Uspješno ste dodali kontrolora ulaza.",
       data: entranceController,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Došlo je do greške' });
+    res.status(500).json({ success: false, message: "Došlo je do greške" });
   }
 };
 
@@ -53,11 +53,11 @@ const deleteEntranceController = async (req, res) => {
     await EntranceController.deleteOne({ _id: id });
     res.status(200).json({
       success: true,
-      message: 'Kontrolor ulaza je uspješno izbrisan.',
+      message: "Kontrolor ulaza je uspješno izbrisan.",
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Došlo je do greške' });
+    res.status(500).json({ success: false, message: "Došlo je do greške" });
   }
 };
 
@@ -69,21 +69,20 @@ const getEntranceControllerByUsername = async (req, res) => {
     const entranceController = await EntranceController.find({
       name: username,
       password: password,
-    }).select('-password');
-    console.log(entranceController[0]);
+    }).select("-password");
 
     if (entranceController[0] !== undefined)
       res.status(200).json({
-        message: 'Uspješno ste se prijavili',
+        message: "Uspješno ste se prijavili",
         id: entranceController[0]._id,
         collectionName: entranceController[0].collectionName,
       });
     else
       res
         .status(401)
-        .json({ message: 'Korisničko ime ili lozinka nisu točni' });
+        .json({ message: "Korisničko ime ili lozinka nisu točni" });
   } catch (error) {
-    res.status(500).json({ message: 'Korisničko ime ili lozinka nisu točni' });
+    res.status(500).json({ message: "Korisničko ime ili lozinka nisu točni" });
   }
 };
 
@@ -107,7 +106,7 @@ const updateEntranceControllerById = async (req, res) => {
       collectionName,
     };
 
-    if (password !== '') {
+    if (password !== "") {
       updateObject.password = password;
     }
 
@@ -119,16 +118,16 @@ const updateEntranceControllerById = async (req, res) => {
 
     if (updatedController) {
       res.status(200).json({
-        message: 'Uspješno ste uredili kontrolora ulaza.',
+        message: "Uspješno ste uredili kontrolora ulaza.",
         updatedController,
       });
     } else {
-      res.status(404).json({ message: 'Kontrolor nije pronađen.' });
+      res.status(404).json({ message: "Kontrolor nije pronađen." });
     }
   } catch (error) {
     res
       .status(500)
-      .json({ message: 'Pojavila se greška pri uređivanju kontrolora.' });
+      .json({ message: "Pojavila se greška pri uređivanju kontrolora." });
   }
 };
 

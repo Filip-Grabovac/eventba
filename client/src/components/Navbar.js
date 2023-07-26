@@ -12,16 +12,17 @@ import { toastSetup } from '../functions/toastSetup';
 // Other
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserID } from '../store/userSlice';
+import { setLoginIsOpen } from '../store/loginSlice';
 
 export const Navbar = () => {
   const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const userId = useSelector((state) => state.userState.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const isLoginOpen = useSelector((state) => state.loginState.isLoginOpen);
 
   // Logout function
   const logout = () => {
@@ -36,11 +37,8 @@ export const Navbar = () => {
   useEffect(() => {
     setIsDropdownOpen(false);
     // Check if the route navigation state has "openLogin" property and its value is true
-    if (
-      (location.pathname === '/buy' || location.pathname === '/profile') &&
-      userId === ''
-    ) {
-      setIsLoginOpen(true);
+    if (location.pathname === '/profile' && userId === '') {
+      dispatch(setLoginIsOpen(true));
     }
   }, [location]);
 
@@ -249,7 +247,7 @@ export const Navbar = () => {
                         <li>
                           <button
                             onClick={() => {
-                              setIsLoginOpen(!isLoginOpen);
+                              dispatch(setLoginIsOpen(true));
                               setIsDropdownOpen(false);
                             }}
                           >
@@ -296,18 +294,11 @@ export const Navbar = () => {
             </ul>
           </div>
         </div>
-        {isLoginOpen && (
-          <Login
-            isLoginOpen={isLoginOpen}
-            setIsLoginOpen={setIsLoginOpen}
-            setIsRegisterOpen={setIsRegisterOpen}
-          />
-        )}
+        {isLoginOpen && <Login setIsRegisterOpen={setIsRegisterOpen} />}
         {isRegisterOpen && (
           <Register
             isRegisterOpen={isRegisterOpen}
             setIsRegisterOpen={setIsRegisterOpen}
-            setIsLoginOpen={setIsLoginOpen}
           ></Register>
         )}
       </nav>
