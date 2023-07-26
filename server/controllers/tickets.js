@@ -38,3 +38,4 @@ const checkTicket = async (req, res) => {
 };
 
 module.exports = checkTicket;
+
