@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const HallTickets = ({ concertData, activeCategory, handleClick }) => {
+  const userId = useSelector((state) => state.userState.user);
   useEffect(() => {
     // Get the first category
     const firstCategory = Object.keys(concertData.tickets.type)[0];
 
     // Call the handleClick function with the first category as the parameter
     handleClick(firstCategory);
-  }, []);
+  }, [userId]);
 
   return (
     <div className="ticket-card">

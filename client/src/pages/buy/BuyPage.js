@@ -11,6 +11,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { toastSetup } from "../../functions/toastSetup";
 import { hrTimeFormat } from "../../components/helper/timeFormat";
+import { setLoginIsOpen } from "../../store/loginSlice";
 
 export const BuyPage = () => {
   const [concertData, setConcertData] = useState({});
@@ -25,13 +26,17 @@ export const BuyPage = () => {
   const activeCardRef = useRef(null);
   const allTickets = useSelector((state) => state.ticketState.ticketList);
   const loggedinUser = useSelector((state) => state.userState.user);
+
+  const userId = useSelector((state) => state.userState.user);
   // Setting order number 1. time u get on buy page
   useEffect(() => {
     setOrderNumber(Math.floor(Math.random() * 10000000000000) + 1);
     dispatch(resetState());
     fetchConcertData();
-    fetchProfileData();
-  }, []);
+    if (userId !== "") {
+      fetchProfileData();
+    }
+  }, [userId]);
 
   const totalAmount = useSelector((state) => state.ticketState.totalAmount);
   const ticketGenData = useSelector((state) => state.ticketState);
@@ -98,7 +103,7 @@ export const BuyPage = () => {
       console.error("Error fetching profile data:", error);
     }
   };
-  const userId = useSelector((state) => state.userState.user);
+
   const fetchProfileData = async () => {
     try {
       const response = await axios.get(
@@ -121,6 +126,7 @@ export const BuyPage = () => {
     hrTimeFormat
   );
   const timeOfEvent = date.charAt(0).toUpperCase() + date.slice(1);
+
   // Update the areEnoughTicketsAvailable function to return the category with not enough tickets
   const areEnoughTicketsAvailable = (concertData, ticketGenData) => {
     const missingCategories = new Set();
@@ -151,7 +157,12 @@ export const BuyPage = () => {
   // Chek if mails are there, to enable pay button
   const handleButtonClick = async () => {
     await fetchConcertData();
-    profileData.isVerified || fetchProfileData();
+    if (userId === "") {
+      dispatch(setLoginIsOpen(true));
+
+      return;
+    }
+    profileData?.isVerified || fetchProfileData();
 
     const ticketsWithoutEmails = allTickets.filter(
       (ticket) => ticket.email === ""
@@ -254,7 +265,7 @@ export const BuyPage = () => {
             `Niste unijeli email za ulaznice: ${ticketsIdWithoutEmail}`,
             toastSetup("top-right", 3000)
           );
-        if (!profileData.isVerified) {
+        if (profileData && !profileData.isVerified) {
           toast.error(
             `Verificirajte vaš račun na: "${profileData.email}" da biste mogli obaviti kupovinu!`,
             toastSetup("top-right", 3000)
@@ -283,6 +294,7 @@ export const BuyPage = () => {
       clickButton();
     }
   }, [showPaymentForm]);
+
   return (
     <div className="single-page-container">
       <div className="single-page-top">
@@ -377,7 +389,7 @@ export const BuyPage = () => {
           </div>
           <div className="payment-method">
             <button className="pay-method" onClick={handleButtonClick}>
-              Odvedi na plaćanje
+              Idi na plaćanje
             </button>
             {showPaymentForm && (
               <PaymentForm

@@ -2,8 +2,9 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { toastSetup } from "./toastSetup";
+import { setLoginIsOpen } from "../store/loginSlice";
 
-export const useFacebookLogin = (setIsLoginOpen, setUserID) => {
+export const useFacebookLogin = (setUserID) => {
   const dispatch = useDispatch();
 
   const facebookLogin = async (fbResponse) => {
@@ -52,7 +53,8 @@ export const useFacebookLogin = (setIsLoginOpen, setUserID) => {
 
           dispatch(setUserID(response.data.user._id));
           localStorage.setItem("userId", response.data.user._id);
-          setIsLoginOpen(false);
+
+          dispatch(setLoginIsOpen(false));
 
           toast.success(
             "Uspješna prijava Facebookom! Ažurirajte svoje podatke na profilnoj stranici!",
@@ -65,7 +67,7 @@ export const useFacebookLogin = (setIsLoginOpen, setUserID) => {
           );
         }
       }
-      setIsLoginOpen(false);
+      dispatch(setLoginIsOpen(false));
     }
   };
 
