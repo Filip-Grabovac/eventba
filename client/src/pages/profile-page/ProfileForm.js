@@ -1,7 +1,7 @@
 import React from 'react';
 import { UpdateProfilePage } from './profile-pages/UpdateProfilePage.js';
 import { OrganizeEventPage } from './organizeEventPage/OrganizeEventPage.js';
-import { AdminSettings } from './profile-pages/AdminSettings.js';
+import { UserManager } from './userManager/UserManager.js';
 import { EntranceChecker } from './entranceController/AddEntranceChecker.js';
 import { AddHall } from './profile-pages/AddHall.js';
 import { MyTickets } from './MyTicket/MyTickets.js';
@@ -16,8 +16,8 @@ export function ProfileForm(props) {
         />
       ) : props.activeNavItem === 'Organiziraj događaj' ? (
         <OrganizeEventPage />
-      ) : props.activeNavItem === 'Admin postavke' ? (
-        <AdminSettings />
+      ) : props.activeNavItem === 'Upravljaj korisnicima' ? (
+        <UserManager />
       ) : props.activeNavItem === 'Postavke ulaza' ? (
         <EntranceChecker
           organizerEvents={props.organizerEvents}
