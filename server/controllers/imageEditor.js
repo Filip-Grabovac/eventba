@@ -1,9 +1,10 @@
 // imageProcessor.js
 
-const { exec } = require("child_process");
 const sharp = require("sharp");
 const fs = require("fs");
 const path = require("path");
+
+const { exec } = require("child_process");
 
 const compressImage = (filePath, outputDir) => {
   return new Promise((resolve, reject) => {
