@@ -1,5 +1,16 @@
 const mongoose = require("mongoose");
 
+const concertHistorySchema = new mongoose.Schema({
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+  sold_amount: Number,
+  amount_inBam: Number,
+  sold_amount_today: Number,
+  type: Object,
+});
+
 const ConcertSchema = new mongoose.Schema({
   id: { type: Number },
   performer_name: { type: String },
@@ -12,6 +23,11 @@ const ConcertSchema = new mongoose.Schema({
   description: { type: String },
   organizer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   sponsors: { type: Array },
+  concertHistory: [concertHistorySchema],
+  previousSoldAmount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = ConcertSchema;

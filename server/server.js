@@ -12,6 +12,7 @@ const places = require("./routes/places");
 const tickets = require("./routes/tickets");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
+// const cronJob = require("./cronjob/dailyOperations");
 
 app.use(fileUpload());
 app.use(cors());
@@ -26,7 +27,6 @@ app.use("/api/v1/entrance_controllers", entrance_controller);
 app.use("/api/v1/places", places);
 app.use("/api/v1/tickets", tickets);
 
-console.log("kreso");
 const start = async () => {
   try {
     // const httpsOptions = {
@@ -39,5 +39,6 @@ const start = async () => {
     console.error(error);
   }
 };
+// cronJob;
 
 start();

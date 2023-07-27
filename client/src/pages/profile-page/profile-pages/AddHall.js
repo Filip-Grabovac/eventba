@@ -13,7 +13,7 @@ export const AddHall = () => {
   const [rowNum, setRowNum] = useState(1);
   //Dropdown forcity input
   const [selectedCity, setSelectedCity] = useState("");
-  const [showDropdown, setShowDropdown] = useState(true);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const [filteredCities, setFilteredCities] = useState([]);
 
@@ -101,7 +101,11 @@ export const AddHall = () => {
     <div className="add-hall-container">
       <div className="row">
         <Tooltip
-          style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
+          style={{
+            borderRadius: "10px",
+            backgroundColor: "#455cd9",
+            zIndex: "3",
+          }}
           anchorId="info-icon"
           place="bottom"
           variant="info"
@@ -129,7 +133,7 @@ export const AddHall = () => {
           handleFormSubmit(e);
         }}
       >
-        <div className="row">
+        <div className="row place-input">
           <input
             className="event-input"
             name="hallName"
@@ -140,13 +144,14 @@ export const AddHall = () => {
             }}
           />
           <input
-            className="event-input"
+            className="event-input "
             name="hallLocation"
-            placeholder="Select a city"
+            placeholder="Izaberi mjesto"
             type="text"
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
             onFocus={() => setShowDropdown(true)}
+            onBlur={() => setTimeout(() => setShowDropdown(false), 10)}
           />
           {showDropdown && (
             <div className="dropdown">

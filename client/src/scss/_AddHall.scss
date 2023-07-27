@@ -22,17 +22,25 @@
       margin-top: 30px;
     }
   }
-  .dropdown {
-    background-color: #fff;
-    padding: 7px;
-    border-radius: 10px;
-    max-height: 50px;
-    margin-left: auto;
-    overflow: auto;
-    width: 44%;
-    right: 0;
-    .dropdown-item {
-      margin-bottom: 4px;
+  .place-input {
+    position: relative;
+    z-index: 1;
+    .dropdown {
+      position: absolute;
+      background-color: #fff;
+      padding: 7px;
+      border-radius: 10px;
+      max-height: 50px;
+      margin-left: auto;
+      right: 0;
+      top: 90%;
+      overflow: auto;
+      width: 44%;
+      right: 0;
+      .dropdown-item {
+        margin-bottom: 4px;
+        opacity: 0.8;
+      }
     }
   }
   .hall-categories-container {
