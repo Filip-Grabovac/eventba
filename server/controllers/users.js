@@ -1,5 +1,5 @@
-const User = require("../models/User");
-const sendVerificationEmail = require("../mailer/mailer");
+const User = require('../models/User');
+const sendVerificationEmail = require('../mailer/mailer');
 
 const getAllUsers = async (req, res) => {
   try {
@@ -19,7 +19,7 @@ const createUser = async (req, res) => {
     if (existingUser) {
       return res
         .status(400)
-        .json({ error: "Korisnik s ovim emailom već postoji" });
+        .json({ error: 'Korisnik s ovim emailom već postoji' });
     }
 
     // If user is not verified, send verification mail.
@@ -27,7 +27,7 @@ const createUser = async (req, res) => {
       const verificationLink = `http://localhost:3000/verify/${req.body.verificationCode}`;
       const email = await sendVerificationEmail(
         req.body.email,
-        "Verificiraj svoj Event.ba račun!",
+        'Verificiraj svoj Event.ba račun!',
         `Klikom na link ispod započet će te verifikaciju svog event.ba računa: ${verificationLink}`
       );
     }
@@ -38,7 +38,7 @@ const createUser = async (req, res) => {
     res.status(201).json({ user });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Došlo je do greške pri unosu " });
+    res.status(500).json({ error: 'Došlo je do greške pri unosu ' });
   }
 };
 
@@ -48,7 +48,7 @@ const verifyUser = async (req, res) => {
 
     const existingUserWithCode = await User.findOneAndUpdate(
       { verificationCode: Number(verificationCode) },
-      { $set: { isVerified: true }, $unset: { verificationCode: "" } },
+      { $set: { isVerified: true }, $unset: { verificationCode: '' } },
       {
         new: true,
         runValidators: true,
@@ -59,9 +59,9 @@ const verifyUser = async (req, res) => {
         .status(404)
         .json({ msg: `Verifikacijiski kod nije važeći: ${verificationCode}.` });
     }
-    res.status(200).json({ msg: "Uspješna verifikacija!" });
+    res.status(200).json({ msg: 'Uspješna verifikacija!' });
   } catch (error) {
-    res.status(500).json({ error: "Došlo je do greške pri verifikaciji. " });
+    res.status(500).json({ error: 'Došlo je do greške pri verifikaciji. ' });
   }
 };
 
@@ -70,30 +70,30 @@ const findUser = async (req, res) => {
     const { type, value } = req.params;
     let query;
 
-    if (type === "email") {
+    if (type === 'email') {
       query = { email: value };
-    } else if (type === "fbEmail") {
+    } else if (type === 'fbEmail') {
       query = { fbEmail: value };
-    } else if (type === "id") {
+    } else if (type === 'id') {
       query = { _id: value };
     } else {
-      return res.status(400).json({ error: "Pogrešna pretraga" });
+      return res.status(400).json({ error: 'Pogrešna pretraga' });
     }
 
     const user = await User.findOne(query);
     if (!user) {
-      if (type === "id") {
+      if (type === 'id') {
         return res
           .status(404)
           .json({ error: `Ne postoji korisnik s ovim ID-om: ${value}` });
-      } else if (type === "email") {
+      } else if (type === 'email') {
         return res
           .status(404)
           .json({ error: `Ne postoji korisnik s ovim email-om: ${value}` });
       }
     }
 
-    if (type === "id") {
+    if (type === 'id') {
       // Return the whole user object when searching by ID
       return res.status(200).json(user);
     }
@@ -106,7 +106,7 @@ const findUser = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      error: "Došlo je do greške na serveru, molimo pokušajte kasnije",
+      error: 'Došlo je do greške na serveru, molimo pokušajte kasnije',
     });
   }
 };
@@ -129,10 +129,59 @@ const updateUser = async (req, res) => {
   }
 };
 
+const searchUser = async (req, res) => {
+  try {
+    const searchInput = req.params.search_input.trim();
+    const searchTerms = searchInput.split(' ');
+
+    // Create an array of regex patterns for each term
+    const regexPatterns = searchTerms.map((term) => new RegExp(term, 'i'));
+
+    // Construct an array of $and conditions to match each term in any order
+    const orConditions = regexPatterns.map((regex) => ({
+      $or: [{ fullName: regex }, { email: regex }],
+    }));
+
+    const users = await User.find({
+      $and: orConditions,
+    }).limit(10); // limit 10
+
+    res.status(200).json({ users });
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
+};
+
+const setUserBanStatus = async (req, res) => {
+  const { user_id, ban_status } = req.params;
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(user_id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Update the ban status
+    user.isBanned = ban_status === 'true';
+
+    // Save the updated user
+    await user.save();
+
+    res.json({ message: `User ban status set to ${ban_status}` });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 module.exports = {
   getAllUsers,
   createUser,
   findUser,
   updateUser,
   verifyUser,
+  searchUser,
+  setUserBanStatus,
 };

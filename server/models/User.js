@@ -1,10 +1,9 @@
-const mongoose = require("mongoose");
-const connectDB = require("../db/connect");
+const mongoose = require('mongoose');
+const connectDB = require('../db/connect');
 
 const UserSchema = new mongoose.Schema({
   id: { type: Number },
-  name: { type: String },
-  lname: { type: String },
+  fullName: { type: String },
   email: { type: String },
   fbEmail: { type: String },
   address: { type: String },
@@ -19,10 +18,11 @@ const UserSchema = new mongoose.Schema({
   accountType: { type: String },
   profileImg: { type: String },
   buyHistory: { type: Array },
+  isBanned: { type: Boolean },
 });
 
 module.exports = connectDB(process.env.DATABASE_URL).model(
-  "User",
+  'User',
   UserSchema,
-  "users"
+  'users'
 );

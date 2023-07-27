@@ -127,6 +127,7 @@
     margin: 13px auto;
     padding: 2% 4%;
     max-width: 800px;
+    height: 450px;
     background-color: #f3f3f3;
     overflow-y: auto;
     border-radius: 15px;
@@ -249,7 +250,7 @@
           }
 
           .custom-file-input::before {
-            content: "Odaberi sponzore";
+            content: 'Odaberi sponzore';
             display: inline-block;
             background: linear-gradient(top, #f9f9f9, #e3e3e3);
             border: 2px solid #999;

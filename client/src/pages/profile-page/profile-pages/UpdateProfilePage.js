@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Encrypt } from "../../../auth/Encrypt";
-import axios from "axios";
-import { toast } from "react-toastify";
-import PhoneInput from "react-phone-number-input";
-import hr from "../../../components/helper/hr";
-import countryMap from "../../../components/helper/countryMap";
-import { toastSetup } from "../../../functions/toastSetup";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Encrypt } from '../../../auth/Encrypt';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import PhoneInput from 'react-phone-number-input';
+import hr from '../../../components/helper/hr';
+import countryMap from '../../../components/helper/countryMap';
+import { toastSetup } from '../../../functions/toastSetup';
 
 export const UpdateProfilePage = (props) => {
   const profileData = props.profileData;
-  const [name, setName] = useState(profileData.name);
-  const [lname, setLname] = useState(profileData.lname);
+  const [name, setName] = useState(profileData.fullName.split(' ')[0]);
+  const [lname, setLname] = useState(profileData.fullName.split(' ')[1]);
   const [email, setEmail] = useState(profileData.email);
   const [city, setCity] = useState(profileData.city);
   const [zip, setZip] = useState(profileData.zip);
   const [address, setAddress] = useState(profileData.address);
-  const [password, setPassword] = useState("");
-  const [repatePassword, setRepatePassword] = useState("");
+  const [password, setPassword] = useState('');
+  const [repatePassword, setRepatePassword] = useState('');
 
   const [phone, setPhone] = useState(profileData.phone);
   const reverseCountry = (fullName) => {
@@ -29,7 +29,7 @@ export const UpdateProfilePage = (props) => {
     return null; // Return null if the country name is not found in the map
   };
   const [country, setCountry] = useState(
-    reverseCountry(profileData.country) || "BA"
+    reverseCountry(profileData.country) || 'BA'
   );
   const id = useSelector((state) => state.userState.user);
   const secretKey = process.env.REACT_APP_SECRET_KEY;
@@ -37,72 +37,71 @@ export const UpdateProfilePage = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = {
-      name: name,
-      lname: lname,
+      fullName: name + ' ' + lname,
       email: email,
       address: address,
       city: city,
       country: countryMap[country],
       zip: zip,
       phone: phone,
-      password: password !== "" ? Encrypt(password, secretKey) : undefined,
+      password: password !== '' ? Encrypt(password, secretKey) : undefined,
     };
 
     if (
-      password !== "" &&
+      password !== '' &&
       password.length >= 6 &&
       password === repatePassword
     ) {
       await axios
         .patch(process.env.REACT_APP_API_URL + `/api/v1/users/${id}`, user, {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         })
         .then((response) => {
           toast.success(
-            "Uspješno ste ažurirali podatke",
-            toastSetup("top-right", 2000)
+            'Uspješno ste ažurirali podatke',
+            toastSetup('top-right', 2000)
           );
           props.onProfileFormSubmit();
         })
         .catch((error) => {
           // Handle any errors
-          console.error("Error:");
+          console.error('Error:');
           toast.error(
             `Došlo je do pogreške prilikom ažuriranja podataka. ${error.response.data.error}!`,
-            toastSetup("top-right", 2000)
+            toastSetup('top-right', 2000)
           );
         });
-    } else if (password === "") {
+    } else if (password === '') {
       // Ako je lozinka prazna, samo se ažuriraju ostali podaci
 
       await axios
         .patch(process.env.REACT_APP_API_URL + `/api/v1/users/${id}`, user, {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         })
         .then((response) => {
           toast.success(
-            "Uspješno ste ažurirali podatke",
-            toastSetup("top-right", 2000)
+            'Uspješno ste ažurirali podatke',
+            toastSetup('top-right', 2000)
           );
           props.onProfileFormSubmit();
         })
         .catch((error) => {
           // Handle any errors
-          console.error("Error:");
+          console.error('Error:');
 
           toast.error(
             `Došlo je do pogreške prilikom ažuriranja podataka. ${error.response.data.error}!`,
-            toastSetup("top-right", 2000)
+            toastSetup('top-right', 2000)
           );
         });
     } else {
       toast.warn(
-        "Lozinke se ne podudaraju ili su kraće od 6 znamenki!",
-        toastSetup("top-right", 2000)
+        'Lozinke se ne podudaraju ili su kraće od 6 znamenki!',
+        toastSetup('top-right', 2000)
       );
     }
   };
@@ -115,7 +114,7 @@ export const UpdateProfilePage = (props) => {
             placeholder="Ime"
             type="text"
             id="name"
-            value={name || ""}
+            value={name || ''}
             onChange={(e) => setName(e.target.value)}
             required
           />
@@ -125,7 +124,7 @@ export const UpdateProfilePage = (props) => {
             placeholder="Prezime"
             type="text"
             id="lname"
-            value={lname || ""}
+            value={lname || ''}
             onChange={(e) => setLname(e.target.value)}
             required
           />
@@ -137,7 +136,7 @@ export const UpdateProfilePage = (props) => {
             placeholder="Email"
             type="email"
             id="email"
-            value={email || ""}
+            value={email || ''}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
@@ -149,7 +148,7 @@ export const UpdateProfilePage = (props) => {
             placeholder="Grad"
             type="text"
             id="city"
-            value={city || ""}
+            value={city || ''}
             onChange={(e) => setCity(e.target.value)}
             required
           />
@@ -159,7 +158,7 @@ export const UpdateProfilePage = (props) => {
             placeholder="Zip"
             type="text"
             id="zip"
-            value={zip || ""}
+            value={zip || ''}
             onChange={(e) => setZip(e.target.value)}
             required
           />
@@ -169,28 +168,28 @@ export const UpdateProfilePage = (props) => {
         <div className=" phone-col col">
           <PhoneInput
             placeholder="Mobitel"
-            value={phone || ""}
+            value={phone || ''}
             onChange={setPhone}
             onCountryChange={setCountry}
-            defaultCountry={country || "BA"}
+            defaultCountry={country || 'BA'}
             international={true}
             countryCallingCodeEditable={false}
             label={country}
             countryOptionsOrder={[
-              "BA",
-              "HR",
-              "RS",
-              "AL",
-              "BG",
-              "GR",
-              "XK",
-              "ME",
-              "MK",
-              "RO",
-              "SI",
-              "DE",
-              "AT",
-              "IT",
+              'BA',
+              'HR',
+              'RS',
+              'AL',
+              'BG',
+              'GR',
+              'XK',
+              'ME',
+              'MK',
+              'RO',
+              'SI',
+              'DE',
+              'AT',
+              'IT',
             ]}
             labels={hr}
             locales="hr"
@@ -203,7 +202,7 @@ export const UpdateProfilePage = (props) => {
             placeholder="Adresa"
             type="address"
             id="address"
-            value={address || ""}
+            value={address || ''}
             onChange={(e) => setAddress(e.target.value)}
             required
           />
@@ -215,7 +214,7 @@ export const UpdateProfilePage = (props) => {
             placeholder="Nova lozinka"
             type="password"
             id="password"
-            value={password || ""}
+            value={password || ''}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
@@ -225,7 +224,7 @@ export const UpdateProfilePage = (props) => {
             placeholder="Ponovi lozinku"
             type="password"
             id="repatePassword"
-            value={repatePassword || ""}
+            value={repatePassword || ''}
             onChange={(e) => setRepatePassword(e.target.value)}
           />
         </div>

@@ -40,7 +40,11 @@ export const Profile = () => {
           'Dodaj dvoranu',
         ]);
       } else if (response.data.role === 'admin') {
-        setNavItems(['Ažuriraj podatke', 'Moje ulaznice', 'Admin postavke']);
+        setNavItems([
+          'Ažuriraj podatke',
+          'Moje ulaznice',
+          'Upravljaj korisnicima',
+        ]);
       }
     } catch (error) {
       console.error('Error fetching profile data:', error);
@@ -87,10 +91,10 @@ export const Profile = () => {
     <div className="profile">
       <div className="container-fluid">
         <div className="row profile-row">
-          <div className="col-lg-3">
+          <div className="col-xxl-3">
             <ProfileLeft profileData={profileData} />
           </div>
-          <div className="col-lg-6">
+          <div className="col-xxl-6">
             <nav>
               <ul>
                 {navItems &&
