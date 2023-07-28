@@ -27,6 +27,9 @@
     z-index: 1;
     .dropdown {
       position: absolute;
+      z-index: 2;
+      cursor: pointer;
+      pointer-events: all;
       background-color: #fff;
       padding: 7px;
       border-radius: 10px;

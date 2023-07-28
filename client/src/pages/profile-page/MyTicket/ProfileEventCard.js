@@ -51,7 +51,12 @@ export const ProfileEventCard = ({ data, i }) => {
   if (!data) return;
 
   const buyTime = new Date(data.event.date).toLocaleString("hr-HR", {
-    hrTimeFormat,
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    timeZone: "Europe/Zagreb",
   });
 
   return (

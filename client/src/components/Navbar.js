@@ -197,19 +197,10 @@ export const Navbar = () => {
                     }`}
                     to="/list_page?type=theaters"
                   >
-                    Pozorište
+                    Predstave
                   </NavLink>
                 </li>
-                <li className="nav-item">
-                  <NavLink
-                    className={`nav-link ${
-                      isActive("show") ? "navlink-active" : ""
-                    }`}
-                    to="/list_page?type=show"
-                  >
-                    Šou
-                  </NavLink>
-                </li>
+
                 <li className="nav-item">
                   <NavLink
                     className={`nav-link ${

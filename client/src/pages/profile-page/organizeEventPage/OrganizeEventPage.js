@@ -459,8 +459,8 @@ export const OrganizeEventPage = () => {
             </option>
             <option value="concert">Koncert</option>
             <option value="festival">Festival</option>
-            <option value="theaters">Pozorište</option>
-            <option value="show">Šou</option>
+            <option value="theaters">Predstave</option>
+            <option value="sport">Sport</option>
             <option value="other">Ostalo</option>
           </select>
         </div>

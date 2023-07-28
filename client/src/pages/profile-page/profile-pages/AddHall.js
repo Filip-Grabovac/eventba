@@ -151,7 +151,7 @@ export const AddHall = () => {
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
             onFocus={() => setShowDropdown(true)}
-            onBlur={() => setTimeout(() => setShowDropdown(false), 10)}
+            onBlur={() => setTimeout(() => setShowDropdown(false), 500)}
           />
           {showDropdown && (
             <div className="dropdown">
