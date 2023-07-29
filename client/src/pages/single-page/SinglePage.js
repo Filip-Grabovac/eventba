@@ -8,13 +8,16 @@ import SuggestedIcon from '../../assets/ikonice/suggested_icon.svg';
 import UnSuggestedIcon from '../../assets/ikonice/unsuggested_icon.svg';
 import { toast } from 'react-toastify';
 import { toastSetup } from '../../functions/toastSetup';
+import { useSelector } from 'react-redux';
 
 const SinglePage = () => {
   const [concertData, setConcertData] = useState(null);
+  const [userRole, setUserRole] = useState();
   const [propertyChanged, setProperty] = useState();
   const id = new URLSearchParams(new URL(window.location.href).search).get(
     'id'
   );
+  const userId = useSelector((state) => state.userState.user);
 
   // Fetch the data at the beggining
   useEffect(() => {
@@ -28,8 +31,21 @@ const SinglePage = () => {
         console.error('Error fetching profile data:', error);
       }
     };
+    const getUserRole = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/v1/users/get_role/${userId}`
+        );
+        setUserRole(response.data.role);
+      } catch (error) {
+        // Handle any errors that occurred during the request
+        console.error('Error fetching user role:', error);
+        // Optionally, you can set an error state and display an error message to the user
+      }
+    };
 
     fetchSinglePage();
+    getUserRole();
   }, []);
 
   // Change event status
@@ -108,38 +124,42 @@ const SinglePage = () => {
       {concertData ? (
         <div>
           <div className="single-page-top">
-            <div className="single-page-icons-wrapper">
-              <div
-                onClick={() => {
-                  changeEventStatus('promoted');
-                }}
-              >
-                <img
-                  className="concert-edit-icon"
-                  src={
-                    concertData[0].is_promoted_event
-                      ? UnPromotedIcon
-                      : PromotedIcon
-                  }
-                  alt="Promoted"
-                />
+            {userRole === 'admin' ? (
+              <div className="single-page-icons-wrapper">
+                <div
+                  onClick={() => {
+                    changeEventStatus('promoted');
+                  }}
+                >
+                  <img
+                    className="concert-edit-icon"
+                    src={
+                      concertData[0].is_promoted_event
+                        ? UnPromotedIcon
+                        : PromotedIcon
+                    }
+                    alt="Promoted"
+                  />
+                </div>
+                <div
+                  onClick={() => {
+                    changeEventStatus('suggested');
+                  }}
+                >
+                  <img
+                    className="concert-edit-icon"
+                    src={
+                      concertData[0].type.includes('suggested')
+                        ? UnSuggestedIcon
+                        : SuggestedIcon
+                    }
+                    alt="Promoted"
+                  />
+                </div>
               </div>
-              <div
-                onClick={() => {
-                  changeEventStatus('suggested');
-                }}
-              >
-                <img
-                  className="concert-edit-icon"
-                  src={
-                    concertData[0].type.includes('suggested')
-                      ? UnSuggestedIcon
-                      : SuggestedIcon
-                  }
-                  alt="Promoted"
-                />
-              </div>
-            </div>
+            ) : (
+              ''
+            )}
             <img
               src={`${process.env.REACT_APP_API_URL}/static/event-images/${concertData[0].poster.landscape}`}
               alt=""

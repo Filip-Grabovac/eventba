@@ -7,24 +7,34 @@ i18n.use(initReactI18next).init({
     en: {
       translation: {
         type: {
-          show: 'Show',
           concert: 'Concert',
           theaters: 'Theaters',
           festival: 'Festival',
           other: 'Other',
           sport: 'Sport',
         },
+        role: {
+          reseller: 'Reseller',
+          organizer: 'Organizer',
+          standard: 'Standard',
+          admin: 'Admin',
+        },
       },
     },
     hr: {
       translation: {
         type: {
-          show: 'Šou',
           concert: 'Koncert',
-          theaters: 'Teatar',
+          theaters: 'Predstava',
           festival: 'Festival',
           other: 'Drugo',
           sport: 'Sport',
+        },
+        role: {
+          reseller: 'Preprodavač',
+          organizer: 'Organizator',
+          standard: 'Standard',
+          admin: 'Admin',
         },
       },
     },
