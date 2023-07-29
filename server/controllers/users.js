@@ -224,6 +224,27 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getUserRole = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
+    }
+
+    // Extract the "role" property from the user object
+    const { role } = user;
+
+    res.json({ role });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Serverska greška.' });
+  }
+};
+
 module.exports = {
   getAllUsers,
   createUser,
@@ -234,4 +255,5 @@ module.exports = {
   setUserBanStatus,
   updateUserRole,
   deleteUser,
+  getUserRole,
 };

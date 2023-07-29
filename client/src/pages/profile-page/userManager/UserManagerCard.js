@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import UserManagerIcon from '../../../assets/ikonice/user_manager_icon.svg';
 import UserManagerCheck from '../../../assets/ikonice/user_manager_check.svg';
-import ArrowIcon from '../../../assets/ikonice/arrow_icon.svg';
 import TrashCanIcon from '../../../assets/ikonice/trash_can.svg';
 import BanUser from '../../../assets/ikonice/ban_user_icon.svg';
 import UnBanUser from '../../../assets/ikonice/user_unban_icon.svg';
@@ -9,12 +8,14 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { toastSetup } from '../../../functions/toastSetup';
 import { Tooltip } from 'react-tooltip';
+import { useTranslation } from 'react-i18next';
 
 export const UserManagerCard = ({ data, removeUserFromUI }) => {
   const [userData, setUserData] = useState(data);
   const [selectedRole, setSelectedRole] = useState();
-  const roles = ['Standard', 'Reseller', 'Organizer', 'Admin'];
-  const translatedRoles = ['Standard', 'Preprodavač', 'Organizator', 'Admin'];
+  const roles = ['standard', 'reseller', 'organizer', 'admin'];
+
+  const { t } = useTranslation();
 
   // Always update isBanned status at the beggining so images can change related to it
   useEffect(() => {
@@ -139,13 +140,13 @@ export const UserManagerCard = ({ data, removeUserFromUI }) => {
           onChange={handleRoleChange}
         >
           <option value={selectedRole}>
-            {translatedRoles[roles.indexOf(selectedRole)]}
+            {t(`role.${selectedRole && selectedRole.toLowerCase()}`)}
           </option>
           {roles.map((e, i) => {
-            if (selectedRole !== e) {
+            if (selectedRole && selectedRole.toLowerCase() !== e) {
               return (
                 <option key={i} value={e}>
-                  {translatedRoles[i]}
+                  {t(`role.${roles[i]}`)}
                 </option>
               );
             } else {

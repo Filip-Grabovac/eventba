@@ -1,8 +1,8 @@
-const { createSlice } = require("@reduxjs/toolkit");
+const { createSlice } = require('@reduxjs/toolkit');
 
 const userSlice = createSlice({
-  name: "user",
-  initialState: { user: "" },
+  name: 'user',
+  initialState: { user: '' },
   reducers: {
     setUserID(state, action) {
       return { ...state, user: action.payload };
