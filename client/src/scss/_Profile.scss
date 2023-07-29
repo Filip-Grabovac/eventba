@@ -140,6 +140,15 @@
     @media only screen and (max-width: 370px) {
       padding: 5px;
     }
+    .role-selector {
+      width: fit-content;
+      outline: none;
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+      }
+    }
     button:hover {
       background-color: #dfbf4d;
     }

@@ -62,10 +62,12 @@ const createEvent = async (req, res) => {
   try {
     // Create new event
     const event = await Concert.create(req.body);
-    res.status(201).json({ message: 'Uspješno dodan event', eventData: event });
+    res
+      .status(201)
+      .json({ message: 'Uspješno dodan događaj', eventData: event });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: 'An error occurred while adding the event' });
+    res.status(500).json({ error: 'Greška pri dodavanju događaja' });
   }
 };
 
@@ -93,7 +95,7 @@ const searchEventByType = async (req, res) => {
     const concert = await Concert.find(query);
     res.status(200).json(concert);
   } catch (err) {
-    res.status(500).json({ message: 'Error searching for events.' });
+    res.status(500).json({ message: 'greška pri pretrazi događaja.' });
   }
 };
 
@@ -110,8 +112,58 @@ const getEventsByOrganizerId = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ message: 'Error fetching events for the organizer.' });
+      .json({ message: 'Greška pri fetchovanju podataka za organizatora.' });
   }
+};
+
+const updateConcertProperty = async (req, res) => {
+  const { id, type, value } = req.params;
+  let message;
+
+  try {
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: 'Niste proslijedili id koncerta.' });
+    }
+
+    const concert = await Concert.findById(id);
+
+    if (!concert) {
+      return res.status(404).json({ message: 'Koncert nije pronađen.' });
+    }
+
+    if (type === 'suggested') {
+      if (value === 'true') {
+        // Add 'suggested' to the 'type' array
+        concert.type.push('suggested');
+        message = 'Uspješno ste preporučili događaj.';
+      } else {
+        // Remove 'suggested' from the 'type' array
+        concert.type = concert.type.filter((item) => item !== 'suggested');
+        message = 'Uspješno ste maknuli preporuku.';
+      }
+    } else if (type === 'promoted') {
+      // Update the 'is_promoted_event' property
+      concert.is_promoted_event = value === 'true';
+
+      if (value === 'true') message = 'Uspješno ste promovirali događaj.';
+      else message = 'Uspješno ste maknuli promociju događaja.';
+    } else {
+      // If an invalid type is provided in the URL
+      return res.status(400).json({ message: 'Nevažeći tip.' });
+    }
+
+    await concert.save();
+
+    res.status(200).json({ message: message });
+  } catch (err) {
+    res.status(500).json({ message: 'Greška pri ažuriranju događaja.' });
+  }
+};
+
+module.exports = {
+  updateConcertProperty,
 };
 
 module.exports = {
@@ -120,4 +172,5 @@ module.exports = {
   createEvent,
   searchEventByType,
   getEventsByOrganizerId,
+  updateConcertProperty,
 };

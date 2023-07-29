@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchIcon from '../../../assets/ikonice/search_icon.png';
 import { UserManagerCard } from './UserManagerCard';
 import axios from 'axios';
@@ -17,6 +17,21 @@ export const UserManager = () => {
       console.error('Error fetching data:', error);
     }
   };
+
+  // Update UI
+  async function removeUserFromUI(id) {
+    setData((prevData) => ({
+      ...prevData,
+      users: prevData.users.filter((user) => user._id !== id),
+    }));
+  }
+
+  // If last user is deleted
+  useEffect(() => {
+    if (typeof data === 'object' && data.users[0] === undefined) {
+      setData('Pretrazi korisnike');
+    }
+  }, [data]);
 
   return (
     <div>
@@ -40,7 +55,15 @@ export const UserManager = () => {
       <div className="user-manager-bottom">
         {data && typeof data === 'object' ? (
           data.users.map((e, i) => {
-            return e && <UserManagerCard data={e} key={i} />;
+            return (
+              e && (
+                <UserManagerCard
+                  data={e}
+                  removeUserFromUI={removeUserFromUI}
+                  key={i}
+                />
+              )
+            );
           })
         ) : (
           <p className="no-searched-users">{data}</p>

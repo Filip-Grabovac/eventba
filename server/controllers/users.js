@@ -103,6 +103,7 @@ const findUser = async (req, res) => {
       id: user._id,
       password: user.password,
       accountType: user.accountType,
+      isBanned: user.isBanned,
     });
   } catch (error) {
     res.status(500).json({
@@ -160,7 +161,7 @@ const setUserBanStatus = async (req, res) => {
     const user = await User.findById(user_id);
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
     }
 
     // Update the ban status
@@ -169,10 +170,57 @@ const setUserBanStatus = async (req, res) => {
     // Save the updated user
     await user.save();
 
-    res.json({ message: `User ban status set to ${ban_status}` });
+    res.json({
+      message: `Korisnički ban status je posavljen na ${ban_status}`,
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Serverska greška.' });
+  }
+};
+
+const updateUserRole = async (req, res) => {
+  const { id, role } = req.params;
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
+    }
+
+    // Update the user role
+    user.role = role; // Assuming the user model has a property called 'role'
+
+    // Save the updated user
+    await user.save();
+
+    res.json({ message: `Uspješno ste ažurirali korisnikov tip računa.` });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Serverska greška.' });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
+    }
+
+    // Delete the user from the database
+    await user.remove();
+
+    res.json({ message: 'Korisnik je uspješno obrisan.' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Serverska greška.' });
   }
 };
 
@@ -184,4 +232,6 @@ module.exports = {
   verifyUser,
   searchUser,
   setUserBanStatus,
+  updateUserRole,
+  deleteUser,
 };
