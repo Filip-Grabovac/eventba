@@ -153,7 +153,6 @@ export const OrganizeEventPage = () => {
     const form = new FormData(e.target);
 
     // Map event type
-    const eventType = form.get("eventType");
 
     const event = {
       performer_name: form.get("performerName"),
@@ -162,10 +161,13 @@ export const OrganizeEventPage = () => {
         portrait: "",
       },
       tickets: {
-        total_amount: 0,
-        type: {},
-        sold_amount: 0,
-        amount_inBAM: 0,
+        online_sale: {
+          total_amount: 0,
+          type: {},
+          sold_amount: 0,
+          amount_inBAM: 0,
+        },
+        free_sale: [],
       },
       sponsors: sponsorNames,
       time_of_event: form.get("timeOfEvent"),
@@ -175,11 +177,23 @@ export const OrganizeEventPage = () => {
         place: form.get("place"),
         type: typeOfPlace,
       },
-      type: eventType,
+      type: form.get("eventType"),
       is_promoted_event: false,
       description: form.get("eventDescription"),
       organizer: userId,
     };
+
+    ticketInputs.forEach((ticket, index) => {
+      const categoryKey = `Kategorija ${index + 1}`;
+      event.tickets.online_sale.type[categoryKey] = {
+        amount: Number(ticket.amount),
+        maxAmount: Number(ticket.amount),
+        price: Number(ticket.price),
+        name: ticket.name,
+      };
+
+      event.tickets.online_sale.total_amount += parseInt(ticket.amount);
+    });
 
     ticketInputs.forEach((ticket, index) => {
       const categoryKey = `Kategorija ${index + 1}`;

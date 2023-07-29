@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { hrTimeFormat } from '../helper/timeFormat';
-import { useTranslation } from 'react-i18next';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { hrTimeFormat } from "../helper/timeFormat";
+import { useTranslation } from "react-i18next";
 
 export const SliderCard = ({ data }) => {
-  const description = '';
+  const description = "";
   const [isMouseOver, setIsMouseOver] = useState(false);
   const performerName = data.performer_name;
-  const place = data.place.city + ', ' + data.place.place;
+  const place = data.place.city + ", " + data.place.place;
   const src = data.poster.landscape;
   const date = new Date(data.time_of_event).toLocaleDateString(
-    'hr-HR',
+    "hr-HR",
     hrTimeFormat
   );
   const { t } = useTranslation();
@@ -25,10 +25,10 @@ export const SliderCard = ({ data }) => {
         setIsMouseOver(false);
       }}
       className="slider-card"
-      style={{ scrollSnapAlign: 'center' }}
+      style={{ scrollSnapAlign: "center" }}
     >
       <div
-        className={`this-week-overlay ${isMouseOver ? 'visible' : ''}`}
+        className={`this-week-overlay ${isMouseOver ? "visible" : ""}`}
       ></div>
       {isMouseOver && (
         <Link
@@ -44,7 +44,7 @@ export const SliderCard = ({ data }) => {
         src={`${process.env.REACT_APP_API_URL}/static/event-images/${src}`}
         alt={description}
       />
-      <p className="type" style={{ textTransform: 'uppercase' }}>
+      <p className="type" style={{ textTransform: "uppercase" }}>
         {t(`type.${data.type[0]}`)}
       </p>
       <p className="performer">{performerName}</p>

@@ -136,6 +136,7 @@
     -moz-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
     @media only screen and (max-width: 500px) {
       font-size: 13px;
+      padding: 2% 2%;
     }
     @media only screen and (max-width: 370px) {
       padding: 5px;
@@ -259,7 +260,7 @@
           }
 
           .custom-file-input::before {
-            content: 'Odaberi sponzore';
+            content: "Odaberi sponzore";
             display: inline-block;
             background: linear-gradient(top, #f9f9f9, #e3e3e3);
             border: 2px solid #999;

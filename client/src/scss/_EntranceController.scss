@@ -52,7 +52,7 @@
     }
   }
 
-  img[alt='Info icon'] {
+  img[alt="Info icon"] {
     display: none;
   }
   #html5-qrcode-button-camera-permission,
@@ -65,7 +65,7 @@
     margin-top: 30px;
   }
   #html5-qrcode-button-camera-permission::before {
-    content: 'Dozvolite Pristup Kameri';
+    content: "Dozvolite Pristup Kameri";
     color: #343434;
     font-size: 16px;
     font-weight: 600;
@@ -157,7 +157,7 @@
 .entrance-controller-login-section {
   width: 100vw;
   height: 100vh;
-  background-image: url('assets/images/controller_login_bg.png');
+  background-image: url("assets/images/controller_login_bg.png");
   background-size: cover;
   background-repeat: no-repeat;
 }

@@ -104,7 +104,7 @@ export const EventCard = ({ ids, i }) => {
         <div className="myevent-card-part-2">
           <div className="top-part">
             <span>
-              Prodano ulaznica: <strong>{data.tickets.sold_amount}</strong>
+              Prodano: <strong>{data.tickets.sold_amount}</strong>
             </span>
             <span>
               Ukupno:{" "}
@@ -141,7 +141,7 @@ export const EventCard = ({ ids, i }) => {
         </div>
         <div
           style={{ maxHeight: dropdown ? dropdownHeight : 0 }}
-          className="mytickets-card-dropdown"
+          className="myevents-card-dropdown"
           ref={dropdownRef}
         >
           <div className="profile-concert-wrapper">
