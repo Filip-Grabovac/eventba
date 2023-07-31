@@ -27,12 +27,18 @@ const ConcertSchema = new mongoose.Schema({
       amount_inBAM: Number,
       type: Object,
     },
-    free_sale: [
-      {
+    free_sale: {
+      total_amount: Number,
+      total_loaned: Number,
+      sold_amount: Number,
+      type: Object,
+      resellers: {
+        reseller_id: mongoose.Schema.Types.ObjectId,
         reseller_name: String,
+        transactions: Array,
         type: Object,
       },
-    ],
+    },
   },
   time_of_event: {
     type: Date,

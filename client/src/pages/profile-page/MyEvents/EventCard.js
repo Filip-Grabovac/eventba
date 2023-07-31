@@ -104,21 +104,21 @@ export const EventCard = ({ ids, i }) => {
         <div className="myevent-card-part-2">
           <div className="top-part">
             <span>
-              Prodano: <strong>{data.tickets.sold_amount}</strong>
+              Prodano: <strong>{data.tickets.online_sale.sold_amount}</strong>
             </span>
             <span>
               Ukupno:{" "}
               <strong>
-                {data.tickets.amount_inBAM} <small>BAM</small>
+                {data.tickets.online_sale.amount_inBAM} <small>BAM</small>
               </strong>
             </span>
           </div>
           <div className="bottom-part-wrapper">
             <div className="bottom-part">
-              {Object.keys(data.tickets.type).map((categoryKey) => (
+              {Object.keys(data.tickets.online_sale.type).map((categoryKey) => (
                 <CategoryCard
                   key={categoryKey}
-                  {...data.tickets.type[categoryKey]}
+                  {...data.tickets.online_sale.type[categoryKey]}
                 />
               ))}
             </div>

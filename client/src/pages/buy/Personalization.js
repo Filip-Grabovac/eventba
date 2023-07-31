@@ -45,7 +45,7 @@ export const Personalization = ({
   const handleClick = async (category) => {
     setActiveCategory(category);
     setShowPaymentForm(false);
-    const ticketType = concertData.tickets.type[category];
+    const ticketType = concertData.tickets.online_sale.type[category];
     const price = ticketType.price;
 
     await setTicketPrice(price);

@@ -16,9 +16,9 @@ async function updateTicketAmount(concertId, price) {
     // Check if the concert document exists
     if (concert) {
       {
-        concert.tickets.sold_amount += 1;
-        concert.tickets.amount_inBAM += price;
-        concert.tickets.total_amount -= 1;
+        concert.tickets.online_sale.sold_amount += 1;
+        concert.tickets.online_sale.amount_inBAM += price;
+        concert.tickets.online_sale.total_amount -= 1;
 
         const ticketNumber = await concert.tickets.sold_amount
           .toString()
@@ -56,9 +56,9 @@ async function updateCategoryAmount(concertId, ticketList) {
       for (const ticket of ticketsArray) {
         const { category } = ticket;
 
-        if (concert.tickets.type.hasOwnProperty(category)) {
-          if (concert.tickets.type[category].amount !== 0) {
-            concert.tickets.type[category].amount -= 1;
+        if (concert.tickets.online_sale.type.hasOwnProperty(category)) {
+          if (concert.tickets.online_sale.type[category].amount !== 0) {
+            concert.tickets.online_sale.type[category].amount -= 1;
           } else {
             console.error(`Ticket of category ${category} is unavailable.`);
           }

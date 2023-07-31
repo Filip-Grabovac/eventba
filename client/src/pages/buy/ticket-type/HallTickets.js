@@ -5,7 +5,7 @@ const HallTickets = ({ concertData, activeCategory, handleClick }) => {
   const userId = useSelector((state) => state.userState.user);
   useEffect(() => {
     // Get the first category
-    const firstCategory = Object.keys(concertData.tickets.type)[0];
+    const firstCategory = Object.keys(concertData.tickets.online_sale.type)[0];
 
     // Call the handleClick function with the first category as the parameter
     handleClick(firstCategory);
@@ -14,9 +14,9 @@ const HallTickets = ({ concertData, activeCategory, handleClick }) => {
   return (
     <div className="ticket-card">
       {concertData.tickets &&
-        concertData.tickets.type &&
-        Object.keys(concertData.tickets.type).map((category) => {
-          const ticketType = concertData.tickets.type[category];
+        concertData.tickets.online_sale.type &&
+        Object.keys(concertData.tickets.online_sale.type).map((category) => {
+          const ticketType = concertData.tickets.online_sale.type[category];
           const isSoldOut = ticketType.amount === 0;
           const isActiveCategory = activeCategory === category;
 
@@ -28,7 +28,7 @@ const HallTickets = ({ concertData, activeCategory, handleClick }) => {
 
           const backgroundImageStyle = {
             backgroundImage: `url("${
-              concertData?.poster?.landscape
+              concertData.poster.landscape
                 ? `${process.env.REACT_APP_API_URL}/static/event-images/${concertData.poster.portrait}`
                 : ""
             }")`,

@@ -16,8 +16,8 @@ async function extractConcertHistory(concert) {
     type: {},
   };
 
-  for (const category of Object.keys(concert.tickets.type)) {
-    const categoryData = concert.tickets.type[category];
+  for (const category of Object.keys(concert.tickets.online_sale.type)) {
+    const categoryData = concert.tickets.online_sale.type[category];
     const soldAmount = categoryData.maxAmount - categoryData.amount;
     const soldAmountInBam = soldAmount * categoryData.price;
     concertHistoryItem.type[category] = {

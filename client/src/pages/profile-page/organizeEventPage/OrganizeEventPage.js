@@ -197,14 +197,14 @@ export const OrganizeEventPage = () => {
 
     ticketInputs.forEach((ticket, index) => {
       const categoryKey = `Kategorija ${index + 1}`;
-      event.tickets.type[categoryKey] = {
+      event.tickets.online_sale.type[categoryKey] = {
         amount: Number(ticket.amount),
         maxAmount: Number(ticket.amount),
         price: Number(ticket.price),
         name: ticket.name,
       };
 
-      event.tickets.total_amount += parseInt(ticket.amount);
+      event.tickets.online_sale.total_amount += parseInt(ticket.amount);
     });
 
     // Check if everything is valid(all fields + images)

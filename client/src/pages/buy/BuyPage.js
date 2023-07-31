@@ -133,7 +133,8 @@ export const BuyPage = () => {
 
     for (const ticket of ticketGenData.ticketList) {
       const category = String(ticket?.category);
-      const concertTickets = concertData.tickets.type[category]?.amount;
+      const concertTickets =
+        concertData.tickets.online_sale.type[category]?.amount;
       const ticketCount = ticketGenData.ticketList.filter(
         (t) => t.category === category
       ).length;
