@@ -130,6 +130,7 @@
     height: 450px;
     background-color: #f3f3f3;
     overflow-y: auto;
+    overflow-x: hidden;
     border-radius: 15px;
     box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
     -webkit-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
@@ -260,7 +261,7 @@
           }
 
           .custom-file-input::before {
-            content: "Odaberi sponzore";
+            content: 'Odaberi sponzore';
             display: inline-block;
             background: linear-gradient(top, #f9f9f9, #e3e3e3);
             border: 2px solid #999;

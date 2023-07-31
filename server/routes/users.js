@@ -14,6 +14,13 @@ const {
   getUserRole,
 } = require('../controllers/users');
 
+const {
+  createReseller,
+  getAllResellers,
+  setReseller,
+  removeReseller,
+} = require('../controllers/resellers');
+
 router.route('/').get(getAllUsers).post(createUser);
 router.route('/search/:search_input').get(searchUser);
 router.route('/set_ban/:user_id/:ban_status').patch(setUserBanStatus);
@@ -23,5 +30,11 @@ router.route('/get_role/:id').get(getUserRole);
 router.route('/:type/:value').get(findUser);
 router.route('/:id').patch(updateUser);
 router.route('/verify/:verificationCode').patch(verifyUser);
+
+// RESELLERS
+router.route('/create_reseller/:id').post(createReseller);
+router.route('/get_all_resellers').get(getAllResellers);
+router.route('/set_reseller/:id').patch(setReseller);
+router.route('/remove_reseller_request/:id').patch(removeReseller);
 
 module.exports = router;

@@ -10,6 +10,7 @@ export const Profile = () => {
   const [navItems, setNavItems] = useState([]);
   const [organizerEvents, setOrganizerEvents] = useState();
   const [buyHistory, setBuyHistory] = useState();
+  const [resellersRequests, setResellersRequests] = useState();
   const [activeNavItem, setActiveNavItem] = useState('Ažuriraj podatke');
 
   const [entranceData, setEntranceData] = useState();
@@ -78,11 +79,22 @@ export const Profile = () => {
       console.error('Error fetching entrance checker:', error);
     }
   };
+  const fetchResellerRequests = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/users/get_all_resellers`
+      );
+      setResellersRequests(response.data);
+    } catch (error) {
+      console.error('Error fetching entrance checker:', error);
+    }
+  };
 
   useEffect(() => {
     fetchProfileData();
     fetchEntranceCheckers(userId);
     fetchOrganizerConcerts(userId);
+    fetchResellerRequests();
   }, []);
 
   const handleProfileFormSubmit = () => {
@@ -130,6 +142,7 @@ export const Profile = () => {
               entranceData={entranceData}
               onProfileFormSubmit={handleProfileFormSubmit}
               buyHistory={buyHistory}
+              resellersRequests={resellersRequests}
               organizerEvents={organizerEvents}
             />
           </div>

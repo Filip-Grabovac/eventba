@@ -155,6 +155,7 @@ const searchUser = async (req, res) => {
 
 const setUserBanStatus = async (req, res) => {
   const { user_id, ban_status } = req.params;
+  const adminId = '64abebf0437ec5030c423540';
 
   try {
     // Find the user by ID
@@ -167,7 +168,20 @@ const setUserBanStatus = async (req, res) => {
     // Update the ban status
     user.isBanned = ban_status === 'true';
 
+    // Find the admin user by adminId
+    const admin = await User.findById(adminId);
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin nije pronađen.' });
+    }
+
+    // Remove the userId from the "resellers_requests" array in admin
+    admin.resellers_requests = admin.resellers_requests.filter(
+      (id) => id !== user_id
+    );
+    await admin.save();
+
     // Save the updated user
+    user.reseller_info = undefined;
     await user.save();
 
     res.json({
