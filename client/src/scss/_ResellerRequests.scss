@@ -1,0 +1,139 @@
+.reseller-requests-wrapper {
+  margin-top: 20px;
+
+  .myevent-card {
+    &:nth-child(odd) {
+      .line {
+        background-color: rgba(201, 204, 224, 0.505);
+      }
+    }
+
+    &:nth-child(even) {
+      .line {
+        background-color: rgba(69, 91, 217, 0.507);
+      }
+    }
+    .user {
+      width: 10%;
+      margin-left: 10px;
+    }
+
+    .line {
+      width: 2px;
+      height: 80%;
+    }
+
+    .myevent-card-part-2 {
+      width: 39%;
+      align-items: center;
+      justify-content: center;
+
+      p {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 600;
+      }
+    }
+    .myevent-card-part-3 {
+      flex-direction: column;
+      cursor: pointer;
+
+      p {
+        text-align: center;
+        font-size: 12px;
+        margin: 0 0 5px 0;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .resellers-list-dropdown {
+    display: flex;
+    p {
+      margin: 0;
+    }
+
+    .reseller-dropdown-part {
+      display: inline-block;
+      border-radius: 10px;
+    }
+
+    .reseller-dropdown-part:nth-child(1) {
+      width: 49.5%;
+      padding: 15px;
+      background-color: rgba(255, 255, 255, 0.578);
+      margin: 10px;
+
+      div {
+        display: flex;
+        margin-bottom: 15px;
+
+        p:nth-child(1) {
+          color: #455cd9;
+          margin-right: 10px;
+        }
+      }
+
+      div:last-child {
+        margin-bottom: 0;
+      }
+    }
+    .reseller-dropdown-part:nth-child(2) {
+      width: 39.5%;
+      margin: 10px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      div {
+        min-height: 55px;
+        text-align: center;
+        width: 90%;
+        margin: 0 auto;
+        background-color: rgba(255, 255, 255, 0.578);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+
+        p {
+          font-size: 15px;
+        }
+
+        p:nth-child(1) {
+          color: #455cd9;
+        }
+      }
+    }
+    .reseller-dropdown-part:nth-child(3) {
+      width: 5.5%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px;
+      padding: 5px 0;
+
+      div {
+        background-color: rgba(255, 255, 255, 0.578);
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        padding: 7px;
+        cursor: pointer;
+
+        &:hover {
+          img {
+            transform: scale(1.15);
+          }
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import SearchIcon from '../../../assets/ikonice/search_icon.png';
 import { UserManagerCard } from './UserManagerCard';
 import axios from 'axios';
+import { ProfileTopPart } from './ProfileTopPart';
 
 export const UserManager = () => {
   const [data, setData] = useState('Pretrazi korisnike');
@@ -35,23 +35,7 @@ export const UserManager = () => {
 
   return (
     <div>
-      <div className="user-manager-top">
-        <div>
-          <p>Lista korisnika</p>
-        </div>
-        <div>
-          <div className="search-input-wrapper">
-            <input
-              onInput={(e) => {
-                fetchData(e);
-              }}
-              type="text"
-              placeholder="Email/Korisnicko ime"
-            />
-            <img src={SearchIcon} alt="Search" />
-          </div>
-        </div>
-      </div>
+      <ProfileTopPart fetchData={fetchData} content="Lista korisnika" />
       <div className="user-manager-bottom">
         {data && typeof data === 'object' ? (
           data.users.map((e, i) => {

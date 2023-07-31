@@ -17,7 +17,8 @@ export const ProfileLeft = (props) => {
           alt=""
         />
         <h4>
-          {profileData.name} {profileData.lname}
+          {profileData.fullName.split(' ')[0]}{' '}
+          {profileData.fullName.split(' ')[1]}
         </h4>
       </div>
       <div className="info">
