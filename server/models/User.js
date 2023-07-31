@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const connectDB = require("../db/connect");
+const mongoose = require('mongoose');
+const connectDB = require('../db/connect');
 
 const UserSchema = new mongoose.Schema({
   id: { type: Number },
@@ -20,10 +20,11 @@ const UserSchema = new mongoose.Schema({
   buyHistory: { type: Array },
   isBanned: { type: Boolean },
   reseller_info: { type: Object },
+  resellers_requers: { type: Array },
 });
 
 module.exports = connectDB(process.env.DATABASE_URL).model(
-  "User",
+  'User',
   UserSchema,
-  "users"
+  'users'
 );
