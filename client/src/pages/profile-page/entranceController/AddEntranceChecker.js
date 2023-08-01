@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 // Images
-import InfoIcon from '../../../assets/ikonice/info.svg';
-import LinkIcon from '../../../assets/ikonice/link_icon.svg';
+import InfoIcon from "../../../assets/ikonice/info.svg";
+import LinkIcon from "../../../assets/ikonice/link_icon.svg";
 // Components
-import { Tooltip } from 'react-tooltip';
-import { EntranceControllerCard } from './EntranceControllerCard';
-import { AddControllerFunction } from './AddControllerFunction';
-import { UpdateControllerFunction } from './UpdateControllerFunction';
+import { Tooltip } from "react-tooltip";
+import { EntranceControllerCard } from "./EntranceControllerCard";
+import { AddControllerFunction } from "./AddControllerFunction";
+import { UpdateControllerFunction } from "./UpdateControllerFunction";
 
 export const EntranceChecker = ({ organizerEvents, entranceData }) => {
   const [entranceControllorAcc, setEntranceControllorAcc] = useState(
     entranceData.entranceController
   );
   const [updateData, setUpdateData] = useState();
-  const [buttonContent, setButtonContent] = useState('Dodaj račun');
-  const [selectedValue, setSelectedValue] = useState('');
-  const [entranceNum, setEntranceNum] = useState('');
-  const [controllerName, setControllerName] = useState('');
+  const [buttonContent, setButtonContent] = useState("Dodaj račun");
+  const [selectedValue, setSelectedValue] = useState("");
+  const [entranceNum, setEntranceNum] = useState("");
+  const [controllerName, setControllerName] = useState("");
   const userId = useSelector((state) => state.userState.user);
 
   // Add controller and update UI
@@ -67,7 +67,7 @@ export const EntranceChecker = ({ organizerEvents, entranceData }) => {
   }
   // Set event dropdown value if user clicks update
   useEffect(() => {
-    if (updateData && selectedValue === '') {
+    if (updateData && selectedValue === "") {
       setSelectedValue(updateData.event);
     }
   }, [updateData]);
@@ -76,14 +76,14 @@ export const EntranceChecker = ({ organizerEvents, entranceData }) => {
     <div className="add-reseller-container container-fluid">
       <div className="row">
         <Tooltip
-          style={{ borderRadius: '10px', backgroundColor: '#455cd9' }}
+          style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
           anchorId="info-icon"
           place="bottom"
           variant="info"
           content="Ovdje možete dodavati račune za kontolore ulaza. Takav račun će imati QR code skener"
         />
         <Tooltip
-          style={{ borderRadius: '10px', backgroundColor: '#455cd9' }}
+          style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
           anchorId="scanner_link"
           place="bottom"
           variant="info"
@@ -116,7 +116,7 @@ export const EntranceChecker = ({ organizerEvents, entranceData }) => {
               name="event"
               value={selectedValue}
               onChange={(e) => {
-                e.target.style = 'outline: none;';
+                e.target.style = "outline: none;";
                 handleSelectChange(e);
               }}
             >
@@ -125,9 +125,28 @@ export const EntranceChecker = ({ organizerEvents, entranceData }) => {
               </option>
               {organizerEvents[0] !== undefined ? (
                 organizerEvents.map((e, i) => {
+                  // Convert the time_of_event string to a Date object
+                  const eventDate = new Date(e.time_of_event);
                   return (
-                    <option data-id={e._id} value={e.performer_name} key={i}>
-                      {e.performer_name}
+                    <option
+                      data-id={e._id}
+                      value={`${
+                        e.performer_name
+                      } - ${eventDate.toLocaleDateString("hr-HR", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      })}`}
+                      key={i}
+                    >
+                      {`${e.performer_name} - ${eventDate.toLocaleDateString(
+                        "hr-HR",
+                        {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        }
+                      )}`}
                     </option>
                   );
                 })
@@ -135,14 +154,15 @@ export const EntranceChecker = ({ organizerEvents, entranceData }) => {
                 <option disabled>Nemate organiziranih događaja</option>
               )}
             </select>
+
             <input
               className="control-input"
               placeholder="Ime računa"
               type="text"
               name="name"
               onInput={(e) => {
-                e.target.style = 'outline: none;';
-                handleInputChange(e, 'controller_name', setControllerName);
+                e.target.style = "outline: none;";
+                handleInputChange(e, "controller_name", setControllerName);
               }}
               value={updateData ? updateData.controller_name : controllerName}
             />
@@ -154,8 +174,8 @@ export const EntranceChecker = ({ organizerEvents, entranceData }) => {
               type="number"
               name="entrance_num"
               onInput={(e) => {
-                e.target.style = 'outline: none;';
-                handleInputChange(e, 'entrance_num', setEntranceNum);
+                e.target.style = "outline: none;";
+                handleInputChange(e, "entrance_num", setEntranceNum);
               }}
               value={updateData ? updateData.entrance_num : entranceNum}
             />
@@ -165,7 +185,7 @@ export const EntranceChecker = ({ organizerEvents, entranceData }) => {
               type="password"
               name="password"
               onInput={(e) => {
-                e.target.style = 'outline: none;';
+                e.target.style = "outline: none;";
               }}
             />
           </div>
@@ -192,7 +212,7 @@ export const EntranceChecker = ({ organizerEvents, entranceData }) => {
           </div>
         </div>
       ) : (
-        ''
+        ""
       )}
     </div>
   );

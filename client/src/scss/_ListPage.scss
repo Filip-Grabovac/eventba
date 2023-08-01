@@ -260,7 +260,8 @@
 
         a {
           height: 49.75%;
-          width: 100%;
+          width: 75px;
+          margin: 0 auto;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -270,7 +271,9 @@
           text-decoration: none;
           transition: background-color 0.2s, font-size 0.2s;
           border-top-right-radius: 15px;
-
+          @media only screen and (max-width: 450px) {
+            width: 100%;
+          }
           &:hover {
             background-color: #dfc466;
             font-size: 18px;

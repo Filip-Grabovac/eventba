@@ -1,0 +1,97 @@
+.profile .profile-form .choose-concert {
+  h5 {
+    color: #455cd9;
+  }
+  .select-event {
+    width: 50%;
+  }
+}
+.concert-container {
+  .top-part {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0 20px;
+    border-bottom: #455cd9 solid 2px;
+    .info {
+      background: #e1e3f0;
+      padding: 10px 20px;
+      border-radius: 10px;
+      margin: 5px;
+      width: 40%;
+      line-height: 25px;
+    }
+    img {
+      width: 40%;
+      border-radius: 10px;
+    }
+  }
+}
+.generator-container {
+  .tickets-categories-container {
+    margin-top: 20px;
+    padding: 0;
+
+    .row {
+      padding: 5px;
+      width: 100%;
+      margin: 0 auto;
+      gap: 0;
+      background-color: #fff;
+      border-radius: 10px;
+      margin-bottom: 10px;
+
+      .event-input {
+        background-color: rgba(69, 91, 217, 0.108);
+      }
+
+      .col-lg-6 {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        input {
+          text-align: center;
+          width: 100%;
+        }
+      }
+
+      .add-tickets-right-col {
+        border-left: 2px solid rgba(69, 91, 217, 0.505);
+
+        .event-input {
+          margin-left: auto;
+        }
+        .price {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 5%;
+
+          img {
+            opacity: 0.7;
+            width: 20px;
+            &:hover {
+              opacity: 1;
+              transform: scale(1.1);
+            }
+          }
+        }
+        .ticket-price {
+          width: 80%;
+          margin-right: auto;
+          margin-left: 0;
+        }
+      }
+    }
+  }
+  .add-category-icon {
+    width: 30px;
+    cursor: pointer;
+    margin: 20px auto 0 auto;
+    display: block;
+  }
+  .add-tickets-btn {
+    margin: 36px auto 20px auto;
+    display: block;
+  }
+}

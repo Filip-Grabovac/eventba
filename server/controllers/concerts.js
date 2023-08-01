@@ -106,6 +106,7 @@ const getEventsByOrganizerId = async (req, res) => {
     const events = await Concert.find({ organizer: organizerId }).select({
       performer_name: 1,
       _id: 1,
+      time_of_event: 1,
     });
 
     res.status(200).json(events);

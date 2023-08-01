@@ -38,10 +38,10 @@
   flex-direction: column;
 }
 .Toastify__toast-body {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   background: rgb(217, 222, 247);
   background: linear-gradient(
     180deg,
@@ -106,7 +106,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield !important;
 }
 
@@ -126,21 +126,21 @@ small {
 .navlink-active {
   background-color: rgba(255, 255, 255, 0.115);
 }
-
-@import 'MyEvent.scss';
-@import 'Navbar.scss';
-@import 'Footer.scss';
-@import 'Hero.scss';
-@import 'ThisWeek.scss';
-@import 'SinglePage.scss';
-@import 'Profile.scss';
-@import 'Login.scss';
-@import 'Buy.scss';
-@import 'ThankYou.scss';
-@import 'EntranceController';
-@import 'AddHall';
-@import 'MyTickets';
-@import 'ListPage';
-@import 'UserManager';
-@import 'RequestResseler';
-@import 'ResellerRequests';
+@import "AddTickets.scss";
+@import "MyEvent.scss";
+@import "Navbar.scss";
+@import "Footer.scss";
+@import "Hero.scss";
+@import "ThisWeek.scss";
+@import "SinglePage.scss";
+@import "Profile.scss";
+@import "Login.scss";
+@import "Buy.scss";
+@import "ThankYou.scss";
+@import "EntranceController";
+@import "AddHall";
+@import "MyTickets";
+@import "ListPage";
+@import "UserManager";
+@import "RequestResseler";
+@import "ResellerRequests";
