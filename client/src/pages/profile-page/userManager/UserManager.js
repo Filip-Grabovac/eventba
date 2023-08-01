@@ -35,7 +35,11 @@ export const UserManager = () => {
 
   return (
     <div>
-      <ProfileTopPart fetchData={fetchData} content="Lista korisnika" />
+      <ProfileTopPart
+        fetchData={fetchData}
+        content="Lista korisnika"
+        hasSearch={true}
+      />
       <div className="user-manager-bottom">
         {data && typeof data === 'object' ? (
           data.users.map((e, i) => {
