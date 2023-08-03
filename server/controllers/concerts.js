@@ -7,7 +7,11 @@ const Concert = connectDB(process.env.DATABASE_URL).model(
 );
 const getAllConcerts = async (req, res) => {
   try {
-    const concerts = await Concert.find({});
+    const currentDate = new Date(); // Get the current date and time
+    const concerts = await Concert.find({ time_of_event: { $gt: currentDate } })
+      .select("_id time_of_event performer_name place")
+      .exec();
+
     res.status(200).json({ concerts });
   } catch (error) {
     res.status(500).json({ msg: error });

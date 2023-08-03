@@ -1,11 +1,27 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { hrTimeFormat } from "../../../components/helper/timeFormat";
 import { TicketGen } from "./TicketGen";
-export const AddTickets = ({ organizerEvents }) => {
+export const AddTickets = () => {
+  const [allEvents, setAllEvents] = useState([]);
   const [event, setEvent] = useState("");
   const [concertData, setConcertData] = useState(null);
 
+  useEffect(() => {
+    fetchConcertData();
+  }, []);
+
+  const fetchConcertData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/concerts`
+      );
+      setAllEvents(response.data.concerts);
+      console.log(response.data.concerts);
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
+  };
   const handleSelectChange = async (e) => {
     const selectedOption = e.target.value;
     setEvent(selectedOption);
@@ -43,8 +59,8 @@ export const AddTickets = ({ organizerEvents }) => {
           <option value="" disabled hidden>
             Odaberi događaj
           </option>
-          {organizerEvents[0] !== undefined ? (
-            organizerEvents.map((e, i) => {
+          {allEvents[0] !== undefined ? (
+            allEvents.map((e, i) => {
               // Convert the time_of_event string to a Date object
               const eventDate = new Date(e.time_of_event);
               return (
@@ -57,7 +73,7 @@ export const AddTickets = ({ organizerEvents }) => {
                       month: "2-digit",
                       day: "2-digit",
                     }
-                  )}`}
+                  )} - ${e.place.place}`}
                   key={i}
                 >
                   {`${e.performer_name} - ${eventDate.toLocaleDateString(
@@ -67,7 +83,7 @@ export const AddTickets = ({ organizerEvents }) => {
                       month: "2-digit",
                       day: "2-digit",
                     }
-                  )}`}
+                  )} -  ${e.place.place}`}
                 </option>
               );
             })
@@ -77,7 +93,6 @@ export const AddTickets = ({ organizerEvents }) => {
         </select>
       </div>
       <div className="concert-container">
-        {/* Render the concert data */}
         {concertData && (
           <>
             <div className="top-part">

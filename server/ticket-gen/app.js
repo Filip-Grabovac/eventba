@@ -6,7 +6,6 @@ const { generatePdfAndSendEmail } = require("./controllers/generatePdf");
 const connectDB = require("../db/connect");
 const TicketSchema = require("../models/Ticket");
 const { updateTicketAmount } = require("../controllers/concCheckandUpdate");
-// Serve static files with the correct MIME type
 
 async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
   const ticketList = ticketGenData.ticketList;

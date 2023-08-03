@@ -38,7 +38,7 @@ export function ProfileForm(props) {
       ) : props.activeNavItem === "Zahtjevi preprodavača" ? (
         <ResellerRequest resellersRequests={props.resellersRequests} />
       ) : props.activeNavItem === "Dodaj ulaznice" ? (
-        <AddTickets organizerEvents={props.organizerEvents} />
+        <AddTickets />
       ) : (
         ""
       )}
