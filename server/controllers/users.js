@@ -76,11 +76,20 @@ const findUser = async (req, res) => {
       query = { fbEmail: value };
     } else if (type === 'id') {
       query = { _id: value };
+    } else if (type === 'role') {
+      query = { role: value };
     } else {
       return res.status(400).json({ error: 'Pogrešna pretraga' });
     }
 
-    const user = await User.findOne(query);
+    let user;
+    if (type === 'role') {
+      user = await User.find(query);
+      return res.status(200).json(user);
+    } else {
+      user = await User.findOne(query);
+    }
+
     if (!user) {
       if (type === 'id') {
         return res
@@ -99,7 +108,7 @@ const findUser = async (req, res) => {
     }
 
     // Only return the ID and password when searching by email
-    res.status(200).json({
+    return res.status(200).json({
       id: user._id,
       password: user.password,
       accountType: user.accountType,

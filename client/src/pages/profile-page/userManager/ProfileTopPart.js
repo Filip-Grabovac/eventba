@@ -1,7 +1,12 @@
 import React from 'react';
 import SearchIcon from '../../../assets/ikonice/search_icon.png';
 
-export const ProfileTopPart = ({ fetchData, content, hasSearch }) => {
+export const ProfileTopPart = ({
+  fetchData,
+  content,
+  hasSearch,
+  searchContent,
+}) => {
   return (
     <div className="user-manager-top">
       <div>
@@ -15,7 +20,7 @@ export const ProfileTopPart = ({ fetchData, content, hasSearch }) => {
                 fetchData(e);
               }}
               type="text"
-              placeholder="Email/Korisnicko ime"
+              placeholder={searchContent}
             />
             <img src={SearchIcon} alt="Search" />
           </div>

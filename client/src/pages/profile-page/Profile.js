@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { ProfileLeft } from "./ProfileLeft";
-import { ProfileForm } from "./ProfileForm";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { ProfileLeft } from './ProfileLeft';
+import { ProfileForm } from './ProfileForm';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export const Profile = () => {
   const [profileData, setProfileData] = useState(null);
@@ -11,7 +11,8 @@ export const Profile = () => {
   const [organizerEvents, setOrganizerEvents] = useState();
   const [buyHistory, setBuyHistory] = useState();
   const [resellersRequests, setResellersRequests] = useState();
-  const [activeNavItem, setActiveNavItem] = useState("Ažuriraj podatke");
+  const [resellers, setResellers] = useState();
+  const [activeNavItem, setActiveNavItem] = useState('Ažuriraj podatke');
 
   const [entranceData, setEntranceData] = useState();
 
@@ -24,38 +25,41 @@ export const Profile = () => {
       setBuyHistory(response.data.buyHistory);
 
       // Set profile navbar based on role
-      if (response.data.role === "standard") {
+      if (response.data.role === 'standard') {
         setNavItems([
-          "Ažuriraj podatke",
-          "Moje ulaznice",
-          "Zatraži preprodavača",
+          'Ažuriraj podatke',
+          'Moje ulaznice',
+          'Zatraži preprodavača',
         ]);
-      } else if (response.data.role === "reseller") {
+      } else if (response.data.role === 'reseller') {
+        setNavItems(['Ažuriraj podatke', 'Moje ulaznice', 'Pogledaj ulaznice']);
+      } else if (response.data.role === 'organizer') {
         setNavItems([
-          "Ažuriraj podatke",
-          "Moje ulaznice",
-          "Prodajna statistika",
+          'Ažuriraj podatke',
+          'Moje ulaznice',
+          'Organiziraj događaj',
+          'Postavke ulaza',
+          'Dodaj dvoranu',
+          'Moji događaji',
+          'Dodaj preprodavača',
         ]);
-      } else if (response.data.role === "organizer") {
+
+        fetchEntranceCheckers(userId);
+        fetchOrganizerConcerts(userId);
+        fetchAllResellers();
+      } else if (response.data.role === 'admin') {
         setNavItems([
-          "Ažuriraj podatke",
-          "Moje ulaznice",
-          "Organiziraj događaj",
-          "Postavke ulaza",
-          "Dodaj dvoranu",
-          "Moji događaji",
+          'Ažuriraj podatke',
+          'Moje ulaznice',
+          'Upravljaj korisnicima',
+          'Zahtjevi preprodavača',
+          'Dodaj ulaznice',
         ]);
-      } else if (response.data.role === "admin") {
-        setNavItems([
-          "Ažuriraj podatke",
-          "Moje ulaznice",
-          "Upravljaj korisnicima",
-          "Zahtjevi preprodavača",
-          "Dodaj ulaznice",
-        ]);
+
+        fetchResellerRequests();
       }
     } catch (error) {
-      console.error("Error fetching profile data:", error);
+      console.error('Error fetching profile data:', error);
     }
   };
 
@@ -67,9 +71,10 @@ export const Profile = () => {
       );
       setEntranceData(response.data);
     } catch (error) {
-      console.error("Error fetching entrance checker:", error);
+      console.error('Error fetching entrance checker:', error);
     }
   };
+
   const fetchOrganizerConcerts = async (id) => {
     try {
       const response = await axios.get(
@@ -77,9 +82,10 @@ export const Profile = () => {
       );
       setOrganizerEvents(response.data);
     } catch (error) {
-      console.error("Error fetching entrance checker:", error);
+      console.error('Error fetching entrance checker:', error);
     }
   };
+
   const fetchResellerRequests = async () => {
     try {
       const response = await axios.get(
@@ -87,15 +93,23 @@ export const Profile = () => {
       );
       setResellersRequests(response.data);
     } catch (error) {
-      console.error("Error fetching entrance checker:", error);
+      console.error('Error fetching entrance checker:', error);
+    }
+  };
+
+  const fetchAllResellers = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/users/role/reseller`
+      );
+      setResellers(response.data);
+    } catch (error) {
+      console.error('Error fetching entrance checker:', error);
     }
   };
 
   useEffect(() => {
     fetchProfileData();
-    fetchEntranceCheckers(userId);
-    fetchOrganizerConcerts(userId);
-    fetchResellerRequests();
   }, []);
 
   const handleProfileFormSubmit = () => {
@@ -122,7 +136,7 @@ export const Profile = () => {
                       <li key={i}>
                         <a
                           className={`${
-                            activeNavItem === e ? "active-profile-nav-link" : ""
+                            activeNavItem === e ? 'active-profile-nav-link' : ''
                           }`}
                           onClick={(event) => {
                             event.preventDefault();
@@ -145,6 +159,7 @@ export const Profile = () => {
               buyHistory={buyHistory}
               resellersRequests={resellersRequests}
               organizerEvents={organizerEvents}
+              resellers={resellers}
             />
           </div>
         </div>
