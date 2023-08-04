@@ -1,21 +1,56 @@
 import React, { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next"; // Import the translation hook
 import PlusIcon from "../../../assets/ikonice/plus_icon.svg";
 import trashCan from "../../../assets/ikonice/trash_can.svg";
+import axios from "axios";
+import { toastSetup } from "../../../functions/toastSetup";
+import { toast } from "react-toastify";
+import { Bars } from "react-loader-spinner";
 
-export const TicketGen = () => {
+export const TicketGen = ({ concertData }) => {
   const [rowNum, setRowNum] = useState(0);
   const [tickets, setTickets] = useState([]);
   const [totalTickets, setTotalTickets] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const [provision, setProvision] = useState(0);
+  const [pdfFilePath, setPdfFilePath] = useState("");
+  const [loader, setLoader] = useState(false);
+  console.log(pdfFilePath);
 
-  const { t } = useTranslation(); // Initialize the translation hook
-
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(tickets);
-    // You can add further logic here to process the tickets data or send it to the server.
+    setPdfFilePath("");
+    setLoader(true);
+    console.log({
+      ticketGenData: tickets,
+      concertData,
+    });
+
+    try {
+      // Send the POST request using Axios and wait for the response
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/v1/freeSale/generate-tickets`,
+        {
+          ticketGenData: tickets,
+          concertData,
+        }
+      );
+
+      // Extract the pdfFilePath from the response and update the state
+      const { pdfFilePath } = response.data;
+      setPdfFilePath(pdfFilePath);
+      setLoader(false);
+      // Show a toast message or any other indication that the tickets have been generated successfully
+      toast.success(
+        "Generacija ulaznica uspješna. Preuzmite ulaznice direktno ili putem linka koji će biti poslan na mail.",
+        toastSetup("top-right", 5000)
+      );
+    } catch (error) {
+      // Handle any errors that occurred during the request
+      toast.error(
+        "Problem s generacijom ulaznica, pokušajte kasnije...",
+        toastSetup("top-right", 3000)
+      );
+    }
   };
 
   const handleAddRow = () => {
@@ -42,6 +77,7 @@ export const TicketGen = () => {
       [name]: value,
     };
     setTickets(updatedTickets);
+    setPdfFilePath("");
   };
 
   useEffect(() => {
@@ -138,14 +174,26 @@ export const TicketGen = () => {
           <p>Ukupan broj ulaznica: {totalTickets}</p>
           <p>Ukupan iznos: {totalAmount} BAM</p>
           <p>
-            Provizija: {1.5 * totalTickets} BAM{" "}
-            <small>(1.5 BAM po ulaznici)</small>
+            Provizija: {provision} BAM <small>(1.5 BAM po ulaznici)</small>
           </p>
         </div>
         <button type="submit" className="add-tickets-btn">
           Izradi ulaznice
         </button>
       </form>
+      {loader ? (
+        <div className="loader">
+          <Bars height="50" width="50" color="#455cd9" />{" "}
+        </div>
+      ) : null}
+      {pdfFilePath ? (
+        <a
+          href={`${process.env.REACT_APP_API_URL}/api/v1/freeSale/download-tickets?pdfFilePath=${pdfFilePath}`}
+          download
+        >
+          <button className="download-tickets-btn">Preuzmi ulaznice</button>
+        </a>
+      ) : null}
     </div>
   );
 };

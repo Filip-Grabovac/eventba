@@ -1,3 +1,12 @@
+.page {
+  width: 21cm;
+  min-height: 29.7cm;
+  border: 1px #d3d3d3 solid;
+  border-radius: 5px;
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  page-break-after: always;
+}
 body {
   box-sizing: border-box;
   margin: 0;
@@ -7,141 +16,21 @@ body {
   font-family: "Nunito", sans-serif;
   color: #333333;
 }
-.page {
-  width: 21cm;
-  min-height: 29.7cm;
-  border: 1px #d3d3d3 solid;
-  border-radius: 5px;
-  background: white;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-.section1,
-.section2,
+
 .section3,
 .section4 {
   background-color: rgb(255, 255, 255);
 }
 
-.section1 {
-  page-break-after: always;
-  .nav {
-    padding: 10px;
-    display: flex;
-    gap: 15px;
-    height: 70px;
-    justify-content: space-between;
-    .logo {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 10px;
-      font-size: 22px;
-
-      .logo-img {
-        width: 60px;
-        height: 60px;
-      }
-    }
-    .line {
-      background-color: black;
-      width: 95%;
-      height: 1px;
-      display: flex;
-      justify-self: center;
-      align-self: center;
-    }
-    .codes {
-      width: 30%;
-      display: flex;
-      justify-content: space-between;
-      .qr {
-        height: 110px;
-      }
-    }
-  }
-  .body-1 {
-    display: flex;
-    .mini-poster-wrapper {
-      margin: 0 10px;
-      .mini-poster {
-        border-radius: 10px;
-        width: 170px;
-        transform: translateY(-10px);
-      }
-    }
-    .guidence {
-      font-size: 14px;
-      line-height: 140%;
-      margin-bottom: 0;
-      padding-right: 10px;
-    }
-  }
-}
-p {
-  margin: 6px;
-}
-.section2 {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 5px;
-  .important {
-    color: #3d627a;
-    width: 96.5%;
-    margin: 0 auto;
-    font-size: 14px;
-    line-height: 130%;
-    padding: 10px 10px 10px 10px;
-    font-weight: 700;
-    background-image: linear-gradient(to top, #dfdfdf, #f0f0f0);
-    border-radius: 0 10px 10px 10px;
-    z-index: 10;
-  }
-  .guide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-  }
-  .h4-text {
-    color: rgb(61, 98, 122);
-    font-size: 16px;
-    width: 26%;
-  }
-  .arrow {
-    width: 50px;
-  }
-  .guide-scheme {
-    width: 250px;
-  }
-}
 .section3 {
   margin: 0;
   position: relative;
   background-color: #fff;
   .main-container {
-    height: 99%;
-    border-top: #3d627a dotted;
-    border-bottom: #3d627a dotted;
-    padding-bottom: 5px;
+    border-top: #3d627a dotted 2px;
+    border-bottom: #3d627a dotted 2px;
   }
-  .savijacica {
-    border-radius: 10px;
-    background-color: #f3f3f3;
-    z-index: 999;
-    position: absolute;
-    font-size: 14px;
-    font-weight: 700;
-    color: #3d627a;
-  }
-  .top {
-    top: -16px;
-    left: 35%;
-  }
-  .down {
-    bottom: -22px;
-    left: 33%;
-  }
+
   .inner-container {
     display: flex;
     align-items: stretch;

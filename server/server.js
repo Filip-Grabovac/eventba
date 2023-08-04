@@ -10,6 +10,7 @@ const payment = require("./routes/payments");
 const entrance_controller = require("./routes/entrances");
 const places = require("./routes/places");
 const tickets = require("./routes/tickets");
+const freeSale = require("./routes/freeSale");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 // const cronJob = require("./cronjob/dailyOperations");
@@ -26,6 +27,7 @@ app.use("/api/v1/payment", payment);
 app.use("/api/v1/entrance_controllers", entrance_controller);
 app.use("/api/v1/places", places);
 app.use("/api/v1/tickets", tickets);
+app.use("/api/v1/freeSale", freeSale);
 
 const start = async () => {
   try {

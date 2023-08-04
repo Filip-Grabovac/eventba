@@ -28,6 +28,8 @@
   }
 }
 .generator-container {
+  position: relative;
+
   .tickets-categories-container {
     margin-top: 20px;
     padding: 0;
@@ -93,5 +95,24 @@
   .add-tickets-btn {
     margin: 36px auto 20px auto;
     display: block;
+  }
+}
+
+.profile {
+  .profile-form {
+    .loader {
+      position: absolute;
+      margin-bottom: 10px;
+      right: 4%;
+      bottom: -6%;
+    }
+    a {
+      .download-tickets-btn {
+        position: absolute;
+        margin-bottom: 10px;
+        right: 0%;
+        bottom: -4%;
+      }
+    }
   }
 }
