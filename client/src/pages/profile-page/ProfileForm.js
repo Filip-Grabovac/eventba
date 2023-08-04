@@ -1,46 +1,52 @@
-import React from "react";
-import { UpdateProfilePage } from "./profile-pages/UpdateProfilePage.js";
-import { OrganizeEventPage } from "./organizeEventPage/OrganizeEventPage.js";
-import { UserManager } from "./userManager/UserManager.js";
-import { EntranceChecker } from "./entranceController/AddEntranceChecker.js";
-import { AddHall } from "./profile-pages/AddHall.js";
-import { RequestReseller } from "./profile-pages/RequestResseler.js";
-import { MyTickets } from "./MyTicket/MyTickets.js";
-import { MyEvent } from "./MyEvents/MyEvent.js";
-import { ResellerRequest } from "./resellerRequests/ResellerRequest.js";
-import { AddTickets } from "./add-tickets/AddTickets.js";
+import React from 'react';
+import { UpdateProfilePage } from './profile-pages/UpdateProfilePage.js';
+import { OrganizeEventPage } from './organizeEventPage/OrganizeEventPage.js';
+import { UserManager } from './userManager/UserManager.js';
+import { EntranceChecker } from './entranceController/AddEntranceChecker.js';
+import { AddHall } from './profile-pages/AddHall.js';
+import { RequestReseller } from './profile-pages/RequestResseler.js';
+import { MyTickets } from './MyTicket/MyTickets.js';
+import { MyEvent } from './MyEvents/MyEvent.js';
+import { ResellerRequest } from './resellerRequests/ResellerRequest.js';
+import { AddTickets } from './add-tickets/AddTickets.js';
+import { AddReseller } from './add-reseller-for-organizer/AddReseller.js';
+import { CheckResellerTickets } from './check-reseller-tickets/CheckResellerTickets.js';
 
 export function ProfileForm(props) {
   return (
     <div className="profile-form">
-      {props.activeNavItem === "Ažuriraj podatke" ? (
+      {props.activeNavItem === 'Ažuriraj podatke' ? (
         <UpdateProfilePage
           profileData={props.profileData}
           onProfileFormSubmit={props.onProfileFormSubmit}
         />
-      ) : props.activeNavItem === "Organiziraj događaj" ? (
+      ) : props.activeNavItem === 'Organiziraj događaj' ? (
         <OrganizeEventPage />
-      ) : props.activeNavItem === "Upravljaj korisnicima" ? (
+      ) : props.activeNavItem === 'Upravljaj korisnicima' ? (
         <UserManager />
-      ) : props.activeNavItem === "Postavke ulaza" ? (
+      ) : props.activeNavItem === 'Postavke ulaza' ? (
         <EntranceChecker
           organizerEvents={props.organizerEvents}
           entranceData={props.entranceData}
         />
-      ) : props.activeNavItem === "Dodaj dvoranu" ? (
+      ) : props.activeNavItem === 'Dodaj dvoranu' ? (
         <AddHall />
-      ) : props.activeNavItem === "Moje ulaznice" ? (
+      ) : props.activeNavItem === 'Moje ulaznice' ? (
         <MyTickets buyHistory={props.buyHistory} />
-      ) : props.activeNavItem === "Moji događaji" ? (
+      ) : props.activeNavItem === 'Moji događaji' ? (
         <MyEvent organizerEvents={props.organizerEvents} />
-      ) : props.activeNavItem === "Zatraži preprodavača" ? (
+      ) : props.activeNavItem === 'Zatraži preprodavača' ? (
         <RequestReseller profileData={props.profileData} />
-      ) : props.activeNavItem === "Zahtjevi preprodavača" ? (
+      ) : props.activeNavItem === 'Zahtjevi preprodavača' ? (
         <ResellerRequest resellersRequests={props.resellersRequests} />
-      ) : props.activeNavItem === "Dodaj ulaznice" ? (
+      ) : props.activeNavItem === 'Dodaj ulaznice' ? (
         <AddTickets />
+      ) : props.activeNavItem === 'Dodaj preprodavača' ? (
+        <AddReseller resellers={props.resellers} />
+      ) : props.activeNavItem === 'Pogledaj ulaznice' ? (
+        <CheckResellerTickets />
       ) : (
-        ""
+        ''
       )}
     </div>
   );

@@ -1,4 +1,5 @@
-.reseller-requests-wrapper {
+.reseller-requests-wrapper,
+.add-reseller-event {
   margin-top: 20px;
 
   .myevent-card {
@@ -135,5 +136,10 @@
         }
       }
     }
+  }
+}
+.add-reseller-event {
+  .top-part {
+    border-bottom: none;
   }
 }

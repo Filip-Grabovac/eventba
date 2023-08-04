@@ -1,0 +1,111 @@
+.check-reseller-tickets {
+  .dropdown-arrow {
+    width: 46%;
+    height: 60%;
+    cursor: pointer;
+  }
+
+  .dropdown-arrow-wrapper {
+    width: 8%;
+    height: 36%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mytickets-card-part {
+    width: 80%;
+    display: flex;
+  }
+
+  .profile-concert-wrapper {
+    .check-ticket-manager {
+      display: flex;
+      margin: 20px 0 30px 0;
+
+      .ticket-check-part {
+        width: 33.33%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        div {
+          margin: 0 10px;
+        }
+
+        p {
+          margin: 0;
+          font-size: 13px;
+          text-align: center;
+        }
+
+        img {
+          width: 20px;
+          height: 20px;
+          cursor: pointer;
+        }
+
+        &:nth-child(2) {
+          border-left: 2px solid rgba(69, 91, 217, 0.512);
+          border-right: 2px solid rgba(69, 91, 217, 0.512);
+        }
+      }
+    }
+  }
+
+  .approve-ticket-sale {
+    display: flex;
+    width: 95%;
+    margin: 5px auto 0;
+    background-color: #fff;
+    padding: 0 5px;
+    height: 30px;
+    border-radius: 10px;
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 25%;
+      border-right: 1px solid rgba(69, 91, 217, 0.305);
+      height: 100%;
+
+      p,
+      span,
+      a {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      span {
+        color: rgb(52, 52, 52, 0.75);
+      }
+
+      a,
+      .price,
+      img {
+        margin-left: auto;
+        margin-right: 5px;
+      }
+
+      a {
+        text-decoration: none;
+        background-color: #f4cd46;
+        color: #343434;
+        padding: 4px 5px;
+        border-radius: 10px;
+        font-size: 12px;
+      }
+
+      img {
+        width: 10%;
+        height: auto;
+      }
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+  }
+}

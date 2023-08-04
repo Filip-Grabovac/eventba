@@ -39,6 +39,7 @@ export const UserManager = () => {
         fetchData={fetchData}
         content="Lista korisnika"
         hasSearch={true}
+        searchContent="Email/Korisnicko ime"
       />
       <div className="user-manager-bottom">
         {data && typeof data === 'object' ? (

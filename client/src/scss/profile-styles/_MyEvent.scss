@@ -1,0 +1,380 @@
+.myevent-card {
+  height: 300px;
+  box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.25);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+  transition: margin 0.4s ease-out;
+  @media only screen and (max-width: 600px) {
+    letter-spacing: -0.5px;
+  }
+  .myevent-card-part-1 {
+    display: flex;
+    height: 100%;
+    width: 33%;
+    background-color: #b8bede;
+    border-radius: 7px;
+    .conc-info {
+      line-height: 15px;
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3% 2%;
+      text-align: center;
+      @media only screen and (max-width: 350px) {
+        padding: 0;
+      }
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+      p {
+        margin: 0;
+        font-size: 13px;
+        @media only screen and (max-width: 800px) {
+          font-size: 12px;
+          letter-spacing: -0.5px;
+        }
+        @media only screen and (max-width: 600px) {
+          font-size: 11px;
+        }
+      }
+      h6 {
+        font-weight: 600;
+        margin: 0 auto 4%;
+        @media only screen and (max-width: 800px) {
+          font-size: 16px;
+        }
+        @media only screen and (max-width: 600px) {
+          font-size: 14px;
+        }
+        @media only screen and (max-width: 350px) {
+          font-size: 12px;
+        }
+      }
+    }
+    img {
+      width: 30%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 7px 0px 0px 7px;
+      @media only screen and (max-width: 600px) {
+        display: none;
+      }
+    }
+  }
+  .sales-wrapper {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+  }
+  .myevent-card-part-2 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    &:nth-child(2) {
+      background-color: #fff;
+    }
+
+    .heading {
+      color: #455cd9;
+      font-weight: 600;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .top-part {
+      font-size: medium;
+      height: 30%;
+      width: 90%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: #b8bede 2px solid;
+      @media only screen and (max-width: 600px) {
+        span {
+          font-size: smaller;
+        }
+      }
+    }
+    .bottom-part-wrapper {
+      height: 70%;
+      width: 100%;
+      overflow-x: auto;
+      margin: 0 auto;
+      .bottom-part {
+        height: 100%;
+        width: fit-content;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        @media only screen and (max-width: 400px) {
+          font-size: 12px;
+        }
+
+        .category-card {
+          min-width: 140px;
+          text-align: center;
+          display: flex;
+          border-right: #b8bede 2px solid;
+          padding: 0 12px;
+          flex-direction: column;
+          &:last-child {
+            border-right: none;
+          }
+        }
+      }
+    }
+  }
+  .myevent-card-part-3 {
+    width: 10%;
+    height: 100%;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-right-radius: 7px;
+    img {
+      cursor: pointer;
+      width: 20px;
+    }
+  }
+
+  .myevents-card-dropdown {
+    width: 100%;
+    background-color: rgba(69, 91, 217, 0.105);
+    position: absolute;
+    top: 300px;
+    left: 0;
+    transition: max-height 0.4s ease-out;
+    overflow: hidden;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    .profile-concert-wrapper {
+      padding: 0 5px;
+    }
+
+    .heading {
+      color: #455cd9;
+      font-weight: 600;
+      margin: 20px;
+    }
+
+    .resellers-card {
+      box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.15);
+      margin-bottom: 10px;
+      border-radius: 10px;
+      padding: 10px 3px;
+      .resellers-card-top-row {
+        width: 100%;
+        display: flex;
+
+        div {
+          p,
+          h6 {
+            font-size: 13px;
+            margin: 0;
+            text-align: center;
+          }
+
+          h6 {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
+          }
+        }
+
+        div:nth-child(1) {
+          width: 20%;
+        }
+        div:nth-child(2) {
+          width: 60%;
+          background-color: #fff;
+          border-radius: 10px;
+          display: flex;
+
+          div {
+            width: 33.33%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+
+            p {
+              margin: 0;
+            }
+          }
+
+          div:nth-child(2) {
+            border-right: 2px solid rgba(69, 91, 217, 0.504);
+            border-left: 2px solid rgba(69, 91, 217, 0.504);
+            border-radius: 0;
+          }
+        }
+        div:nth-child(3) {
+          width: 20%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+        }
+      }
+      .resellers-card-bottom-row {
+        display: flex;
+        flex-direction: row;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 0 3px;
+        margin-top: 10px;
+        height: 30px;
+        align-items: center;
+
+        p,
+        span {
+          margin: 0;
+          text-align: center;
+          font-size: 14px;
+          font-weight: 600;
+        }
+
+        span {
+          color: rgba(52, 52, 52, 0.756);
+        }
+
+        div {
+          width: 25%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        div:nth-child(3) {
+          width: 50%;
+
+          p:nth-child(1) {
+            margin-left: auto;
+          }
+          p:nth-child(2) {
+            margin: 0 10px 0 auto;
+          }
+        }
+        div:nth-child(2) {
+          border-left: 1px solid rgba(69, 91, 217, 0.204);
+          border-right: 1px solid rgba(69, 91, 217, 0.204);
+        }
+      }
+      .resellers-card-last-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+
+        p {
+          margin: 0 10px 0 auto;
+          font-size: 13px;
+          font-weight: 600;
+        }
+      }
+      .plus-icon {
+        display: block;
+        width: 25px;
+        cursor: pointer;
+      }
+    }
+    .selling-timestamp {
+      padding: 0 20px;
+
+      .time-input-wrapper {
+        display: flex;
+        align-items: center;
+
+        p {
+          margin: 0 5px 0 0;
+        }
+
+        input {
+          width: 20%;
+          margin-right: 20px;
+        }
+
+        a {
+          text-decoration: none;
+          margin-left: auto;
+          font-size: 14px;
+          background-color: #f4cd46;
+          color: #343434;
+          font-weight: 600;
+          padding: 5px 15px;
+          border-radius: 10px;
+        }
+      }
+    }
+    .selling-overview-wrapper {
+      display: flex;
+      background-color: #fff;
+      border-radius: 10px;
+      width: 95%;
+      margin: 0 auto;
+      padding: 20px 5px;
+
+      .date {
+        margin: 0;
+        background-color: rgba(124, 140, 228, 0.356);
+        width: fit-content;
+        padding: 5px 15px;
+        border-radius: 10px;
+        font-size: 14px;
+        opacity: 0.75;
+        font-weight: 600;
+      }
+
+      .heading {
+        margin: 0 0 10px 0;
+        text-align: center;
+      }
+
+      div:nth-child(1) {
+        width: 20%;
+      }
+      .selling-overview-date {
+        display: flex;
+        align-items: center;
+      }
+      div:nth-child(2) {
+        width: 50%;
+
+        div {
+          width: 100%;
+          background-color: #ebebee;
+          display: flex;
+          padding: 5px;
+          border-radius: 10px;
+          overflow-x: auto;
+
+          div {
+            width: 33.33%;
+            flex-direction: column;
+
+            p {
+              margin: 0;
+              font-size: 13px;
+              font-weight: 600;
+              text-align: center;
+            }
+          }
+        }
+      }
+      div:nth-child(3) {
+        width: 30%;
+      }
+    }
+  }
+}

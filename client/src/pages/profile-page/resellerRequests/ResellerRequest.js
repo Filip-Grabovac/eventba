@@ -8,7 +8,11 @@ export const ResellerRequest = ({ resellersRequests }) => {
   console.log(requestsData);
   return (
     <div>
-      <ProfileTopPart hasSearch={false} content="Lista preprodavača" />
+      <ProfileTopPart
+        hasSearch={false}
+        content="Lista preprodavača"
+        searchContent="Email/Korisnicko ime"
+      />
 
       <div className="reseller-requests-wrapper">
         {requestsData && requestsData[0] !== undefined ? (
