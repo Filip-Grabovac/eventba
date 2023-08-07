@@ -21,6 +21,7 @@
   .profile-concert-wrapper {
     .check-ticket-manager {
       display: flex;
+      justify-content: center;
       margin: 20px 0 30px 0;
 
       .ticket-check-part {
@@ -28,6 +29,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        border-right: 2px solid rgba(69, 91, 217, 0.512);
 
         div {
           margin: 0 10px;
@@ -45,9 +47,8 @@
           cursor: pointer;
         }
 
-        &:nth-child(2) {
-          border-left: 2px solid rgba(69, 91, 217, 0.512);
-          border-right: 2px solid rgba(69, 91, 217, 0.512);
+        &:last-child {
+          border-right: none;
         }
       }
     }

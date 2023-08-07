@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const concertHistorySchema = new mongoose.Schema({
   date: {
@@ -32,6 +32,10 @@ const ConcertSchema = new mongoose.Schema({
       total_amount: {
         type: Number,
         default: 0, // Set default value for total_amount
+      },
+      amount_inBAM: {
+        type: Number,
+        default: 0, // Set default value for amount_inBAM
       },
       total_loaned: {
         type: Number,
@@ -67,7 +71,7 @@ const ConcertSchema = new mongoose.Schema({
     place: String,
     type: {
       type: String,
-      default: "hall", // Set the default value to "hall"
+      default: 'hall', // Set the default value to "hall"
     },
   },
   is_promoted_event: {
@@ -77,7 +81,7 @@ const ConcertSchema = new mongoose.Schema({
   description: String,
   organizer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
   },
   concertHistory: [concertHistorySchema],
   previousSoldAmount: {

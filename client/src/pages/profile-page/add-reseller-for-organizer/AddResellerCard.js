@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import ArrowIcon from "../../../assets/ikonice/arrow_icon.svg";
+import React, { useEffect, useRef, useState } from 'react';
+import ArrowIcon from '../../../assets/ikonice/arrow_icon.svg';
 
-import TicketCategories from "./TicketCategories";
+import TicketCategories from './TicketCategories';
 export const AddResellerCard = ({ userData, freeSaleData, concertId }) => {
   const [dropdown, setDropdown] = useState(false);
   const [hasBorderRadius, setBorderRadius] = useState(true);
@@ -35,9 +35,9 @@ export const AddResellerCard = ({ userData, freeSaleData, concertId }) => {
   return (
     <div
       style={{
-        borderBottomLeftRadius: hasBorderRadius ? "7px" : "0",
-        borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
-        marginBottom: dropdown ? dropdownHeight + 10 : "10px",
+        borderBottomLeftRadius: hasBorderRadius ? '7px' : '0',
+        borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
+        marginBottom: dropdown ? dropdownHeight + 10 : '10px',
       }}
       className="myevent-card reseller-card"
     >
@@ -54,15 +54,15 @@ export const AddResellerCard = ({ userData, freeSaleData, concertId }) => {
         onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
         className="myevent-card-part-3"
         style={{
-          borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
+          borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
           backgroundColor: hasBorderRadius
-            ? "rgba(69, 91, 217, 0.7)"
-            : "rgba(69, 91, 217, 0.5)",
+            ? 'rgba(69, 91, 217, 0.7)'
+            : 'rgba(69, 91, 217, 0.5)',
         }}
       >
         <p>Dodjeli ulaznice</p>
         <img
-          style={dropdown ? { rotate: "-180deg" } : { rotate: "0deg" }}
+          style={dropdown ? { rotate: '-180deg' } : { rotate: '0deg' }}
           className="dropdown-arrow"
           src={ArrowIcon}
           alt="Drop"

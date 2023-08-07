@@ -1,15 +1,15 @@
-const concertSchema = require("../models/Concert");
-const connectDB = require("../db/connect");
+const concertSchema = require('../models/Concert');
+const connectDB = require('../db/connect');
 const Concert = connectDB(process.env.DATABASE_URL).model(
-  "Concert",
+  'Concert',
   concertSchema,
-  "concerts"
+  'concerts'
 );
 const getAllConcerts = async (req, res) => {
   try {
     const currentDate = new Date(); // Get the current date and time
     const concerts = await Concert.find({ time_of_event: { $gt: currentDate } })
-      .select("_id time_of_event performer_name place")
+      .select('_id time_of_event performer_name place')
       .exec();
 
     res.status(200).json({ concerts });
@@ -22,29 +22,29 @@ const findConcert = async (req, res) => {
   try {
     const { type, value } = req.params;
     let query;
-    if (type === "is_promoted_event") {
-      query = { is_promoted_event: value === "true" };
-    } else if (type === "id") {
+    if (type === 'is_promoted_event') {
+      query = { is_promoted_event: value === 'true' };
+    } else if (type === 'id') {
       query = { _id: value };
-    } else if (type === "this_week") {
+    } else if (type === 'this_week') {
       const today = new Date();
       const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
       query = { time_of_event: { $gte: today, $lt: nextWeek } };
-    } else if (type === "type") {
+    } else if (type === 'type') {
       query = { type: { $in: [value] } };
-    } else if (type === "search") {
-      query = { performer_name: { $regex: value, $options: "i" } };
+    } else if (type === 'search') {
+      query = { performer_name: { $regex: value, $options: 'i' } };
     } else {
-      return res.status(400).json({ error: "Pogrešna pretraga" });
+      return res.status(400).json({ error: 'Pogrešna pretraga' });
     }
 
     const concert = await Concert.find(query);
 
     if (
-      type === "id" ||
-      type === "this_week" ||
-      type === "type" ||
-      type === "search"
+      type === 'id' ||
+      type === 'this_week' ||
+      type === 'type' ||
+      type === 'search'
     ) {
       // Return the whole concert object when searching by ID
       return res.status(200).json(concert);
@@ -57,7 +57,7 @@ const findConcert = async (req, res) => {
     res.status(200).json(filteredConcerts);
   } catch (error) {
     res.status(500).json({
-      error: "Došlo je do greške na serveru, molimo pokušajte kasnije",
+      error: 'Došlo je do greške na serveru, molimo pokušajte kasnije',
     });
   }
 };
@@ -68,10 +68,10 @@ const createEvent = async (req, res) => {
     const event = await Concert.create(req.body);
     res
       .status(201)
-      .json({ message: "Uspješno dodan događaj", eventData: event });
+      .json({ message: 'Uspješno dodan događaj', eventData: event });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Greška pri dodavanju događaja" });
+    res.status(500).json({ error: 'Greška pri dodavanju događaja' });
   }
 };
 
@@ -82,11 +82,11 @@ const searchEventByType = async (req, res) => {
   if (search_value) {
     query = {
       $or: [
-        { performer_name: { $regex: search_value, $options: "i" } },
-        { "place.country": { $regex: search_value, $options: "i" } },
-        { "place.city": { $regex: search_value, $options: "i" } },
-        { "place.place": { $regex: search_value, $options: "i" } },
-        { description: { $regex: search_value, $options: "i" } },
+        { performer_name: { $regex: search_value, $options: 'i' } },
+        { 'place.country': { $regex: search_value, $options: 'i' } },
+        { 'place.city': { $regex: search_value, $options: 'i' } },
+        { 'place.place': { $regex: search_value, $options: 'i' } },
+        { description: { $regex: search_value, $options: 'i' } },
       ],
       $and: [{ type: type }],
     };
@@ -99,7 +99,7 @@ const searchEventByType = async (req, res) => {
     const concert = await Concert.find(query);
     res.status(200).json(concert);
   } catch (err) {
-    res.status(500).json({ message: "Greška pri pretrazi događaja." });
+    res.status(500).json({ message: 'Greška pri pretrazi događaja.' });
   }
 };
 
@@ -118,7 +118,7 @@ const getEventsByOrganizerId = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ message: "Greška u dostavljanju podataka za organizatora." });
+      .json({ message: 'Greška u dostavljanju podataka za organizatora.' });
   }
 };
 
@@ -130,53 +130,85 @@ const updateConcertProperty = async (req, res) => {
     if (!id) {
       return res
         .status(400)
-        .json({ message: "Niste proslijedili id koncerta." });
+        .json({ message: 'Niste proslijedili id koncerta.' });
     }
 
     const concert = await Concert.findById(id);
 
     if (!concert) {
-      return res.status(404).json({ message: "Koncert nije pronađen." });
+      return res.status(404).json({ message: 'Koncert nije pronađen.' });
     }
 
-    if (type === "suggested") {
-      if (value === "true") {
+    if (type === 'suggested') {
+      if (value === 'true') {
         // Add 'suggested' to the 'type' array
-        concert.type.push("suggested");
-        message = "Uspješno ste preporučili događaj.";
+        concert.type.push('suggested');
+        message = 'Uspješno ste preporučili događaj.';
       } else {
         // Remove 'suggested' from the 'type' array
-        concert.type = concert.type.filter((item) => item !== "suggested");
-        message = "Uspješno ste uklonili preporuku.";
+        concert.type = concert.type.filter((item) => item !== 'suggested');
+        message = 'Uspješno ste uklonili preporuku.';
       }
-    } else if (type === "promoted") {
+    } else if (type === 'promoted') {
       // Update the 'is_promoted_event' property
-      concert.is_promoted_event = value === "true";
+      concert.is_promoted_event = value === 'true';
 
-      if (value === "true") message = "Uspješno ste promovirali događaj.";
-      else message = "Uspješno ste uklonili promociju događaja.";
+      if (value === 'true') message = 'Uspješno ste promovirali događaj.';
+      else message = 'Uspješno ste uklonili promociju događaja.';
     } else {
       // If an invalid type is provided in the URL
-      return res.status(400).json({ message: "Nevažeći tip." });
+      return res.status(400).json({ message: 'Nevažeći tip.' });
     }
 
     await concert.save();
 
     res.status(200).json({ message: message });
   } catch (err) {
-    res.status(500).json({ message: "Greška pri ažuriranju događaja." });
+    res.status(500).json({ message: 'Greška pri ažuriranju događaja.' });
   }
 };
+
 const resellersConcertInfo = async (req, res) => {
-  // const concertId = req.body;
-  // const resellerId = req.params;
-  console.log(req);
+  const { userId } = req.params;
+  const { concertIds } = req.body;
+
   try {
-    res.status(200).json(events);
+    // Validate that concertIds is an array
+    if (!Array.isArray(concertIds)) {
+      return res
+        .status(400)
+        .json({ message: 'concertIds should be an array.' });
+    }
+
+    // Find all concerts with "_id" property matching the ids from the array
+    const concerts = await Concert.find({ _id: { $in: concertIds } });
+
+    // Format the data as requested
+    const formattedConcerts = concerts.map((concert) => {
+      const { poster, tickets, performer_name, time_of_event, place } = concert;
+      const freeSaleTickets = tickets.free_sale;
+      const amountInBAM = tickets.free_sale.amount_inBAM;
+
+      // Find the reseller with the matching id
+      const reseller = freeSaleTickets.resellers.find(
+        (reseller) => reseller.reseller_id == userId
+      );
+
+      return {
+        poster,
+        reseller,
+        performer_name,
+        time_of_event,
+        place,
+        amountInBAM,
+      };
+    });
+
+    res.status(200).json({ resellersConcerts: formattedConcerts });
   } catch (err) {
     res
       .status(500)
-      .json({ message: "Greška u dostavljanju podataka za preprodavača." });
+      .json({ message: 'Error while fetching concerts and resellers.' });
   }
 };
 
