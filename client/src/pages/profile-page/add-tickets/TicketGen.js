@@ -19,10 +19,6 @@ export const TicketGen = ({ concertData }) => {
     e.preventDefault();
     setPdfFilePath("");
     setLoader(true);
-    console.log({
-      ticketGenData: tickets,
-      concertData,
-    });
 
     try {
       // Send the POST request using Axios and wait for the response
@@ -35,8 +31,8 @@ export const TicketGen = ({ concertData }) => {
       );
 
       // Extract the pdfFilePath from the response and update the state
-      const { pdfFilePath } = response.data;
-      setPdfFilePath(pdfFilePath);
+
+      await setPdfFilePath(response.data.pdfFilePath);
       setLoader(false);
       // Show a toast message or any other indication that the tickets have been generated successfully
       toast.success(

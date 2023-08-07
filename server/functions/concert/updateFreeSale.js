@@ -13,9 +13,11 @@ async function updateFreeSale(concertId, ticketList) {
 
     // Check if the concert document exists
     if (concert) {
-      concert.tickets.total_sold_amount += 1;
-
-      const ticketNumber = await concert.tickets.total_sold_amount
+      const ticketNumber = await Number(
+        concert.tickets.free_sale.total_amount +
+          concert.tickets.online_sale.sold_amount +
+          1
+      )
         .toString()
         .padStart(6, "0");
       // Ensure ticketList is an array, even for a single ticket
@@ -75,7 +77,6 @@ async function updateFreeSale(concertId, ticketList) {
     console.error("An error occurred:", error);
   }
 }
-
 async function updateLoanTickets(ticketInputs, userData, concertId) {
   try {
     const Concert = connectDB(process.env.DATABASE_URL).model(
@@ -111,7 +112,7 @@ async function updateLoanTickets(ticketInputs, userData, concertId) {
     );
 
     if (existingResellerIndex !== -1) {
-      // If the reseller already exists, update the loaned amounts
+      // If the reseller already exists, update the loaned amounts and handle new category
       for (const category in ticketInputs) {
         if (
           concert.tickets.free_sale.resellers[existingResellerIndex].type[
@@ -121,6 +122,16 @@ async function updateLoanTickets(ticketInputs, userData, concertId) {
           concert.tickets.free_sale.resellers[existingResellerIndex].type[
             category
           ].loaned += parseInt(ticketInputs[category]);
+        } else {
+          const categoryName = concert.tickets.free_sale.type[category].name;
+          concert.tickets.free_sale.resellers[existingResellerIndex].type[
+            category
+          ] = {
+            loaned: parseInt(ticketInputs[category]),
+            name: categoryName,
+            price: parseInt(concert.tickets.free_sale.type[category].price),
+            sold: 0,
+          };
         }
       }
     } else {
@@ -137,6 +148,7 @@ async function updateLoanTickets(ticketInputs, userData, concertId) {
           resellerTickets.type[category] = {
             loaned: parseInt(ticketInputs[category]),
             name: categoryName,
+            price: parseInt(concert.tickets.free_sale.type[category].price),
           };
 
           if (!resellerTickets.type[category].hasOwnProperty("sold")) {

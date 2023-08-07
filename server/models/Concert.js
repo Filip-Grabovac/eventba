@@ -21,7 +21,6 @@ const ConcertSchema = new mongoose.Schema({
     portrait: String,
   },
   tickets: {
-    total_sold_amount: { type: Number, default: 0 },
     online_sale: {
       total_amount: Number,
       sold_amount: Number,
@@ -44,6 +43,10 @@ const ConcertSchema = new mongoose.Schema({
       type: {
         type: Object,
         default: {}, // Set default value for type
+      },
+      amount_inBAM: {
+        type: Number,
+        default: 0, // Set default value for type
       },
       resellers: {
         type: [

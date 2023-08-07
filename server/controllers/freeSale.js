@@ -14,7 +14,7 @@ const getTickets = async (req, res) => {
     // Generate the current date at the start of the ticket generation process
     const currentDate = new Date();
     const fileDate = currentDate.getTime();
-    console.log(concertData);
+
     // Call the ticket generation function and pass the required data along with the formatted date
     const ticketNumber = await updateFreeSale(concertData._id, ticketGenData);
     await generateFreeSaleTicket({
@@ -41,7 +41,7 @@ const getTickets = async (req, res) => {
       `${process.env.REACT_APP_API_URL}/api/v1/freeSale/download-tickets?pdfFilePath=${pdfFilePath}`
     );
     // Send the path of the combined PDF file in the response
-    res.json({ fileDate });
+    res.json({ pdfFilePath });
   } catch (error) {
     console.log("Error generating and downloading tickets:", error);
     res.status(500).json({ error: "Internal Server Error" });
