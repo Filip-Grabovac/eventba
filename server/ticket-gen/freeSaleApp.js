@@ -17,6 +17,7 @@ async function generateFreeSaleTicket({
   ticketGenData,
   concertData,
   fileDate,
+  ticketNumber,
 }) {
   const tickets = [];
   const allPdfPaths = [];
@@ -57,10 +58,11 @@ async function generateFreeSaleTicket({
         };
 
         // Create a new ticket document with the concert ID
-        const Ticket = connectDB(
-          "mongodb://tickets:AqpRhnhu7DA4M8nYDVLIqIDdtbFFewSkIdedmr8fzdkpEZqKje@185.99.2.232:27017/tickets?authMechanism=DEFAULT"
-        ).model("Ticket", TicketSchema, `tickets_for_${concertData._id}`);
-
+        const Ticket = connectDB(process.env.DATABASE_URL_TICKET).model(
+          "Ticket",
+          TicketSchema,
+          `tickets_for_${concertData._id}`
+        );
         const savedTicket = await new Ticket(ticketDocument).save();
         const serialNumber = savedTicket._id; // Retrieve the ticket's _id
 
@@ -69,7 +71,8 @@ async function generateFreeSaleTicket({
         await generateQRCodeFree(String(serialNumber), qrCodeName);
         const qrPath = `images/${qrCodeName}`;
 
-        tickets.push({ serialNumber, qrPath });
+        tickets.push({ serialNumber, qrPath, ticketNumber });
+        ticketNumber = (ticketNumber + 1).toString().padStart(6, "0");
       }
 
       const port = generateRandomPort(3000, 60000);

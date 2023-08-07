@@ -195,18 +195,6 @@ export const OrganizeEventPage = () => {
       event.tickets.online_sale.total_amount += parseInt(ticket.amount);
     });
 
-    ticketInputs.forEach((ticket, index) => {
-      const categoryKey = `Kategorija ${index + 1}`;
-      event.tickets.online_sale.type[categoryKey] = {
-        amount: Number(ticket.amount),
-        maxAmount: Number(ticket.amount),
-        price: Number(ticket.price),
-        name: ticket.name,
-      };
-
-      event.tickets.online_sale.total_amount += parseInt(ticket.amount);
-    });
-
     // Check if everything is valid(all fields + images)
     if (
       !selectedImages[0].includes("uplad_img_placeholder") &&

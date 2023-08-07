@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { GetAllEvents } from '../add-tickets/GetAllEvents';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
-import { EventDetails } from '../add-tickets/EventDetails';
-import { ProfileTopPart } from '../userManager/ProfileTopPart';
-import { AddResellerCard } from './AddResellerCard';
+import React, { useEffect, useState } from "react";
+import { GetAllEvents } from "../add-tickets/GetAllEvents";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { EventDetails } from "../add-tickets/EventDetails";
+import { ProfileTopPart } from "../userManager/ProfileTopPart";
+import { AddResellerCard } from "./AddResellerCard";
+import ConcertComponent from "./ConcertComponent";
 
 export const AddReseller = ({ resellers }) => {
   const userId = useSelector((state) => state.userState.user);
   const [allEvents, setAllEvents] = useState([]);
-  const [event, setEvent] = useState('');
+  const [event, setEvent] = useState("");
   const [concertData, setConcertData] = useState(null);
   const [filteredResellers, setFilteredResellers] = useState(resellers);
 
@@ -25,7 +26,7 @@ export const AddReseller = ({ resellers }) => {
       );
       setAllEvents(response.data);
     } catch (error) {
-      console.error('Error fetching entrance checker:', error);
+      console.error("Error fetching entrance checker:", error);
     }
   };
 
@@ -35,7 +36,7 @@ export const AddReseller = ({ resellers }) => {
 
     // Extracting the data-id from the selected option
     const dataId =
-      e.target.options[e.target.selectedIndex].getAttribute('data-id');
+      e.target.options[e.target.selectedIndex].getAttribute("data-id");
 
     // Fetching concert data using the extracted dataId
     try {
@@ -44,7 +45,7 @@ export const AddReseller = ({ resellers }) => {
       );
       setConcertData(response.data[0]);
     } catch (error) {
-      console.error('Error fetching concert data:', error);
+      console.error("Error fetching concert data:", error);
     }
   };
 
@@ -85,36 +86,21 @@ export const AddReseller = ({ resellers }) => {
               />
               {filteredResellers &&
                 filteredResellers.map((e, i) => {
-                  return <AddResellerCard data={e} key={i} />;
+                  return (
+                    <AddResellerCard
+                      freeSaleData={concertData.tickets.free_sale}
+                      concertId={concertData._id}
+                      userData={e}
+                      key={i}
+                    />
+                  );
                 })}
             </>
           ) : (
-            ''
+            ""
           )}
         </div>
-        {concertData ? (
-          <div className="bottom-part">
-            <h6>Ulaznice za slobodnu prodaju</h6>
-            <p>Ukupno: {concertData.tickets.free_sale.total_amount}</p>
-            <p>Zaduženo: {concertData.tickets.free_sale.total_loaned}</p>
-            <p>
-              Dostupno:{' '}
-              {concertData.tickets.free_sale.total_amount -
-                concertData.tickets.free_sale.total_loaned}
-            </p>
-            <div className="line"></div>
-            <div className="category">
-              <p>Kategorija 1 - Parter</p>
-              <p>Dostupno/zaduženo: 20/400</p>
-            </div>
-            <div className="category">
-              <p>Kategorija 1 - Parter</p>
-              <p>Dostupno/zaduženo: 20/400</p>
-            </div>
-          </div>
-        ) : (
-          ''
-        )}
+        <ConcertComponent concertData={concertData} />
       </div>
     </div>
   );

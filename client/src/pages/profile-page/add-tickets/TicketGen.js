@@ -14,7 +14,6 @@ export const TicketGen = ({ concertData }) => {
   const [provision, setProvision] = useState(0);
   const [pdfFilePath, setPdfFilePath] = useState("");
   const [loader, setLoader] = useState(false);
-  console.log(pdfFilePath);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();

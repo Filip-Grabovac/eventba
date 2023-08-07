@@ -1,36 +1,45 @@
 const { generateFreeSaleTicket } = require("../ticket-gen/freeSaleApp");
 const path = require("path");
 const sendMailWithHyperlink = require("../mailer/mailer");
-const updateFreeSale = require("../functions/concert/updateFreeSale");
+const {
+  updateFreeSale,
+  updateLoanTickets,
+} = require("../functions/concert/updateFreeSale");
 
 const getTickets = async (req, res) => {
   try {
     // Get the required data from the request body
-    const { ticketGenData, concertData, email } = req.body;
+    const { ticketGenData, concertData } = req.body;
 
     // Generate the current date at the start of the ticket generation process
     const currentDate = new Date();
     const fileDate = currentDate.getTime();
+    console.log(concertData);
     // Call the ticket generation function and pass the required data along with the formatted date
-    await updateFreeSale(concertData._id, ticketGenData);
-    // await generateFreeSaleTicket({ ticketGenData, concertData, fileDate });
+    const ticketNumber = await updateFreeSale(concertData._id, ticketGenData);
+    await generateFreeSaleTicket({
+      ticketGenData,
+      concertData,
+      fileDate,
+      ticketNumber,
+    });
 
     // Get the path of the combined PDF file using the same formatted date
-    // const pdfFilePath = path.resolve(
-    //   __dirname,
-    //   "..",
-    //   "ticket-gen",
-    //   "pdf-folder",
-    //   `tickets_${fileDate}.pdf`
-    // );
+    const pdfFilePath = path.resolve(
+      __dirname,
+      "..",
+      "ticket-gen",
+      "pdf-folder",
+      `tickets_${fileDate}.pdf`
+    );
 
-    // sendMailWithHyperlink(
-    //   email,
-    //   "Ulaznice za slobodnu prodaju",
-    //   `Preuzmite ulaznice na linku: `,
-    //   "Ulaznice",
-    //   `${process.env.REACT_APP_API_URL}/api/v1/freeSale/download-tickets?pdfFilePath=${pdfFilePath}`
-    // );
+    sendMailWithHyperlink(
+      "13kreso@gmail.com",
+      "Ulaznice za slobodnu prodaju",
+      `Preuzmite ulaznice na linku: `,
+      "Ulaznice",
+      `${process.env.REACT_APP_API_URL}/api/v1/freeSale/download-tickets?pdfFilePath=${pdfFilePath}`
+    );
     // Send the path of the combined PDF file in the response
     res.json({ fileDate });
   } catch (error) {
@@ -59,4 +68,15 @@ const downloadTickets = async (req, res) => {
   });
 };
 
-module.exports = { getTickets, downloadTickets };
+const loanTickets = async (req, res) => {
+  try {
+    const { ticketInputs, userData, concertId } = req.body;
+    await updateLoanTickets(ticketInputs, userData, concertId);
+    res.status(201).json({ success: "Uspješano ste zadužili ulaznice!" });
+  } catch (error) {
+    console.log("Error generating and downloading tickets:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = { getTickets, downloadTickets, loanTickets };

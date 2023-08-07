@@ -35,7 +35,9 @@
                   >
 
                   <div class="price-qr">
-                    <span class="serial-number">N<%= ticketsNum %></span>
+                    <span class="serial-number"
+                      >N<%= ticket.ticketNumber %></span
+                    >
                     <div class="price">
                       Cijena:
                       <strong><%= ticketPrice %> <small>BAM</small></strong>
@@ -55,7 +57,7 @@
             </div>
             <div class="right">
               <div class="left-part">
-                <span class="serial-number">N<%= ticketsNum %></span>
+                <span class="serial-number">N<%= ticket.ticketNumber %></span>
                 <div>
                   <span>Kategorija:</span>
                   <span class="color-text"><%= categoryName %></span>

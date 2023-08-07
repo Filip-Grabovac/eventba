@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { UserManagerCard } from './UserManagerCard';
-import axios from 'axios';
-import { ProfileTopPart } from './ProfileTopPart';
+import React, { useEffect, useState } from "react";
+import { UserManagerCard } from "./UserManagerCard";
+import axios from "axios";
+import { ProfileTopPart } from "./ProfileTopPart";
 
 export const UserManager = () => {
-  const [data, setData] = useState('Pretrazi korisnike');
+  const [data, setData] = useState("Pretrazi korisnike");
 
   const fetchData = async (e) => {
     try {
       const response = await axios.get(
         process.env.REACT_APP_API_URL + `/api/v1/users/search/${e.target.value}`
-      ); // Replace 'https://api.example.com/data' with your API endpoint
+      );
       setData(response.data);
     } catch (error) {
-      setData('Pretrazi korisnike');
-      console.error('Error fetching data:', error);
+      setData("Pretrazi korisnike");
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -28,8 +28,8 @@ export const UserManager = () => {
 
   // If last user is deleted
   useEffect(() => {
-    if (typeof data === 'object' && data.users[0] === undefined) {
-      setData('Pretrazi korisnike');
+    if (typeof data === "object" && data.users[0] === undefined) {
+      setData("Pretrazi korisnike");
     }
   }, [data]);
 
@@ -42,7 +42,7 @@ export const UserManager = () => {
         searchContent="Email/Korisnicko ime"
       />
       <div className="user-manager-bottom">
-        {data && typeof data === 'object' ? (
+        {data && typeof data === "object" ? (
           data.users.map((e, i) => {
             return (
               e && (

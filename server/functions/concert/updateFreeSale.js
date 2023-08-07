@@ -13,6 +13,11 @@ async function updateFreeSale(concertId, ticketList) {
 
     // Check if the concert document exists
     if (concert) {
+      concert.tickets.total_sold_amount += 1;
+
+      const ticketNumber = await concert.tickets.total_sold_amount
+        .toString()
+        .padStart(6, "0");
       // Ensure ticketList is an array, even for a single ticket
       const ticketsArray = Array.isArray(ticketList)
         ? ticketList
@@ -40,6 +45,7 @@ async function updateFreeSale(concertId, ticketList) {
             maxAmount: newTicketNum,
             price: parseInt(ticketPrice),
             name: ticketType,
+            loaned: 0,
           };
         }
 
@@ -61,6 +67,7 @@ async function updateFreeSale(concertId, ticketList) {
       console.log("Update result:", updateResult);
 
       console.log("Concert tickets updated successfully.");
+      return ticketNumber;
     } else {
       console.log("Concert not found.");
     }
@@ -69,4 +76,94 @@ async function updateFreeSale(concertId, ticketList) {
   }
 }
 
-module.exports = updateFreeSale;
+async function updateLoanTickets(ticketInputs, userData, concertId) {
+  try {
+    const Concert = connectDB(process.env.DATABASE_URL).model(
+      "Concert",
+      concertSchema,
+      "concerts"
+    );
+    // Retrieve the concert document from the collection
+    const concert = await Concert.findById(concertId);
+
+    // Update the concert's free_sale.type object and total_loaned value
+    for (const category in ticketInputs) {
+      if (concert.tickets.free_sale.type[category]) {
+        const categoryName = concert.tickets.free_sale.type[category].name;
+        concert.tickets.free_sale.type[category].loaned += parseInt(
+          ticketInputs[category]
+        );
+        concert.tickets.free_sale.total_loaned += parseInt(
+          ticketInputs[category]
+        );
+      }
+    }
+
+    // Check if the resellers array exists, if not, create it
+    if (!concert.tickets.free_sale.resellers) {
+      concert.tickets.free_sale.resellers = [];
+    }
+
+    // Find if a reseller with the same name already exists in the array
+    const existingResellerIndex = concert.tickets.free_sale.resellers.findIndex(
+      (reseller) =>
+        reseller.reseller_name === userData.reseller_info.sellingPlaceName
+    );
+
+    if (existingResellerIndex !== -1) {
+      // If the reseller already exists, update the loaned amounts
+      for (const category in ticketInputs) {
+        if (
+          concert.tickets.free_sale.resellers[existingResellerIndex].type[
+            category
+          ]
+        ) {
+          concert.tickets.free_sale.resellers[existingResellerIndex].type[
+            category
+          ].loaned += parseInt(ticketInputs[category]);
+        }
+      }
+    } else {
+      // If the reseller doesn't exist, push the new resellerTickets object
+      const resellerTickets = {
+        reseller_name: userData.reseller_info.sellingPlaceName,
+        reseller_address: userData.reseller_info.sellingPlaceAddress,
+        reseller_id: userData._id,
+        type: {},
+      };
+      for (const category in ticketInputs) {
+        if (concert.tickets.free_sale.type[category]) {
+          const categoryName = concert.tickets.free_sale.type[category].name;
+          resellerTickets.type[category] = {
+            loaned: parseInt(ticketInputs[category]),
+            name: categoryName,
+          };
+
+          if (!resellerTickets.type[category].hasOwnProperty("sold")) {
+            resellerTickets.type[category].sold = 0;
+          }
+        }
+      }
+      concert.tickets.free_sale.resellers.push(resellerTickets);
+    }
+
+    // Save the updated concert document
+    await Concert.updateOne(
+      { _id: concertId },
+      {
+        $set: {
+          "tickets.free_sale.type": concert.tickets.free_sale.type,
+          "tickets.free_sale.total_loaned":
+            concert.tickets.free_sale.total_loaned,
+          "tickets.free_sale.resellers": concert.tickets.free_sale.resellers,
+        },
+      }
+    );
+
+    console.log("Tickets successfully updated for the reseller.");
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+}
+
+module.exports = { updateFreeSale, updateLoanTickets };
