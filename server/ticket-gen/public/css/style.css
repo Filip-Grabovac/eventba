@@ -23,7 +23,6 @@ body {
 }
 
 .section1 {
-  page-break-after: always;
   .nav {
     padding: 10px;
     display: flex;
