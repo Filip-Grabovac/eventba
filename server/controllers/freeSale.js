@@ -6,6 +6,8 @@ const {
   updateLoanTickets,
 } = require("../functions/concert/updateFreeSale");
 const updateResellerInfo = require("../functions/concert/updateResellerInfo");
+const addTransactionController = require("../functions/concert/addTransaction");
+const verifyTransactionController = require("../functions/concert/verifyTransaction");
 
 const getTickets = async (req, res) => {
   try {
@@ -72,7 +74,6 @@ const downloadTickets = async (req, res) => {
 const loanTickets = async (req, res) => {
   try {
     const { ticketInputs, userData, concertId } = req.body;
-    console.log({ ticketInputs, userData, concertId });
     const concert = await updateLoanTickets(ticketInputs, userData, concertId);
 
     await updateResellerInfo(userData, concertId);
@@ -85,4 +86,30 @@ const loanTickets = async (req, res) => {
   }
 };
 
-module.exports = { getTickets, downloadTickets, loanTickets };
+const addTransaction = async (req, res) => {
+  const { transactionData, resellerId, concertId } = req.body;
+  try {
+    addTransactionController(transactionData, resellerId, concertId);
+  } catch (error) {
+    console.log("Error generating and downloading tickets:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const verifyTransaction = async (req, res) => {
+  const { transactionData, resellerId, concertId } = req.body;
+  try {
+    verifyTransactionController(transactionData, resellerId, concertId);
+  } catch (error) {
+    console.log("Error generating and downloading tickets:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = {
+  getTickets,
+  downloadTickets,
+  loanTickets,
+  addTransaction,
+  verifyTransaction,
+};
