@@ -16,7 +16,8 @@ async function updateFreeSale(concertId, ticketList) {
       const ticketNumber = await Number(
         concert.tickets.free_sale.total_amount +
           concert.tickets.online_sale.sold_amount +
-          1
+          1 +
+          concert.tickets.free_sale.sold_amount
       )
         .toString()
         .padStart(6, "0");
@@ -174,6 +175,7 @@ async function updateLoanTickets(ticketInputs, userData, concertId) {
     );
 
     console.log("Tickets successfully updated for the reseller.");
+    return concert;
   } catch (error) {
     console.error("An error occurred:", error);
   }

@@ -22,7 +22,8 @@ async function updateTicketAmount(concertId, price) {
 
         const ticketNumber = await Number(
           concert.tickets.online_sale.sold_amount +
-            concert.tickets.free_sale.total_amount
+            concert.tickets.free_sale.total_amount +
+            concert.tickets.free_sale.sold_amount
         )
           .toString()
           .padStart(6, "0");

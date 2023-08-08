@@ -2,7 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import ArrowIcon from "../../../assets/ikonice/arrow_icon.svg";
 
 import TicketCategories from "./TicketCategories";
-export const AddResellerCard = ({ userData, freeSaleData, concertId }) => {
+export const AddResellerCard = ({
+  userData,
+  freeSaleData,
+  concertId,
+  setConcertData,
+}) => {
   const [dropdown, setDropdown] = useState(false);
   const [hasBorderRadius, setBorderRadius] = useState(true);
   const [dropdownHeight, setDropdownHeight] = useState(0);
@@ -69,6 +74,7 @@ export const AddResellerCard = ({ userData, freeSaleData, concertId }) => {
         />
       </div>
       <TicketCategories
+        setConcertData={setConcertData}
         userData={userData}
         concertId={concertId}
         freeSaleData={freeSaleData}

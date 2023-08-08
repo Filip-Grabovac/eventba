@@ -73,9 +73,12 @@ const loanTickets = async (req, res) => {
   try {
     const { ticketInputs, userData, concertId } = req.body;
     console.log({ ticketInputs, userData, concertId });
-    await updateLoanTickets(ticketInputs, userData, concertId);
+    const concert = await updateLoanTickets(ticketInputs, userData, concertId);
+
     await updateResellerInfo(userData, concertId);
-    res.status(201).json({ success: "Uspješano ste zadužili ulaznice!" });
+    res
+      .status(201)
+      .json({ success: "Uspješano ste zadužili ulaznice!", concert });
   } catch (error) {
     console.log("Error generating and downloading tickets:", error);
     res.status(500).json({ error: "Internal Server Error" });

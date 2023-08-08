@@ -88,6 +88,7 @@ export const AddReseller = ({ resellers }) => {
                 filteredResellers.map((e, i) => {
                   return (
                     <AddResellerCard
+                      setConcertData={setConcertData}
                       freeSaleData={concertData.tickets.free_sale}
                       concertId={concertData._id}
                       userData={e}

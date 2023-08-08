@@ -10,6 +10,7 @@ const TicketCategories = ({
   dropdownRef,
   userData,
   concertId,
+  setConcertData,
 }) => {
   const [ticketInputs, setTicketInputs] = useState({});
   const handleInputChange = (categoryKey, amount) => {
@@ -37,12 +38,12 @@ const TicketCategories = ({
 
     try {
       // Send the POST request using Axios and wait for the response
-
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/v1/freeSale/loan-tickets`,
         { ticketInputs, userData, concertId }
       );
-
+      setTicketInputs({});
+      setConcertData(res.data.concert);
       toast.success(res.data.success, toastSetup("top-right", 3000));
     } catch (error) {
       // Handle any errors that occurred during the request
