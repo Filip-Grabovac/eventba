@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import PlusIcon from '../../../assets/ikonice/plus_icon.svg';
-import { AddPayment } from './AddPayment';
-import { SellingInfo } from './SellingInfo';
+import React, { useEffect, useState } from "react";
+import PlusIcon from "../../../assets/ikonice/plus_icon.svg";
+import { AddPayment } from "./AddPayment";
+import { SellingInfo } from "./SellingInfo";
 
 export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
   const [addedInputs, setAddedInputs] = useState(0);
@@ -65,7 +65,7 @@ export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
             alt="Plus"
           />
         ) : (
-          ''
+          ""
         )}
       </div>
     </div>

@@ -1,13 +1,19 @@
-import React from 'react';
+import React from "react";
+import { hrTimeFormatShort } from "../../../components/helper/timeFormatShort";
 
 export const SellingInfo = ({ data }) => {
+  const formattedDate = new Date(data.date).toLocaleDateString(
+    "hr-HR",
+    hrTimeFormatShort
+  );
+
   return (
     <div className="resellers-card-bottom-row">
       <div>
         <p>{data.reseller}</p>
       </div>
       <div>
-        <span>{data.date}</span>
+        <span>{formattedDate}</span>
       </div>
       <div>
         <p>Preuzeo: {data.taker}</p>
