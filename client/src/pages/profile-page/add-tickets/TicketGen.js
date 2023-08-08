@@ -48,6 +48,22 @@ export const TicketGen = ({ concertData }) => {
     }
   };
 
+  useEffect(() => {
+    // Initialize rows based on the keys of the concertData.type object
+    const initialRows = Object.keys(concertData.tickets.free_sale.type).map(
+      (categoryName) => ({
+        categoryName,
+        ticketType: concertData.tickets.free_sale.type[categoryName].name, // Include ticketType
+        ticketsNum: "",
+        ticketPrice:
+          concertData.tickets.free_sale.type[categoryName].price.toString(),
+      })
+    );
+
+    setTickets(initialRows);
+    setRowNum(initialRows.length);
+  }, [concertData]);
+
   const handleAddRow = () => {
     setRowNum((prevRowNum) => prevRowNum + 1);
     // Add a new ticket object to the tickets state when adding a row
@@ -97,6 +113,8 @@ export const TicketGen = ({ concertData }) => {
       <form onSubmit={handleFormSubmit}>
         <div className="tickets-categories-container container-fluid">
           {Array.from({ length: rowNum }).map((_, i) => {
+            const isDeletableRow =
+              i >= Object.keys(concertData.tickets.free_sale.type).length;
             return (
               <div key={i} className="row">
                 <div className="col-lg-6">
@@ -110,6 +128,7 @@ export const TicketGen = ({ concertData }) => {
                     onInput={(e) => {
                       e.target.style = "outline: none;";
                     }}
+                    disabled={!isDeletableRow}
                   />
                   <input
                     className="event-input ticket-type"
@@ -121,6 +140,7 @@ export const TicketGen = ({ concertData }) => {
                     onInput={(e) => {
                       e.target.style = "outline: none;";
                     }}
+                    disabled={!isDeletableRow}
                   />
                 </div>
                 <div className="col-lg-6 add-tickets-right-col">
@@ -146,13 +166,16 @@ export const TicketGen = ({ concertData }) => {
                       onInput={(e) => {
                         e.target.style = "outline: none;";
                       }}
+                      disabled={!isDeletableRow}
                     />
                     <span>BAM</span>
-                    <img
-                      src={trashCan}
-                      alt="trash can"
-                      onClick={() => handleRemoveRow(i)}
-                    />
+                    {isDeletableRow && (
+                      <img
+                        src={trashCan}
+                        alt="trash can"
+                        onClick={() => handleRemoveRow(i)}
+                      />
+                    )}
                   </div>
                 </div>
               </div>

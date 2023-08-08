@@ -1,7 +1,7 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
-import { toastSetup } from '../../../functions/toastSetup';
+import axios from "axios";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { toastSetup } from "../../../functions/toastSetup";
 
 const TicketCategories = ({
   freeSaleData,
@@ -12,7 +12,6 @@ const TicketCategories = ({
   concertId,
 }) => {
   const [ticketInputs, setTicketInputs] = useState({});
-
   const handleInputChange = (categoryKey, amount) => {
     setTicketInputs((prevInputs) => ({
       ...prevInputs,
@@ -30,7 +29,7 @@ const TicketCategories = ({
       if (loanedTickets > availableTickets) {
         toast.warning(
           `Nema dovoljno ulaznica kategorije "${category.name}" za dodijeliti u najam.`,
-          toastSetup('top-right', 3000)
+          toastSetup("top-right", 3000)
         );
         return; // Stop further processing if any category has more loaned tickets than available
       }
@@ -44,12 +43,12 @@ const TicketCategories = ({
         { ticketInputs, userData, concertId }
       );
 
-      toast.success(res.data.success, toastSetup('top-right', 3000));
+      toast.success(res.data.success, toastSetup("top-right", 3000));
     } catch (error) {
       // Handle any errors that occurred during the request
       toast.error(
-        'Problem s dodjelom ulaznica, pokušajte kasnije...',
-        toastSetup('top-right', 3000)
+        "Problem s dodjelom ulaznica, pokušajte kasnije...",
+        toastSetup("top-right", 3000)
       );
     }
   };
@@ -69,7 +68,7 @@ const TicketCategories = ({
           <div
             key={categoryKey}
             className={`add-reseller-dropdown-part ${
-              isSoldOut ? 'sold-out' : ''
+              isSoldOut ? "sold-out" : ""
             }`}
           >
             <div>
@@ -82,9 +81,9 @@ const TicketCategories = ({
               <input
                 type="text"
                 placeholder={
-                  isSoldOut ? 'Nedostupno' : `Dostupno: ${availableTickets}`
+                  isSoldOut ? "Nedostupno" : `Dostupno: ${availableTickets}`
                 }
-                value={ticketInputs[categoryKey] || ''}
+                value={ticketInputs[categoryKey] || ""}
                 onChange={(e) => handleInputChange(categoryKey, e.target.value)}
                 disabled={isSoldOut}
               />

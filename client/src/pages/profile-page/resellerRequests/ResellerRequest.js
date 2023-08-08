@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { ProfileTopPart } from '../userManager/ProfileTopPart';
-import { ResellerRequestsCard } from './ResellerRequestsCard';
+import React, { useState } from "react";
+import { ProfileTopPart } from "../userManager/ProfileTopPart";
+import { ResellerRequestsCard } from "./ResellerRequestsCard";
 
 export const ResellerRequest = ({ resellersRequests }) => {
   const [requestsData, setRequestsData] = useState(resellersRequests.resellers);
 
-  console.log(requestsData);
   return (
     <div>
       <ProfileTopPart

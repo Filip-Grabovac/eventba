@@ -77,6 +77,7 @@ async function updateFreeSale(concertId, ticketList) {
     console.error("An error occurred:", error);
   }
 }
+// Add resellers of freesale tickets
 async function updateLoanTickets(ticketInputs, userData, concertId) {
   try {
     const Concert = connectDB(process.env.DATABASE_URL).model(

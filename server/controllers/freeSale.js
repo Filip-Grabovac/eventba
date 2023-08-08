@@ -5,6 +5,7 @@ const {
   updateFreeSale,
   updateLoanTickets,
 } = require("../functions/concert/updateFreeSale");
+const updateResellerInfo = require("../functions/concert/updateResellerInfo");
 
 const getTickets = async (req, res) => {
   try {
@@ -71,7 +72,9 @@ const downloadTickets = async (req, res) => {
 const loanTickets = async (req, res) => {
   try {
     const { ticketInputs, userData, concertId } = req.body;
+    console.log({ ticketInputs, userData, concertId });
     await updateLoanTickets(ticketInputs, userData, concertId);
+    await updateResellerInfo(userData, concertId);
     res.status(201).json({ success: "Uspješano ste zadužili ulaznice!" });
   } catch (error) {
     console.log("Error generating and downloading tickets:", error);
