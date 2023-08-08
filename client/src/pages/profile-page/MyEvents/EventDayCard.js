@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PlusIcon from '../../../assets/ikonice/plus_icon.svg';
+import { AddPayment } from './AddPayment';
+import { SellingInfo } from './SellingInfo';
 
-export const EventDayCard = () => {
+export const EventDayCard = ({ setMarginB, iterator }) => {
+  const [addedInputs, setAddedInputs] = useState(0);
+  const [sellingInfo, setSellingInfo] = useState([
+    {
+      reseller: 'Filip',
+      date: '07.kol.2023 22:00',
+      taker: 'Ivica Dzambas',
+      price: 22,
+    },
+  ]);
+
+  const handleImageClick = () => {
+    setAddedInputs(addedInputs + 1);
+    setMarginB((prevMarginB) => prevMarginB + 76);
+  };
+
   return (
     <div className="resellers-card">
       <div className="resellers-card-top-row">
@@ -31,21 +48,24 @@ export const EventDayCard = () => {
           <p>Ukupno: 132 BAM</p>
         </div>
       </div>
-      <div className="resellers-card-bottom-row">
-        <div>
-          <p>Filip Grabovac</p>
-        </div>
-        <div>
-          <span>07.kol.2023 22:00 </span>
-        </div>
-        <div>
-          <p>Preuzeo: Ivica Džambas</p>
-          <p>22 BAM</p>
-        </div>
-      </div>
+      {sellingInfo.map((e, i) => {
+        return <SellingInfo key={i} data={e} />;
+      })}
       <div className="resellers-card-last-row">
+        {Array.from({ length: addedInputs }, (_, i) => (
+          <AddPayment key={i} i={iterator} setSellingInfo={setSellingInfo} />
+        ))}
         <p>Preostalo: 10 BAM</p>
-        <img className="plus-icon" src={PlusIcon} alt="Plus" />
+        {addedInputs === 0 ? (
+          <img
+            onClick={handleImageClick}
+            className="plus-icon"
+            src={PlusIcon}
+            alt="Plus"
+          />
+        ) : (
+          ''
+        )}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import { TicketManager } from './TicketManager';
 import { ApproveTicketSale } from './ApproveTicketSale';
 import { hrTimeFormat } from '../../../components/helper/timeFormat';
 
-export const CheckTicketsCard = ({ data }) => {
+export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
   const [dropdown, setDropdown] = useState(false);
   const [hasBorderRadius, setBorderRadius] = useState(true);
   const [arrowDisabled, disableArrow] = useState(false);
@@ -49,20 +49,22 @@ export const CheckTicketsCard = ({ data }) => {
   const calculateTotalLoaned = (categories) => {
     let totalLoaned = 0;
     let totalSold = 0;
+    let soldMoney = 0;
 
     for (const category in categories) {
       totalLoaned += categories[category].loaned;
       totalSold += categories[category].sold;
+      soldMoney += categories[category].sold * categories[category].price;
     }
 
-    return { loaned: totalLoaned, sold: totalSold };
+    return { loaned: totalLoaned, sold: totalSold, soldMoney: soldMoney };
   };
 
   useEffect(() => {
     const totalLoaned = calculateTotalLoaned(data.reseller.type);
     setAvailable(totalLoaned.loaned);
     setTotalSold(totalLoaned.sold);
-    setTotalSoldMoney(data.amountInBAM);
+    setTotalSoldMoney(totalLoaned.soldMoney);
   }, [data.reseller.type]);
 
   return (
@@ -91,7 +93,7 @@ export const CheckTicketsCard = ({ data }) => {
           <p>Dostupno: {available}</p>
           <p>Prodano: {sold}</p>
           <p>Ukupno: {soldMoney} BAM</p>
-          <p>Preostalo: {leftMoney} BAM</p>
+          {/* <p>Preostalo: {leftMoney} BAM</p> */}
         </div>
       </div>
 
@@ -122,6 +124,8 @@ export const CheckTicketsCard = ({ data }) => {
                   setTotalSold={setTotalSold}
                   setTotalSoldMoney={setTotalSoldMoney}
                   setLeftMoney={setLeftMoney}
+                  concertId={concertId}
+                  resellerId={reseller_id}
                 />
               )
             )}

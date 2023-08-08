@@ -23,7 +23,14 @@ export const CheckResellerTickets = ({ resellerInfo, reseller_id }) => {
     <div>
       {sellingData &&
         sellingData.resellersConcerts.map((e, i) => {
-          return <CheckTicketsCard key={i} data={e} />;
+          return (
+            <CheckTicketsCard
+              key={i}
+              data={e}
+              concertId={resellerInfo.concerts[i]}
+              reseller_id={reseller_id}
+            />
+          );
         })}
     </div>
   );

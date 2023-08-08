@@ -9,6 +9,7 @@ const {
   getEventsByOrganizerId,
   updateConcertProperty,
   resellersConcertInfo,
+  updateConcert,
 } = require('../controllers/concerts');
 
 router.route('/').get(getAllConcerts);
@@ -19,6 +20,7 @@ router.route('/search/:type/:search_value').get(searchEventByType);
 router.route('/organizer/:organizerId').get(getEventsByOrganizerId);
 router.route('/update_event/:id/:type/:value').put(updateConcertProperty);
 router.route('/resellers/:userId').post(resellersConcertInfo);
+router.route('/update/:concertId').post(updateConcert);
 router.route('/:type/:value').get(findConcert);
 
 module.exports = router;

@@ -12,6 +12,7 @@ export const EventCard = ({ ids, i }) => {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [date, setDate] = useState(0);
+  const [marginB, setMarginB] = useState(0);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -78,7 +79,7 @@ export const EventCard = ({ ids, i }) => {
         style={{
           borderBottomLeftRadius: hasBorderRadius ? '7px' : '0',
           borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
-          marginBottom: dropdown ? dropdownHeight + 10 : '10px',
+          marginBottom: dropdown ? dropdownHeight + 10 + marginB : '10px',
         }}
         className="myevent-card-reseller"
       >
@@ -171,14 +172,14 @@ export const EventCard = ({ ids, i }) => {
           />
         </div>
         <div
-          style={{ maxHeight: dropdown ? dropdownHeight + 100 : 0 }}
+          style={{ maxHeight: dropdown ? dropdownHeight + 100 + marginB : 0 }}
           className="myevents-card-dropdown"
           ref={dropdownRef}
         >
           <p className="heading">Preprodavači</p>
           <div className="profile-concert-wrapper">
-            <EventDayCard />
-            <EventDayCard />
+            <EventDayCard setMarginB={setMarginB} iterator={0} />
+            <EventDayCard setMarginB={setMarginB} iterator={1} />
           </div>
           <p className="heading">Vremenski pregled prodaje</p>
           <div className="selling-timestamp">
@@ -203,11 +204,46 @@ export const EventCard = ({ ids, i }) => {
                   <p>Prodano: 30/100</p>
                   <p>Cijena: 300 BAM</p>
                 </div>
-                <div></div>
-                <div></div>
+                <div>
+                  <p>Tribina</p>
+                  <p>Prodano: 30/100</p>
+                  <p>Cijena: 300 BAM</p>
+                </div>
+                <div>
+                  <p>VIP</p>
+                  <p>Prodano: 30/100</p>
+                  <p>Cijena: 300 BAM</p>
+                </div>
+              </div>
+              <p className="heading">Slobodna prodaja</p>
+              <div>
+                <div>
+                  <p>Parter</p>
+                  <p>Prodano: 30/100</p>
+                  <p>Cijena: 300 BAM</p>
+                </div>
+                <div>
+                  <p>Tribina</p>
+                  <p>Prodano: 30/100</p>
+                  <p>Cijena: 300 BAM</p>
+                </div>
+                <div>
+                  <p>VIP</p>
+                  <p>Prodano: 30/100</p>
+                  <p>Cijena: 300 BAM</p>
+                </div>
               </div>
             </div>
-            <div></div>
+            <div className="sold-tickets-wrapper">
+              <div>
+                <p>Prodano ulaznica: 132</p>
+                <p>Ukupno: 1200,00 BAM</p>
+              </div>
+              <div>
+                <p>Prodano ulaznica: 132</p>
+                <p>Ukupno: 1200,00 BAM</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

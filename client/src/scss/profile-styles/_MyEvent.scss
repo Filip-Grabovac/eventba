@@ -286,6 +286,41 @@
           font-size: 13px;
           font-weight: 600;
         }
+
+        .add-payment-wrapper {
+          display: flex;
+          flex-direction: column;
+
+          div {
+            display: flex;
+
+            button {
+              margin-top: 0;
+              font-size: 14px;
+              padding: 5px 10px;
+            }
+          }
+
+          input {
+            border-radius: 0;
+            border-right: 1px solid rgba(69, 91, 217, 0.318);
+            font-size: 14px;
+            text-align: center;
+
+            &:first-child {
+              border-top-left-radius: 10px;
+              border-bottom-left-radius: 10px;
+            }
+            &:last-child {
+              border-top-right-radius: 10px;
+              border-bottom-right-radius: 10px;
+              border-right: 0;
+            }
+            &:disabled {
+              background-color: #fff;
+            }
+          }
+        }
       }
       .plus-icon {
         display: block;
@@ -326,7 +361,7 @@
       background-color: #fff;
       border-radius: 10px;
       width: 95%;
-      margin: 0 auto;
+      margin: 0 auto 20px;
       padding: 20px 5px;
 
       .date {
@@ -362,10 +397,22 @@
           padding: 5px;
           border-radius: 10px;
           overflow-x: auto;
+          margin-bottom: 10px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
 
           div {
             width: 33.33%;
             flex-direction: column;
+            border-right: 2px solid rgba(69, 91, 217, 0.501);
+            border-radius: 0;
+            margin: 0;
+
+            &:last-child {
+              border-right: none;
+            }
 
             p {
               margin: 0;
@@ -378,6 +425,23 @@
       }
       div:nth-child(3) {
         width: 30%;
+      }
+      .sold-tickets-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+        div {
+          width: 100%;
+          margin-top: 40px;
+        }
+
+        p {
+          text-align: center;
+          font-size: 14px;
+          font-weight: 600;
+        }
       }
     }
   }

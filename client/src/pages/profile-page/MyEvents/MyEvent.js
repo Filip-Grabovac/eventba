@@ -1,5 +1,5 @@
-import React from "react";
-import { EventCard } from "./EventCard";
+import React from 'react';
+import { EventCard } from './EventCard';
 
 export const MyEvent = ({ organizerEvents }) => {
   return (
