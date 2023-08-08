@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PlusIcon from '../../../assets/ikonice/plus_icon.svg';
 import { AddPayment } from './AddPayment';
 import { SellingInfo } from './SellingInfo';
 
 export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
   const [addedInputs, setAddedInputs] = useState(0);
-  const [sellingInfo, setSellingInfo] = useState([
-    {
-      reseller: 'Filip',
-      date: '07.kol.2023 22:00',
-      taker: 'Ivica Dzambas',
-      price: 22,
-    },
-  ]);
+  const [sellingInfo, setSellingInfo] = useState();
+
+  useEffect(() => {
+    setSellingInfo(data.transactions);
+  }, []);
+
+  console.log(sellingInfo);
 
   const handleImageClick = () => {
     setAddedInputs(addedInputs + 1);
@@ -43,9 +42,10 @@ export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
           <p>Ukupno: 132 BAM</p>
         </div>
       </div>
-      {sellingInfo.map((e, i) => {
-        return <SellingInfo key={i} data={e} />;
-      })}
+      {sellingInfo &&
+        sellingInfo.map((e, i) => {
+          return <SellingInfo key={i} data={e} />;
+        })}
       <div className="resellers-card-last-row">
         {Array.from({ length: addedInputs }, (_, i) => (
           <AddPayment
