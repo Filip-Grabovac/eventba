@@ -1,5 +1,5 @@
-const connectDB = require("../../db/connect");
-const concertSchema = require("../../models/Concert");
+const connectDB = require('../../db/connect');
+const concertSchema = require('../../models/Concert');
 
 async function addTransactionController(
   transactionData,
@@ -7,33 +7,36 @@ async function addTransactionController(
   concertId
 ) {
   try {
+    console.log(transactionData);
+    console.log(resellerId);
+    console.log(concertId);
     const Concert = connectDB(process.env.DATABASE_URL).model(
-      "Concert",
+      'Concert',
       concertSchema,
-      "concerts"
+      'concerts'
     );
 
     // Update the concert document to add transaction data to the specified reseller
     const updateResult = await Concert.updateOne(
       {
         _id: concertId,
-        "tickets.free_sale.resellers.reseller_id.$oid": resellerId,
+        'tickets.free_sale.resellers.reseller_id.$oid': resellerId,
       },
       {
         $push: {
-          "tickets.free_sale.resellers.$.transactions": transactionData,
+          'tickets.free_sale.resellers.$.transactions': transactionData,
         },
       }
     );
 
     if (updateResult.nModified === 0) {
-      console.error("Concert or Reseller not found");
+      console.error('Concert or Reseller not found');
       return;
     }
 
-    console.log("Reseller information updated successfully");
+    console.log('Reseller information updated successfully');
   } catch (error) {
-    console.error("An error occurred:", error);
+    console.error('An error occurred:', error);
   }
 }
 

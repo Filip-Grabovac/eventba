@@ -178,8 +178,18 @@ export const EventCard = ({ ids, i }) => {
         >
           <p className="heading">Preprodavači</p>
           <div className="profile-concert-wrapper">
-            <EventDayCard setMarginB={setMarginB} iterator={0} />
-            <EventDayCard setMarginB={setMarginB} iterator={1} />
+            {data &&
+              data.tickets.free_sale.resellers.map((e, i) => {
+                return (
+                  <EventDayCard
+                    key={i}
+                    setMarginB={setMarginB}
+                    iterator={i}
+                    data={e}
+                    concertId={data._id}
+                  />
+                );
+              })}
           </div>
           <p className="heading">Vremenski pregled prodaje</p>
           <div className="selling-timestamp">

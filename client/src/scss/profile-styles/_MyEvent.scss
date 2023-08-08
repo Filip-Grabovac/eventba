@@ -212,16 +212,15 @@
             align-items: center;
             flex-direction: column;
             justify-content: center;
+            border-right: 2px solid rgba(69, 91, 217, 0.504);
+            border-radius: 0;
 
+            &:last-child {
+              border-right: none;
+            }
             p {
               margin: 0;
             }
-          }
-
-          div:nth-child(2) {
-            border-right: 2px solid rgba(69, 91, 217, 0.504);
-            border-left: 2px solid rgba(69, 91, 217, 0.504);
-            border-radius: 0;
           }
         }
         div:nth-child(3) {
@@ -279,17 +278,18 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 10px;
 
         p {
           margin: 0 10px 0 auto;
           font-size: 13px;
           font-weight: 600;
+          margin-top: 10px;
         }
 
         .add-payment-wrapper {
           display: flex;
           flex-direction: column;
+          width: 100%;
 
           div {
             display: flex;

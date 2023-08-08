@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { hrTimeFormat } from '../../../components/helper/timeFormat';
 import { toast } from 'react-toastify';
 import { toastSetup } from '../../../functions/toastSetup';
+import axios from 'axios';
 
-export const AddPayment = ({ setSellingInfo, i }) => {
+export const AddPayment = ({ setSellingInfo, i, concertId, resellerId }) => {
   const date = new Date().toLocaleDateString('hr-HR', hrTimeFormat);
   const [isSellingInfoAdded, setSellingStatus] = useState(false);
 
-  function handleFormSubmit(e) {
+  async function handleFormSubmit(e) {
     e.preventDefault();
 
     let counter = 0;
@@ -21,6 +22,7 @@ export const AddPayment = ({ setSellingInfo, i }) => {
       date: `${date}`,
       taker: taker,
       price: amount,
+      is_verified: false,
     };
 
     document.querySelectorAll(`.selling-info-input${i}`).forEach((e, i) => {
@@ -37,6 +39,19 @@ export const AddPayment = ({ setSellingInfo, i }) => {
       setSellingStatus(true);
       setSellingInfo((prevSellingInfo) => [...prevSellingInfo, newDataObject]);
       toast.success('Uspješno dodano.', toastSetup('top-right', 3000));
+
+      try {
+        const response = await axios.post(
+          process.env.REACT_APP_API_URL + '/api/v1/freeSale/add-transaction',
+          {
+            transactionData: newDataObject,
+            resellerId,
+            concertId,
+          }
+        );
+
+        console.log(response.data);
+      } catch (error) {}
     }
   }
 

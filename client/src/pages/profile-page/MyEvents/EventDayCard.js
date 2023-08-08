@@ -3,7 +3,7 @@ import PlusIcon from '../../../assets/ikonice/plus_icon.svg';
 import { AddPayment } from './AddPayment';
 import { SellingInfo } from './SellingInfo';
 
-export const EventDayCard = ({ setMarginB, iterator }) => {
+export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
   const [addedInputs, setAddedInputs] = useState(0);
   const [sellingInfo, setSellingInfo] = useState([
     {
@@ -18,30 +18,25 @@ export const EventDayCard = ({ setMarginB, iterator }) => {
     setAddedInputs(addedInputs + 1);
     setMarginB((prevMarginB) => prevMarginB + 76);
   };
-
   return (
     <div className="resellers-card">
       <div className="resellers-card-top-row">
         <div>
-          <h6>Caffe Avatar</h6>
-          <p>Gornji Vakuf-Uskoplje Bosna i Hercegovina</p>
+          <h6>{data.reseller_name}</h6>
+          <p>{data.reseller_address}</p>
         </div>
         <div>
-          <div>
-            <p>Parter</p>
-            <p>Prodano: 30/100</p>
-            <p>Cijena: 300 BAM</p>
-          </div>
-          <div>
-            <p>Tribina</p>
-            <p>Prodano: 30/100</p>
-            <p>Cijena: 300 BAM</p>
-          </div>
-          <div>
-            <p>VIP</p>
-            <p>Prodano: 30/100</p>
-            <p>Cijena: 300 BAM</p>
-          </div>
+          {Object.entries(data.type).map(([categoryName, categoryData]) => {
+            return (
+              <div key={categoryName}>
+                <p>{categoryName}</p>
+                <p>
+                  Prodano: {categoryData.sold}/{categoryData.loaned}
+                </p>
+                <p>Cijena: {categoryData.price} BAM</p>
+              </div>
+            );
+          })}
         </div>
         <div>
           <p>Prodano ulaznica: 132</p>
@@ -53,7 +48,13 @@ export const EventDayCard = ({ setMarginB, iterator }) => {
       })}
       <div className="resellers-card-last-row">
         {Array.from({ length: addedInputs }, (_, i) => (
-          <AddPayment key={i} i={iterator} setSellingInfo={setSellingInfo} />
+          <AddPayment
+            key={i}
+            i={iterator}
+            setSellingInfo={setSellingInfo}
+            resellerId={data.reseller_id}
+            concertId={concertId}
+          />
         ))}
         <p>Preostalo: 10 BAM</p>
         {addedInputs === 0 ? (
