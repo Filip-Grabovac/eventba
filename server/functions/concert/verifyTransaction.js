@@ -1,10 +1,11 @@
+const mongoose = require("mongoose");
 const connectDB = require("../../db/connect");
 const concertSchema = require("../../models/Concert");
 
 async function verifyTransactionController(
+  transactionIndex,
   resellerId,
-  concertId,
-  transactionIndex
+  concertId
 ) {
   try {
     const Concert = connectDB(process.env.DATABASE_URL).model(
@@ -13,11 +14,14 @@ async function verifyTransactionController(
       "concerts"
     );
 
+    const resellerObjectId = mongoose.Types.ObjectId(resellerId);
+    const concertObjectId = mongoose.Types.ObjectId(concertId);
+    console.log(transactionIndex, resellerId, concertId);
     // Update the concert document to set is_verified to true for the specified transaction
     const updateResult = await Concert.updateOne(
       {
-        _id: concertId,
-        "tickets.free_sale.resellers.reseller_id.$oid": resellerId,
+        _id: concertObjectId,
+        "tickets.free_sale.resellers.reseller_id": resellerObjectId,
         [`tickets.free_sale.resellers.$.transactions.${transactionIndex}.is_verified`]: false,
       },
       {

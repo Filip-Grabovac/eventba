@@ -90,6 +90,7 @@ const addTransaction = async (req, res) => {
   const { transactionData, resellerId, concertId } = req.body;
   try {
     addTransactionController(transactionData, resellerId, concertId);
+    res.status(201).json({ success: "Uspješano ste dodali transkaciju!" });
   } catch (error) {
     console.log("Error generating and downloading tickets:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -97,9 +98,12 @@ const addTransaction = async (req, res) => {
 };
 
 const verifyTransaction = async (req, res) => {
-  const { transactionData, resellerId, concertId } = req.body;
+  const { transactionIndex, concertId, resellerId } = req.body;
   try {
-    verifyTransactionController(transactionData, resellerId, concertId);
+    await verifyTransactionController(transactionIndex, concertId, resellerId);
+    res
+      .status(201)
+      .json({ success: "Uspješano ste verificirali transkaciju!" });
   } catch (error) {
     console.log("Error generating and downloading tickets:", error);
     res.status(500).json({ error: "Internal Server Error" });
