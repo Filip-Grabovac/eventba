@@ -28,7 +28,7 @@ export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
           {Object.entries(data.type).map(([categoryName, categoryData]) => {
             return (
               <div key={categoryName}>
-                <p>{categoryName}</p>
+                <p>{categoryData.name}</p>
                 <p>
                   Prodano: {categoryData.sold}/{categoryData.loaned}
                 </p>
