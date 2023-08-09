@@ -24,7 +24,7 @@ export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
           <h6>{data.reseller_name}</h6>
           <p>{data.reseller_address}</p>
         </div>
-        <div>
+        <div className="resellers-info">
           {Object.entries(data.type).map(([categoryName, categoryData]) => {
             soldTickets = soldTickets + categoryData.sold;
             soldTicketsPrice =

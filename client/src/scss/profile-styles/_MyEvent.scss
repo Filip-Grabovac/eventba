@@ -17,7 +17,7 @@
   .myevent-card-part-1 {
     display: flex;
     height: 100%;
-    width: 33%;
+    width: 22%;
     background-color: #b8bede;
     border-radius: 7px;
     .conc-info {
@@ -30,7 +30,7 @@
       padding: 3% 2%;
       text-align: center;
       @media only screen and (max-width: 350px) {
-        padding: 0;
+        padding: 2px;
       }
       &::-webkit-scrollbar {
         width: 6px;
@@ -61,7 +61,7 @@
       }
     }
     img {
-      width: 30%;
+      width: 40%;
       height: 100%;
       object-fit: cover;
       border-radius: 7px 0px 0px 7px;
@@ -71,11 +71,18 @@
     }
   }
   .sales-wrapper {
-    width: 60%;
+    width: 74%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     height: 100%;
+
+    @media only screen and (max-width: 760px) {
+      width: 72%;
+    }
+    @media only screen and (max-width: 400px) {
+      width: 69%;
+    }
   }
   .myevent-card-part-2 {
     width: 100%;
@@ -151,6 +158,13 @@
       cursor: pointer;
       width: 20px;
     }
+
+    @media only screen and (max-width: 760px) {
+      width: 6%;
+    }
+    @media only screen and (max-width: 400px) {
+      width: 9%;
+    }
   }
 
   .myevents-card-dropdown {
@@ -200,18 +214,21 @@
         div:nth-child(1) {
           width: 20%;
         }
-        div:nth-child(2) {
+        .resellers-info {
           width: 60%;
           background-color: #fff;
           border-radius: 10px;
-          display: flex;
+          display: block;
+          justify-content: center;
+          overflow-x: auto;
+          overflow-y: hidden;
+          white-space: nowrap;
+          height: 60px;
+          text-align: center;
 
           div {
-            width: 33.33%;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
+            width: 130px;
+            display: inline-block;
             border-right: 2px solid rgba(69, 91, 217, 0.504);
             border-radius: 0;
 
@@ -220,14 +237,12 @@
             }
             p {
               margin: 0;
+
+              @media only screen and (max-width: 500px) {
+                font-size: 11px;
+              }
             }
           }
-        }
-        div:nth-child(3) {
-          width: 20%;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-evenly;
         }
       }
       .resellers-card-bottom-row {
