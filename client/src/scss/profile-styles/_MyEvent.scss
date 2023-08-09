@@ -195,6 +195,7 @@
       .resellers-card-top-row {
         width: 100%;
         display: flex;
+        align-items: center;
 
         div {
           p,
@@ -202,6 +203,9 @@
             font-size: 13px;
             margin: 0;
             text-align: center;
+            @media only screen and (max-width: 500px) {
+              font-size: 11px;
+            }
           }
 
           h6 {
@@ -214,6 +218,9 @@
         div:nth-child(1) {
           width: 20%;
         }
+        div:nth-child(3) {
+          width: 20%;
+        }
         .resellers-info {
           width: 60%;
           background-color: #fff;
@@ -223,8 +230,9 @@
           overflow-x: auto;
           overflow-y: hidden;
           white-space: nowrap;
-          height: 60px;
+          height: auto;
           text-align: center;
+          padding: 10px 0;
 
           div {
             width: 130px;
@@ -261,6 +269,10 @@
           text-align: center;
           font-size: 14px;
           font-weight: 600;
+
+          @media only screen and (max-width: 500px) {
+            font-size: 11px;
+          }
         }
 
         span {
@@ -299,6 +311,10 @@
           font-size: 13px;
           font-weight: 600;
           margin-top: 10px;
+
+          @media only screen and (max-width: 500px) {
+            font-size: 11px;
+          }
         }
 
         .add-payment-wrapper {
