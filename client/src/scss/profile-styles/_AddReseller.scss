@@ -3,6 +3,10 @@
   width: 100%;
   flex-wrap: wrap;
 
+  @media only screen and (max-width: 780px) {
+    flex-direction: column;
+  }
+
   div {
     .myevent-card {
       width: 100% !important;
@@ -67,6 +71,11 @@
   .bottom-part:nth-child(1) {
     width: 70%;
 
+    @media only screen and (max-width: 780px) {
+      width: 100%;
+      margin: 0;
+    }
+
     .user-manager-top {
       width: 100%;
       margin-bottom: 10px;
@@ -86,6 +95,11 @@
     box-shadow: 0 0 2px 0 (rgba(0, 0, 0, 0.252));
     height: fit-content;
     padding: 5px 0;
+
+    @media only screen and (max-width: 780px) {
+      width: 100%;
+      margin: 0;
+    }
 
     h6 {
       color: #455cd9;

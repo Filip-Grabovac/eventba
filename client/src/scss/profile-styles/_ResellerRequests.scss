@@ -33,6 +33,11 @@
         margin: 0;
         font-size: 17px;
         font-weight: 600;
+        text-align: center;
+
+        @media only screen and (max-width: 450px) {
+          font-size: 13px;
+        }
       }
     }
     .myevent-card-part-3 {
@@ -44,6 +49,10 @@
         font-size: 12px;
         margin: 0 0 5px 0;
         font-weight: 600;
+
+        @media only screen and (max-width: 460px) {
+          display: none;
+        }
       }
     }
   }
@@ -142,5 +151,22 @@
 .add-reseller-event {
   .top-part {
     border-bottom: none;
+    @media only screen and (max-width: 780px) {
+      flex-direction: column;
+    }
+
+    .info {
+      @media only screen and (max-width: 780px) {
+        order: 2;
+        width: 100%;
+        max-width: 400px;
+      }
+    }
+    img {
+      @media only screen and (max-width: 780px) {
+        width: 100%;
+        max-width: 400px;
+      }
+    }
   }
 }
