@@ -107,7 +107,7 @@ export const UpdateProfilePage = (props) => {
   };
 
   return (
-    <form className="form container" onSubmit={handleSubmit}>
+    <form className="form container smaller-profile" onSubmit={handleSubmit}>
       <div className="row">
         <div className=" col">
           <input

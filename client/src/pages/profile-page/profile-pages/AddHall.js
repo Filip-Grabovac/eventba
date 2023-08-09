@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 // Images
-import InfoIcon from "../../../assets/ikonice/info.svg";
-import PlusIcon from "../../../assets/ikonice/plus_icon.svg";
+import InfoIcon from '../../../assets/ikonice/info.svg';
+import PlusIcon from '../../../assets/ikonice/plus_icon.svg';
 // Components
-import { Tooltip } from "react-tooltip";
-import { toast } from "react-toastify";
-import { toastSetup } from "../../../functions/toastSetup";
-import bosnianCities from "../../../components/helper/bosnianCities";
+import { Tooltip } from 'react-tooltip';
+import { toast } from 'react-toastify';
+import { toastSetup } from '../../../functions/toastSetup';
+import bosnianCities from '../../../components/helper/bosnianCities';
 
 export const AddHall = () => {
   const [rowNum, setRowNum] = useState(1);
   //Dropdown forcity input
-  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedCity, setSelectedCity] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
 
   const [filteredCities, setFilteredCities] = useState([]);
@@ -36,17 +36,17 @@ export const AddHall = () => {
 
     // Get all data
     let counter = 0;
-    const allTicketTypes = document.querySelectorAll(".ticket-type");
-    const ticketsNum = document.querySelectorAll(".tickets-num");
-    const allTicketPrices = document.querySelectorAll(".ticket-price");
+    const allTicketTypes = document.querySelectorAll('.ticket-type');
+    const ticketsNum = document.querySelectorAll('.tickets-num');
+    const allTicketPrices = document.querySelectorAll('.ticket-price');
     const formData = new FormData(e.target);
 
-    const hallName = formData.get("hallName");
-    const hallLocation = formData.get("hallLocation");
+    const hallName = formData.get('hallName');
+    const hallLocation = formData.get('hallLocation');
     const tickets = [];
 
     // Get all category info
-    document.querySelectorAll(".category-name").forEach((e, i) => {
+    document.querySelectorAll('.category-name').forEach((e, i) => {
       tickets.push({
         name: e.value,
         ticket: {
@@ -62,49 +62,49 @@ export const AddHall = () => {
       const hallData = {
         name: hallName,
         location: hallLocation,
-        type: "hall",
+        type: 'hall',
         zones: tickets,
       };
 
       //Check if all data populated
-      document.querySelectorAll(".event-input").forEach((e) => {
-        if (e.value === "") {
+      document.querySelectorAll('.event-input').forEach((e) => {
+        if (e.value === '') {
           counter++;
-          e.style = "outline: 2px solid #f4cd46;";
+          e.style = 'outline: 2px solid #f4cd46;';
         }
       });
 
       // If there is an empty field return
       if (counter > 0) {
-        toast.warn("Molimo unesite sva polja", toastSetup("top-right", 3000));
+        toast.warn('Molimo unesite sva polja', toastSetup('top-right', 3000));
         return;
       }
 
       // Wait for all data to be populated before posting
       await axios.post(
-        process.env.REACT_APP_API_URL + "/api/v1/places/add_place",
+        process.env.REACT_APP_API_URL + '/api/v1/places/add_place',
         hallData
       );
 
       // Clear all fields
-      document.querySelectorAll(".event-input").forEach((e) => {
-        e.value = "";
+      document.querySelectorAll('.event-input').forEach((e) => {
+        e.value = '';
       });
       setRowNum(1);
-      toast.success("Uspješno dodana dvorana", toastSetup("top-right", 3000));
+      toast.success('Uspješno dodana dvorana', toastSetup('top-right', 3000));
     } catch (error) {
       console.error(error);
     }
   }
 
   return (
-    <div className="add-hall-container">
+    <div className="add-hall-container smaller-profile">
       <div className="row">
         <Tooltip
           style={{
-            borderRadius: "10px",
-            backgroundColor: "#455cd9",
-            zIndex: "3",
+            borderRadius: '10px',
+            backgroundColor: '#455cd9',
+            zIndex: '3',
           }}
           anchorId="info-icon"
           place="bottom"
@@ -140,7 +140,7 @@ export const AddHall = () => {
             placeholder="Ime dvorane"
             type="text"
             onInput={(e) => {
-              e.target.style = "outline: none;";
+              e.target.style = 'outline: none;';
             }}
           />
           <input
@@ -185,7 +185,7 @@ export const AddHall = () => {
                     placeholder="Ime kategorije"
                     type="text"
                     onInput={(e) => {
-                      e.target.style = "outline: none;";
+                      e.target.style = 'outline: none;';
                     }}
                   />
                   <input
@@ -194,7 +194,7 @@ export const AddHall = () => {
                     placeholder="Tip ulaznice"
                     type="text"
                     onInput={(e) => {
-                      e.target.style = "outline: none;";
+                      e.target.style = 'outline: none;';
                     }}
                   />
                 </div>
@@ -205,7 +205,7 @@ export const AddHall = () => {
                     placeholder="Broj ulaznica"
                     type="text"
                     onInput={(e) => {
-                      e.target.style = "outline: none;";
+                      e.target.style = 'outline: none;';
                     }}
                   />
                   <input
@@ -214,7 +214,7 @@ export const AddHall = () => {
                     placeholder="Cijena ulaznice"
                     type="text"
                     onInput={(e) => {
-                      e.target.style = "outline: none;";
+                      e.target.style = 'outline: none;';
                     }}
                   />
                 </div>

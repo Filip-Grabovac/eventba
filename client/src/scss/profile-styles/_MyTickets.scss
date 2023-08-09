@@ -21,18 +21,16 @@
   }
 
   .mytickets-card-part:nth-child(2) {
+    border-right: 2px solid rgba(69, 91, 217, 0.5);
     div {
-      border-right: 2px solid rgba(69, 91, 217, 0.5);
-
       @media only screen and (max-width: 400px) {
-        width: 135px;
         padding-right: 2px;
-        transform: scale(0.85) translateX(-7px);
+        transform: scale(0.85);
       }
       @media only screen and (max-width: 310px) {
         width: 125px;
         padding-right: 2px;
-        transform: scale(0.85) translateX(-12px);
+        transform: scale(0.85);
       }
     }
   }
@@ -65,21 +63,23 @@
     }
   }
   .mytickets-card-part:nth-child(4) {
-    width: 12%;
+    width: 5%;
+    padding: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 0 7px 0 0;
 
     img {
-      width: 30px;
-      height: 30px;
+      width: 100%;
+      max-width: 30px;
+      height: auto;
       cursor: pointer;
     }
   }
 
   .mytickets-card-part {
-    width: 38%;
+    width: 41.5%;
     height: 100%;
     display: inline-block;
     padding: 5px 0;

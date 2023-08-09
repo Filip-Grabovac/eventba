@@ -133,25 +133,23 @@ export const EventCard = ({ ids, i }) => {
             <p className="heading">Slobodna prodaja</p>
             <div className="top-part">
               <span>
-                Prodano: <strong>{data.tickets.online_sale.sold_amount}</strong>
+                Prodano: <strong>{data.tickets.free_sale.sold_amount}</strong>
               </span>
               <span>
                 Ukupno:{' '}
                 <strong>
-                  {data.tickets.online_sale.amount_inBAM} <small>BAM</small>
+                  {data.tickets.free_sale.amount_inBAM} <small>BAM</small>
                 </strong>
               </span>
             </div>
             <div className="bottom-part-wrapper">
               <div className="bottom-part">
-                {Object.keys(data.tickets.online_sale.type).map(
-                  (categoryKey) => (
-                    <CategoryCard
-                      key={categoryKey}
-                      {...data.tickets.online_sale.type[categoryKey]}
-                    />
-                  )
-                )}
+                {Object.keys(data.tickets.free_sale.type).map((categoryKey) => (
+                  <CategoryCard
+                    key={categoryKey}
+                    {...data.tickets.free_sale.type[categoryKey]}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -212,17 +210,23 @@ export const EventCard = ({ ids, i }) => {
                 <div>
                   <p>Parter</p>
                   <p>Prodano: 30/100</p>
-                  <p>Cijena: 300 BAM</p>
+                  <p>
+                    Cijena: 300 <small>BAM</small>
+                  </p>
                 </div>
                 <div>
                   <p>Tribina</p>
                   <p>Prodano: 30/100</p>
-                  <p>Cijena: 300 BAM</p>
+                  <p>
+                    Cijena: 300 <small>BAM</small>
+                  </p>
                 </div>
                 <div>
                   <p>VIP</p>
                   <p>Prodano: 30/100</p>
-                  <p>Cijena: 300 BAM</p>
+                  <p>
+                    Cijena: 300 <small>BAM</small>
+                  </p>
                 </div>
               </div>
               <p className="heading">Slobodna prodaja</p>
@@ -230,28 +234,38 @@ export const EventCard = ({ ids, i }) => {
                 <div>
                   <p>Parter</p>
                   <p>Prodano: 30/100</p>
-                  <p>Cijena: 300 BAM</p>
+                  <p>
+                    Cijena: 300 <small>BAM</small>
+                  </p>
                 </div>
                 <div>
                   <p>Tribina</p>
                   <p>Prodano: 30/100</p>
-                  <p>Cijena: 300 BAM</p>
+                  <p>
+                    Cijena: 300 <small>BAM</small>
+                  </p>
                 </div>
                 <div>
                   <p>VIP</p>
                   <p>Prodano: 30/100</p>
-                  <p>Cijena: 300 BAM</p>
+                  <p>
+                    Cijena: 300 <small>BAM</small>
+                  </p>
                 </div>
               </div>
             </div>
             <div className="sold-tickets-wrapper">
               <div>
                 <p>Prodano ulaznica: 132</p>
-                <p>Ukupno: 1200,00 BAM</p>
+                <p>
+                  Ukupno: 1200,00 <small>BAM</small>
+                </p>
               </div>
               <div>
                 <p>Prodano ulaznica: 132</p>
-                <p>Ukupno: 1200,00 BAM</p>
+                <p>
+                  Ukupno: 1200,00 <small>BAM</small>
+                </p>
               </div>
             </div>
           </div>

@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import PlusIcon from "../../../assets/ikonice/plus_icon.svg";
-import { AddPayment } from "./AddPayment";
-import { SellingInfo } from "./SellingInfo";
+import React, { useEffect, useState } from 'react';
+import PlusIcon from '../../../assets/ikonice/plus_icon.svg';
+import { AddPayment } from './AddPayment';
+import { SellingInfo } from './SellingInfo';
 
 export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
   const [addedInputs, setAddedInputs] = useState(0);
   const [sellingInfo, setSellingInfo] = useState();
+  let soldTickets = 0;
+  let soldTicketsPrice = 0;
 
   useEffect(() => {
     setSellingInfo(data.transactions);
   }, []);
-
-  console.log(sellingInfo);
 
   const handleImageClick = () => {
     setAddedInputs(addedInputs + 1);
@@ -26,6 +26,10 @@ export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
         </div>
         <div>
           {Object.entries(data.type).map(([categoryName, categoryData]) => {
+            soldTickets = soldTickets + categoryData.sold;
+            soldTicketsPrice =
+              soldTicketsPrice + categoryData.sold * categoryData.price;
+
             return (
               <div key={categoryName}>
                 <p>{categoryData.name}</p>
@@ -38,8 +42,8 @@ export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
           })}
         </div>
         <div>
-          <p>Prodano ulaznica: 132</p>
-          <p>Ukupno: 132 BAM</p>
+          <p>Prodano ulaznica: {soldTickets}</p>
+          <p>Ukupno: {soldTicketsPrice} BAM</p>
         </div>
       </div>
       {sellingInfo &&
@@ -65,7 +69,7 @@ export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
             alt="Plus"
           />
         ) : (
-          ""
+          ''
         )}
       </div>
     </div>
