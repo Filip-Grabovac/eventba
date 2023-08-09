@@ -49,19 +49,21 @@ export const TicketGen = ({ concertData }) => {
   };
 
   useEffect(() => {
-    // Initialize rows based on the keys of the concertData.type object
-    const initialRows = Object.keys(concertData.tickets.free_sale.type).map(
-      (categoryName) => ({
-        categoryName,
-        ticketType: concertData.tickets.free_sale.type[categoryName].name, // Include ticketType
-        ticketsNum: "",
-        ticketPrice:
-          concertData.tickets.free_sale.type[categoryName].price.toString(),
-      })
-    );
+    if (concertData.tickets.free_sale.type) {
+      // Initialize rows based on the keys of the concertData.tickets.free_sale.type object
+      const initialRows = Object.keys(concertData.tickets.free_sale.type).map(
+        (categoryName) => ({
+          categoryName,
+          ticketType: concertData.tickets.free_sale.type[categoryName].name,
+          ticketsNum: "",
+          ticketPrice:
+            concertData.tickets.free_sale.type[categoryName].price.toString(),
+        })
+      );
 
-    setTickets(initialRows);
-    setRowNum(initialRows.length);
+      setTickets(initialRows);
+      setRowNum(initialRows.length);
+    }
   }, [concertData]);
 
   const handleAddRow = () => {
@@ -114,7 +116,7 @@ export const TicketGen = ({ concertData }) => {
         <div className="tickets-categories-container container-fluid">
           {Array.from({ length: rowNum }).map((_, i) => {
             const isDeletableRow =
-              i >= Object.keys(concertData.tickets.free_sale.type).length;
+              i >= Object.keys(concertData.tickets.free_sale.type || []).length;
             return (
               <div key={i} className="row">
                 <div className="col-lg-6">

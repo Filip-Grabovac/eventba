@@ -1,5 +1,4 @@
 async function updateConcertFunc(req, res, Concert) {
-  console.log('test');
   const { concertId } = req.params;
   const { total_amount, price, reseller_id, category_name } = req.body;
   let updatedTotalAmount,
@@ -12,7 +11,7 @@ async function updateConcertFunc(req, res, Concert) {
     const concert = await Concert.findById(concertId);
 
     if (!concert) {
-      return res.status(404).json({ message: 'Koncert nije pronađen.' });
+      return res.status(404).json({ message: "Koncert nije pronađen." });
     }
 
     // Access the "free_sale" and "total_amount" properties in the tickets
@@ -36,7 +35,7 @@ async function updateConcertFunc(req, res, Concert) {
     if (!targetReseller) {
       return res
         .status(400)
-        .json({ message: 'Preprodavač sa ovim id nije pronađen.' });
+        .json({ message: "Preprodavač sa ovim id nije pronađen." });
     }
 
     // Find the category object with the matching "category_name" inside the "type" object
@@ -44,13 +43,13 @@ async function updateConcertFunc(req, res, Concert) {
     const targetOverallCategory = concert.tickets.free_sale.type[category_name];
     let soldAmount = targetCategory.sold;
 
-    if (total_amount === '-') {
+    if (total_amount === "-") {
       updatedTotalAmount = currentTotalAmount - 1;
       updatedSoldAmount = sold_amount + 1;
       updatedAmountInBAM = amount_inBAM + price;
       soldAmount += 1;
       updatedOverallCategory = targetOverallCategory.amount - 1;
-    } else if (total_amount === '+') {
+    } else if (total_amount === "+") {
       updatedTotalAmount = currentTotalAmount + 1;
       updatedSoldAmount = sold_amount - 1;
       updatedAmountInBAM = amount_inBAM - price;
@@ -67,25 +66,25 @@ async function updateConcertFunc(req, res, Concert) {
       { _id: concertId },
       {
         $set: {
-          'tickets.free_sale.total_amount': updatedTotalAmount,
-          'tickets.free_sale.sold_amount': updatedSoldAmount,
-          'tickets.free_sale.amount_inBAM': updatedAmountInBAM,
+          "tickets.free_sale.total_amount": updatedTotalAmount,
+          "tickets.free_sale.sold_amount": updatedSoldAmount,
+          "tickets.free_sale.amount_inBAM": updatedAmountInBAM,
           [`tickets.free_sale.resellers.${targetResellerIndex}.type.${category_name}.sold`]:
             soldAmount,
           [`tickets.free_sale.type.${category_name}.amount`]:
             updatedOverallCategory,
         },
       },
-      { arrayFilters: [{ 'reseller.reseller_id': reseller_id }] }
+      { arrayFilters: [{ "reseller.reseller_id": reseller_id }] }
     );
 
     res.status(200).json({
-      message: 'Uspješno ažurirano.',
+      message: "Uspješno ažurirano.",
     });
   } catch (err) {
-    console.error('Greška pri ažuriranju koncerta:', err);
+    console.error("Greška pri ažuriranju koncerta:", err);
     res.status(500).json({
-      message: 'Serverska greška.',
+      message: "Serverska greška.",
     });
   }
 }

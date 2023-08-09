@@ -44,6 +44,7 @@
       margin: 0 auto;
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 10px;
       overflow-x: auto;
       white-space: nowrap;
@@ -57,9 +58,10 @@
 
       .profile-img-li {
         margin-right: auto;
+
         img {
           width: 100%;
-          max-width: 54px;
+          max-width: 35px;
           cursor: pointer;
           border-radius: 100%;
           border: 2px solid rgb(0 0 0 / 60%);
@@ -321,7 +323,7 @@
           }
 
           .custom-file-input::before {
-            content: 'Odaberi sponzore';
+            content: "Odaberi sponzore";
             display: inline-block;
             background: linear-gradient(top, #f9f9f9, #e3e3e3);
             border: 2px solid #999;
@@ -563,7 +565,7 @@
         padding: 5px 10px;
 
         &:nth-child(odd) {
-          background-color: rgba(69, 91, 217, 0.303);
+          background-color: rgba(69, 91, 217, 0.15);
 
           img {
             background-color: rgba(255, 255, 255, 0.9);

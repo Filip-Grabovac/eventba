@@ -15,7 +15,7 @@ export const EventDetails = ({ concertData, displayTicketGen }) => {
                   "hr-HR",
                   hrTimeFormat
                 )}{" "}
-                - {concertData.place.place}, {concertData.place.city},
+                - {concertData.place.place}, {concertData.place.city},{" "}
                 {concertData.place.country}
               </p>
             </div>

@@ -12,7 +12,6 @@ const concertHistorySchema = new mongoose.Schema({
 });
 
 const ConcertSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   type: [String],
   sponsors: [String],
   performer_name: String,
@@ -55,10 +54,17 @@ const ConcertSchema = new mongoose.Schema({
       resellers: {
         type: [
           {
-            reseller_id: mongoose.Schema.Types.ObjectId,
+            reseller_id: {
+              type: mongoose.Schema.Types.ObjectId, // Set the field type to ObjectId
+              ref: "users",
+            },
             reseller_name: String,
             reseller_address: String,
-            transactions: Array,
+            transactions: {
+              type: [Object], // Change the type to an array of Objects
+              default: [], // Set default value to an empty array
+            },
+
             type: Object,
           },
         ],
@@ -85,7 +91,7 @@ const ConcertSchema = new mongoose.Schema({
   description: String,
   organizer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "users",
   },
   concertHistory: [concertHistorySchema],
   previousSoldAmount: {

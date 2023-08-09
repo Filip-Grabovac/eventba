@@ -38,7 +38,9 @@ export const AddPayment = ({ setSellingInfo, i, concertId, resellerId }) => {
       toast.warn("Molimo unesite sva polja", toastSetup("top-right", 3000));
     } else {
       setSellingStatus(true);
+
       setSellingInfo((prevSellingInfo) => [...prevSellingInfo, newDataObject]);
+
       toast.success("Uspješno dodano.", toastSetup("top-right", 3000));
 
       try {

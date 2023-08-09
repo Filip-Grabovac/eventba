@@ -60,6 +60,9 @@
   .resellers-list-dropdown {
     display: flex;
     top: 100px;
+    .warnning-message {
+      margin: 10px auto;
+    }
     p {
       margin: 0;
     }

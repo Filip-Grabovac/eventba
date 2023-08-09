@@ -50,18 +50,19 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
     let totalLoaned = 0;
     let totalSold = 0;
     let soldMoney = 0;
+    let totalVerifiedPrice = 0;
 
     for (const category in categories) {
       totalLoaned += categories[category].loaned;
       totalSold += categories[category].sold;
       soldMoney += categories[category].sold * categories[category].price;
     }
-    let totalVerifiedPrice = 0;
-    for (const transaction of data.reseller.transactions) {
-      if (transaction.is_verified) {
-        totalVerifiedPrice += parseFloat(transaction.price);
+    if (data.reseller.transactions)
+      for (const transaction of data.reseller.transactions) {
+        if (transaction.is_verified) {
+          totalVerifiedPrice += parseFloat(transaction.price);
+        }
       }
-    }
     setLeftMoney(soldMoney - totalVerifiedPrice);
     return { loaned: totalLoaned, sold: totalSold, soldMoney: soldMoney };
   };
@@ -118,25 +119,26 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
       >
         <div className="profile-concert-wrapper">
           <div className="check-ticket-manager">
-            {Object.entries(data.reseller.type).map(
-              ([categoryName, categoryData]) => (
-                <TicketManager
-                  key={categoryName}
-                  type={categoryName}
-                  price={categoryData.price}
-                  totalAmount={categoryData.loaned}
-                  totalSold={categoryData.sold}
-                  setAvailable={setAvailable}
-                  setTotalSold={setTotalSold}
-                  setTotalSoldMoney={setTotalSoldMoney}
-                  setLeftMoney={setLeftMoney}
-                  concertId={concertId}
-                  resellerId={reseller_id}
-                />
-              )
-            )}
+            {data.reseller.type &&
+              Object.entries(data.reseller.type).map(
+                ([categoryName, categoryData]) => (
+                  <TicketManager
+                    key={categoryName}
+                    type={categoryName}
+                    price={categoryData.price}
+                    totalAmount={categoryData.loaned}
+                    totalSold={categoryData.sold}
+                    setAvailable={setAvailable}
+                    setTotalSold={setTotalSold}
+                    setTotalSoldMoney={setTotalSoldMoney}
+                    setLeftMoney={setLeftMoney}
+                    concertId={concertId}
+                    resellerId={reseller_id}
+                  />
+                )
+              )}
           </div>
-          {data.reseller &&
+          {data.reseller.transactions &&
             data.reseller.transactions.map((transaction, index) => (
               <ApproveTicketSale
                 setLeftMoney={setLeftMoney}

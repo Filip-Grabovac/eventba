@@ -4,13 +4,21 @@ import { AddPayment } from "./AddPayment";
 import { SellingInfo } from "./SellingInfo";
 
 export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
+  const [moneyLeft, setMoneyLeft] = useState(0);
   const [addedInputs, setAddedInputs] = useState(0);
-  const [sellingInfo, setSellingInfo] = useState();
+  const [sellingInfo, setSellingInfo] = useState(data.transactions || []);
+  let totalVerifiedPrice = 0;
   let soldTickets = 0;
   let soldTicketsPrice = 0;
 
   useEffect(() => {
-    setSellingInfo(data.transactions);
+    if (data.transactions && data.transactions[0] !== undefined)
+      for (const transaction of data.transactions) {
+        if (transaction.is_verified) {
+          totalVerifiedPrice += parseFloat(transaction.price);
+        }
+      }
+    setMoneyLeft(soldTicketsPrice - totalVerifiedPrice);
   }, []);
 
   const handleImageClick = () => {
@@ -65,7 +73,7 @@ export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
           />
         ))}
         <p>
-          Preostalo: 10 <small>BAM</small>
+          Preostalo: {moneyLeft} <small>BAM</small>
         </p>
         {addedInputs === 0 ? (
           <img

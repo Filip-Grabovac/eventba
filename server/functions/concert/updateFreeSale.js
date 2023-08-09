@@ -1,5 +1,7 @@
 const connectDB = require("../../db/connect");
 const concertSchema = require("../../models/Concert");
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 async function updateFreeSale(concertId, ticketList) {
   try {
@@ -78,6 +80,7 @@ async function updateFreeSale(concertId, ticketList) {
     console.error("An error occurred:", error);
   }
 }
+
 // Add resellers of freesale tickets
 async function updateLoanTickets(ticketInputs, userData, concertId) {
   try {
@@ -141,7 +144,7 @@ async function updateLoanTickets(ticketInputs, userData, concertId) {
       const resellerTickets = {
         reseller_name: userData.reseller_info.sellingPlaceName,
         reseller_address: userData.reseller_info.sellingPlaceAddress,
-        reseller_id: userData._id,
+        reseller_id: ObjectId(userData._id), // Convert _id to ObjectId
         type: {},
       };
       for (const category in ticketInputs) {

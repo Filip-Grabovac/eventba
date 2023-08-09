@@ -60,38 +60,46 @@ const TicketCategories = ({
       className="myevents-card-dropdown resellers-list-dropdown"
       ref={dropdownRef}
     >
-      {Object.keys(freeSaleData.type).map((categoryKey) => {
-        const category = freeSaleData.type[categoryKey];
-        const availableTickets = category.amount - category.loaned;
-        const isSoldOut = availableTickets <= 0;
+      {freeSaleData.type ? (
+        Object.keys(freeSaleData.type).map((categoryKey) => {
+          const category = freeSaleData.type[categoryKey];
+          const availableTickets = category.amount - category.loaned;
+          const isSoldOut = availableTickets <= 0;
 
-        return (
-          <div
-            key={categoryKey}
-            className={`add-reseller-dropdown-part ${
-              isSoldOut ? "sold-out" : ""
-            }`}
-          >
-            <div>
-              <p>
-                {categoryKey} - {category.name}
-              </p>
+          return (
+            <div
+              key={categoryKey}
+              className={`add-reseller-dropdown-part ${
+                isSoldOut ? "sold-out" : ""
+              }`}
+            >
+              <div>
+                <p>
+                  {categoryKey} - {category.name}
+                </p>
+              </div>
+              <div>
+                <p>Broj ulaznica</p>
+                <input
+                  type="text"
+                  placeholder={
+                    isSoldOut ? "Nedostupno" : `Dostupno: ${availableTickets}`
+                  }
+                  value={ticketInputs[categoryKey] || ""}
+                  onChange={(e) =>
+                    handleInputChange(categoryKey, e.target.value)
+                  }
+                  disabled={isSoldOut}
+                />
+              </div>
             </div>
-            <div>
-              <p>Broj ulaznica</p>
-              <input
-                type="text"
-                placeholder={
-                  isSoldOut ? "Nedostupno" : `Dostupno: ${availableTickets}`
-                }
-                value={ticketInputs[categoryKey] || ""}
-                onChange={(e) => handleInputChange(categoryKey, e.target.value)}
-                disabled={isSoldOut}
-              />
-            </div>
-          </div>
-        );
-      })}
+          );
+        })
+      ) : (
+        <span className="warnning-message">
+          Nemate generiranih ulaznica za dodjelu
+        </span>
+      )}
       <button className="add-reseller" onClick={handleSaveChanges}>
         Dodijeli ulaznice
       </button>

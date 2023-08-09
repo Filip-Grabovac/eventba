@@ -47,7 +47,7 @@ const uploadImage = async (req, res) => {
       path.resolve(__dirname, "..", "ticket-gen", "public", "sponsors-temp")
     );
 
-    res.status(200).json({ message: "Files uploaded successfully." });
+    res.status(200).json({ message: "Uspješan upload datoteka." });
   } catch (error) {
     console.error("Error during image upload:", error);
     res.status(500).json({ error: "Error uploading files." });
@@ -62,6 +62,7 @@ const removeTemporaryFiles = async (folderPath) => {
     await fs.promises.unlink(filePath);
     console.log("Temporary image deleted:", filePath);
   }
+  return;
 };
 
 module.exports = uploadImage;

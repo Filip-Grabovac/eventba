@@ -14,25 +14,29 @@ const ConcertComponent = ({ concertData }) => {
           <p>Zaduženo: {concertData.tickets.free_sale.total_loaned}</p>
           <p>
             Dostupno:{" "}
-            {concertData.tickets.free_sale.total_amount -
+            {concertData.tickets.free_sale.total_amount +
+              concertData.tickets.free_sale.sold_amount -
               concertData.tickets.free_sale.total_loaned}
           </p>
           <div className="line"></div>
-          {Object.keys(concertData.tickets.free_sale.type).map(
-            (categoryKey) => {
-              const category = concertData.tickets.free_sale.type[categoryKey];
-              return (
-                <div key={categoryKey} className="category">
-                  <p>
-                    {category.name} - {categoryKey}
-                  </p>
-                  <p>
-                    Ukupno/Zaduženo: {category.amount}/{category.loaned ?? 0}
-                  </p>
-                </div>
-              );
-            }
-          )}
+          {concertData.tickets.free_sale.type &&
+            Object.keys(concertData.tickets.free_sale.type).map(
+              (categoryKey) => {
+                const category =
+                  concertData.tickets.free_sale.type[categoryKey];
+                return (
+                  <div key={categoryKey} className="category">
+                    <p>
+                      {category.name} - {categoryKey}
+                    </p>
+                    <p>
+                      Ukupno/Zaduženo: {category.maxAmount}/
+                      {category.loaned ?? 0}
+                    </p>
+                  </div>
+                );
+              }
+            )}
         </div>
       ) : (
         ""
