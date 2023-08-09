@@ -24,7 +24,7 @@ const TicketCategories = ({
     // Check if the number of loaned tickets exceeds the available tickets
     for (const categoryKey in ticketInputs) {
       const category = freeSaleData.type[categoryKey];
-      const availableTickets = category.amount - category.loaned;
+      const availableTickets = category.maxAmount - category.loaned;
       const loanedTickets = parseInt(ticketInputs[categoryKey]);
 
       if (loanedTickets > availableTickets) {
@@ -63,7 +63,7 @@ const TicketCategories = ({
       {freeSaleData.type ? (
         Object.keys(freeSaleData.type).map((categoryKey) => {
           const category = freeSaleData.type[categoryKey];
-          const availableTickets = category.amount - category.loaned;
+          const availableTickets = category.maxAmount - category.loaned;
           const isSoldOut = availableTickets <= 0;
 
           return (
