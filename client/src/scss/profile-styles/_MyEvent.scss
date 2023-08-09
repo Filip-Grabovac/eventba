@@ -300,6 +300,10 @@
           border-left: 1px solid rgba(69, 91, 217, 0.204);
           border-right: 1px solid rgba(69, 91, 217, 0.204);
         }
+        img {
+          width: 20px;
+          margin: 0 2%;
+        }
       }
       .resellers-card-last-row {
         display: flex;

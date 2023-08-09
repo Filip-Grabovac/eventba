@@ -1,7 +1,9 @@
 import React from "react";
 import { hrTimeFormatShort } from "../../../components/helper/timeFormatShort";
+import check from "../../../assets/ikonice/check2_icon.svg";
+import x from "../../../assets/ikonice/not_verified.svg";
 
-export const SellingInfo = ({ data }) => {
+export const SellingInfo = ({ data, key }) => {
   const formattedDate = new Date(data && data.date).toLocaleDateString(
     "hr-HR",
     hrTimeFormatShort
@@ -21,6 +23,8 @@ export const SellingInfo = ({ data }) => {
         <p>
           {data.price} <small>BAM</small>
         </p>
+
+        <img id={`verified-${key}`} src={data.is_verified ? check : x} alt="" />
       </div>
     </div>
   );
