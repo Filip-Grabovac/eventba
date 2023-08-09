@@ -73,7 +73,7 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
     setTotalSold(totalLoaned.sold);
     setTotalSoldMoney(totalLoaned.soldMoney);
   }, [data.reseller.type]);
-
+  console.log(data.reseller);
   return (
     <div
       style={{
@@ -104,7 +104,12 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
         </div>
       </div>
 
-      <div className="dropdown-arrow-wrapper">
+      <div
+        style={{
+          borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
+        }}
+        className="dropdown-arrow-wrapper"
+      >
         <img
           onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
           src={ArrowIcon}
@@ -118,25 +123,27 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
         ref={dropdownRef}
       >
         <div className="profile-concert-wrapper">
-          <div className="check-ticket-manager">
-            {data.reseller.type &&
-              Object.entries(data.reseller.type).map(
-                ([categoryName, categoryData]) => (
-                  <TicketManager
-                    key={categoryName}
-                    type={categoryName}
-                    price={categoryData.price}
-                    totalAmount={categoryData.loaned}
-                    totalSold={categoryData.sold}
-                    setAvailable={setAvailable}
-                    setTotalSold={setTotalSold}
-                    setTotalSoldMoney={setTotalSoldMoney}
-                    setLeftMoney={setLeftMoney}
-                    concertId={concertId}
-                    resellerId={reseller_id}
-                  />
-                )
-              )}
+          <div className="check-ticket-container">
+            <div className="check-ticket-manager">
+              {data.reseller.type &&
+                Object.entries(data.reseller.type).map(
+                  ([categoryName, categoryData]) => (
+                    <TicketManager
+                      key={categoryName}
+                      type={categoryName}
+                      price={categoryData.price}
+                      totalAmount={categoryData.loaned}
+                      totalSold={categoryData.sold}
+                      setAvailable={setAvailable}
+                      setTotalSold={setTotalSold}
+                      setTotalSoldMoney={setTotalSoldMoney}
+                      setLeftMoney={setLeftMoney}
+                      concertId={concertId}
+                      resellerId={reseller_id}
+                    />
+                  )
+                )}
+            </div>
           </div>
           {data.reseller.transactions &&
             data.reseller.transactions.map((transaction, index) => (

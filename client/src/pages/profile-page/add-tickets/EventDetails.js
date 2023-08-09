@@ -4,7 +4,7 @@ import { TicketGen } from "./TicketGen";
 
 export const EventDetails = ({ concertData, displayTicketGen }) => {
   return (
-    <div className="concert-container">
+    <div className="concert-container smaller-profile">
       {concertData && (
         <>
           <div className="top-part">

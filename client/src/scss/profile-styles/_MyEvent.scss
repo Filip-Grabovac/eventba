@@ -12,7 +12,7 @@
   position: relative;
   transition: margin 0.4s ease-out;
   @media only screen and (max-width: 600px) {
-    letter-spacing: -0.5px;
+    letter-spacing: -0.2px;
   }
   .myevent-card-part-1 {
     display: flex;
@@ -20,6 +20,9 @@
     width: 22%;
     background-color: #b8bede;
     border-radius: 7px;
+    @media only screen and (max-width: 600px) {
+      flex-direction: column-reverse;
+    }
     .conc-info {
       line-height: 15px;
       max-height: 100%;
@@ -66,7 +69,7 @@
       object-fit: cover;
       border-radius: 7px 0px 0px 7px;
       @media only screen and (max-width: 600px) {
-        display: none;
+        width: 100%;
       }
     }
   }

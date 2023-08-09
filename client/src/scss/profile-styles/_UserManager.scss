@@ -66,11 +66,56 @@
     margin-bottom: 10px;
     display: flex;
 
-    .user {
-      width: 10%;
-      margin-right: 5px;
+    @media only screen and (max-width: 400px) {
+      flex-direction: column;
+      align-items: center;
     }
 
+    .card-part-half {
+      width: 65%;
+      display: flex;
+
+      @media only screen and (max-width: 400px) {
+        width: 100%;
+      }
+
+      .um-card-part {
+        width: 100%;
+      }
+
+      &:nth-child(3) {
+        width: 30%;
+
+        @media only screen and (max-width: 600px) {
+          width: 35%;
+        }
+
+        @media only screen and (max-width: 400px) {
+          width: 65%;
+        }
+      }
+    }
+
+    @media only screen and (max-width: 490px) {
+      padding: 10px 2px;
+    }
+
+    .user {
+      width: 5%;
+      margin-right: 5px;
+
+      @media only screen and (max-width: 600px) {
+        display: none;
+      }
+    }
+
+    .role-selector {
+      @media only screen and (max-width: 680px) {
+        font-size: 13px;
+        width: 100%;
+        max-width: 100px;
+      }
+    }
     &:nth-child(odd) {
       background-color: #fff;
 
@@ -114,11 +159,20 @@
       flex-wrap: wrap;
       justify-content: space-around;
       font-weight: 600;
-      width: 30%;
+      width: 32.5%;
       padding: 0 5px;
+      text-align: center;
+
+      @media only screen and (max-width: 600px) {
+        width: 29.5%;
+      }
 
       p {
         margin: 0;
+
+        @media only screen and (max-width: 680px) {
+          font-size: 13px;
+        }
       }
 
       .is-verified,
@@ -147,21 +201,37 @@
     .um-last-part {
       width: 23%;
       align-items: center;
+
+      @media only screen and (max-width: 600px) {
+        width: 33%;
+      }
     }
 
     .um-line {
       width: 2px;
       height: 80px;
+
+      &:nth-child(1) {
+        @media only screen and (max-width: 400px) {
+          display: none;
+        }
+      }
+      &:nth-child(3) {
+        @media only screen and (max-width: 400px) {
+          display: none;
+        }
+      }
     }
     .um-icons-wrapper {
-      width: 7%;
+      width: 35px;
       display: flex;
       justify-content: center;
       flex-direction: column;
       margin-left: 5px;
 
       div {
-        width: 80%;
+        width: 100%;
+        max-width: 38px;
         padding: 5px;
         display: flex;
         align-items: center;
@@ -178,6 +248,10 @@
           width: 90%;
           height: 90%;
           cursor: pointer;
+        }
+
+        @media only screen and (max-width: 680px) {
+          max-width: 28px;
         }
       }
     }

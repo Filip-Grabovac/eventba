@@ -14,6 +14,10 @@
     align-items: center;
     padding: 10px 0 20px;
     border-bottom: #455cd9 solid 2px;
+
+    @media only screen and (max-width: 550px) {
+      flex-direction: column;
+    }
     .info {
       background: #e1e3f0;
       padding: 10px 20px;
@@ -21,10 +25,32 @@
       margin: 5px;
       width: 40%;
       line-height: 25px;
+
+      @media only screen and (max-width: 550px) {
+        width: 100%;
+        max-width: 300px;
+        order: 2;
+      }
+
+      h4 {
+        @media only screen and (max-width: 550px) {
+          font-size: 20px;
+        }
+      }
+      p {
+        @media only screen and (max-width: 550px) {
+          font-size: 14px;
+        }
+      }
     }
     img {
       width: 40%;
       border-radius: 10px;
+
+      @media only screen and (max-width: 550px) {
+        width: 100%;
+        max-width: 300px;
+      }
     }
   }
 }

@@ -113,65 +113,72 @@ export const UserManagerCard = ({ data, removeUserFromUI }) => {
         content="Promjenite tip računa."
       />
       <img className="user" src={UserManagerIcon} alt="User" />
-      <div className="um-card-part">
-        <p>{userData.fullName}</p>
-        <p>{userData.email}</p>
-      </div>
-      <div className="um-line"></div>
-      <div className="um-card-part um-middle-part">
-        {userData.country ? (
-          <p>
-            {userData.country}, {userData.city}
-          </p>
-        ) : (
-          ''
-        )}
-        <p className="is-verified">
-          Verificiran: <img src={UserManagerCheck} alt="Check" />
-        </p>
-      </div>
-      <div className="um-line"></div>
-      <div className="um-card-part um-last-part">
-        <select
-          name="role"
-          id="role-selector"
-          className="role-selector"
-          value={selectedRole}
-          onChange={handleRoleChange}
-        >
-          <option value={selectedRole}>
-            {t(`role.${selectedRole && selectedRole.toLowerCase()}`)}
-          </option>
-          {roles.map((e, i) => {
-            if (selectedRole && selectedRole.toLowerCase() !== e) {
-              return (
-                <option key={i} value={e}>
-                  {t(`role.${roles[i]}`)}
-                </option>
-              );
-            } else {
-              return null;
-            }
-          })}
-        </select>
-      </div>
-      <div className="um-line"></div>
-      <div className="um-icons-wrapper">
-        <div
-          onClick={() => {
-            deleteUser();
-          }}
-          id="delete-user-icon"
-        >
-          <img src={TrashCanIcon} alt="Trash Can" />
+      <div className="card-part-half">
+        <div className="um-card-part">
+          <p>{userData.fullName}</p>
+          <p>{userData.email}</p>
         </div>
-        <div
-          id="ban-img"
-          onClick={(e) => {
-            setUserBanStatus(e);
-          }}
-        >
-          <img src={userData.isBanned ? UnBanUser : BanUser} alt="Unban User" />
+        <div className="um-line"></div>
+        <div className="um-card-part um-middle-part">
+          {userData.country ? (
+            <p>
+              {userData.country}, {userData.city}
+            </p>
+          ) : (
+            ''
+          )}
+          <p className="is-verified">
+            Verificiran: <img src={UserManagerCheck} alt="Check" />
+          </p>
+        </div>
+      </div>
+      <div className="card-part-half">
+        <div className="um-line"></div>
+        <div className="um-card-part um-last-part">
+          <select
+            name="role"
+            id="role-selector"
+            className="role-selector"
+            value={selectedRole}
+            onChange={handleRoleChange}
+          >
+            <option value={selectedRole}>
+              {t(`role.${selectedRole && selectedRole.toLowerCase()}`)}
+            </option>
+            {roles.map((e, i) => {
+              if (selectedRole && selectedRole.toLowerCase() !== e) {
+                return (
+                  <option key={i} value={e}>
+                    {t(`role.${roles[i]}`)}
+                  </option>
+                );
+              } else {
+                return null;
+              }
+            })}
+          </select>
+        </div>
+        <div className="um-line"></div>
+        <div className="um-icons-wrapper">
+          <div
+            onClick={() => {
+              deleteUser();
+            }}
+            id="delete-user-icon"
+          >
+            <img src={TrashCanIcon} alt="Trash Can" />
+          </div>
+          <div
+            id="ban-img"
+            onClick={(e) => {
+              setUserBanStatus(e);
+            }}
+          >
+            <img
+              src={userData.isBanned ? UnBanUser : BanUser}
+              alt="Unban User"
+            />
+          </div>
         </div>
       </div>
     </div>
