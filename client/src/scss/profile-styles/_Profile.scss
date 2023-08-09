@@ -47,24 +47,28 @@
       gap: 10px;
       overflow-x: auto;
       white-space: nowrap;
+      flex-shrink: 0;
+      align-items: center;
 
-      @media only screen and (max-width: 863px) {
-        display: block;
-      }
-      @media only screen and (max-width: 600px) {
+      @media only screen and (max-width: 710px) {
         width: fit-content;
       }
 
       .profile-img-li {
         margin-right: auto;
         img {
-          width: 100%;
+          width: 54px;
           max-width: 54px;
           cursor: pointer;
           border-radius: 100%;
           border: 2px solid rgb(0 0 0 / 60%);
           padding: 2px;
           opacity: 0.7;
+
+          @media only screen and (max-width: 500px) {
+            width: 40;
+            max-width: 40px;
+          }
         }
       }
 

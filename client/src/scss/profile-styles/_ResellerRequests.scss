@@ -60,6 +60,7 @@
   .resellers-list-dropdown {
     display: flex;
     top: 100px;
+    padding-right: 5px;
     p {
       margin: 0;
     }
@@ -110,10 +111,17 @@
 
         p {
           font-size: 15px;
+          @media only screen and (max-width: 500px) {
+            font-size: 12px;
+          }
         }
 
         p:nth-child(1) {
           color: #455cd9;
+
+          @media only screen and (max-width: 500px) {
+            font-size: 12px;
+          }
         }
       }
     }
@@ -133,6 +141,11 @@
         border-radius: 10px;
         padding: 7px;
         cursor: pointer;
+
+        @media only screen and (max-width: 500px) {
+          width: 30px;
+          height: 30px;
+        }
 
         &:hover {
           img {

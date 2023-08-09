@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import ArrowIcon from "../../../assets/ikonice/arrow_icon.svg";
-import { TicketManager } from "./TicketManager";
-import { ApproveTicketSale } from "./ApproveTicketSale";
-import { hrTimeFormat } from "../../../components/helper/timeFormat";
+import React, { useEffect, useRef, useState } from 'react';
+import ArrowIcon from '../../../assets/ikonice/arrow_icon.svg';
+import { TicketManager } from './TicketManager';
+import { ApproveTicketSale } from './ApproveTicketSale';
+import { hrTimeFormat } from '../../../components/helper/timeFormat';
 
 export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -15,7 +15,7 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
   const [soldMoney, setTotalSoldMoney] = useState();
   const [leftMoney, setLeftMoney] = useState();
   const date = new Date(data.time_of_event).toLocaleDateString(
-    "hr-HR",
+    'hr-HR',
     hrTimeFormat
   );
 
@@ -28,8 +28,8 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
       disableArrow(false);
     }, 400);
 
-    if (!dropdown) e.target.style = "transform: rotate(-180deg)";
-    else e.target.style = "transform: rotate(0deg)";
+    if (!dropdown) e.target.style = 'transform: rotate(-180deg)';
+    else e.target.style = 'transform: rotate(0deg)';
   }
 
   useEffect(() => {
@@ -72,18 +72,18 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
     setTotalSold(totalLoaned.sold);
     setTotalSoldMoney(totalLoaned.soldMoney);
   }, [data.reseller.type]);
-
+  console.log(data.reseller);
   return (
     <div
       style={{
-        borderBottomLeftRadius: hasBorderRadius ? "7px" : "0",
-        borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
-        marginBottom: dropdown ? dropdownHeight + 10 : "10px",
+        borderBottomLeftRadius: hasBorderRadius ? '7px' : '0',
+        borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
+        marginBottom: dropdown ? dropdownHeight + 10 : '10px',
       }}
       className="mytickets-card check-reseller-tickets"
     >
       <img
-        style={{ borderBottomLeftRadius: hasBorderRadius ? "7px" : "0" }}
+        style={{ borderBottomLeftRadius: hasBorderRadius ? '7px' : '0' }}
         src={`${process.env.REACT_APP_API_URL}/static/event-images/${data.poster.portrait}`}
         alt=""
       />
@@ -91,7 +91,7 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
         <div>
           <h5>{data.performer_name}</h5>
           <p>
-            {date[0].toUpperCase() + date.slice(1)} - {data.place.place},{" "}
+            {date[0].toUpperCase() + date.slice(1)} - {data.place.place},{' '}
             {data.place.city}
           </p>
         </div>
@@ -103,7 +103,12 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
         </div>
       </div>
 
-      <div className="dropdown-arrow-wrapper">
+      <div
+        style={{
+          borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
+        }}
+        className="dropdown-arrow-wrapper"
+      >
         <img
           onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
           src={ArrowIcon}
@@ -117,24 +122,26 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
         ref={dropdownRef}
       >
         <div className="profile-concert-wrapper">
-          <div className="check-ticket-manager">
-            {Object.entries(data.reseller.type).map(
-              ([categoryName, categoryData]) => (
-                <TicketManager
-                  key={categoryName}
-                  type={categoryName}
-                  price={categoryData.price}
-                  totalAmount={categoryData.loaned}
-                  totalSold={categoryData.sold}
-                  setAvailable={setAvailable}
-                  setTotalSold={setTotalSold}
-                  setTotalSoldMoney={setTotalSoldMoney}
-                  setLeftMoney={setLeftMoney}
-                  concertId={concertId}
-                  resellerId={reseller_id}
-                />
-              )
-            )}
+          <div className="check-ticket-container">
+            <div className="check-ticket-manager">
+              {Object.entries(data.reseller.type).map(
+                ([categoryName, categoryData]) => (
+                  <TicketManager
+                    key={categoryName}
+                    type={categoryName}
+                    price={categoryData.price}
+                    totalAmount={categoryData.loaned}
+                    totalSold={categoryData.sold}
+                    setAvailable={setAvailable}
+                    setTotalSold={setTotalSold}
+                    setTotalSoldMoney={setTotalSoldMoney}
+                    setLeftMoney={setLeftMoney}
+                    concertId={concertId}
+                    resellerId={reseller_id}
+                  />
+                )
+              )}
+            </div>
           </div>
           {data.reseller &&
             data.reseller.transactions.map((transaction, index) => (
