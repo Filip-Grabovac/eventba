@@ -303,6 +303,10 @@
         img {
           width: 20px;
           margin: 0 2%;
+
+          @media only screen and (max-width: 500px) {
+            width: 15px;
+          }
         }
       }
       .resellers-card-last-row {
