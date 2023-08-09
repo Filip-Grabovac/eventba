@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
-import ArrowIcon from '../../../assets/ikonice/arrow_icon.svg';
-import { TicketManager } from './TicketManager';
-import { ApproveTicketSale } from './ApproveTicketSale';
-import { hrTimeFormat } from '../../../components/helper/timeFormat';
+import React, { useEffect, useRef, useState } from "react";
+import ArrowIcon from "../../../assets/ikonice/arrow_icon.svg";
+import { TicketManager } from "./TicketManager";
+import { ApproveTicketSale } from "./ApproveTicketSale";
+import { hrTimeFormat } from "../../../components/helper/timeFormat";
 
 export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -15,7 +15,7 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
   const [soldMoney, setTotalSoldMoney] = useState();
   const [leftMoney, setLeftMoney] = useState(0);
   const date = new Date(data.time_of_event).toLocaleDateString(
-    'hr-HR',
+    "hr-HR",
     hrTimeFormat
   );
 
@@ -28,8 +28,8 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
       disableArrow(false);
     }, 400);
 
-    if (!dropdown) e.target.style = 'transform: rotate(-180deg)';
-    else e.target.style = 'transform: rotate(0deg)';
+    if (!dropdown) e.target.style = "transform: rotate(-180deg)";
+    else e.target.style = "transform: rotate(0deg)";
   }
 
   useEffect(() => {
@@ -70,14 +70,14 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
   return (
     <div
       style={{
-        borderBottomLeftRadius: hasBorderRadius ? '7px' : '0',
-        borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
-        marginBottom: dropdown ? dropdownHeight + 10 : '10px',
+        borderBottomLeftRadius: hasBorderRadius ? "7px" : "0",
+        borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
+        marginBottom: dropdown ? dropdownHeight + 10 : "10px",
       }}
       className="mytickets-card check-reseller-tickets"
     >
       <img
-        style={{ borderBottomLeftRadius: hasBorderRadius ? '7px' : '0' }}
+        style={{ borderBottomLeftRadius: hasBorderRadius ? "7px" : "0" }}
         src={`${process.env.REACT_APP_API_URL}/static/event-images/${data.poster.portrait}`}
         alt=""
       />
@@ -85,7 +85,7 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
         <div>
           <h5>{data.performer_name}</h5>
           <p>
-            {date[0].toUpperCase() + date.slice(1)} - {data.place.place},{' '}
+            {date[0].toUpperCase() + date.slice(1)} - {data.place.place},{" "}
             {data.place.city}
           </p>
         </div>
@@ -130,8 +130,17 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
               )
             )}
           </div>
-          <ApproveTicketSale setLeftMoney={setLeftMoney} />
-          <ApproveTicketSale setLeftMoney={setLeftMoney} />
+          {data.reseller &&
+            data.reseller.transactions.map((transaction, index) => (
+              <ApproveTicketSale
+                setLeftMoney={setLeftMoney}
+                key={index}
+                transactions={transaction}
+                i={index}
+                concertId={concertId}
+                resellerId={reseller_id}
+              />
+            ))}
         </div>
       </div>
     </div>

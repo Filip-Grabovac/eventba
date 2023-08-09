@@ -42,7 +42,7 @@ export const AddPayment = ({ setSellingInfo, i, concertId, resellerId }) => {
       toast.success("Uspješno dodano.", toastSetup("top-right", 3000));
 
       try {
-        const response = await axios.post(
+        await axios.post(
           process.env.REACT_APP_API_URL + "/api/v1/freeSale/add-transaction",
           {
             transactionData: newDataObject,
@@ -50,9 +50,9 @@ export const AddPayment = ({ setSellingInfo, i, concertId, resellerId }) => {
             concertId,
           }
         );
-
-        console.log(response.data);
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 
