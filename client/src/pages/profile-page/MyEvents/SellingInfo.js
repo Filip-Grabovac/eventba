@@ -1,9 +1,9 @@
-import React from 'react';
-import { hrTimeFormatShort } from '../../../components/helper/timeFormatShort';
+import React from "react";
+import { hrTimeFormatShort } from "../../../components/helper/timeFormatShort";
 
 export const SellingInfo = ({ data }) => {
   const formattedDate = new Date(data && data.date).toLocaleDateString(
-    'hr-HR',
+    "hr-HR",
     hrTimeFormatShort
   );
 
@@ -18,7 +18,9 @@ export const SellingInfo = ({ data }) => {
       </div>
       <div>
         <p>Preuzeo: {data.taker}</p>
-        <p>{data.price} BAM</p>
+        <p>
+          {data.price} <small>BAM</small>
+        </p>
       </div>
     </div>
   );

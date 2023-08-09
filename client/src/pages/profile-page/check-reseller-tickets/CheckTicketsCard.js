@@ -13,7 +13,7 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
   const [available, setAvailable] = useState();
   const [sold, setTotalSold] = useState();
   const [soldMoney, setTotalSoldMoney] = useState();
-  const [leftMoney, setLeftMoney] = useState(0);
+  const [leftMoney, setLeftMoney] = useState();
   const date = new Date(data.time_of_event).toLocaleDateString(
     "hr-HR",
     hrTimeFormat
@@ -56,7 +56,13 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
       totalSold += categories[category].sold;
       soldMoney += categories[category].sold * categories[category].price;
     }
-
+    let totalVerifiedPrice = 0;
+    for (const transaction of data.reseller.transactions) {
+      if (transaction.is_verified) {
+        totalVerifiedPrice += parseFloat(transaction.price);
+      }
+    }
+    setLeftMoney(soldMoney - totalVerifiedPrice);
     return { loaned: totalLoaned, sold: totalSold, soldMoney: soldMoney };
   };
 
@@ -93,7 +99,7 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
           <p>Dostupno: {available}</p>
           <p>Prodano: {sold}</p>
           <p>Ukupno: {soldMoney} BAM</p>
-          {/* <p>Preostalo: {leftMoney} BAM</p> */}
+          <p>Preostalo: {leftMoney} BAM</p>
         </div>
       </div>
 

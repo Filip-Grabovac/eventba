@@ -30,7 +30,9 @@ export const MyTicketCard = ({ data }) => {
           <span>Cijena:</span>
         </div>
         <div className="ticket-parts">
-          <p>{data.price} BAM</p>
+          <p>
+            {data.price} <small>BAM</small>
+          </p>
         </div>
       </div>
     </div>

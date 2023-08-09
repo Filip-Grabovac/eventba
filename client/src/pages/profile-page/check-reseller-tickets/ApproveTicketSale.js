@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CheckIcon from "../../../assets/ikonice/check2_icon.svg";
 import { hrTimeFormatShort } from "../../../components/helper/timeFormatShort";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { toastSetup } from "../../../functions/toastSetup";
 
 export const ApproveTicketSale = ({
   setLeftMoney,
@@ -18,11 +20,6 @@ export const ApproveTicketSale = ({
   async function approvePaymentRequest(e) {
     e.preventDefault();
     try {
-      console.log({
-        transactionIndex: i,
-        concertId,
-        resellerId,
-      });
       const responese = await axios.post(
         process.env.REACT_APP_API_URL + "/api/v1/freeSale/verify-transaction",
         {
@@ -31,9 +28,10 @@ export const ApproveTicketSale = ({
           resellerId,
         }
       );
-      console.log(responese.data);
+      toast.success(responese.data.success, toastSetup("top-center", 3000));
     } catch (error) {
       console.error(error);
+      toast.error(error, toastSetup("top-center", 3000));
     }
     setApprovedStatus(true);
     setLeftMoney((leftMoney) => leftMoney - price);

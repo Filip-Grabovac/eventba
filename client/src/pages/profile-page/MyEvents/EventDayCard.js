@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import PlusIcon from '../../../assets/ikonice/plus_icon.svg';
-import { AddPayment } from './AddPayment';
-import { SellingInfo } from './SellingInfo';
+import React, { useEffect, useState } from "react";
+import PlusIcon from "../../../assets/ikonice/plus_icon.svg";
+import { AddPayment } from "./AddPayment";
+import { SellingInfo } from "./SellingInfo";
 
 export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
   const [addedInputs, setAddedInputs] = useState(0);
@@ -36,14 +36,18 @@ export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
                 <p>
                   Prodano: {categoryData.sold}/{categoryData.loaned}
                 </p>
-                <p>Cijena: {categoryData.price} BAM</p>
+                <p>
+                  Cijena: {categoryData.price} <small>BAM</small>
+                </p>
               </div>
             );
           })}
         </div>
         <div>
           <p>Prodano ulaznica: {soldTickets}</p>
-          <p>Ukupno: {soldTicketsPrice} BAM</p>
+          <p>
+            Ukupno: {soldTicketsPrice} <small>BAM</small>
+          </p>
         </div>
       </div>
       {sellingInfo &&
@@ -60,7 +64,9 @@ export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
             concertId={concertId}
           />
         ))}
-        <p>Preostalo: 10 BAM</p>
+        <p>
+          Preostalo: 10 <small>BAM</small>
+        </p>
         {addedInputs === 0 ? (
           <img
             onClick={handleImageClick}
@@ -69,7 +75,7 @@ export const EventDayCard = ({ setMarginB, iterator, data, concertId }) => {
             alt="Plus"
           />
         ) : (
-          ''
+          ""
         )}
       </div>
     </div>
