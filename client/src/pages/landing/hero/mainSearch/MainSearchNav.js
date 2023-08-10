@@ -64,7 +64,7 @@ const MainSearchNav = ({ setEvents, setLoader }) => {
         <SearchNavLink
           isActive={category === "theaters" ? "searchActive" : ""}
           handleClick={handleClick}
-          content="Pozorište"
+          content="Predstave"
           category="theaters"
         />
 

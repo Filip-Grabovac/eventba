@@ -197,7 +197,7 @@ export const Navbar = () => {
                     }`}
                     to="/list_page?type=theaters"
                   >
-                    Pozorište
+                    Predstave
                   </NavLink>
                 </li>
 

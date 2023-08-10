@@ -1,8 +1,10 @@
 .profile .profile-form .choose-concert {
-  h5 {
+  h6 {
     color: #455cd9;
+    padding: 10px;
   }
   .select-event {
+    margin-left: 10px;
     width: 50%;
   }
 }
@@ -116,29 +118,32 @@
   .add-category-icon {
     width: 30px;
     cursor: pointer;
-    margin: 20px auto 0 auto;
-    display: block;
-  }
-  .add-tickets-btn {
-    margin: 36px auto 20px auto;
+    margin: 20px auto 15px auto;
     display: block;
   }
 }
 
 .profile {
   .profile-form {
+    .add-tickets-btn {
+      display: block;
+      margin: 20px auto 0 auto;
+      @media only screen and (max-width: 400px) {
+        margin: 36px 0 auto 0;
+      }
+    }
     .loader {
       position: absolute;
       margin-bottom: 10px;
-      right: 4%;
-      bottom: -6%;
+      right: 2%;
+      bottom: -3%;
     }
     a {
       .download-tickets-btn {
         position: absolute;
         margin-bottom: 10px;
-        right: 0%;
-        bottom: -4%;
+        right: -1%;
+        bottom: -2%;
       }
     }
   }
