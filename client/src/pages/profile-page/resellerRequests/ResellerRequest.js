@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { ProfileTopPart } from "../userManager/ProfileTopPart";
-import { ResellerRequestsCard } from "./ResellerRequestsCard";
+import React, { useState } from 'react';
+import { ProfileTopPart } from '../userManager/ProfileTopPart';
+import { ResellerRequestsCard } from './ResellerRequestsCard';
 
 export const ResellerRequest = ({ resellersRequests }) => {
   const [requestsData, setRequestsData] = useState(resellersRequests.resellers);
@@ -11,6 +11,7 @@ export const ResellerRequest = ({ resellersRequests }) => {
         hasSearch={false}
         content="Lista preprodavača"
         searchContent="Email/Korisnicko ime"
+        isFullLength={true}
       />
 
       <div className="reseller-requests-wrapper">

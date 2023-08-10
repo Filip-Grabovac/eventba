@@ -27,7 +27,7 @@ i18n.use(initReactI18next).init({
           concert: 'Koncert',
           theaters: 'Predstava',
           festival: 'Festival',
-          other: 'Drugo',
+          other: 'Ostalo',
           sport: 'Sport',
         },
         role: {

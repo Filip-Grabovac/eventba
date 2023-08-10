@@ -150,25 +150,27 @@ export const Profile = () => {
               alt="Profile"
             />
           </li>
-          {navItems &&
-            navItems.map((e, i) => {
-              return (
-                <li key={i}>
-                  <a
-                    className={`${
-                      activeNavItem === e ? 'active-profile-nav-link' : ''
-                    }`}
-                    onClick={(event) => {
-                      event.preventDefault();
-                      setActiveNavItem(e);
-                    }}
-                    href="#"
-                  >
-                    {e}
-                  </a>
-                </li>
-              );
-            })}
+          <div className="profile-links-wrapper">
+            {navItems &&
+              navItems.map((e, i) => {
+                return (
+                  <li key={i}>
+                    <a
+                      className={`${
+                        activeNavItem === e ? 'active-profile-nav-link' : ''
+                      }`}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        setActiveNavItem(e);
+                      }}
+                      href="#"
+                    >
+                      {e}
+                    </a>
+                  </li>
+                );
+              })}
+          </div>
         </ul>
       </nav>
       <ProfileForm
