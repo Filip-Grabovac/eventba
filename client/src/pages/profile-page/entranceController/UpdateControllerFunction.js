@@ -23,12 +23,7 @@ export const UpdateControllerFunction = async (
     organizer_id: userId,
     collectionName: `tickets_for_${selectedOptionId.getAttribute('data-id')}`,
   };
-  console.log(
-    formData.event !== '' &&
-      formData.entrance_num !== '' &&
-      formData.name !== '' &&
-      (formData.password.length >= 6 || formData.password === '')
-  );
+
   // Check all form data before adding a entrance controller
   if (
     formData.event !== '' &&

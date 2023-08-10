@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 export const UserManagerCard = ({ data, removeUserFromUI }) => {
   const [userData, setUserData] = useState(data);
   const [selectedRole, setSelectedRole] = useState();
-  const roles = ['standard', 'reseller', 'organizer', 'admin'];
+  const roles = ['standard', 'organizer', 'admin'];
 
   const { t } = useTranslation();
 
@@ -87,31 +87,6 @@ export const UserManagerCard = ({ data, removeUserFromUI }) => {
 
   return (
     <div className="user-manager-card">
-      <Tooltip
-        style={{ borderRadius: '10px', backgroundColor: '#455cd9' }}
-        anchorId="ban-img"
-        place="bottom"
-        variant="info"
-        content={
-          userData.isBanned
-            ? 'Odblokirajte korisnika.'
-            : 'Blokirajte korisnika.'
-        }
-      />
-      <Tooltip
-        style={{ borderRadius: '10px', backgroundColor: '#455cd9' }}
-        anchorId="delete-user-icon"
-        place="bottom"
-        variant="info"
-        content="Obrišite korisnika."
-      />
-      <Tooltip
-        style={{ borderRadius: '10px', backgroundColor: '#455cd9' }}
-        anchorId="role-selector"
-        place="top"
-        variant="info"
-        content="Promjenite tip računa."
-      />
       <img className="user" src={UserManagerIcon} alt="User" />
       <div className="card-part-half">
         <div className="um-card-part">

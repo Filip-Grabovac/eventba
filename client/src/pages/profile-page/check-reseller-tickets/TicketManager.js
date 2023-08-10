@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import MinusIcon from "../../../assets/ikonice/minus_icon.svg";
-import PlusIcon from "../../../assets/ikonice/plus_icon.svg";
-import axios from "axios";
+import React, { useState } from 'react';
+import MinusIcon from '../../../assets/ikonice/minus_icon.svg';
+import PlusIcon from '../../../assets/ikonice/plus_icon.svg';
+import axios from 'axios';
 
 export const TicketManager = ({
   type,
@@ -26,7 +26,6 @@ export const TicketManager = ({
         process.env.REACT_APP_API_URL + `/api/v1/concerts/update/${concertId}`,
         data
       );
-      console.log(response.data);
     } catch (error) {}
   }
 
@@ -38,7 +37,7 @@ export const TicketManager = ({
       return;
     }
     let data = {
-      total_amount: "+",
+      total_amount: '+',
       price: price,
       reseller_id: resellerId,
       category_name: type,
@@ -59,7 +58,7 @@ export const TicketManager = ({
       return;
     }
     let data = {
-      total_amount: "-",
+      total_amount: '-',
       price: price,
       reseller_id: resellerId,
       category_name: type,
