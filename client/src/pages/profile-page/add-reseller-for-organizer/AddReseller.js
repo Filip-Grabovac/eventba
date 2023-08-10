@@ -64,7 +64,7 @@ export const AddReseller = ({ resellers }) => {
   return (
     <div className="add-reseller-event">
       <div className="choose-concert">
-        <h5>Dodjeljivanje preprodavača</h5>
+        <h6>Dodjeljivanje preprodavača</h6>
         <GetAllEvents
           allEvents={allEvents}
           event={event}
