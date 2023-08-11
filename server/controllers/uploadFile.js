@@ -1,44 +1,48 @@
-const fs = require("fs");
+const fs = require("fs").promises;
 const path = require("path");
 const { processImages } = require("../controllers/imageEditor");
 
 const uploadImage = async (req, res) => {
   try {
-    let { firstFiles, secondFiles } = req.files;
+    const { firstFiles, secondFiles } = req.files;
 
     // Upload firstFiles to another folder
-    for (let i = 0; i < firstFiles.length; i++) {
-      const file = firstFiles[i];
-      const uploadPath = path.join(
-        __dirname, // Get the current directory path
-        "..",
-        "ticket-gen",
-        "public",
-        "sponsors-temp",
-        file.name
-      );
-
-      await fs.promises.writeFile(uploadPath, file.data, { flag: "w" });
-      console.log("File moved successfully:", file.name);
-    }
+    await Promise.all(
+      firstFiles.map(async (file) => {
+        const uploadPath = path.join(
+          __dirname,
+          "..",
+          "ticket-gen",
+          "public",
+          "sponsors-temp",
+          file.name
+        );
+        await fs.writeFile(uploadPath, file.data, { flag: "w" });
+        console.log("File moved successfully:", file.name);
+      })
+    );
 
     // Upload secondFiles to another folder
-    for (let i = 0; i < secondFiles.length; i++) {
-      const file = secondFiles[i];
-      const uploadPath = path.join(
-        __dirname, // Get the current directory path
-        "..",
-        "event-images-temporary",
-        file.name
-      );
-      console.log("2nd file_listed");
-      await fs.promises.writeFile(uploadPath, file.data, { flag: "w" });
-      console.log("File moved successfully:", file.name);
-    }
+    await Promise.all(
+      secondFiles.map(async (file) => {
+        const uploadPath = path.join(
+          __dirname,
+          "..",
+          "event-images-temporary",
+          file.name
+        );
+        console.log("2nd file_listed");
+        await fs.writeFile(uploadPath, file.data, { flag: "w" });
+        console.log("File moved successfully:", file.name);
+      })
+    );
 
-    // Call the function to optimize and compress the images in event-images-temporary
-    await processImages("event-images-temporary", "event-images");
-    await processImages("ticket-gen/public/sponsors-temp", "sponsors");
+    // Call the function to optimize and compress the images
+    await Promise.all([
+      processImages("event-images-temporary", "event-images"),
+      processImages("ticket-gen/public/sponsors-temp", "sponsors"),
+    ]);
+
     // Remove images from temporary folders
     await removeTemporaryFiles(
       path.resolve(__dirname, "..", "event-images-temporary")
@@ -47,7 +51,7 @@ const uploadImage = async (req, res) => {
       path.resolve(__dirname, "..", "ticket-gen", "public", "sponsors-temp")
     );
 
-    res.status(200).json({ message: "Uspješan upload datoteka." });
+    res.status(200).json({ message: "Successful file upload." });
   } catch (error) {
     console.error("Error during image upload:", error);
     res.status(500).json({ error: "Error uploading files." });
@@ -55,14 +59,19 @@ const uploadImage = async (req, res) => {
 };
 
 const removeTemporaryFiles = async (folderPath) => {
-  const tempFiles = await fs.promises.readdir(folderPath);
+  try {
+    const tempFiles = await fs.readdir(folderPath);
 
-  for (const file of tempFiles) {
-    const filePath = path.join(folderPath, file);
-    await fs.promises.unlink(filePath);
-    console.log("Temporary image deleted:", filePath);
+    await Promise.all(
+      tempFiles.map(async (file) => {
+        const filePath = path.join(folderPath, file);
+        await fs.unlink(filePath);
+        console.log("Temporary image deleted:", filePath);
+      })
+    );
+  } catch (error) {
+    console.error("Error removing temporary files:", error);
   }
-  return;
 };
 
 module.exports = uploadImage;

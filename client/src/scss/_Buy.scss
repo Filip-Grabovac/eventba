@@ -148,7 +148,11 @@
 
       .personalization {
         margin: 0 5px;
-        background-color: #dadada;
+        background: linear-gradient(
+          to bottom,
+          rgb(228, 228, 228) 0%,
+          rgb(207, 207, 207) 100%
+        );
         border-radius: 10px;
         flex-grow: 1;
         max-height: 450px;

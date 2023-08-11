@@ -28,6 +28,14 @@
   }
 }
 
+h6 {
+  color: #455cd9;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 0;
+  margin-top: 5px;
+}
+
 .react-tooltip {
   transition: all 0.2s ease !important;
 }
@@ -38,10 +46,10 @@
   flex-direction: column;
 }
 .Toastify__toast-body {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   background: rgb(217, 222, 247);
   background: linear-gradient(
     180deg,
@@ -106,7 +114,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield !important;
 }
 
@@ -126,24 +134,24 @@ small {
 .navlink-active {
   background-color: rgba(255, 255, 255, 0.115);
 }
-@import 'Navbar.scss';
-@import 'Footer.scss';
-@import 'ListPage';
-@import 'Hero.scss';
-@import 'ThisWeek.scss';
-@import 'SinglePage.scss';
-@import 'Login.scss';
-@import 'Buy.scss';
-@import 'ThankYou.scss';
+@import "Navbar.scss";
+@import "Footer.scss";
+@import "ListPage";
+@import "Hero.scss";
+@import "ThisWeek.scss";
+@import "SinglePage.scss";
+@import "Login.scss";
+@import "Buy.scss";
+@import "ThankYou.scss";
 
-@import 'profile-styles/AddTickets';
-@import 'profile-styles/MyEvent';
-@import 'profile-styles/Profile';
-@import 'profile-styles/EntranceController';
-@import 'profile-styles/AddHall';
-@import 'profile-styles/MyTickets';
-@import 'profile-styles/UserManager';
-@import 'profile-styles/RequestResseler';
-@import 'profile-styles/ResellerRequests';
-@import 'profile-styles/AddReseller';
-@import 'profile-styles/CheckResellerTickets';
+@import "profile-styles/AddTickets";
+@import "profile-styles/MyEvent";
+@import "profile-styles/Profile";
+@import "profile-styles/EntranceController";
+@import "profile-styles/AddHall";
+@import "profile-styles/MyTickets";
+@import "profile-styles/UserManager";
+@import "profile-styles/RequestResseler";
+@import "profile-styles/ResellerRequests";
+@import "profile-styles/AddReseller";
+@import "profile-styles/CheckResellerTickets";

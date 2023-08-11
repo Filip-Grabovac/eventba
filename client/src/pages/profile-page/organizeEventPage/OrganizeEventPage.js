@@ -3,6 +3,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 // Images
 import UploadImage from "../../../assets/images/uplad_img_placeholder.png";
+import plus from "../../../assets/ikonice/plus_icon.svg";
+import trashcan from "../../../assets/ikonice/trash_can.svg";
 // Components
 import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
@@ -88,10 +90,23 @@ export const OrganizeEventPage = () => {
     const input = document.createElement("input");
     input.classList.add("portrait-img");
     input.type = "file";
-    input.accept = "image/*";
+    input.accept = "image/jpeg, image/png"; // Only accept JPG and PNG images
 
     input.onchange = async (e) => {
       const file = e.target.files[0];
+
+      // Validate file type
+      if (
+        !file.type.startsWith("image/") ||
+        (file.type !== "image/jpeg" && file.type !== "image/png")
+      ) {
+        toast.warn(
+          "Molimo dodajte sliku u JPG ili PNG formatu.",
+          toastSetup("top-right", 3000)
+        );
+        return;
+      }
+
       const reader = new FileReader();
 
       reader.onload = async (upload) => {
@@ -104,8 +119,11 @@ export const OrganizeEventPage = () => {
 
           const imageAspectRatio = width / height;
 
-          // Set 0.05 for both 4:5 and 16:9
-          if (Math.abs(imageAspectRatio - aspectRatio) < 0.2) {
+          // Check aspect ratio
+          if (
+            Math.abs(imageAspectRatio - aspectRatio) < 0.15 ||
+            Math.abs(imageAspectRatio - 1 / aspectRatio) < 0.15
+          ) {
             // Remove outline if user set image
             if (index === 0)
               document.querySelector(".portrait-wrapper").style =
@@ -183,17 +201,27 @@ export const OrganizeEventPage = () => {
       organizer: userId,
     };
 
-    ticketInputs.forEach((ticket, index) => {
-      const categoryKey = `Kategorija ${index + 1}`;
-      event.tickets.online_sale.type[categoryKey] = {
-        amount: Number(ticket.amount),
-        maxAmount: Number(ticket.amount),
-        price: Number(ticket.price),
-        name: ticket.name,
-      };
+    const nonEmptyTicketInputs = ticketInputs.filter(
+      (ticket) =>
+        ticket.name &&
+        ticket.name.trim() !== "" &&
+        ticket.amount !== "" &&
+        ticket.price !== ""
+    );
 
-      event.tickets.online_sale.total_amount += parseInt(ticket.amount);
-    });
+    if (nonEmptyTicketInputs.length > 0) {
+      nonEmptyTicketInputs.forEach((ticket) => {
+        const categoryKey = ticket.name;
+        event.tickets.online_sale.type[categoryKey] = {
+          amount: Number(ticket.amount),
+          maxAmount: Number(ticket.amount),
+          price: Number(ticket.price),
+          name: ticket.type,
+        };
+
+        event.tickets.online_sale.total_amount += parseInt(ticket.amount);
+      });
+    }
 
     // Check if everything is valid(all fields + images)
     if (
@@ -232,6 +260,7 @@ export const OrganizeEventPage = () => {
             portrait: updatedSelectedImages[0],
           },
         };
+
         const response = await axios.post(
           process.env.REACT_APP_API_URL + "/api/v1/concerts/create_event",
           updatedEvent,
@@ -302,9 +331,9 @@ export const OrganizeEventPage = () => {
       else document.querySelector(".landscape-wrapper").style = "outline: none";
 
       // Check if textarea.length > 300
-      if (document.querySelector(".event-description").value.length > 300) {
+      if (document.querySelector(".event-description").value.length > 500) {
         toast.warn(
-          `Opis događaja ne smije sadržavati više od 300 znakova`,
+          `Opis događaja ne smije sadržavati više od 500 znakova`,
           toastSetup("top-right", 3000)
         );
       }
@@ -369,8 +398,9 @@ export const OrganizeEventPage = () => {
     // Populate ticketInputs with data from zones if they are not already set
     if (zones.length > 0 && ticketInputs.length === 0) {
       const initialTicketInputs = zones.map((zone) => ({
-        name: zone.name,
+        name: zone.name ? zone.name : "",
         amount: zone.ticket ? zone.ticket.amount : "",
+        type: zone.ticket ? zone.ticket.type : "",
         price: zone.ticket ? zone.ticket.price : "",
       }));
       setTicketInputs(initialTicketInputs);
@@ -384,28 +414,51 @@ export const OrganizeEventPage = () => {
     }
     return zones.map((zone, index) => {
       const ticketInput = ticketInputs[index] || {};
+
       const {
         name: inputName,
+        type: inputType,
         amount: inputAmount,
         price: inputPrice,
       } = ticketInput;
 
       return (
-        <OrganizeEventCategories
-          key={index}
-          index={index}
-          inputName={inputName}
-          zoneName={zone.name}
-          inputAmount={inputAmount}
-          zoneTicket={zone.ticket}
-          inputPrice={inputPrice}
-          ticketInputs={ticketInputs}
-          setTicketInputs={setTicketInputs}
-        />
+        <div className="event-categories-container">
+          <OrganizeEventCategories
+            key={index}
+            index={index}
+            inputType={inputType}
+            inputName={inputName}
+            zoneName={zone.name}
+            inputAmount={inputAmount}
+            zoneTicket={zone.ticket}
+            inputPrice={inputPrice}
+            ticketInputs={ticketInputs}
+            setTicketInputs={setTicketInputs}
+          />
+          <div className="trashcan" onClick={() => handleRemoveCategory(index)}>
+            <img src={trashcan} />
+          </div>
+        </div>
       );
     });
   };
+  const handleAddCategory = () => {
+    setZones((prevZones) => [
+      ...prevZones,
+      { name: "", amount: "", type: "", price: "" },
+    ]);
+  };
 
+  const handleRemoveCategory = (index) => {
+    const updatedTicketInputs = [...ticketInputs];
+    updatedTicketInputs.splice(index, 1);
+    setTicketInputs(updatedTicketInputs);
+
+    const updatedZones = [...zones];
+    updatedZones.splice(index, 1);
+    setZones(updatedZones);
+  };
   return (
     <form
       className="form container organize-form smaller-profile"
@@ -586,18 +639,29 @@ export const OrganizeEventPage = () => {
         </div>
       </div>
       {zones[0] !== undefined ? (
-        <div className="preset-category">
-          <p>Naziv kategorije</p>
-          <p>Broj ulaznica</p>
-          <p>Cijena ulaznice</p>
-        </div>
+        <>
+          <h6>Online ulaznice</h6>
+          <div className="preset-category">
+            <p>Naziv kategorije</p>
+            <p>Tip ulaznice</p>
+            <p>Broj ulaznica</p>
+            <p>Cijena ulaznice</p>
+          </div>
+        </>
       ) : (
         ""
       )}
-      {selectedPlace && <>{renderTicketInputs()}</>}
+      {selectedPlace && (
+        <>
+          {renderTicketInputs()}
+          <div className="plus-icon" onClick={() => handleAddCategory()}>
+            <img src={plus} />
+          </div>
+        </>
+      )}
 
       <div className="organize-bottom-part">
-        <p className="textarea-limit">{textareaLimit}-300</p>
+        <p className="textarea-limit">{textareaLimit}-500</p>
         <textarea
           name="eventDescription"
           onInput={(e) => {
@@ -606,7 +670,7 @@ export const OrganizeEventPage = () => {
           }}
           placeholder="Kratak opis događaja"
           className="event-description event-input"
-          maxLength={300}
+          maxLength={500}
         ></textarea>
       </div>
       <div className="row">
