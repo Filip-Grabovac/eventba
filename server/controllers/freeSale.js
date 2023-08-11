@@ -39,7 +39,7 @@ const getTickets = async (req, res) => {
     sendMailWithHyperlink(
       "13kreso@gmail.com",
       "Ulaznice za slobodnu prodaju",
-      `Preuzmite ulaznice na linku: `,
+      `Preuzmite ulaznice za ${concertData.performer_name} na linku: `,
       "Ulaznice",
       `${process.env.REACT_APP_API_URL}/api/v1/freeSale/download-tickets?pdfFilePath=${pdfFilePath}`
     );
