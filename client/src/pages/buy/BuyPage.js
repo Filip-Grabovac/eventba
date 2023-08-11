@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
-import minus from "../../assets/ikonice/minus.svg";
-import plus from "../../assets/ikonice/plus.svg";
-import Carousel from "react-elastic-carousel";
-import { Personalization } from "./Personalization";
-import { TicketBill } from "./TicketBill";
-import { removeLastTicket, resetState } from "../../store/ticketSlice";
-import { useDispatch, useSelector } from "react-redux";
-import PaymentForm from "./PaymentForm";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { toastSetup } from "../../functions/toastSetup";
-import { hrTimeFormat } from "../../components/helper/timeFormat";
-import { setLoginIsOpen } from "../../store/loginSlice";
+import React, { useEffect, useRef, useState } from 'react';
+import minus from '../../assets/ikonice/minus.svg';
+import plus from '../../assets/ikonice/plus.svg';
+import Carousel from 'react-elastic-carousel';
+import { Personalization } from './Personalization';
+import { TicketBill } from './TicketBill';
+import { removeLastTicket, resetState } from '../../store/ticketSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import PaymentForm from './PaymentForm';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { toastSetup } from '../../functions/toastSetup';
+import { hrTimeFormat } from '../../components/helper/timeFormat';
+import { setLoginIsOpen } from '../../store/loginSlice';
 
 export const BuyPage = () => {
   const [concertData, setConcertData] = useState({});
@@ -33,7 +33,7 @@ export const BuyPage = () => {
     setOrderNumber(Math.floor(Math.random() * 10000000000000) + 1);
     dispatch(resetState());
     fetchConcertData();
-    if (userId !== "") {
+    if (userId !== '') {
       fetchProfileData();
     }
   }, [userId]);
@@ -62,9 +62,9 @@ export const BuyPage = () => {
   useEffect(() => {
     if (activeCardRef.current) {
       activeCardRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "start",
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'start',
       });
     }
   }, [activeCardIndex]);
@@ -75,7 +75,7 @@ export const BuyPage = () => {
       sliderCards.push(
         <button
           className={`slider-cards ${
-            activeCardIndex === i ? "active-card" : ""
+            activeCardIndex === i ? 'active-card' : ''
           }`}
           ref={activeCardIndex === i ? activeCardRef : null}
           key={i}
@@ -93,14 +93,14 @@ export const BuyPage = () => {
   const fetchConcertData = async () => {
     try {
       const id = new URLSearchParams(new URL(window.location.href).search).get(
-        "id"
+        'id'
       );
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${id}`
       );
       setConcertData(response.data[0]);
     } catch (error) {
-      console.error("Error fetching profile data:", error);
+      console.error('Error fetching profile data:', error);
     }
   };
 
@@ -113,19 +113,18 @@ export const BuyPage = () => {
       if (!response.data.isVerified) {
         toast.error(
           `Verificirajte vaš račun na: "${response.data.email}" da biste mogli obaviti kupovinu!`,
-          toastSetup("top-right", 3000)
+          toastSetup('top-right', 3000)
         );
       }
     } catch (error) {
-      console.error("Error fetching profile data:", error);
+      console.error('Error fetching profile data:', error);
     }
   };
 
   const date = new Date(concertData.time_of_event).toLocaleString(
-    "hr-HR",
+    'hr-HR',
     hrTimeFormat
   );
-  const timeOfEvent = date.charAt(0).toUpperCase() + date.slice(1);
 
   // Update the areEnoughTicketsAvailable function to return the category with not enough tickets
   const areEnoughTicketsAvailable = (concertData, ticketGenData) => {
@@ -158,7 +157,7 @@ export const BuyPage = () => {
   // Chek if mails are there, to enable pay button
   const handleButtonClick = async () => {
     await fetchConcertData();
-    if (userId === "") {
+    if (userId === '') {
       dispatch(setLoginIsOpen(true));
 
       return;
@@ -166,7 +165,7 @@ export const BuyPage = () => {
     profileData?.isVerified || fetchProfileData();
 
     const ticketsWithoutEmails = allTickets.filter(
-      (ticket) => ticket.email === ""
+      (ticket) => ticket.email === ''
     );
     const ticketsIdWithoutEmail = ticketsWithoutEmails.map(
       (ticket) => ticket.id
@@ -196,12 +195,12 @@ export const BuyPage = () => {
             toast.success(
               `Vaše ${
                 ticketAmount === 1
-                  ? "ulaznica će biti poslana"
-                  : "ulaznice će biti poslane"
+                  ? 'ulaznica će biti poslana'
+                  : 'ulaznice će biti poslane'
               }  na ${
-                uniqueEmails.length === 1 ? "mail" : "mailove"
-              }:\n${uniqueEmails.join("\n")}. Odaberite način plaćanja.`,
-              toastSetup("top-right", timeOfToast)
+                uniqueEmails.length === 1 ? 'mail' : 'mailove'
+              }:\n${uniqueEmails.join('\n')}. Odaberite način plaćanja.`,
+              toastSetup('top-right', timeOfToast)
             );
 
             async function sendPostRequest() {
@@ -220,7 +219,7 @@ export const BuyPage = () => {
                 // Handle any errors that occurred during the request
                 toast.error(
                   `Problem sa slanjem podataka na server, pokušajte kasnije...`,
-                  toastSetup("top-right", 3000)
+                  toastSetup('top-right', 3000)
                 );
               }
             }
@@ -232,10 +231,10 @@ export const BuyPage = () => {
               toast.error(
                 `Nema dovoljno ulaznica za ${
                   categoryWithNotEnoughTickets.length === 1
-                    ? "kategoriju"
-                    : "kategorije"
+                    ? 'kategoriju'
+                    : 'kategorije'
                 }: ${categoryWithNotEnoughTickets}.`,
-                toastSetup("top-right", 3000)
+                toastSetup('top-right', 3000)
               );
             }
           }
@@ -243,12 +242,12 @@ export const BuyPage = () => {
           if (ticketsIdWithoutSeat.length === 1) {
             toast.error(
               `Odaberite tip za ulaznicu: ${ticketsIdWithoutSeat}`,
-              toastSetup("top-right", 3000)
+              toastSetup('top-right', 3000)
             );
           } else
             toast.error(
               `Odaberite tip na ulaznicama: ${ticketsIdWithoutSeat}`,
-              toastSetup("top-right", 3000)
+              toastSetup('top-right', 3000)
             );
         }
       } else {
@@ -259,17 +258,17 @@ export const BuyPage = () => {
         if (ticketsIdWithoutEmail.length === 1) {
           toast.error(
             `Niste unijeli email za ulaznicu: ${ticketsIdWithoutEmail}`,
-            toastSetup("top-right", 3000)
+            toastSetup('top-right', 3000)
           );
         } else
           toast.error(
             `Niste unijeli email za ulaznice: ${ticketsIdWithoutEmail}`,
-            toastSetup("top-right", 3000)
+            toastSetup('top-right', 3000)
           );
         if (profileData && !profileData.isVerified) {
           toast.error(
             `Verificirajte vaš račun na: "${profileData.email}" da biste mogli obaviti kupovinu!`,
-            toastSetup("top-right", 3000)
+            toastSetup('top-right', 3000)
           );
         }
       }
@@ -281,7 +280,7 @@ export const BuyPage = () => {
       // Function to handle the click logic when the button is found
       const clickButton = () => {
         const buttonElement = document.querySelector(
-          ".monri-lightbox-button-el"
+          '.monri-lightbox-button-el'
         );
         if (buttonElement) {
           buttonElement.click();
@@ -303,7 +302,7 @@ export const BuyPage = () => {
           src={
             concertData?.poster?.landscape
               ? `${process.env.REACT_APP_API_URL}/static/event-images/${concertData.poster.landscape}`
-              : ""
+              : ''
           }
           alt="concertData.poster.landscape"
         />
@@ -316,8 +315,7 @@ export const BuyPage = () => {
             <div className="info">
               <h3>{concertData.performer_name}</h3>
               <p className="card-main-info">
-                {timeOfEvent} - {concertData?.place?.city},{" "}
-                {concertData?.place?.place}
+                {date} - {concertData?.place?.city}, {concertData?.place?.place}
               </p>
             </div>
             <img
@@ -325,7 +323,7 @@ export const BuyPage = () => {
               src={
                 concertData?.poster?.landscape
                   ? `${process.env.REACT_APP_API_URL}/static/event-images/${concertData.poster.landscape}`
-                  : ""
+                  : ''
               }
               alt="concertData.poster.landscape"
             />
@@ -372,7 +370,7 @@ export const BuyPage = () => {
             src={
               concertData?.poster?.landscape
                 ? `${process.env.REACT_APP_API_URL}/static/event-images/${concertData.poster.landscape}`
-                : ""
+                : ''
             }
             alt="concertData.poster.landscape"
           />

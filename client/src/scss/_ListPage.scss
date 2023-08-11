@@ -182,6 +182,10 @@
           font-size: 12px;
           letter-spacing: -0.7px;
         }
+
+        &::first-letter {
+          text-transform: uppercase;
+        }
       }
 
       .list-page-line {

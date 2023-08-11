@@ -157,7 +157,9 @@ export const Profile = () => {
                   <li key={i}>
                     <a
                       className={`${
-                        activeNavItem === e ? 'active-profile-nav-link' : ''
+                        activeNavItem === e ? 'active-profile-nav-link ' : ''
+                      }${
+                        e === 'Dodaj preprodavača' ? 'add-reseller-link' : ''
                       }`}
                       onClick={(event) => {
                         event.preventDefault();

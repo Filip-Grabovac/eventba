@@ -10,6 +10,7 @@ const {
   updateConcertProperty,
   resellersConcertInfo,
   updateConcert,
+  calculateEvents,
 } = require('../controllers/concerts');
 
 router.route('/').get(getAllConcerts);
@@ -22,5 +23,6 @@ router.route('/update_event/:id/:type/:value').put(updateConcertProperty);
 router.route('/resellers/:userId').post(resellersConcertInfo);
 router.route('/update/:concertId').post(updateConcert);
 router.route('/:type/:value').get(findConcert);
+router.route('/get_hot_events').get(calculateEvents);
 
 module.exports = router;

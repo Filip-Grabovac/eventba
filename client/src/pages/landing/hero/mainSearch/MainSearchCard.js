@@ -1,11 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { hrTimeFormat } from "../../../../components/helper/timeFormat";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { hrTimeFormat } from '../../../../components/helper/timeFormat';
 
 const MainSearchCard = ({ event }) => {
   const timeOfEvent = new Date(event.time_of_event);
-  const date = timeOfEvent.toLocaleString("hr-HR", hrTimeFormat);
-  const formattedDate = date.charAt(0).toUpperCase() + date.slice(1);
+  const date = timeOfEvent.toLocaleString('hr-HR', hrTimeFormat);
   const place = `${event.place.city}, ${event.place.place}`;
 
   return (
@@ -18,7 +17,7 @@ const MainSearchCard = ({ event }) => {
         <div className="card-info-wrapper">
           <h3>{event.performer_name}</h3>
           <p>
-            {formattedDate} - {place}
+            {date} - {place}
           </p>
         </div>
         <div className="card-btns-wrapper">

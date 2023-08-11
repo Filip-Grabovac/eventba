@@ -55,7 +55,8 @@ body {
   overflow: hidden;
 }
 .skeleton,
-.skeleton-without-animation {
+.skeleton-without-animation,
+.hotevents-skeleton {
   background-color: #bebebe;
   -webkit-box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.2);
   box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.2);
@@ -84,6 +85,16 @@ body {
     &:nth-child(3) {
       width: 70%;
       margin: 0 auto;
+    }
+  }
+}
+
+.hotevents-skeleton {
+  height: 150px;
+
+  div {
+    &:nth-child(1) {
+      height: 69%;
     }
   }
 }

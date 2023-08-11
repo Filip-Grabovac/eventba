@@ -1,13 +1,12 @@
-import React from "react";
-import { hrTimeFormat } from "../../components/helper/timeFormat";
+import React from 'react';
+import { hrTimeFormat } from '../../components/helper/timeFormat';
 
 export const ListPageCard = ({ data }) => {
   if (!data) return;
   const date = new Date(data.time_of_event).toLocaleDateString(
-    "hr-HR",
+    'hr-HR',
     hrTimeFormat
   );
-  const formattedDate = date.charAt(0).toUpperCase() + date.slice(1);
   return (
     <div className="list-page-card">
       <div className="list-page-overlay"></div>
@@ -21,7 +20,7 @@ export const ListPageCard = ({ data }) => {
           <div className="media-helper">
             <h5>{data.performer_name}</h5>
             <p className="list-page-date">
-              {formattedDate} - {data.place.place}, {data.place.city}
+              {date} - {data.place.place}, {data.place.city}
             </p>
           </div>
           <div className="list-page-line"></div>

@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import ArrowIcon from "../../../assets/ikonice/arrow_icon.svg";
-import { EventDayCard } from "./EventDayCard";
-import axios from "axios";
-import CategoryCard from "./CategoyCard";
-import { hrTimeFormatShort } from "../../../components/helper/timeFormatShort";
+import React, { useEffect, useRef, useState } from 'react';
+import ArrowIcon from '../../../assets/ikonice/arrow_icon.svg';
+import { EventDayCard } from './EventDayCard';
+import axios from 'axios';
+import CategoryCard from './CategoyCard';
+import { hrTimeFormatShort } from '../../../components/helper/timeFormatShort';
 
 export const EventCard = ({ ids, i }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -29,11 +29,11 @@ export const EventCard = ({ ids, i }) => {
       setLoading(false); // Set loading to false when data is fetched successfully
       const timeOfEvent = new Date(
         response.data[0].time_of_event
-      ).toLocaleString("hr-HR", hrTimeFormatShort);
+      ).toLocaleString('hr-HR', hrTimeFormatShort);
       const date = timeOfEvent.charAt(0).toUpperCase() + timeOfEvent.slice(1);
       setDate(date);
     } catch (error) {
-      console.error("Error fetching profile data:", error);
+      console.error('Error fetching profile data:', error);
       setLoading(false); // Set loading to false if there's an error
     }
   };
@@ -46,9 +46,6 @@ export const EventCard = ({ ids, i }) => {
     setTimeout(() => {
       disableArrow(false);
     }, 400);
-
-    if (!dropdown) e.target.style = "transform: rotate(-180deg)";
-    else e.target.style = "transform: rotate(0deg)";
   }
 
   useEffect(() => {
@@ -64,6 +61,17 @@ export const EventCard = ({ ids, i }) => {
     setBorderRadius(dropdown ? false : true);
   }, [dropdown]);
 
+  // Go to Dodaj Preprodavaca
+  function goToReseller(e) {
+    e.preventDefault();
+
+    document.querySelector('.add-reseller-link').click();
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }
+
   return (
     // Show loading indicator or data once it's available
     isLoading ? (
@@ -71,18 +79,18 @@ export const EventCard = ({ ids, i }) => {
     ) : data ? ( // Check if data is available before rendering
       <div
         style={{
-          borderBottomLeftRadius: hasBorderRadius ? "7px" : "0",
-          borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
-          marginBottom: dropdown ? dropdownHeight + 10 + marginB : "10px",
+          borderBottomLeftRadius: hasBorderRadius ? '7px' : '0',
+          borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
+          marginBottom: dropdown ? dropdownHeight + 10 + marginB : '10px',
         }}
         className="myevent-card-reseller"
       >
         <div className="myevent-card-part-1">
           <img
-            style={{ borderBottomLeftRadius: hasBorderRadius ? "7px" : "0" }}
+            style={{ borderBottomLeftRadius: hasBorderRadius ? '7px' : '0' }}
             src={
               `${process.env.REACT_APP_API_URL}/static/event-images/${data.poster.portrait}` ||
-              ""
+              ''
             }
             alt="Portrait image"
           />
@@ -103,7 +111,7 @@ export const EventCard = ({ ids, i }) => {
                 Prodano: <strong>{data.tickets.online_sale.sold_amount}</strong>
               </span>
               <span>
-                Ukupno:{" "}
+                Ukupno:{' '}
                 <strong>
                   {data.tickets.online_sale.amount_inBAM} <small>BAM</small>
                 </strong>
@@ -129,7 +137,7 @@ export const EventCard = ({ ids, i }) => {
                 Prodano: <strong>{data.tickets.free_sale.sold_amount}</strong>
               </span>
               <span>
-                Ukupno:{" "}
+                Ukupno:{' '}
                 <strong>
                   {data.tickets.free_sale.amount_inBAM} <small>BAM</small>
                 </strong>
@@ -151,16 +159,17 @@ export const EventCard = ({ ids, i }) => {
           </div>
         </div>
         <div
+          onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
           className="myevent-card-part-3"
           style={{
-            borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
+            borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
             backgroundColor: hasBorderRadius
-              ? "rgba(69, 91, 217, 0.7)"
-              : "rgba(69, 91, 217, 0.5)",
+              ? 'rgba(69, 91, 217, 0.7)'
+              : 'rgba(69, 91, 217, 0.5)',
           }}
         >
           <img
-            onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
+            style={dropdown ? { rotate: '-180deg' } : { rotate: '0deg' }}
             src={ArrowIcon}
             alt="Drop"
           />
@@ -187,7 +196,16 @@ export const EventCard = ({ ids, i }) => {
             ) : (
               <span className="warnning-message">
                 Trenutno nemate preprodavača za ovaj događaj. Dodajte ih na
-                sučelju "Dodaj preprodavača".
+                sučelju{' '}
+                <a
+                  onClick={(e) => {
+                    goToReseller(e);
+                  }}
+                  href="#"
+                >
+                  "Dodaj preprodavača"
+                </a>
+                .
               </span>
             )}
           </div>

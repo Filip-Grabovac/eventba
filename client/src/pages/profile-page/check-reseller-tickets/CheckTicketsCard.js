@@ -27,9 +27,6 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
     setTimeout(() => {
       disableArrow(false);
     }, 400);
-
-    if (!dropdown) e.target.style = 'transform: rotate(-180deg)';
-    else e.target.style = 'transform: rotate(0deg)';
   }
 
   useEffect(() => {
@@ -92,8 +89,7 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
         <div>
           <h5>{data.performer_name}</h5>
           <p>
-            {date[0].toUpperCase() + date.slice(1)} - {data.place.place},{' '}
-            {data.place.city}
+            {date} - {data.place.place}, {data.place.city}
           </p>
         </div>
         <div>
@@ -105,13 +101,14 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
       </div>
 
       <div
+        onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
         style={{
           borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
         }}
         className="dropdown-arrow-wrapper"
       >
         <img
-          onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
+          style={dropdown ? { rotate: '-180deg' } : { rotate: '0deg' }}
           src={ArrowIcon}
           alt="Drop"
           className="dropdown-arrow"

@@ -30,8 +30,13 @@
       background-color: rgba(244, 206, 70, 0.509);
       bottom: 55%;
       z-index: 100;
+      color: #fff;
       @media (max-width: 768px) {
         display: none;
+      }
+
+      &:disabled {
+        opacity: 0.4;
       }
     }
     .rec-arrow:hover {
@@ -139,6 +144,10 @@
       font-weight: 700;
       @media (max-width: 768px) {
         font-size: 90%;
+      }
+
+      &::first-letter {
+        text-transform: uppercase;
       }
     }
     .location {
