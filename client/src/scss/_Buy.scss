@@ -1,22 +1,24 @@
 .buy-container {
   min-height: 700px;
-  max-width: 1300px;
+  max-width: 1200px;
   background-color: #eceefb;
   margin: 50px auto;
   border-radius: 10px;
   box-shadow: 5px 5px 90px 20px rgba(0, 0, 0, 0.15);
-  transform: translateY(-100px);
+  transform: translateY(-200px);
   display: flex;
   justify-content: space-between;
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 800px) {
     flex-direction: column;
+    transform: translateY(-100px);
+    margin: 50px 3%;
   }
   .left,
   .right {
     width: 45%;
     margin: 2%;
-    @media only screen and (max-width: 600px) {
-      width: 90%;
+    @media only screen and (max-width: 800px) {
+      width: 100%;
       margin: 15px auto;
     }
   }
@@ -37,10 +39,10 @@
         rgba(39, 148, 167, 0.5254901961) 100%
       );
       display: flex;
-
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
-      @media only screen and (max-width: 360px) {
+
+      @media only screen and (max-width: 450px) {
         flex-direction: column;
       }
       .info {
@@ -55,11 +57,11 @@
             text-transform: uppercase;
           }
         }
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 800px) {
           transform: scale(0.9);
-        }
-        @media only screen and (max-width: 360px) {
           text-align: center;
+        }
+        @media only screen and (max-width: 450px) {
           h3,
           p {
             margin-bottom: 3px;
@@ -70,12 +72,12 @@
         display: none;
         width: 200px;
         border-radius: 10px;
-        margin-bottom: 10px;
-        @media only screen and (max-width: 600px) {
+        margin: 10px;
+        @media only screen and (max-width: 800px) {
           width: 150px;
           display: block;
         }
-        @media only screen and (max-width: 360px) {
+        @media only screen and (max-width: 450px) {
           width: 80%;
         }
       }
@@ -87,12 +89,11 @@
       h4 {
         margin-bottom: 0;
       }
-      @media only screen and (max-width: 600px) {
+      @media only screen and (max-width: 800px) {
         width: 90%;
         margin: auto;
       }
       .left {
-        width: 60%;
         align-items: center;
         justify-content: flex-end;
         margin-left: auto;
@@ -102,13 +103,13 @@
         button {
           border: none;
           transform: scale(0.8);
-          @media only screen and (max-width: 600px) {
+          @media only screen and (max-width: 800px) {
             transform: scale(0.6);
           }
         }
         span {
           font-size: 34px;
-          @media only screen and (max-width: 600px) {
+          @media only screen and (max-width: 800px) {
             font-size: 24px;
           }
         }
@@ -164,7 +165,7 @@
 
         h4 {
           margin-top: 3%;
-          @media only screen and (max-width: 600px) {
+          @media only screen and (max-width: 800px) {
             font-size: 19px;
           }
         }
@@ -195,12 +196,12 @@
           height: 225px;
           color: #ffffffe5;
           border-radius: 10px;
-          @media only screen and (max-width: 600px) {
+          @media only screen and (max-width: 800px) {
             padding: 5px;
 
             width: 100px;
           }
-          @media only screen and (max-width: 400px) {
+          @media only screen and (max-width: 450px) {
             padding: 5px;
 
             min-width: 115px;
@@ -282,7 +283,7 @@
           padding: 10px;
           justify-content: space-between;
           align-items: center;
-          input[type='checkbox'] {
+          input[type="checkbox"] {
             -webkit-appearance: none;
             appearance: none;
             background-color: #fff;
@@ -299,8 +300,8 @@
             border: #555555 solid 3px;
           }
 
-          input[type='checkbox']::before {
-            content: '✓';
+          input[type="checkbox"]::before {
+            content: "✓";
             transform: scale(1.3);
             font-size: 1em;
             font-weight: bold;
@@ -309,11 +310,11 @@
             transition: 120ms opacity ease-in-out;
           }
 
-          input[type='checkbox']:checked::before {
+          input[type="checkbox"]:checked::before {
             opacity: 1;
           }
 
-          input[type='checkbox']:focus {
+          input[type="checkbox"]:focus {
             outline: none;
           }
 
@@ -321,7 +322,7 @@
             --form-control-disabled: #959495;
           }
 
-          input[type='checkbox']:disabled {
+          input[type="checkbox"]:disabled {
             --form-control-color: var(--form-control-disabled);
             color: #455cd9;
             cursor: not-allowed;
@@ -386,19 +387,20 @@
       height: fit-content;
       aspect-ratio: 16/9;
       border-radius: 10px;
-      @media only screen and (max-width: 600px) {
+      @media only screen and (max-width: 800px) {
         display: none;
       }
     }
     .payment-bill {
       background-color: #455cd9;
       max-height: 300px;
-      width: 85%;
+      width: 100%;
       margin: 0 auto;
       border-radius: 10px;
       overflow-y: auto;
-      @media only screen and (max-width: 600px) {
+      @media only screen and (max-width: 800px) {
         max-height: 150px;
+        width: 85%;
       }
 
       .ticket-bill {
@@ -409,18 +411,18 @@
         color: #d8d8d8;
         padding-bottom: 5px;
         margin: 3% 6%;
-        font-size: 18px;
+        font-size: 17px;
         border-bottom: #cccccc solid 2px;
-        @media only screen and (max-width: 600px) {
-          font-size: 16px;
+        @media only screen and (max-width: 800px) {
+          font-size: 15px;
         }
         span {
           font-size: 20px;
           small {
             margin-right: 10px;
           }
-          @media only screen and (max-width: 600px) {
-            font-size: 14px;
+          @media only screen and (max-width: 800px) {
+            font-size: 16px;
           }
           img {
             opacity: 0.7;
@@ -440,7 +442,7 @@
     .saldo {
       color: #343434;
       margin: 4% 8% 8% 8%;
-      width: 80%;
+      width: 87%;
       margin: 0 auto;
       display: flex;
       flex-direction: row;
@@ -492,7 +494,7 @@
             letter-spacing: 1px;
             background-color: #f4cd46;
             left: 10px;
-            content: 'Karticom💳';
+            content: "Karticom💳";
             position: absolute;
             left: 1px;
             display: flex;

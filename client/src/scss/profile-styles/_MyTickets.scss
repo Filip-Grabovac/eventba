@@ -12,7 +12,6 @@
     letter-spacing: -0.5px;
   }
   img {
-    width: 12%;
     height: 100%;
     object-fit: cover;
     border-radius: 7px 0px 0px 7px;
@@ -23,6 +22,7 @@
 
   .mytickets-card-part:nth-child(2) {
     border-right: 2px solid rgba(69, 91, 217, 0.5);
+    flex-grow: 1;
     div {
       @media only screen and (max-width: 400px) {
         padding-right: 2px;
@@ -242,6 +242,7 @@
 .no-bought-tickets-msg,
 .no-searched-users {
   text-align: center;
+  margin: 20px;
   font-weight: 600;
   color: #455cd9;
 }

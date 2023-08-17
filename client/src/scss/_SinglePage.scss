@@ -60,7 +60,7 @@
 
   .single-main-card {
     background-color: #eceefb;
-    max-width: 85%;
+    max-width: 1200px;
 
     margin-top: -100px;
     z-index: 10;
@@ -73,7 +73,7 @@
       max-width: 95%;
     }
     h3 {
-      font-weight: 700;
+      font-weight: 600;
       font-size: 26px;
     }
 
@@ -133,7 +133,7 @@
   }
 
   .secondary-card-single {
-    width: 85%;
+    max-width: 1200px;
     margin: 50px auto 0 auto;
     box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.25);
     border-radius: 7px;
@@ -149,44 +149,33 @@
       width: 95%;
     }
     @media only screen and (max-width: 500px) {
-      margin: 30px 0;
-      min-width: 100%;
+      margin: 30px auto;
+      min-width: 90%;
       padding: 0;
       justify-content: space-between;
     }
-    @media only screen and (max-width: 300px) {
-      flex-direction: column;
-    }
 
     img {
-      width: 205px;
       height: 140px;
-      object-fit: cover;
       border-radius: 7px 0px 0px 7px;
-      @media only screen and (max-width: 500px) {
-        width: 140px;
-      }
       @media only screen and (max-width: 350px) {
-        width: 120px;
-      }
-      @media only screen and (max-width: 300px) {
-        width: 100%;
+        width: 70px;
+        height: 120px;
       }
     }
 
     div {
-      margin-left: 2%;
       text-align: center;
-      width: 25%;
-      @media only screen and (max-width: 300px) {
+      flex-grow: 1;
+      @media only screen and (max-width: 450px) {
         margin-top: 10px;
         width: 100%;
       }
       h3 {
         font-weight: 600;
-        font-size: 28px;
+        font-size: 22px;
         @media only screen and (max-width: 500px) {
-          font-size: 22px;
+          font-size: 18px;
         }
       }
 
@@ -201,22 +190,17 @@
       }
     }
     .right {
-      width: 80%;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 15px;
       @media only screen and (max-width: 650px) {
-        width: 55%;
         grid-template-columns: 1fr;
         min-height: 100px;
       }
       @media only screen and (max-width: 500px) {
-        width: 35%;
         transform: scale(0.95);
       }
-      @media only screen and (max-width: 300px) {
-        width: 50%;
-      }
+
       .single-date {
         background-color: #f4f4f4;
         width: fit-content;
@@ -236,7 +220,7 @@
       a {
         align-self: center;
         min-width: 150px;
-        min-height: 80%;
+
         justify-self: self-end;
         background-color: #f4cd46;
         color: #414141;

@@ -1,0 +1,41 @@
+body {
+  font-family: "Nunito", sans-serif;
+  margin: 0; /* Remove default margins */
+  padding: 0; /* Remove default padding */
+  background-color: rgb(255, 255, 255);
+  width: 210mm; /* Set width to A4 dimensions */
+  height: 297mm; /* Set height to A4 dimensions */
+  border: 1px solid black;
+  overflow: hidden; /* Hide content outside A4 area */
+}
+header {
+  width: 96%;
+  margin: 0 2%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  .logo {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+  }
+}
+.event-info {
+  margin: 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid rgb(185, 24, 24);
+  padding: 8px;
+  text-align: center;
+}

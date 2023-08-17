@@ -88,7 +88,7 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
     // Define a route for the root URL ("/")
     app.get("/", (req, res) => {
       // Render the "index.ejs" file as the response
-      res.render("index", {
+      res.render("onlineSale", {
         serialNumber,
         place: `
       ${concertData.place.place}, ${concertData.place.city}, ${concertData.place.country};`,

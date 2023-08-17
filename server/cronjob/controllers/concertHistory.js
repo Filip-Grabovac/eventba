@@ -2,57 +2,43 @@ const mongoose = require("mongoose");
 const concertSchema = require("../../models/Concert");
 const connectDB = require("../../db/connect");
 
-// Step 1: Function to extract values and update "concertHistory" attribute
-async function extractConcertHistory(concert) {
-  const previousSoldAmount = concert.previousSoldAmount;
-  const currentSoldAmount = concert.tickets.sold_amount;
-  const ticketsSoldToday = currentSoldAmount - previousSoldAmount;
+// Step 1: Function to add tickets to concert history
+async function addTicketsToConcertHistory(concert) {
+  const currentDate = new Date();
 
   const concertHistoryItem = {
-    date: new Date(),
-    sold_amount: currentSoldAmount,
-    sold_amount_today: ticketsSoldToday,
-    amount_inBam: concert.tickets.amount_inBAM,
-    type: {},
+    date: currentDate,
+    tickets: concert.tickets,
   };
 
-  for (const category of Object.keys(concert.tickets.online_sale.type)) {
-    const categoryData = concert.tickets.online_sale.type[category];
-    const soldAmount = categoryData.maxAmount - categoryData.amount;
-    const soldAmountInBam = soldAmount * categoryData.price;
-    concertHistoryItem.type[category] = {
-      soldAmount,
-      soldAmountInBam,
-    };
+  if (!concert.concertHistory) {
+    concert.concert_history = [];
   }
 
   concert.concertHistory.push(concertHistoryItem);
-  concert.previousSoldAmount = currentSoldAmount; // Update the previousSoldAmount for the next day
 }
 
-// Step 2: Fetch all concerts from the collection
+// Step 2: Fetch all concerts from the collection and process
 async function processConcerts() {
   try {
-    const Concert = connectDB(process.env.DATABASE_URL).model(
-      "Concert",
-      concertSchema,
-      "concerts"
-    );
+    const Concert = connectDB(
+      "mongodb://eventba:AqpRhnhu7DA4M8nYDVLIqIDdtbFFewSkIdedmr8fzdkpEZqKje@185.99.2.232:27017/eventba?authSource=admin"
+    ).model("Concert", concertSchema, "concerts");
     const concerts = await Concert.find({});
 
-    // Step 3: Iterate through fetched concerts and call the extraction function
+    // Iterate through fetched concerts and call the extraction function
     for (const concert of concerts) {
-      await extractConcertHistory(concert);
+      await addTicketsToConcertHistory(concert);
 
-      // Step 4: Save the updated concert document back to the database
-      await concert.save();
+      // Update the concert document using updateOne
+      await Concert.updateOne({ _id: concert._id }, { $set: concert });
     }
 
     console.log("Extraction and update completed successfully!");
   } catch (error) {
     console.error("Error occurred:", error);
   } finally {
-    // Step 5: Close the database connection when done
+    // Close the database connection when done
     mongoose.disconnect();
   }
 }

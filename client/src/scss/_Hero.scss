@@ -215,7 +215,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    [data-testid='bars-loading'] {
+    [data-testid="bars-loading"] {
       transform: translate(-128%, 20%);
       @media only screen and (max-width: 670px) {
         transform: translate(-70%, 20%);
@@ -391,6 +391,7 @@
       color: #343434;
       font-size: 25px;
       display: flex;
+      font-weight: 700;
       align-items: center;
       justify-content: center;
       margin-bottom: 30px;

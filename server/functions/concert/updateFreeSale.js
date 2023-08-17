@@ -23,6 +23,7 @@ async function updateFreeSale(concertId, ticketList) {
       )
         .toString()
         .padStart(6, "0");
+      console.log(ticketNumber);
       // Ensure ticketList is an array, even for a single ticket
       const ticketsArray = Array.isArray(ticketList)
         ? ticketList

@@ -6,9 +6,14 @@ const uploadImage = async (req, res) => {
   try {
     const { firstFiles, secondFiles } = req.files;
 
+    // Convert to an array if only one file is uploaded
+    const firstFilesArray = Array.isArray(firstFiles)
+      ? firstFiles
+      : [firstFiles];
+
     // Upload firstFiles to another folder
     await Promise.all(
-      firstFiles.map(async (file) => {
+      firstFilesArray.map(async (file) => {
         const uploadPath = path.join(
           __dirname,
           "..",
@@ -31,7 +36,7 @@ const uploadImage = async (req, res) => {
           "event-images-temporary",
           file.name
         );
-        console.log("2nd file_listed");
+
         await fs.writeFile(uploadPath, file.data, { flag: "w" });
         console.log("File moved successfully:", file.name);
       })

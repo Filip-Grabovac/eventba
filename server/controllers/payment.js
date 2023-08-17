@@ -1,6 +1,6 @@
-const { generateTicketAndSendEmail } = require('../ticket-gen/app');
-const { updateCategoryAmount } = require('../controllers/concCheckandUpdate');
-const updateUserBuyHistory = require('../functions/user/updateUserBuyHistory');
+const { generateTicketAndSendEmail } = require("../ticket-gen/onlineSaleApp");
+const { updateCategoryAmount } = require("../controllers/concCheckandUpdate");
+const updateUserBuyHistory = require("../functions/user/updateUserBuyHistory");
 
 const ticketInfoMap = new Map();
 const requestQueue = []; // Array to store the requests
@@ -36,7 +36,7 @@ const handlePaymentEndpoint = async (req, res) => {
     if (transaction_response) {
       const data = JSON.parse(transaction_response);
 
-      if (data.status === 'approved') {
+      if (data.status === "approved") {
         const ticketInfo = ticketInfoMap.get(Number(data.order_number));
 
         if (ticketInfo) {
@@ -44,22 +44,22 @@ const handlePaymentEndpoint = async (req, res) => {
             ticketInfo.concertData._id,
             ticketInfo.ticketGenData.ticketList
           );
-          res.redirect('https://event.ba/thankyou');
+          res.redirect("https://event.ba/thankyou");
           await updateUserBuyHistory(ticketInfo);
           await generateTicketAndSendEmail(ticketInfo);
         } else {
-          res.redirect('/failed');
+          res.redirect("/failed");
         }
       } else {
         // Failed payment
-        res.redirect('/failed');
+        res.redirect("/failed");
       }
     }
   } catch (error) {
     console.log(error);
     res.status(500).json({
       error:
-        'MONRI payment service is currently unavailable. Please try again later.',
+        "MONRI payment service is currently unavailable. Please try again later.",
     });
   }
 };

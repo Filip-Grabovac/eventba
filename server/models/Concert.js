@@ -1,16 +1,5 @@
 const mongoose = require("mongoose");
 
-const concertHistorySchema = new mongoose.Schema({
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-  sold_amount: Number,
-  amount_inBam: Number,
-  sold_amount_today: Number,
-  type: Object,
-});
-
 const ConcertSchema = new mongoose.Schema({
   type: [String],
   sponsors: [String],
@@ -93,11 +82,15 @@ const ConcertSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
   },
-  concertHistory: [concertHistorySchema],
-  previousSoldAmount: {
-    type: Number,
-    default: 0,
-  },
+  concert_history: [
+    {
+      date: {
+        type: Date,
+        required: true,
+      },
+      tickets: {},
+    },
+  ],
 });
 
 module.exports = ConcertSchema;

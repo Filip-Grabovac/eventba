@@ -4,7 +4,7 @@ import axios from "axios";
 import { ProfileTopPart } from "./ProfileTopPart";
 
 export const UserManager = () => {
-  const [data, setData] = useState("Pretrazi korisnike");
+  const [data, setData] = useState("Pretraži korisnike");
 
   const fetchData = async (e) => {
     try {
@@ -13,7 +13,7 @@ export const UserManager = () => {
       );
       setData(response.data);
     } catch (error) {
-      setData("Pretrazi korisnike");
+      setData("Pretraži korisnike");
       console.error("Error fetching data:", error);
     }
   };
