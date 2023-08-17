@@ -215,79 +215,17 @@ export const EventCard = ({ ids, i }) => {
             <p>Unesite datum pretrage:</p>
             <div className="time-input-wrapper">
               <p>Od:</p>
-              <input type="text" />
+              <input className="test" type="date" />
               <p>Do:</p>
-              <input type="text" />
-              <a href="#">Ispiši u PDF-u</a>
-            </div>
-          </div>
-          <div className="selling-overview-wrapper">
-            <div className="selling-overview-date">
-              <p className="date">07.kol.2023</p>
-            </div>
-            <div>
-              <p className="heading">Online prodaja</p>
-              <div>
-                <div>
-                  <p>Parter</p>
-                  <p>Prodano: 30/100</p>
-                  <p>
-                    Cijena: 300 <small>BAM</small>
-                  </p>
-                </div>
-                <div>
-                  <p>Tribina</p>
-                  <p>Prodano: 30/100</p>
-                  <p>
-                    Cijena: 300 <small>BAM</small>
-                  </p>
-                </div>
-                <div>
-                  <p>VIP</p>
-                  <p>Prodano: 30/100</p>
-                  <p>
-                    Cijena: 300 <small>BAM</small>
-                  </p>
-                </div>
-              </div>
-              <p className="heading">Slobodna prodaja</p>
-              <div>
-                <div>
-                  <p>Parter</p>
-                  <p>Prodano: 30/100</p>
-                  <p>
-                    Cijena: 300 <small>BAM</small>
-                  </p>
-                </div>
-                <div>
-                  <p>Tribina</p>
-                  <p>Prodano: 30/100</p>
-                  <p>
-                    Cijena: 300 <small>BAM</small>
-                  </p>
-                </div>
-                <div>
-                  <p>VIP</p>
-                  <p>Prodano: 30/100</p>
-                  <p>
-                    Cijena: 300 <small>BAM</small>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="sold-tickets-wrapper">
-              <div>
-                <p>Prodano ulaznica: 132</p>
-                <p>
-                  Ukupno: 1200,00 <small>BAM</small>
-                </p>
-              </div>
-              <div>
-                <p>Prodano ulaznica: 132</p>
-                <p>
-                  Ukupno: 1200,00 <small>BAM</small>
-                </p>
-              </div>
+              <input type="date" />
+              <a
+                onClick={() => {
+                  console.log(document.querySelector('.test').value);
+                }}
+                href="#"
+              >
+                Ispiši u PDF-u
+              </a>
             </div>
           </div>
         </div>

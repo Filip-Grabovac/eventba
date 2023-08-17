@@ -5,6 +5,22 @@ import { ImageCard } from './ImageCard';
 
 const ImageSlider = () => {
   const [hotEventsData, setHotEvents] = useState([]);
+  let windowWidth =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+
+  // Calculate how many skeletons needed when on certain screen width
+  let numOfSkeletons =
+    windowWidth > 1400
+      ? 7
+      : windowWidth > 1000
+      ? 5
+      : windowWidth > 700
+      ? 4
+      : windowWidth > 350
+      ? 2
+      : 1;
 
   // Slider setup
   const breakpoints = [
@@ -52,6 +68,18 @@ const ImageSlider = () => {
             </div>
           ))
         : hotEventsData.map((item, i) => <ImageCard key={i} data={item} />)}
+      {hotEventsData &&
+        Array.isArray(hotEventsData) &&
+        Array.from(
+          { length: numOfSkeletons - hotEventsData.length },
+          (_, index) => (
+            <div className="skeleton-without-animation" key={index}>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          )
+        )}
     </Carousel>
   );
 };
