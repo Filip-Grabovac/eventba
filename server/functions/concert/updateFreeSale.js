@@ -1,14 +1,14 @@
-const connectDB = require("../../db/connect");
-const concertSchema = require("../../models/Concert");
-const mongoose = require("mongoose");
+const connectDB = require('../../db/connect');
+const concertSchema = require('../../models/Concert');
+const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
 async function updateFreeSale(concertId, ticketList) {
   try {
     const Concert = connectDB(process.env.DATABASE_URL).model(
-      "Concert",
+      'Concert',
       concertSchema,
-      "concerts"
+      'concerts'
     );
     // Retrieve the concert document from the collection
     const concert = await Concert.findById(concertId);
@@ -22,7 +22,7 @@ async function updateFreeSale(concertId, ticketList) {
           concert.tickets.free_sale.sold_amount
       )
         .toString()
-        .padStart(6, "0");
+        .padStart(6, '0');
       // Ensure ticketList is an array, even for a single ticket
       const ticketsArray = Array.isArray(ticketList)
         ? ticketList
@@ -42,12 +42,12 @@ async function updateFreeSale(concertId, ticketList) {
         // If the category already exists, add the new ticket number to the current value
         if (currentCategories.hasOwnProperty(categoryName)) {
           currentCategories[categoryName].amount += newTicketNum;
-          currentCategories[categoryName].maxAmount += newTicketNum;
+          currentCategories[categoryName].max_amount += newTicketNum;
         } else {
           // If the category does not exist, create a new entry for it
           currentCategories[categoryName] = {
             amount: newTicketNum,
-            maxAmount: newTicketNum,
+            max_amount: newTicketNum,
             price: parseInt(ticketPrice),
             name: ticketType,
             loaned: 0,
@@ -63,21 +63,21 @@ async function updateFreeSale(concertId, ticketList) {
         { _id: concertId },
         {
           $set: {
-            "tickets.free_sale.total_amount": currentTotalAmount,
-            "tickets.free_sale.type": currentCategories,
+            'tickets.free_sale.total_amount': currentTotalAmount,
+            'tickets.free_sale.type': currentCategories,
           },
         }
       );
 
-      console.log("Update result:", updateResult);
+      console.log('Update result:', updateResult);
 
-      console.log("Concert tickets updated successfully.");
+      console.log('Concert tickets updated successfully.');
       return ticketNumber;
     } else {
-      console.log("Concert not found.");
+      console.log('Concert not found.');
     }
   } catch (error) {
-    console.error("An error occurred:", error);
+    console.error('An error occurred:', error);
   }
 }
 
@@ -85,9 +85,9 @@ async function updateFreeSale(concertId, ticketList) {
 async function updateLoanTickets(ticketInputs, userData, concertId) {
   try {
     const Concert = connectDB(process.env.DATABASE_URL).model(
-      "Concert",
+      'Concert',
       concertSchema,
-      "concerts"
+      'concerts'
     );
     // Retrieve the concert document from the collection
     const concert = await Concert.findById(concertId);
@@ -156,7 +156,7 @@ async function updateLoanTickets(ticketInputs, userData, concertId) {
             price: parseInt(concert.tickets.free_sale.type[category].price),
           };
 
-          if (!resellerTickets.type[category].hasOwnProperty("sold")) {
+          if (!resellerTickets.type[category].hasOwnProperty('sold')) {
             resellerTickets.type[category].sold = 0;
           }
         }
@@ -169,18 +169,18 @@ async function updateLoanTickets(ticketInputs, userData, concertId) {
       { _id: concertId },
       {
         $set: {
-          "tickets.free_sale.type": concert.tickets.free_sale.type,
-          "tickets.free_sale.total_loaned":
+          'tickets.free_sale.type': concert.tickets.free_sale.type,
+          'tickets.free_sale.total_loaned':
             concert.tickets.free_sale.total_loaned,
-          "tickets.free_sale.resellers": concert.tickets.free_sale.resellers,
+          'tickets.free_sale.resellers': concert.tickets.free_sale.resellers,
         },
       }
     );
 
-    console.log("Tickets successfully updated for the reseller.");
+    console.log('Tickets successfully updated for the reseller.');
     return concert;
   } catch (error) {
-    console.error("An error occurred:", error);
+    console.error('An error occurred:', error);
   }
 }
 

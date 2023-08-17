@@ -1,23 +1,23 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 //Images
-import Logo from "../../assets/logos/Logo.svg";
-import instagram from "../../assets/logos/Instagram.svg";
-import twitter from "../../assets/logos/twitter.svg";
-import facebook from "../../assets/logos/facebook.svg";
-import gmail from "../../assets/logos/gmail.svg";
+import Logo from '../../assets/logos/Logo.svg';
+import instagram from '../../assets/logos/Instagram.svg';
+import twitter from '../../assets/logos/twitter.svg';
+import facebook from '../../assets/logos/facebook.svg';
+import gmail from '../../assets/logos/gmail.svg';
 //Components
-import { SponsorBar } from "../SponsorBar";
-import { FooterLink } from "./FooterLink";
-import { FooterSocial } from "./FooterSocial";
+import { SponsorBar } from '../SponsorBar';
+import { FooterLink } from './FooterLink';
+import { FooterSocial } from './FooterSocial';
 
 export const Footer = () => {
   const location = useLocation();
 
   // Hide footer for /qr_scanner and /controller_login
   if (
-    location.pathname === "/qr_scanner" ||
-    location.pathname === "/controller_login"
+    location.pathname === '/qr_scanner' ||
+    location.pathname === '/controller_login'
   )
     return;
   return (
@@ -31,22 +31,25 @@ export const Footer = () => {
           <p>event.ba</p>
         </ul>
         <ul>
-          <FooterLink content="O nama" />
-          <FooterLink content="Info" />
-          <FooterLink content="FAQ" />
-          <FooterLink content="Pomoć" />
+          <FooterLink content="O nama" pageLink="about_us" />
+          <FooterLink content="Info" pageLink="info" />
+          <FooterLink content="FAQ" pageLink="faq" />
+          <FooterLink content="Pomoć" pageLink="help" />
         </ul>
         <ul>
-          <FooterLink content="Način plaćanja" />
-          <FooterLink content="Prodajna mjesta" />
-          <FooterLink content="Kontakti" />
-          <FooterLink content="Otkazani događaji" />
+          <FooterLink content="Način plaćanja" pageLink="payment_info" />
+          <FooterLink content="Prodajna mjesta" pageLink="selling_places" />
+          <FooterLink content="Kontakti" pageLink="contact" />
+          <FooterLink content="Otkazani događaji" pageLink="cancelled_events" />
         </ul>
         <ul>
-          <FooterLink content="Uvijeti korištenja" />
-          <FooterLink content="Politika privatnosti" />
-          <FooterLink content="Način isporuke" />
-          <FooterLink content="NewsLetter" />
+          <FooterLink content="Uvjeti korištenja" pageLink="terms_of_use" />
+          <FooterLink
+            content="Politika privatnosti"
+            pageLink="privacy_policy"
+          />
+          <FooterLink content="Način isporuke" pageLink="delivery_method" />
+          <FooterLink content="NewsLetter" pageLink="newsletter" />
         </ul>
         <ul className="social-icons">
           <FooterSocial socialImg={instagram} />

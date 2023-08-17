@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
-const concertSchema = require("../../models/Concert");
-const connectDB = require("../../db/connect");
+const mongoose = require('mongoose');
+const concertSchema = require('../../models/Concert');
+const connectDB = require('../../db/connect');
 
 // Step 1: Function to extract values and update "concertHistory" attribute
 async function extractConcertHistory(concert) {
-  const previousSoldAmount = concert.previousSoldAmount;
+  const previous_sold_amount = concert.previous_sold_amount;
   const currentSoldAmount = concert.tickets.sold_amount;
-  const ticketsSoldToday = currentSoldAmount - previousSoldAmount;
+  const ticketsSoldToday = currentSoldAmount - previous_sold_amount;
 
   const concertHistoryItem = {
     date: new Date(),
@@ -18,7 +18,7 @@ async function extractConcertHistory(concert) {
 
   for (const category of Object.keys(concert.tickets.online_sale.type)) {
     const categoryData = concert.tickets.online_sale.type[category];
-    const soldAmount = categoryData.maxAmount - categoryData.amount;
+    const soldAmount = categoryData.max_amount - categoryData.amount;
     const soldAmountInBam = soldAmount * categoryData.price;
     concertHistoryItem.type[category] = {
       soldAmount,
@@ -26,17 +26,17 @@ async function extractConcertHistory(concert) {
     };
   }
 
-  concert.concertHistory.push(concertHistoryItem);
-  concert.previousSoldAmount = currentSoldAmount; // Update the previousSoldAmount for the next day
+  concert.concert_history.push(concertHistoryItem);
+  concert.previous_sold_amount = currentSoldAmount; // Update the previous_sold_amount for the next day
 }
 
 // Step 2: Fetch all concerts from the collection
 async function processConcerts() {
   try {
     const Concert = connectDB(process.env.DATABASE_URL).model(
-      "Concert",
+      'Concert',
       concertSchema,
-      "concerts"
+      'concerts'
     );
     const concerts = await Concert.find({});
 
@@ -48,9 +48,9 @@ async function processConcerts() {
       await concert.save();
     }
 
-    console.log("Extraction and update completed successfully!");
+    console.log('Extraction and update completed successfully!');
   } catch (error) {
-    console.error("Error occurred:", error);
+    console.error('Error occurred:', error);
   } finally {
     // Step 5: Close the database connection when done
     mongoose.disconnect();

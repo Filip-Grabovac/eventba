@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
-export const FooterSocial = (props) => {
+export const FooterSocial = ({ socialImg, socialLink }) => {
   return (
     <li>
-      <a>
-        <img src={props.socialImg} alt="instagram" />
+      <a href={socialLink}>
+        <img src={socialImg} alt="instagram" />
       </a>
     </li>
   );

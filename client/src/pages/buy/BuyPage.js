@@ -110,7 +110,7 @@ export const BuyPage = () => {
         `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
       );
       setProfileData(response.data);
-      if (!response.data.isVerified) {
+      if (!response.data.is_verified) {
         toast.error(
           `Verificirajte vaš račun na: "${response.data.email}" da biste mogli obaviti kupovinu!`,
           toastSetup('top-right', 3000)
@@ -162,7 +162,7 @@ export const BuyPage = () => {
 
       return;
     }
-    profileData?.isVerified || fetchProfileData();
+    profileData?.is_verified || fetchProfileData();
 
     const ticketsWithoutEmails = allTickets.filter(
       (ticket) => ticket.email === ''
@@ -265,7 +265,7 @@ export const BuyPage = () => {
             `Niste unijeli email za ulaznice: ${ticketsIdWithoutEmail}`,
             toastSetup('top-right', 3000)
           );
-        if (profileData && !profileData.isVerified) {
+        if (profileData && !profileData.is_verified) {
           toast.error(
             `Verificirajte vaš račun na: "${profileData.email}" da biste mogli obaviti kupovinu!`,
             toastSetup('top-right', 3000)

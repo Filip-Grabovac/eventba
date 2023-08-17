@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import CheckIcon from "../../../assets/ikonice/check2_icon.svg";
-import { hrTimeFormatShort } from "../../../components/helper/timeFormatShort";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { toastSetup } from "../../../functions/toastSetup";
+import React, { useEffect, useState } from 'react';
+import CheckIcon from '../../../assets/ikonice/check2_icon.svg';
+import { hrTimeFormatShort } from '../../../components/helper/timeFormatShort';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { toastSetup } from '../../../functions/toastSetup';
 
 export const ApproveTicketSale = ({
   setLeftMoney,
@@ -21,23 +21,23 @@ export const ApproveTicketSale = ({
     e.preventDefault();
     try {
       const responese = await axios.post(
-        process.env.REACT_APP_API_URL + "/api/v1/freeSale/verify-transaction",
+        process.env.REACT_APP_API_URL + '/api/v1/freeSale/verify-transaction',
         {
           transactionIndex: i,
           concertId,
           resellerId,
         }
       );
-      toast.success(responese.data.success, toastSetup("top-center", 3000));
+      toast.success(responese.data.success, toastSetup('top-center', 3000));
     } catch (error) {
       console.error(error);
-      toast.error(error, toastSetup("top-center", 3000));
+      toast.error(error, toastSetup('top-center', 3000));
     }
     setApprovedStatus(true);
     setLeftMoney((leftMoney) => leftMoney - price);
   }
   const formattedDate = new Date(date).toLocaleDateString(
-    "hr-HR",
+    'hr-HR',
     hrTimeFormatShort
   );
   return (

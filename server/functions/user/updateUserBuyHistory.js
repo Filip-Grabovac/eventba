@@ -1,4 +1,4 @@
-const User = require("../../models/User");
+const User = require('../../models/User');
 
 async function updateUserBuyHistory(data) {
   const loggedinUserId = data.loggedinUser;
@@ -27,7 +27,7 @@ async function updateUserBuyHistory(data) {
     }
 
     // Update the buyHistory array by pushing the buyHistoryObj into it
-    user.buyHistory.push(buyHistoryObj);
+    user.buy_history.push(buyHistoryObj);
 
     // Save the updated user object
     await user.save();

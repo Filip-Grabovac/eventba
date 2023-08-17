@@ -17,16 +17,16 @@ export const ProfileLeft = (props) => {
           alt=""
         />
         <h4>
-          {profileData.fullName.split(' ')[0]}{' '}
-          {profileData.fullName.split(' ')[1]}
+          {profileData.full_name.split(' ')[0]}{' '}
+          {profileData.full_name.split(' ')[1]}
         </h4>
       </div>
       <div className="info">
         <p>
-          Ime: <span>{profileData.fullName.split(' ')[0]}</span>
+          Ime: <span>{profileData.full_name.split(' ')[0]}</span>
         </p>
         <p>
-          Prezime: <span>{profileData.fullName.split(' ')[1]}</span>
+          Prezime: <span>{profileData.full_name.split(' ')[1]}</span>
         </p>
         <p>
           Email: <span>{profileData.email}</span>

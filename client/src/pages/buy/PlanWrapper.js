@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import Plan from "../../assets/event_ground_plans/concert_ground_plan.png";
-import FreeSeat from "../../assets/ikonice/free_seat.svg";
-import ReservedSeat from "../../assets/ikonice/reserverd_seat.svg";
-import { Seat } from "./Seat";
+import React, { useState } from 'react';
+import Plan from '../../assets/event-ground-plans/concert_ground_plan.png';
+import FreeSeat from '../../assets/ikonice/free_seat.svg';
+import ReservedSeat from '../../assets/ikonice/reserverd_seat.svg';
+import { Seat } from './Seat';
 
 export const PlanWrapper = ({ ticketID }) => {
   const [activeSeat, setActiveSeat] = useState(null);
@@ -12,17 +12,17 @@ export const PlanWrapper = ({ ticketID }) => {
   };
 
   const seats = [
-    { seatId: "seat1", seattype: "vip", available: true },
-    { seatId: "seat2", seattype: "normal", available: true },
-    { seatId: "seat3", seattype: "normal", available: true },
-    { seatId: "seat4", seattype: "normal", available: true },
-    { seatId: "seat5", seattype: "normal", available: true },
-    { seatId: "seat6", seattype: "normal", available: false },
-    { seatId: "seat7", seattype: "vip", available: false },
-    { seatId: "seat8", seattype: "vip", available: false },
-    { seatId: "seat9", seattype: "normal", available: false },
-    { seatId: "seat10", seattype: "normal", available: false },
-    { seatId: "seat11", seattype: "normal", available: false },
+    { seatId: 'seat1', seattype: 'vip', available: true },
+    { seatId: 'seat2', seattype: 'normal', available: true },
+    { seatId: 'seat3', seattype: 'normal', available: true },
+    { seatId: 'seat4', seattype: 'normal', available: true },
+    { seatId: 'seat5', seattype: 'normal', available: true },
+    { seatId: 'seat6', seattype: 'normal', available: false },
+    { seatId: 'seat7', seattype: 'vip', available: false },
+    { seatId: 'seat8', seattype: 'vip', available: false },
+    { seatId: 'seat9', seattype: 'normal', available: false },
+    { seatId: 'seat10', seattype: 'normal', available: false },
+    { seatId: 'seat11', seattype: 'normal', available: false },
   ];
 
   return (

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import PlusIcon from "../../../assets/ikonice/plus_icon.svg";
-import trashCan from "../../../assets/ikonice/trash_can.svg";
-import axios from "axios";
-import { toastSetup } from "../../../functions/toastSetup";
-import { toast } from "react-toastify";
-import { Bars } from "react-loader-spinner";
+import React, { useState, useEffect } from 'react';
+import PlusIcon from '../../../assets/ikonice/plus_icon.svg';
+import trashCan from '../../../assets/ikonice/trash_can.svg';
+import axios from 'axios';
+import { toastSetup } from '../../../functions/toastSetup';
+import { toast } from 'react-toastify';
+import { Bars } from 'react-loader-spinner';
 
 export const TicketGen = ({ concertData }) => {
   const [rowNum, setRowNum] = useState(0);
@@ -12,12 +12,12 @@ export const TicketGen = ({ concertData }) => {
   const [totalTickets, setTotalTickets] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const [provision, setProvision] = useState(0);
-  const [pdfFilePath, setPdfFilePath] = useState("");
+  const [pdfFilePath, setPdfFilePath] = useState('');
   const [loader, setLoader] = useState(false);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setPdfFilePath("");
+    setPdfFilePath('');
     setLoader(true);
 
     try {
@@ -36,14 +36,14 @@ export const TicketGen = ({ concertData }) => {
       setLoader(false);
       // Show a toast message or any other indication that the tickets have been generated successfully
       toast.success(
-        "Generacija ulaznica uspješna. Preuzmite ulaznice direktno ili putem linka koji će biti poslan na mail.",
-        toastSetup("top-right", 5000)
+        'Generacija ulaznica uspješna. Preuzmite ulaznice direktno ili putem linka koji će biti poslan na mail.',
+        toastSetup('top-right', 5000)
       );
     } catch (error) {
       // Handle any errors that occurred during the request
       toast.error(
-        "Problem s generacijom ulaznica, pokušajte kasnije...",
-        toastSetup("top-right", 3000)
+        'Problem s generacijom ulaznica, pokušajte kasnije...',
+        toastSetup('top-right', 3000)
       );
     }
   };
@@ -55,7 +55,7 @@ export const TicketGen = ({ concertData }) => {
         (categoryName) => ({
           categoryName,
           ticketType: concertData.tickets.free_sale.type[categoryName].name,
-          ticketsNum: "",
+          ticketsNum: '',
           ticketPrice:
             concertData.tickets.free_sale.type[categoryName].price.toString(),
         })
@@ -71,7 +71,7 @@ export const TicketGen = ({ concertData }) => {
     // Add a new ticket object to the tickets state when adding a row
     setTickets([
       ...tickets,
-      { categoryName: "", ticketType: "", ticketsNum: "", ticketPrice: "" },
+      { categoryName: '', ticketType: '', ticketsNum: '', ticketPrice: '' },
     ]);
   };
 
@@ -90,7 +90,7 @@ export const TicketGen = ({ concertData }) => {
       [name]: value,
     };
     setTickets(updatedTickets);
-    setPdfFilePath("");
+    setPdfFilePath('');
   };
 
   useEffect(() => {
@@ -99,7 +99,7 @@ export const TicketGen = ({ concertData }) => {
     let totalAmount = 0;
     tickets.forEach((ticket) => {
       const ticketsNum = parseInt(ticket.ticketsNum, 10);
-      const ticketPrice = parseFloat(ticket.ticketPrice.replace(",", "."));
+      const ticketPrice = parseFloat(ticket.ticketPrice.replace(',', '.'));
       if (!isNaN(ticketsNum) && !isNaN(ticketPrice)) {
         totalTickets += ticketsNum;
         totalAmount += ticketsNum * ticketPrice;
@@ -123,24 +123,24 @@ export const TicketGen = ({ concertData }) => {
                   <input
                     className="event-input category-name"
                     name="categoryName"
-                    value={tickets[i]?.categoryName || ""}
+                    value={tickets[i]?.categoryName || ''}
                     placeholder="Ime kategorije"
                     type="text"
-                    onChange={(e) => handleInputChange(e, i, "categoryName")}
+                    onChange={(e) => handleInputChange(e, i, 'categoryName')}
                     onInput={(e) => {
-                      e.target.style = "outline: none;";
+                      e.target.style = 'outline: none;';
                     }}
                     disabled={!isDeletableRow}
                   />
                   <input
                     className="event-input ticket-type"
                     name="ticketType"
-                    value={tickets[i]?.ticketType || ""}
+                    value={tickets[i]?.ticketType || ''}
                     placeholder="Tip ulaznice"
                     type="text"
-                    onChange={(e) => handleInputChange(e, i, "ticketType")}
+                    onChange={(e) => handleInputChange(e, i, 'ticketType')}
                     onInput={(e) => {
-                      e.target.style = "outline: none;";
+                      e.target.style = 'outline: none;';
                     }}
                     disabled={!isDeletableRow}
                   />
@@ -149,24 +149,24 @@ export const TicketGen = ({ concertData }) => {
                   <input
                     className="event-input tickets-num"
                     name="ticketsNum"
-                    value={tickets[i]?.ticketsNum || ""}
+                    value={tickets[i]?.ticketsNum || ''}
                     placeholder="Broj ulaznica"
                     type="text"
-                    onChange={(e) => handleInputChange(e, i, "ticketsNum")}
+                    onChange={(e) => handleInputChange(e, i, 'ticketsNum')}
                     onInput={(e) => {
-                      e.target.style = "outline: none;";
+                      e.target.style = 'outline: none;';
                     }}
                   />
                   <div className="price">
                     <input
                       className="event-input ticket-price"
                       name="ticketPrice"
-                      value={tickets[i]?.ticketPrice || ""}
+                      value={tickets[i]?.ticketPrice || ''}
                       placeholder="Cijena ulaznice"
                       type="text"
-                      onChange={(e) => handleInputChange(e, i, "ticketPrice")}
+                      onChange={(e) => handleInputChange(e, i, 'ticketPrice')}
                       onInput={(e) => {
-                        e.target.style = "outline: none;";
+                        e.target.style = 'outline: none;';
                       }}
                       disabled={!isDeletableRow}
                     />
@@ -203,7 +203,7 @@ export const TicketGen = ({ concertData }) => {
       </form>
       {loader ? (
         <div className="loader">
-          <Bars height="50" width="50" color="#455cd9" />{" "}
+          <Bars height="50" width="50" color="#455cd9" />{' '}
         </div>
       ) : null}
       {pdfFilePath ? (

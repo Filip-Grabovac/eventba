@@ -1,6 +1,6 @@
-import React from "react";
-import Hero from "./hero/Hero";
-import { ThisWeek } from "../../components/thisWeek/ThisWeek";
+import React from 'react';
+import Hero from './hero/Hero';
+import { ThisWeek } from '../../components/this-week/ThisWeek';
 
 export const Landing = () => {
   return (

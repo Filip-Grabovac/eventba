@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 export const TicketBill = ({ i }) => {
   const ticketID = i + 1;

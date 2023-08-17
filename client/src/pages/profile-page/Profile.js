@@ -11,7 +11,7 @@ export const Profile = () => {
   const userId = useSelector((state) => state.userState.user);
   const [navItems, setNavItems] = useState([]);
   const [organizerEvents, setOrganizerEvents] = useState();
-  const [buyHistory, setBuyHistory] = useState();
+  const [buy_history, setBuyHistory] = useState();
   const [resellersRequests, setResellersRequests] = useState();
   const [resellers, setResellers] = useState();
   const [isInfoVisible, setInfoVisibility] = useState(false);
@@ -25,7 +25,7 @@ export const Profile = () => {
         `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
       );
       setProfileData(response.data);
-      setBuyHistory(response.data.buyHistory);
+      setBuyHistory(response.data.buy_history);
 
       // Set profile navbar based on role
       if (response.data.role === 'standard') {
@@ -180,7 +180,7 @@ export const Profile = () => {
         profileData={profileData}
         entranceData={entranceData}
         onProfileFormSubmit={handleProfileFormSubmit}
-        buyHistory={buyHistory}
+        buy_history={buy_history}
         resellersRequests={resellersRequests}
         organizerEvents={organizerEvents}
         resellers={resellers}

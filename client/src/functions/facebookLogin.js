@@ -38,7 +38,7 @@ export const useFacebookLogin = (setUserID) => {
           fbEmail: fbResponse.email,
           profileImg: fbResponse.picture.data.url,
           role: 'standard',
-          isVerified: true,
+          is_verified: true,
           isBanned: false,
         };
 

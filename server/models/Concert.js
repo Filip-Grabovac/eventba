@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const concertHistorySchema = new mongoose.Schema({
   date: {
@@ -56,7 +56,7 @@ const ConcertSchema = new mongoose.Schema({
           {
             reseller_id: {
               type: mongoose.Schema.Types.ObjectId, // Set the field type to ObjectId
-              ref: "users",
+              ref: 'users',
             },
             reseller_name: String,
             reseller_address: String,
@@ -81,7 +81,7 @@ const ConcertSchema = new mongoose.Schema({
     place: String,
     type: {
       type: String,
-      default: "hall", // Set the default value to "hall"
+      default: 'hall', // Set the default value to "hall"
     },
   },
   is_promoted_event: {
@@ -91,10 +91,10 @@ const ConcertSchema = new mongoose.Schema({
   description: String,
   organizer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "users",
+    ref: 'users',
   },
-  concertHistory: [concertHistorySchema],
-  previousSoldAmount: {
+  concert_history: [concertHistorySchema],
+  previous_soldAmount: {
     type: Number,
     default: 0,
   },

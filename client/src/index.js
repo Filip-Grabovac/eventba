@@ -5,7 +5,7 @@ import '../src/style.css';
 import { BrowserRouter as Router } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
-import { ScrollToTop } from './components/helper/ScrollToTop';
+import { ScrollToTop } from './components/helper/scrollToTop';
 import { store } from './store/store';
 import { I18nextProvider } from 'react-i18next';
 import './functions/i18n';

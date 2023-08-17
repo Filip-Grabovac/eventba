@@ -1,6 +1,6 @@
-import React from "react";
-import MainCard from "./MainCard";
-import { SecondaryCard } from "./SecondaryCard";
+import React from 'react';
+import MainCard from './MainCard';
+import { SecondaryCard } from './SecondaryCard';
 
 const Hero = (props) => {
   return (

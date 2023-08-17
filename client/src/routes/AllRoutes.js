@@ -1,17 +1,19 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import { Landing } from "../pages/landing/Landing";
-import SinglePage from "../pages/single-page/SinglePage";
-import { Profile } from "../pages/profile-page/Profile";
-import { ProtectedRoute } from "./ProtectedRoutes";
-import { BuyPage } from "../pages/buy/BuyPage";
-import { ThankYou } from "../pages/paymentResult-page/ThankYou";
-import { Failed } from "../pages/paymentResult-page/Failed";
-import { Verification } from "../auth/Verification";
-import { QRscanner } from "../pages/entranceController/QRscanner";
-import { ProtectedControllerRoute } from "./ProtectedControllerRoute";
-import { EntranceControllerLogin } from "../pages/entranceController/EntranceControllerLogin";
-import { ListPage } from "../pages/listPage/ListPage";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { Landing } from '../pages/landing/Landing';
+import SinglePage from '../pages/single-page/SinglePage';
+import { Profile } from '../pages/profile-page/Profile';
+import { ProtectedRoute } from './ProtectedRoutes';
+import { BuyPage } from '../pages/buy/BuyPage';
+import { ThankYou } from '../pages/payment-result-page/ThankYou';
+import { Failed } from '../pages/payment-result-page/Failed';
+import { Verification } from '../auth/Verification';
+import { QRscanner } from '../pages/entrance-controller/QRscanner';
+import { ProtectedControllerRoute } from './ProtectedControllerRoute';
+import { EntranceControllerLogin } from '../pages/entrance-controller/EntranceControllerLogin';
+import { ListPage } from '../pages/list-page/ListPage';
+import { OverallInfo } from '../pages/overall-info-pages/OverallInfo';
+import { ErrorPage } from '../components/ErrorPage';
 
 export const AllRoutes = () => {
   return (
@@ -51,6 +53,22 @@ export const AllRoutes = () => {
           element={
             <ProtectedRoute>
               <Verification />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/informations"
+          element={
+            <ProtectedRoute>
+              <OverallInfo />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <ProtectedRoute>
+              <ErrorPage />
             </ProtectedRoute>
           }
         />
