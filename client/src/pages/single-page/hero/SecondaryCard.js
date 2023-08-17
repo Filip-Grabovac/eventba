@@ -1,11 +1,11 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { hrTimeFormat } from "../../../components/helper/timeFormat";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { hrTimeFormat } from '../../../components/helper/timeFormat';
 export const SecondaryCard = (props) => {
   const portraitImg = props.concertData[0].poster.portrait;
   const performerName = props.concertData[0].performer_name;
   const timeOfEvent = new Date(props.concertData[0].time_of_event);
-  const date = timeOfEvent.toLocaleString("hr-HR", hrTimeFormat);
+  const date = timeOfEvent.toLocaleString('hr-HR', hrTimeFormat);
   const formattedDate = date.charAt(0).toUpperCase() + date.slice(1);
   const place = `${props.concertData[0].place.city}, ${props.concertData[0].place.place}`;
 

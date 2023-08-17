@@ -1,6 +1,6 @@
-import React from "react";
-import ImageSlider from "./slider/ImageSlider";
-import MainSearch from "./mainSearch/MainSearch";
+import React from 'react';
+import ImageSlider from './slider/ImageSlider';
+import MainSearch from './main-search/MainSearch';
 
 const Hero = () => {
   return (

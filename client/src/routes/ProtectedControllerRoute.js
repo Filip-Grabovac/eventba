@@ -1,5 +1,5 @@
-import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 export const ProtectedControllerRoute = ({ children }) => {
   const controllerId = useSelector(

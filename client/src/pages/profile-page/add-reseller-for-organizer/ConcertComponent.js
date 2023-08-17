@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const ConcertComponent = ({ concertData }) => {
   return (
@@ -7,13 +7,13 @@ const ConcertComponent = ({ concertData }) => {
         <div className="bottom-part">
           <h6>Ulaznice za slobodnu prodaju</h6>
           <p>
-            Ukupno:{" "}
+            Ukupno:{' '}
             {concertData.tickets.free_sale.total_amount +
               concertData.tickets.free_sale.sold_amount}
           </p>
           <p>Zaduženo: {concertData.tickets.free_sale.total_loaned}</p>
           <p>
-            Dostupno:{" "}
+            Dostupno:{' '}
             {concertData.tickets.free_sale.total_amount +
               concertData.tickets.free_sale.sold_amount -
               concertData.tickets.free_sale.total_loaned}
@@ -39,7 +39,7 @@ const ConcertComponent = ({ concertData }) => {
             )}
         </div>
       ) : (
-        ""
+        ''
       )}
     </>
   );

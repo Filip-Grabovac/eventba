@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { CheckTicketsCard } from "./CheckTicketsCard";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import { CheckTicketsCard } from './CheckTicketsCard';
+import axios from 'axios';
 
 export const CheckResellerTickets = ({ resellerInfo, reseller_id }) => {
   const [sellingData, setSellingData] = useState();

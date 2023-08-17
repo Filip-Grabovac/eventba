@@ -62,8 +62,8 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
       phone: phone,
       password: Encrypt(e.target.elements.password.value, secretKey),
       repeatPassword: e.target.elements.repeatPassword.value,
-      buyHistory: [],
-      isBanned: false,
+      buy_history: [],
+      is_banned: false,
     };
 
     if (Decrypt(user.password, secretKey) === user.repeatPassword) {
@@ -72,7 +72,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
           process.env.REACT_APP_API_URL + '/api/v1/users',
           {
             ...user,
-            isVerified: false,
+            is_verified: false,
             verificationCode: Math.floor(Math.random() * 100000000000) + 1,
           },
           {

@@ -1,5 +1,5 @@
-const User = require("../models/User");
-const sendVerificationEmail = require("../mailer/mailer");
+const User = require('../models/User');
+const sendVerificationEmail = require('../mailer/mailer');
 
 const getAllUsers = async (req, res) => {
   try {
@@ -19,15 +19,15 @@ const createUser = async (req, res) => {
     if (existingUser) {
       return res
         .status(400)
-        .json({ error: "Korisnik s ovim emailom već postoji" });
+        .json({ error: 'Korisnik s ovim emailom već postoji' });
     }
 
     // If user is not verified, send verification mail.
-    if (req.body.isVerified === false) {
+    if (req.body.is_verified === false) {
       const verificationLink = `http://localhost:3000/verify/${req.body.verificationCode}`;
       const email = await sendVerificationEmail(
         req.body.email,
-        "Verificiraj svoj Event.ba račun!",
+        'Verificiraj svoj Event.ba račun!',
         `Klikom na link ispod započet će te verifikaciju svog event.ba računa: ${verificationLink}`
       );
     }
@@ -38,7 +38,7 @@ const createUser = async (req, res) => {
     res.status(201).json({ user });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Došlo je do greške pri unosu " });
+    res.status(500).json({ error: 'Došlo je do greške pri unosu ' });
   }
 };
 
@@ -48,7 +48,7 @@ const verifyUser = async (req, res) => {
 
     const existingUserWithCode = await User.findOneAndUpdate(
       { verificationCode: Number(verificationCode) },
-      { $set: { isVerified: true }, $unset: { verificationCode: "" } },
+      { $set: { is_verified: true }, $unset: { verificationCode: '' } },
       {
         new: true,
         runValidators: true,
@@ -59,9 +59,9 @@ const verifyUser = async (req, res) => {
         .status(404)
         .json({ msg: `Verifikacijiski kod nije važeći: ${verificationCode}.` });
     }
-    res.status(200).json({ msg: "Uspješna verifikacija!" });
+    res.status(200).json({ msg: 'Uspješna verifikacija!' });
   } catch (error) {
-    res.status(500).json({ error: "Došlo je do greške pri verifikaciji. " });
+    res.status(500).json({ error: 'Došlo je do greške pri verifikaciji. ' });
   }
 };
 
@@ -70,20 +70,20 @@ const findUser = async (req, res) => {
     const { type, value } = req.params;
     let query;
 
-    if (type === "email") {
+    if (type === 'email') {
       query = { email: value };
-    } else if (type === "fbEmail") {
+    } else if (type === 'fbEmail') {
       query = { fbEmail: value };
-    } else if (type === "id") {
+    } else if (type === 'id') {
       query = { _id: value };
-    } else if (type === "role") {
+    } else if (type === 'role') {
       query = { role: value };
     } else {
-      return res.status(400).json({ error: "Pogrešna pretraga" });
+      return res.status(400).json({ error: 'Pogrešna pretraga' });
     }
 
     let user;
-    if (type === "role") {
+    if (type === 'role') {
       user = await User.find(query);
       return res.status(200).json(user);
     } else {
@@ -91,18 +91,18 @@ const findUser = async (req, res) => {
     }
 
     if (!user) {
-      if (type === "id") {
+      if (type === 'id') {
         return res
           .status(404)
           .json({ error: `Ne postoji korisnik s ovim ID-om: ${value}` });
-      } else if (type === "email") {
+      } else if (type === 'email') {
         return res
           .status(404)
           .json({ error: `Ne postoji korisnik s ovim email-om: ${value}` });
       }
     }
 
-    if (type === "id") {
+    if (type === 'id') {
       // Return the whole user object when searching by ID
       return res.status(200).json(user);
     }
@@ -112,11 +112,11 @@ const findUser = async (req, res) => {
       id: user._id,
       password: user.password,
       accountType: user.accountType,
-      isBanned: user.isBanned,
+      is_banned: user.is_banned,
     });
   } catch (error) {
     res.status(500).json({
-      error: "Došlo je do greške na serveru, molimo pokušajte kasnije",
+      error: 'Došlo je do greške na serveru, molimo pokušajte kasnije',
     });
   }
 };
@@ -142,14 +142,14 @@ const updateUser = async (req, res) => {
 const searchUser = async (req, res) => {
   try {
     const searchInput = req.params.search_input.trim();
-    const searchTerms = searchInput.split(" ");
+    const searchTerms = searchInput.split(' ');
 
     // Create an array of regex patterns for each term
-    const regexPatterns = searchTerms.map((term) => new RegExp(term, "i"));
+    const regexPatterns = searchTerms.map((term) => new RegExp(term, 'i'));
 
     // Construct an array of $and conditions to match each term in any order
     const orConditions = regexPatterns.map((regex) => ({
-      $or: [{ fullName: regex }, { email: regex }],
+      $or: [{ full_name: regex }, { email: regex }],
     }));
 
     const users = await User.find({
@@ -164,23 +164,23 @@ const searchUser = async (req, res) => {
 
 const setUserBanStatus = async (req, res) => {
   const { user_id, ban_status } = req.params;
-  const adminId = "64abebf0437ec5030c423540";
+  const adminId = '64abebf0437ec5030c423540';
 
   try {
     // Find the user by ID
     const user = await User.findById(user_id);
 
     if (!user) {
-      return res.status(404).json({ message: "Korisnik nije pronađen." });
+      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
     }
 
     // Update the ban status
-    user.isBanned = ban_status === "true";
+    user.is_banned = ban_status === 'true';
 
     // Find the admin user by adminId
     const admin = await User.findById(adminId);
     if (!admin) {
-      return res.status(404).json({ message: "Admin nije pronađen." });
+      return res.status(404).json({ message: 'Admin nije pronađen.' });
     }
 
     // Remove the userId from the "resellers_requests" array in admin
@@ -198,7 +198,7 @@ const setUserBanStatus = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Serverska greška." });
+    res.status(500).json({ message: 'Serverska greška.' });
   }
 };
 
@@ -210,7 +210,7 @@ const updateUserRole = async (req, res) => {
     const user = await User.findById(id);
 
     if (!user) {
-      return res.status(404).json({ message: "Korisnik nije pronađen." });
+      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
     }
 
     // Update the user role
@@ -222,7 +222,7 @@ const updateUserRole = async (req, res) => {
     res.json({ message: `Uspješno ste ažurirali korisnikov tip računa.` });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Serverska greška." });
+    res.status(500).json({ message: 'Serverska greška.' });
   }
 };
 
@@ -234,16 +234,16 @@ const deleteUser = async (req, res) => {
     const user = await User.findById(id);
 
     if (!user) {
-      return res.status(404).json({ message: "Korisnik nije pronađen." });
+      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
     }
 
     // Delete the user from the database
     await user.remove();
 
-    res.json({ message: "Korisnik je uspješno obrisan." });
+    res.json({ message: 'Korisnik je uspješno obrisan.' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Serverska greška." });
+    res.status(500).json({ message: 'Serverska greška.' });
   }
 };
 
@@ -255,7 +255,7 @@ const getUserRole = async (req, res) => {
     const user = await User.findById(id);
 
     if (!user) {
-      return res.status(404).json({ message: "Korisnik nije pronađen." });
+      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
     }
 
     // Extract the "role" property from the user object
@@ -264,7 +264,7 @@ const getUserRole = async (req, res) => {
     res.json({ role });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Serverska greška." });
+    res.status(500).json({ message: 'Serverska greška.' });
   }
 };
 

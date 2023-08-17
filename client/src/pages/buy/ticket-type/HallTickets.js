@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const HallTickets = ({ concertData, activeCategory, handleClick }) => {
   const userId = useSelector((state) => state.userState.user);
@@ -21,19 +21,19 @@ const HallTickets = ({ concertData, activeCategory, handleClick }) => {
           const isActiveCategory = activeCategory === category;
 
           const cardClass = isSoldOut
-            ? "ticket-card-inner sold-out"
+            ? 'ticket-card-inner sold-out'
             : isActiveCategory
-            ? "ticket-card-inner active"
-            : "ticket-card-inner";
+            ? 'ticket-card-inner active'
+            : 'ticket-card-inner';
 
           const backgroundImageStyle = {
             backgroundImage: `url("${
               concertData.poster.landscape
                 ? `${process.env.REACT_APP_API_URL}/static/event-images/${concertData.poster.portrait}`
-                : ""
+                : ''
             }")`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
           };
 
           return (
@@ -45,7 +45,7 @@ const HallTickets = ({ concertData, activeCategory, handleClick }) => {
             >
               <div
                 className={`glassy-overlay ${
-                  isActiveCategory ? "activeGloss" : ""
+                  isActiveCategory ? 'activeGloss' : ''
                 }`}
               >
                 <div className={`ticket-card-name ${ticketType.name}`}>

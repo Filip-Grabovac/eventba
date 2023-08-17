@@ -52,9 +52,9 @@ export const Login = ({ setIsRegisterOpen }) => {
         }
       );
 
-      const { id, password: userPassword, isBanned } = response.data;
+      const { id, password: userPassword, is_banned } = response.data;
 
-      if (isBanned) {
+      if (is_banned) {
         toast.error(
           `Ovom korisniku je zabranjen pristup platformi!`,
           toastSetup('top-center', 3000)

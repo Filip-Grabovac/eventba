@@ -1,13 +1,13 @@
-import React, { cloneElement } from "react";
+import React, { cloneElement } from 'react';
 
-import m3 from "../assets/logos/3m.svg";
-import barstool from "../assets/logos/barstool-store.svg";
-import budweiser from "../assets/logos/budweiser.svg";
-import buzzfeed from "../assets/logos/buzzfeed.svg";
-import forbes from "../assets/logos/forbes.svg";
-import macys from "../assets/logos/macys.svg";
-import menshealth from "../assets/logos/menshealth.svg";
-import mrbeast from "../assets/logos/mrbeast.svg";
+import m3 from '../assets/logos/3m.svg';
+import barstool from '../assets/logos/barstool-store.svg';
+import budweiser from '../assets/logos/budweiser.svg';
+import buzzfeed from '../assets/logos/buzzfeed.svg';
+import forbes from '../assets/logos/forbes.svg';
+import macys from '../assets/logos/macys.svg';
+import menshealth from '../assets/logos/menshealth.svg';
+import mrbeast from '../assets/logos/mrbeast.svg';
 
 export const SponsorBar = () => {
   const logosSlideElement = (

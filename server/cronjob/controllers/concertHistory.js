@@ -2,28 +2,39 @@ const mongoose = require("mongoose");
 const concertSchema = require("../../models/Concert");
 const connectDB = require("../../db/connect");
 
-// Step 1: Function to add tickets to concert history
-async function addTicketsToConcertHistory(concert) {
-  const currentDate = new Date();
+// Step 1: Function to extract values and update "concertHistory" attribute
+async function extractConcertHistory(concert) {
+  const previous_sold_amount = concert.previous_sold_amount;
+  const currentSoldAmount = concert.tickets.sold_amount;
+  const ticketsSoldToday = currentSoldAmount - previous_sold_amount;
 
   const concertHistoryItem = {
     date: currentDate,
     tickets: concert.tickets,
   };
 
-  if (!concert.concertHistory) {
-    concert.concert_history = [];
+  for (const category of Object.keys(concert.tickets.online_sale.type)) {
+    const categoryData = concert.tickets.online_sale.type[category];
+    const soldAmount = categoryData.max_amount - categoryData.amount;
+    const soldAmountInBam = soldAmount * categoryData.price;
+    concertHistoryItem.type[category] = {
+      soldAmount,
+      soldAmountInBam,
+    };
   }
 
-  concert.concertHistory.push(concertHistoryItem);
+  concert.concert_history.push(concertHistoryItem);
+  concert.previous_sold_amount = currentSoldAmount; // Update the previous_sold_amount for the next day
 }
 
 // Step 2: Fetch all concerts from the collection and process
 async function processConcerts() {
   try {
-    const Concert = connectDB(
-      "mongodb://eventba:AqpRhnhu7DA4M8nYDVLIqIDdtbFFewSkIdedmr8fzdkpEZqKje@185.99.2.232:27017/eventba?authSource=admin"
-    ).model("Concert", concertSchema, "concerts");
+    const Concert = connectDB(process.env.DATABASE_URL).model(
+      "Concert",
+      concertSchema,
+      "concerts"
+    );
     const concerts = await Concert.find({});
 
     // Iterate through fetched concerts and call the extraction function

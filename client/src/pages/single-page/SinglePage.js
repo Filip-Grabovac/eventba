@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Hero from './hero/Hero';
-import { ThisWeek } from '../../components/thisWeek/ThisWeek';
+import { ThisWeek } from '../../components/this-week/ThisWeek';
 import axios from 'axios';
 import PromotedIcon from '../../assets/ikonice/promoted_icon.svg';
 import UnPromotedIcon from '../../assets/ikonice/unpromoted_icon.svg';

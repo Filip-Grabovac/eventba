@@ -23,7 +23,6 @@ async function updateFreeSale(concertId, ticketList) {
       )
         .toString()
         .padStart(6, "0");
-      console.log(ticketNumber);
       // Ensure ticketList is an array, even for a single ticket
       const ticketsArray = Array.isArray(ticketList)
         ? ticketList
@@ -43,12 +42,12 @@ async function updateFreeSale(concertId, ticketList) {
         // If the category already exists, add the new ticket number to the current value
         if (currentCategories.hasOwnProperty(categoryName)) {
           currentCategories[categoryName].amount += newTicketNum;
-          currentCategories[categoryName].maxAmount += newTicketNum;
+          currentCategories[categoryName].max_amount += newTicketNum;
         } else {
           // If the category does not exist, create a new entry for it
           currentCategories[categoryName] = {
             amount: newTicketNum,
-            maxAmount: newTicketNum,
+            max_amount: newTicketNum,
             price: parseInt(ticketPrice),
             name: ticketType,
             loaned: 0,
