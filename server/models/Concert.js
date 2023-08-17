@@ -8,6 +8,7 @@ const ConcertSchema = new mongoose.Schema({
     landscape: String,
     portrait: String,
   },
+  tickets_yesterday: {},
   tickets: {
     online_sale: {
       total_amount: Number,
