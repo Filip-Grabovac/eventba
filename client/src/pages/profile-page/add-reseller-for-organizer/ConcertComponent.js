@@ -30,7 +30,7 @@ const ConcertComponent = ({ concertData }) => {
                       {category.name} - {categoryKey}
                     </p>
                     <p>
-                      Ukupno/Zaduženo: {category.maxAmount}/
+                      Ukupno/Zaduženo: {category.max_amount}/
                       {category.loaned ?? 0}
                     </p>
                   </div>

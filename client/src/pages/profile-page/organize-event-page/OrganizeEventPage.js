@@ -204,7 +204,7 @@ export const OrganizeEventPage = () => {
       const categoryKey = ticket.name;
       event.tickets.online_sale.type[categoryKey] = {
         amount: Number(ticket.amount),
-        maxAmount: Number(ticket.amount),
+        max_amount: Number(ticket.amount),
         price: Number(ticket.price),
         name: ticket.type,
       };

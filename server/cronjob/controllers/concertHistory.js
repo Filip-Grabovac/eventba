@@ -7,7 +7,7 @@ async function addTicketsToConcertHistory(concert) {
   if (!concert.tickets_yesterday) {
     concert.tickets_yesterday = JSON.parse(JSON.stringify(concert.tickets));
   }
-  const currentDate = new Date().toLocaleDateString("hr-HR");
+  const currentDate = new Date();
   const todayOnlineSaleTickets = concert.tickets.online_sale.type;
   const yesterdayOnlineSaleTickets = concert.tickets_yesterday.online_sale.type;
 

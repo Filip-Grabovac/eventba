@@ -4,7 +4,7 @@ body {
   padding: 0;
   size: 21cm 29.7cm;
   background-color: rgb(255, 255, 255);
-  font-family: "Nunito", sans-serif;
+  font-family: "Nunito", "Trebuchet MS", sans-serif;
   color: #333333;
 }
 .page {

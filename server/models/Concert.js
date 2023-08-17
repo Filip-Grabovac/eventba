@@ -85,6 +85,7 @@ const ConcertSchema = new mongoose.Schema({
   },
   concert_history: [
     {
+      _id: false,
       date: {
         type: Date,
         required: true,
