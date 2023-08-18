@@ -340,17 +340,20 @@
           }
 
           .custom-file-input {
-            width: 150px;
+            width: 126px;
           }
 
           .custom-file-input::-webkit-file-upload-button {
             visibility: hidden;
           }
-
+          .sponsor-btn {
+            margin: 0;
+            font-size: 14px;
+          }
           .custom-file-input::before {
-            content: "Odaberi sponzore";
+            content: "Dodaj sponzore";
             display: inline-block;
-            background: linear-gradient(top, #f9f9f9, #e3e3e3);
+            background: linear-gradient(top, #f9f9f9, #d8d8d8);
             border: 2px solid #999;
             border-radius: 10px;
             padding: 5px 8px;

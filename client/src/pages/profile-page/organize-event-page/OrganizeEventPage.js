@@ -9,6 +9,7 @@ import trashcan from "../../../assets/ikonice/trash_can.svg";
 import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
 import { OrganizeEventCategories } from "./OrganizeEventCategories";
+import SponsorModal from "./SponsorModal";
 
 export const OrganizeEventPage = () => {
   const [selectedValue, setSelectedValue] = useState("");
@@ -28,7 +29,13 @@ export const OrganizeEventPage = () => {
     UploadImage,
     UploadImage,
   ]);
+  const [existingSponsors, setExistingSponsors] = useState(["1.png", "2.png"]);
 
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setModalOpen(!isModalOpen);
+  };
   // Fetch halls with the city name
   useEffect(() => {
     if (cityInputValue === "") {
@@ -343,24 +350,6 @@ export const OrganizeEventPage = () => {
     }
   }
 
-  // Event handler for file selection
-  const handleFileSelect = (event) => {
-    const fileList = event.target.files;
-    const selectedFiles = Array.from(fileList);
-    // Check if any of the selected files already exist in the sponsors list
-    const isFileExists = selectedFiles.some((file) =>
-      sponsors.some((sponsor) => sponsor.name === file.name)
-    );
-
-    if (!isFileExists) {
-      setSponsors((prevSponsors) => [...prevSponsors, ...selectedFiles]);
-      setSponsorNames((prevNames) => [
-        ...prevNames,
-        ...selectedFiles.map((file) => file.name),
-      ]);
-    }
-  };
-
   // Get cities in input
   async function getCities(e) {
     const cityName = e.target.value;
@@ -457,6 +446,7 @@ export const OrganizeEventPage = () => {
     updatedZones.splice(index, 1);
     setZones(updatedZones);
   };
+
   return (
     <form
       className="form container organize-form smaller-profile"
@@ -536,18 +526,13 @@ export const OrganizeEventPage = () => {
       </div>
       <div className="organize-middle-part time-sponsors">
         <div>
-          <input
-            name="sponsors"
-            id="sponsors"
-            className="custom-file-input event-input"
-            type="file"
-            onChange={handleFileSelect}
-            accept="image/*"
-          />
+          <button type="button" className="sponsor-btn" onClick={toggleModal}>
+            Odaberi sponzore
+          </button>
           <ul className="sponsors-ul">
-            {sponsors[0] !== undefined ? (
-              sponsors.map((e, i) => {
-                return <li key={i}>{e.name}</li>;
+            {sponsorNames[0] !== undefined ? (
+              sponsorNames.map((e, i) => {
+                return <li key={i}>{e}</li>;
               })
             ) : (
               <li className="not-selected-sponsor">
@@ -556,6 +541,15 @@ export const OrganizeEventPage = () => {
             )}
           </ul>
         </div>
+        <SponsorModal
+          sponsors={sponsors}
+          setSponsors={setSponsors}
+          isOpen={isModalOpen}
+          existingSponsors={existingSponsors}
+          toggleModal={toggleModal}
+          setSponsorNames={setSponsorNames}
+          sponsorNames={sponsorNames}
+        />
         <div className="select-div">
           <input
             name="timeOfEvent"

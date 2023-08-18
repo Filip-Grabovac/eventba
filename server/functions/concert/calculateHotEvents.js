@@ -41,7 +41,7 @@ const calculateHotEvents = async (req, res, Concert) => {
       let rating = 0;
 
       if (event.is_promoted_event) rating += 7.5;
-      if (event.type.includes('suggested')) rating += 7.5;
+      if (event.type.includes("suggested")) rating += 7.5;
       rating += event.sponsors.length;
 
       rating +=
@@ -68,8 +68,8 @@ const calculateHotEvents = async (req, res, Concert) => {
     // Now you have the top 5 events with their ratings
     res.json(top5Events); // Send the top 5 events as a JSON response
   } catch (error) {
-    console.error('An error occurred:', error);
-    res.status(500).json({ message: 'An error occurred.' }); // Handle the error and send an error response
+    console.error("An error occurred:", error);
+    res.status(500).json({ message: "An error occurred." }); // Handle the error and send an error response
   }
 };
 

@@ -92,18 +92,18 @@ export const EventCard = ({ ids, i }) => {
       if (!fromDateInput.value && !toDateInput.value) {
         toast.warning(
           "Molimo unesite oba datuma.",
-          toastSetup("top-right", 3000)
+          toastSetup("bottom-center", 3000)
         );
       } else if (!fromDateInput.value) {
         toast.warning(
           "Molimo unesite datum početka pretrage.",
-          toastSetup("top-right", 3000)
+          toastSetup("bottom-center", 3000)
         );
         fromDateInput.focus();
       } else {
         toast.warning(
           "Molimo unesite datum završetka pretrage.",
-          toastSetup("top-right", 3000)
+          toastSetup("bottom-center", 3000)
         );
         toDateInput.focus();
       }

@@ -441,7 +441,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      filter: blur(3px);
+      filter: blur(4px);
     }
 
     .hot-events-row-overlay {
@@ -451,7 +451,7 @@
       height: 100%;
       width: 100%;
       border-radius: 5px;
-      background-color: rgba(21, 21, 21, 0.107);
+      background-color: rgba(21, 21, 21, 0.2);
       z-index: 2;
     }
 

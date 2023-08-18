@@ -1,0 +1,42 @@
+.profile .profile-form .form .organize-middle-part .sponsor-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background-color: rgba(
+    216,
+    216,
+    216,
+    0.85
+  ); /* Add a semi-transparent background */
+  width: 80%; /* Adjust the width of the modal as needed */
+  max-width: 400px; /* Set a maximum width for the modal */
+  padding: 20px;
+
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 998;
+  .modal-content {
+    width: 90%;
+    margin: 0 auto;
+    .sponsor-row {
+      width: 100%;
+      display: flex;
+      position: static;
+      justify-content: space-between;
+      align-items: center;
+      margin: 5px auto;
+      img {
+        height: 32px;
+      }
+      label,
+      span {
+        width: 20%;
+      }
+    }
+  }
+  .modal-btn-close {
+    font-size: 14px;
+  }
+}
