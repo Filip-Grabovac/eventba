@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const connectDB = require('../db/connect');
+const mongoose = require("mongoose");
+const connectDB = require("../db/connect");
 
 const UserSchema = new mongoose.Schema({
   full_name: { type: String },
@@ -14,8 +14,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, minlength: 6 },
   is_verified: { type: Boolean },
   verificationCode: { type: Number },
-  accountType: { type: String },
-  profileImg: { type: String },
+  profile_img: { type: String },
   buy_history: { type: Array },
   is_banned: { type: Boolean },
   reseller_info: { type: Object },
@@ -23,7 +22,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 module.exports = connectDB(process.env.DATABASE_URL).model(
-  'User',
+  "User",
   UserSchema,
-  'users'
+  "users"
 );

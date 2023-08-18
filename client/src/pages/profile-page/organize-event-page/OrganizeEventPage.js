@@ -29,13 +29,18 @@ export const OrganizeEventPage = () => {
     UploadImage,
     UploadImage,
   ]);
-  const [existingSponsors, setExistingSponsors] = useState(["1.png", "2.png"]);
+  const [existingSponsors, setExistingSponsors] = useState([]);
 
   const [isModalOpen, setModalOpen] = useState(false);
 
   const toggleModal = () => {
     setModalOpen(!isModalOpen);
   };
+
+  useEffect(() => {
+    fetchSponsors();
+  }, []);
+
   // Fetch halls with the city name
   useEffect(() => {
     if (cityInputValue === "") {
@@ -57,6 +62,20 @@ export const OrganizeEventPage = () => {
         console.error("Error fetching concert halls:", error);
       });
   }, [cityInputValue]);
+
+  const fetchSponsors = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/helper/sponsors`
+      );
+      setExistingSponsors(response.data);
+    } catch (error) {
+      toast.error(
+        "Greška pri dohvatanju sponzora",
+        toastSetup("top-right", 3000)
+      );
+    }
+  };
 
   // Get zones after hall select
   const handlePlaceChange = (e) => {

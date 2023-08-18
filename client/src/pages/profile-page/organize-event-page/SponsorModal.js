@@ -46,23 +46,25 @@ const SponsorModal = ({
     <div className="sponsor-modal">
       <div className="modal-content">
         <h6>Odaberi sponzore</h6>
-        {existingSponsors.map((sponsor, i) => (
-          <div key={i} className="sponsor-row">
-            <span>{sponsor}</span>
-            <img
-              src={`${process.env.REACT_APP_API_URL}/static/sponsors/${sponsor}`}
-              alt={`Sponsor image ${sponsor}`}
-            />
-            <label key={i}>
-              <input
-                type="checkbox"
-                onChange={() => handleCheckboxChange(sponsor)}
-                checked={sponsorNames.includes(sponsor)}
+        <div className="sponsors-wrapper">
+          {existingSponsors.map((sponsor, i) => (
+            <div key={i} className="sponsor-row">
+              <span>{sponsor.split(".")[0]}</span>
+              <img
+                src={`${process.env.REACT_APP_API_URL}/static/sponsors/${sponsor}`}
+                alt={`Sponsor image ${sponsor}`}
               />
-              {sponsor.name}
-            </label>
-          </div>
-        ))}
+              <label key={i}>
+                <input
+                  type="checkbox"
+                  onChange={() => handleCheckboxChange(sponsor)}
+                  checked={sponsorNames.includes(sponsor)}
+                />
+                {sponsor.name}
+              </label>
+            </div>
+          ))}
+        </div>
         <input
           name="sponsors"
           id="sponsors"

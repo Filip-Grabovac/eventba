@@ -11,6 +11,7 @@ const entrance_controller = require("./routes/entrances");
 const places = require("./routes/places");
 const tickets = require("./routes/tickets");
 const freeSale = require("./routes/freeSale");
+const helper = require("./routes/helper");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 // const cronJob = require("./cronjob/dailyOperations");
@@ -28,6 +29,7 @@ app.use("/api/v1/entrance_controllers", entrance_controller);
 app.use("/api/v1/places", places);
 app.use("/api/v1/tickets", tickets);
 app.use("/api/v1/freeSale", freeSale);
+app.use("/api/v1/helper", helper);
 
 const start = async () => {
   try {

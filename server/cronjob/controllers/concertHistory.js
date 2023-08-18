@@ -107,9 +107,6 @@ async function processConcerts() {
     console.log("Extraction and update completed successfully!");
   } catch (error) {
     console.error("Error occurred:", error);
-  } finally {
-    // Close the database connection when done
-    mongoose.disconnect();
   }
 }
 processConcerts();

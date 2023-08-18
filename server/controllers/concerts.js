@@ -6,6 +6,7 @@ const {
 } = require("../functions/concert/calculateHotEvents");
 
 const generatePdf = require("../functions/concert/concert-history/generatePdf");
+const { updateSponsorList } = require("./helper");
 
 const Concert = connectDB(process.env.DATABASE_URL).model(
   "Concert",
@@ -80,6 +81,8 @@ const createEvent = async (req, res) => {
   try {
     // Create new event
     await Concert.create(req.body);
+
+    updateSponsorList(req.body.sponsors);
     res.status(201).json({ message: "Uspješno dodan događaj" });
   } catch (error) {
     console.log(error);

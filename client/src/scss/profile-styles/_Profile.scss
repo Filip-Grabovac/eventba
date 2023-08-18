@@ -340,7 +340,10 @@
           }
 
           .custom-file-input {
-            width: 126px;
+            height: 50px;
+            width: 130px;
+            margin: 0;
+            padding: 10px 5px;
           }
 
           .custom-file-input::-webkit-file-upload-button {
