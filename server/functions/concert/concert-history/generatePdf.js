@@ -1,26 +1,56 @@
-const generatePdfAndSendEmail = async (email, port) => {
+const puppeteer = require("puppeteer");
+const ejs = require("ejs");
+const fs = require("fs");
+const generatePdf = async (data) => {
   try {
+    console.log("Starting puppeteer");
     const browser = await puppeteer.launch({
       args: ["--no-sandbox"],
-      headless: "new",
+      headless: "new", // Changed to true for PDF generation
     });
     const page = await browser.newPage();
-    await page.goto(`http://localhost:${port}`, {
-      waitUntil: "networkidle2",
-    });
+    await page.setCacheEnabled(false);
 
-    // await page.setViewport({ width: 1680, height: 1050 });
-    await page.setViewport({ width: 800, height: 600 });
+    // Load and inline the logo image
+    const logoImage = fs.readFileSync(
+      __dirname + "/public/images/Logo.png",
+      "base64"
+    );
+    const logoImageSrc = `data:image/png;base64,${logoImage}`;
+
+    // Render the EJS template using the provided data
+    const htmlContent = await renderEjsTemplate(data, logoImageSrc);
+    await page.setContent(htmlContent);
 
     const pdfBuffer = await page.pdf({
       format: "A4",
       printBackground: true,
       quality: 50,
     });
-    await browser.close();
+    console.log("Created pdf");
 
-    await sendEmailWithAttachment(email, pdfBuffer); // Use the provided email parameter if you have defined the sendEmailWithAttachment function
+    await browser.close();
+    return pdfBuffer;
   } catch (error) {
-    console.log("Error generating PDF and sending email:", error);
+    console.log("Error generating PDF:", error);
+    throw error;
   }
 };
+
+// Function to render the EJS template
+const renderEjsTemplate = async (data, logoImageSrc) => {
+  try {
+    // Load and render the EJS template
+    const templatePath = __dirname + "/views/eventHistory.ejs";
+    const templateContent = await ejs.renderFile(templatePath, {
+      data,
+      logoImageSrc,
+    });
+    return templateContent;
+  } catch (error) {
+    console.log("Error rendering EJS template:", error);
+    throw error;
+  }
+};
+
+module.exports = generatePdf;

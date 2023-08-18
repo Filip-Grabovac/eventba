@@ -4,9 +4,6 @@ const connectDB = require("../../db/connect");
 
 // Step 1: Function to add tickets to concert history
 async function addTicketsToConcertHistory(concert) {
-  if (!concert.tickets_yesterday) {
-    concert.tickets_yesterday = JSON.parse(JSON.stringify(concert.tickets));
-  }
   const currentDate = new Date();
   const todayOnlineSaleTickets = concert.tickets.online_sale.type;
   const yesterdayOnlineSaleTickets = concert.tickets_yesterday.online_sale.type;
@@ -92,9 +89,11 @@ async function addTicketsToConcertHistory(concert) {
 
 async function processConcerts() {
   try {
-    const Concert = connectDB(
-      "mongodb://eventba:AqpRhnhu7DA4M8nYDVLIqIDdtbFFewSkIdedmr8fzdkpEZqKje@185.99.2.232:27017/eventba?authSource=admin"
-    ).model("Concert", concertSchema, "concerts");
+    const Concert = connectDB(process.env.DATABASE_URL).model(
+      "Concert",
+      concertSchema,
+      "concerts"
+    );
     const concerts = await Concert.find({});
 
     // Iterate through fetched concerts and call the extraction function

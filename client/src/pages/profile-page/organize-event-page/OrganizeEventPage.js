@@ -186,6 +186,15 @@ export const OrganizeEventPage = () => {
         },
         free_sale: [],
       },
+      tickets_yesterday: {
+        online_sale: {
+          total_amount: 0,
+          type: {},
+          sold_amount: 0,
+          amount_inBAM: 0,
+        },
+        free_sale: [],
+      },
       sponsors: sponsorNames,
       time_of_event: form.get("timeOfEvent"),
       place: {
