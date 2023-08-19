@@ -60,8 +60,6 @@ const SponsorModal = ({
     return null;
   }
 
-  console.log(sponsorNames);
-
   return (
     <div className="sponsor-modal">
       <div className="modal-content">

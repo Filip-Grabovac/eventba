@@ -299,7 +299,7 @@ export const OrganizeEventPage = () => {
         const formData = new FormData();
 
         for (let i = 0; i < sponsors.length; i++) {
-          formData.append("firstFiles", sponsors[i], sponsorNames[i]);
+          formData.append("firstFiles", sponsors[i], sponsors[i].name);
         }
 
         for (let i = 0; i < selectedImagesForUpload.length; i++) {
@@ -311,6 +311,7 @@ export const OrganizeEventPage = () => {
         }
 
         // Send formData to the backend
+        console.log(formData);
 
         const response2 = await axios.post(
           process.env.REACT_APP_API_URL + "/api/v1/concerts/upload_img",

@@ -5,50 +5,49 @@ const { processImages } = require("../controllers/imageEditor");
 const uploadImage = async (req, res) => {
   try {
     const { firstFiles, secondFiles } = req.files;
-    console.log(firstFiles);
+
+    // Ensure the existence of the upload folders
+    const sponsorsTempDir = path.join(
+      __dirname,
+      "..",
+      "ticket-gen",
+      "public",
+      "sponsors-temp"
+    );
+    const eventImagesTempDir = path.join(
+      __dirname,
+      "..",
+      "event-images-temporary"
+    );
+    await Promise.all([
+      fs.mkdir(sponsorsTempDir, { recursive: true }),
+      fs.mkdir(eventImagesTempDir, { recursive: true }),
+    ]);
+
+    // Upload firstFiles to sponsors-temp folder
     if (firstFiles) {
-      // Convert to an array if only one file is uploaded
       const firstFilesArray = Array.isArray(firstFiles)
         ? firstFiles
         : [firstFiles];
-
-      // Upload firstFiles to another folder
-      await Promise.all(
-        firstFilesArray.map(async (file) => {
-          const uploadPath = path.join(
-            __dirname,
-            "..",
-            "ticket-gen",
-            "public",
-            "sponsors-temp",
-            file.name
-          );
-          await fs.writeFile(uploadPath, file.data, {
-            flag: "w",
-            encoding: "utf8",
-          });
-          console.log("File moved successfully:", file.name);
-        })
-      );
-    }
-
-    // Upload secondFiles to another folder
-    await Promise.all(
-      secondFiles.map(async (file) => {
-        const uploadPath = path.join(
-          __dirname,
-          "..",
-          "event-images-temporary",
-          file.name
-        );
-
+      for (const file of firstFilesArray) {
+        const uploadPath = path.join(sponsorsTempDir, file.name);
         await fs.writeFile(uploadPath, file.data, {
           flag: "w",
           encoding: "utf8",
         });
         console.log("File moved successfully:", file.name);
-      })
-    );
+      }
+    }
+
+    // Upload secondFiles to event-images-temporary folder
+    for (const file of secondFiles) {
+      const uploadPath = path.join(eventImagesTempDir, file.name);
+      await fs.writeFile(uploadPath, file.data, {
+        flag: "w",
+        encoding: "utf8",
+      });
+      console.log("File moved successfully:", file.name);
+    }
 
     // Call the function to optimize and compress the images
     await Promise.all([
@@ -57,24 +56,19 @@ const uploadImage = async (req, res) => {
     ]);
 
     // Remove images from temporary folders
-    await removeTemporaryFiles(
-      path.resolve(__dirname, "..", "event-images-temporary")
-    );
-    await removeTemporaryFiles(
-      path.resolve(__dirname, "..", "ticket-gen", "public", "sponsors-temp")
-    );
+    await removeTemporaryFiles(eventImagesTempDir);
+    await removeTemporaryFiles(sponsorsTempDir);
 
-    res.status(200).json({ message: "Uspješno dodane datoteke." });
+    res.status(200).json({ message: "Datoteke uspješno dodane." });
   } catch (error) {
-    console.error("Error during image upload:", error);
-    res.status(500).json({ error: "Greška prilikom dodavanja datoteka." });
+    console.error("Greška pri dodavnju datoteka:", error);
+    res.status(500).json({ error: "Greška pri dodavnju datoteka." });
   }
 };
 
 const removeTemporaryFiles = async (folderPath) => {
   try {
     const tempFiles = await fs.readdir(folderPath);
-
     await Promise.all(
       tempFiles.map(async (file) => {
         const filePath = path.join(folderPath, file);
