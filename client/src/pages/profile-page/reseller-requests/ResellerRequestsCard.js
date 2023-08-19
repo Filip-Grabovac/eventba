@@ -101,7 +101,7 @@ export const ResellerRequestsCard = ({
       <img className="user" src={UserManagerIcon} alt="User" />
       <div className="myevent-card-part-2">
         <p>
-          {data.fullName.split(' ')[0]} {data.fullName.split(' ')[1]}
+          {data.full_name.split(' ')[0]} {data.full_name.split(' ')[1]}
         </p>
       </div>
       <div className="line"></div>
@@ -167,11 +167,11 @@ export const ResellerRequestsCard = ({
         <div className="reseller-dropdown-part">
           <div>
             <p>Ime:</p>
-            <p>{data.fullName.split(' ')[0]}</p>
+            <p>{data.full_name.split(' ')[0]}</p>
           </div>
           <div>
             <p>Prezime:</p>
-            <p>{data.fullName.split(' ')[1]}</p>
+            <p>{data.full_name.split(' ')[1]}</p>
           </div>
           <div>
             <p>Email:</p>

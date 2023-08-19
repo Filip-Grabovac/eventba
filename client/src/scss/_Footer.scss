@@ -5,6 +5,11 @@
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 
+  .footer-logo {
+    text-decoration: none;
+    color: #343434;
+  }
+
   // Sponsor Bar
   .sponsor-scroll::after {
     content: '';

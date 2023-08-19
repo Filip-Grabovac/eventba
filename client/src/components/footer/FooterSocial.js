@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const FooterSocial = ({ socialImg, socialLink }) => {
+export const FooterSocial = ({ socialImg, socialLink, target }) => {
   return (
     <li>
-      <a href={socialLink}>
+      <a target={target} href={socialLink}>
         <img src={socialImg} alt="instagram" />
       </a>
     </li>

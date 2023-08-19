@@ -1,23 +1,23 @@
-const concertSchema = require("../models/Concert");
-const connectDB = require("../db/connect");
-const { updateConcertFunc } = require("../functions/concert/updateConcertFunc");
+const concertSchema = require('../models/Concert');
+const connectDB = require('../db/connect');
+const { updateConcertFunc } = require('../functions/concert/updateConcertFunc');
 const {
   calculateHotEvents,
-} = require("../functions/concert/calculateHotEvents");
+} = require('../functions/concert/calculateHotEvents');
 
-const generatePdf = require("../functions/concert/concert-history/generatePdf");
-const { updateSponsorList } = require("./helper");
+const generatePdf = require('../functions/concert/concert-history/generatePdf');
+const { updateSponsorList } = require('./helper');
 
 const Concert = connectDB(process.env.DATABASE_URL).model(
-  "Concert",
+  'Concert',
   concertSchema,
-  "concerts"
+  'concerts'
 );
 const getAllConcerts = async (req, res) => {
   try {
     const currentDate = new Date(); // Get the current date and time
     const concerts = await Concert.find({ time_of_event: { $gt: currentDate } })
-      .select("_id time_of_event performer_name place")
+      .select('_id time_of_event performer_name place')
       .exec();
 
     res.status(200).json({ concerts });
@@ -30,23 +30,27 @@ const findConcert = async (req, res) => {
   try {
     const { type, value } = req.params;
     let query;
-    if (type === "is_promoted_event") {
-      query = { is_promoted_event: value === "true" };
-    } else if (type === "id") {
+    if (type === 'is_promoted_event') {
+      query = { is_promoted_event: value === 'true' };
+    } else if (type === 'id') {
       query = { _id: value };
-    } else if (type === "this_week") {
+    } else if (type === 'this_week') {
       const today = new Date();
       const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
       query = { time_of_event: { $gte: today, $lt: nextWeek } };
-    } else if (type === "type") {
+    } else if (type === 'type') {
       query = { type: { $in: [value] } };
-    } else if (type === "search") {
-      query = { performer_name: { $regex: value, $options: "i" } };
+    } else if (type === 'search') {
+      query = { performer_name: { $regex: value, $options: 'i' } };
     } else {
-      return res.status(400).json({ error: "Pogrešna pretraga" });
+      return res.status(400).json({ error: 'Pogrešna pretraga' });
     }
 
     const concerts = await Concert.find(query);
+
+    if (type === 'id') {
+      return res.status(200).json(concerts);
+    }
 
     const today = new Date();
     const filteredConcerts = concerts.filter(
@@ -54,10 +58,10 @@ const findConcert = async (req, res) => {
     );
 
     if (
-      type === "id" ||
-      type === "this_week" ||
-      type === "type" ||
-      type === "search"
+      type === 'id' ||
+      type === 'this_week' ||
+      type === 'type' ||
+      type === 'search'
     ) {
       // Return the whole concert object when searching by ID
       return res.status(200).json(filteredConcerts);
@@ -72,7 +76,7 @@ const findConcert = async (req, res) => {
     res.status(200).json(filteredConcertsForResponse);
   } catch (error) {
     res.status(500).json({
-      error: "Došlo je do greške na serveru, molimo pokušajte kasnije",
+      error: 'Došlo je do greške na serveru, molimo pokušajte kasnije',
     });
   }
 };
@@ -83,10 +87,10 @@ const createEvent = async (req, res) => {
     await Concert.create(req.body);
 
     updateSponsorList(req.body.sponsors);
-    res.status(201).json({ message: "Uspješno dodan događaj" });
+    res.status(201).json({ message: 'Uspješno dodan događaj' });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Greška pri dodavanju događaja" });
+    res.status(500).json({ error: 'Greška pri dodavanju događaja' });
   }
 };
 
@@ -98,11 +102,11 @@ const searchEventByType = async (req, res) => {
     const today = new Date();
     query = {
       $or: [
-        { performer_name: { $regex: search_value, $options: "i" } },
-        { "place.country": { $regex: search_value, $options: "i" } },
-        { "place.city": { $regex: search_value, $options: "i" } },
-        { "place.place": { $regex: search_value, $options: "i" } },
-        { description: { $regex: search_value, $options: "i" } },
+        { performer_name: { $regex: search_value, $options: 'i' } },
+        { 'place.country': { $regex: search_value, $options: 'i' } },
+        { 'place.city': { $regex: search_value, $options: 'i' } },
+        { 'place.place': { $regex: search_value, $options: 'i' } },
+        { description: { $regex: search_value, $options: 'i' } },
       ],
       $and: [{ type: type }, { time_of_event: { $gte: today } }],
     };
@@ -115,7 +119,7 @@ const searchEventByType = async (req, res) => {
     const concerts = await Concert.find(query);
     res.status(200).json(concerts);
   } catch (err) {
-    res.status(500).json({ message: "Greška pri pretraži događaja." });
+    res.status(500).json({ message: 'Greška pri pretraži događaja.' });
   }
 };
 
@@ -134,7 +138,7 @@ const getEventsByOrganizerId = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ message: "Greška u dostavljanju podataka za organizatora." });
+      .json({ message: 'Greška u dostavljanju podataka za organizatora.' });
   }
 };
 const getEventsWithinDates = async (req, res) => {
@@ -147,7 +151,7 @@ const getEventsWithinDates = async (req, res) => {
     });
 
     if (!concert) {
-      return res.status(404).json({ message: "Event not found." });
+      return res.status(404).json({ message: 'Event not found.' });
     }
 
     const filteredEvents = concert.concert_history.filter((event) => {
@@ -177,17 +181,17 @@ const getEventsWithinDates = async (req, res) => {
     // Set content disposition to trigger download
     const pdfFileName = `povijest_prodaje_ulaznica.pdf`;
     res.setHeader(
-      "Content-Disposition",
+      'Content-Disposition',
       `attachment; filename="${pdfFileName}"`
     );
-    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader('Content-Type', 'application/pdf');
 
     // Send the PDF buffer as a response
     res.status(200).send(pdfBuffer);
   } catch (err) {
     res
       .status(500)
-      .json({ message: "Error delivering data for the organizer." });
+      .json({ message: 'Error delivering data for the organizer.' });
   }
 };
 
@@ -199,41 +203,41 @@ const updateConcertProperty = async (req, res) => {
     if (!id) {
       return res
         .status(400)
-        .json({ message: "Niste proslijedili id koncerta." });
+        .json({ message: 'Niste proslijedili id koncerta.' });
     }
 
     const concert = await Concert.findById(id);
 
     if (!concert) {
-      return res.status(404).json({ message: "Koncert nije pronađen." });
+      return res.status(404).json({ message: 'Koncert nije pronađen.' });
     }
 
-    if (type === "suggested") {
-      if (value === "true") {
+    if (type === 'suggested') {
+      if (value === 'true') {
         // Add 'suggested' to the 'type' array
-        concert.type.push("suggested");
-        message = "Uspješno ste preporučili događaj.";
+        concert.type.push('suggested');
+        message = 'Uspješno ste preporučili događaj.';
       } else {
         // Remove 'suggested' from the 'type' array
-        concert.type = concert.type.filter((item) => item !== "suggested");
-        message = "Uspješno ste uklonili preporuku.";
+        concert.type = concert.type.filter((item) => item !== 'suggested');
+        message = 'Uspješno ste uklonili preporuku.';
       }
-    } else if (type === "promoted") {
+    } else if (type === 'promoted') {
       // Update the 'is_promoted_event' property
-      concert.is_promoted_event = value === "true";
+      concert.is_promoted_event = value === 'true';
 
-      if (value === "true") message = "Uspješno ste promovirali događaj.";
-      else message = "Uspješno ste uklonili promociju događaja.";
+      if (value === 'true') message = 'Uspješno ste promovirali događaj.';
+      else message = 'Uspješno ste uklonili promociju događaja.';
     } else {
       // If an invalid type is provided in the URL
-      return res.status(400).json({ message: "Nevažeći tip." });
+      return res.status(400).json({ message: 'Nevažeći tip.' });
     }
 
     await concert.save();
 
     res.status(200).json({ message: message });
   } catch (err) {
-    res.status(500).json({ message: "Greška pri ažuriranju događaja." });
+    res.status(500).json({ message: 'Greška pri ažuriranju događaja.' });
   }
 };
 
@@ -246,7 +250,7 @@ const resellersConcertInfo = async (req, res) => {
     if (!Array.isArray(concertIds)) {
       return res
         .status(400)
-        .json({ message: "concertIds should be an array." });
+        .json({ message: 'concertIds should be an array.' });
     }
 
     // Find all concerts with "_id" property matching the ids from the array
@@ -277,7 +281,7 @@ const resellersConcertInfo = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ message: "Greška pri pronalasku preprodavača i koncerta." });
+      .json({ message: 'Greška pri pronalasku preprodavača i koncerta.' });
   }
 };
 
