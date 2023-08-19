@@ -30,7 +30,7 @@ export const useFacebookLogin = (setUserID) => {
       } catch (error) {
         // Else register new user
         const user = {
-          fullName:
+          full_name:
             fbResponse.name.split(" ")[0] +
             " " +
             fbResponse.name.split(" ")[fbResponse.name.split(" ").length - 1],

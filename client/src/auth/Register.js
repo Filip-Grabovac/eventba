@@ -33,14 +33,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
   const emailRef = useRef(null);
   // Phone Input settings
   const [phone, setPhone] = useState("");
-  const reverseCountry = (fullName) => {
-    for (const code in countryMap) {
-      if (countryMap[code] === fullName) {
-        return code;
-      }
-    }
-    return null; // Return null if the country name is not found in the map
-  };
+
   const [country, setCountry] = useState("BA");
 
   // Press escape key exit register

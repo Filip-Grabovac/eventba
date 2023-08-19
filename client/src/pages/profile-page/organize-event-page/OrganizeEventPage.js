@@ -551,7 +551,7 @@ export const OrganizeEventPage = () => {
           <ul className="sponsors-ul">
             {sponsorNames[0] !== undefined ? (
               sponsorNames.map((e, i) => {
-                return <li key={i}>{e}</li>;
+                return <li key={i}>{e.split(".")[0]}</li>;
               })
             ) : (
               <li className="not-selected-sponsor">

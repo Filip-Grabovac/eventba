@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import UserManagerIcon from '../../../assets/ikonice/user_manager_icon.svg';
-import UserManagerCheck from '../../../assets/ikonice/user_manager_check.svg';
-import TrashCanIcon from '../../../assets/ikonice/trash_can.svg';
-import BanUser from '../../../assets/ikonice/ban_user_icon.svg';
-import UnBanUser from '../../../assets/ikonice/user_unban_icon.svg';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { toastSetup } from '../../../functions/toastSetup';
-import { Tooltip } from 'react-tooltip';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect, useState } from "react";
+import UserManagerIcon from "../../../assets/ikonice/user_manager_icon.svg";
+import UserManagerCheck from "../../../assets/ikonice/user_manager_check.svg";
+import TrashCanIcon from "../../../assets/ikonice/trash_can.svg";
+import BanUser from "../../../assets/ikonice/ban_user_icon.svg";
+import UnBanUser from "../../../assets/ikonice/user_unban_icon.svg";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { toastSetup } from "../../../functions/toastSetup";
+import { Tooltip } from "react-tooltip";
+import { useTranslation } from "react-i18next";
 
 export const UserManagerCard = ({ data, removeUserFromUI }) => {
   const [userData, setUserData] = useState(data);
   const [selectedRole, setSelectedRole] = useState();
-  const roles = ['standard', 'organizer', 'admin'];
+  const roles = ["standard", "organizer", "admin"];
 
   const { t } = useTranslation();
 
@@ -33,9 +33,9 @@ export const UserManagerCard = ({ data, removeUserFromUI }) => {
       .then(() => {
         // Display messages and update ban status
         let msg = !userData.isBanned
-          ? 'Uspješno ste blokirali korisnika'
-          : 'Uspješno ste odblokirali korisnika';
-        toast.success(msg, toastSetup('top-right', 2000));
+          ? "Uspješno ste blokirali korisnika"
+          : "Uspješno ste odblokirali korisnika";
+        toast.success(msg, toastSetup("top-right", 2000));
 
         setUserData((prevUserData) => ({
           ...prevUserData,
@@ -61,7 +61,7 @@ export const UserManagerCard = ({ data, removeUserFromUI }) => {
       )
       .then((res) => {
         // Display messages and update ban status
-        toast.success(res.data.message, toastSetup('top-right', 2000));
+        toast.success(res.data.message, toastSetup("top-right", 2000));
       })
       .catch((error) => {
         console.error(error);
@@ -78,10 +78,10 @@ export const UserManagerCard = ({ data, removeUserFromUI }) => {
           `/api/v1/users/delete_user/${userData._id}`
       )
       .then((response) => {
-        toast.success(response.data.message, toastSetup('top-right', 2000));
+        toast.success(response.data.message, toastSetup("top-right", 2000));
       })
       .catch((error) => {
-        console.error('Error deleting user:', error);
+        console.error("Error deleting user:", error);
       });
   }
 
@@ -90,7 +90,7 @@ export const UserManagerCard = ({ data, removeUserFromUI }) => {
       <img className="user" src={UserManagerIcon} alt="User" />
       <div className="card-part-half">
         <div className="um-card-part">
-          <p>{userData.fullName}</p>
+          <p>{userData.full_name}</p>
           <p>{userData.email}</p>
         </div>
         <div className="um-line"></div>
@@ -100,7 +100,7 @@ export const UserManagerCard = ({ data, removeUserFromUI }) => {
               {userData.country}, {userData.city}
             </p>
           ) : (
-            ''
+            ""
           )}
           <p className="is-verified">
             Verificiran: <img src={UserManagerCheck} alt="Check" />

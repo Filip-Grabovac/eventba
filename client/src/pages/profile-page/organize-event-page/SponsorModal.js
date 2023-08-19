@@ -1,4 +1,6 @@
 import React from "react";
+import { toast } from "react-toastify";
+import { toastSetup } from "../../../functions/toastSetup";
 
 const SponsorModal = ({
   isOpen,
@@ -13,6 +15,24 @@ const SponsorModal = ({
   const handleFileSelect = (event) => {
     const fileList = event.target.files;
     const selectedFiles = Array.from(fileList);
+
+    // Regular expression to match disallowed characters
+    const forbiddenCharsRegex = /[čžšćđ]/i; // Add other characters as needed
+
+    // Check if any of the selected files' names contain disallowed characters
+    const hasDisallowedChars = selectedFiles.some((file) =>
+      forbiddenCharsRegex.test(file.name)
+    );
+
+    if (hasDisallowedChars) {
+      toast.error(
+        "Ime sponzora ne smije sadržavati slova s kvačicama!",
+        toastSetup("top-center", 3000)
+      );
+
+      return;
+    }
+
     // Check if any of the selected files already exist in the sponsors list
     const isFileExists = selectedFiles.some((file) =>
       sponsors.some((sponsor) => sponsor.name === file.name)
