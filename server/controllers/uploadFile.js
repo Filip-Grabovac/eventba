@@ -5,6 +5,7 @@ const { processImages } = require("../controllers/imageEditor");
 const uploadImage = async (req, res) => {
   try {
     const { firstFiles, secondFiles } = req.files;
+    console.log(firstFiles);
     if (firstFiles) {
       // Convert to an array if only one file is uploaded
       const firstFilesArray = Array.isArray(firstFiles)
