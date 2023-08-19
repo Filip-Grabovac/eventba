@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 //Images
 import Logo from '../../assets/logos/Logo.svg';
 import instagram from '../../assets/logos/Instagram.svg';
@@ -27,8 +27,10 @@ export const Footer = () => {
       </div>
       <div className="info-panel">
         <ul>
-          <img src={Logo} alt="logo" />
-          <p>event.ba</p>
+          <Link className="footer-logo" to="/">
+            <img src={Logo} alt="logo" />
+            <p>event.ba</p>
+          </Link>
         </ul>
         <ul>
           <FooterLink content="O nama" pageLink="about_us" />
@@ -52,10 +54,14 @@ export const Footer = () => {
           <FooterLink content="NewsLetter" pageLink="newsletter" />
         </ul>
         <ul className="social-icons">
-          <FooterSocial socialImg={instagram} />
-          <FooterSocial socialImg={facebook} />
+          <FooterSocial
+            socialImg={facebook}
+            socialLink="https://www.facebook.com/profile.php?id=100076226389319"
+            target="_blank"
+          />
+          {/* <FooterSocial socialImg={instagram} />
           <FooterSocial socialImg={twitter} />
-          <FooterSocial socialImg={gmail} />
+          <FooterSocial socialImg={gmail} /> */}
         </ul>
       </div>
     </div>

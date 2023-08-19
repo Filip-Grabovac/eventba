@@ -1,14 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import ArrowIcon from "../../../assets/ikonice/arrow_icon.svg";
-import { EventDayCard } from "./EventDayCard";
-import axios from "axios";
-import CategoryCard from "./CategoyCard";
-import { hrTimeFormatShort } from "../../../components/helper/timeFormatShort";
-import { saveAs } from "file-saver";
-import { set } from "mongoose";
-import { Bars } from "react-loader-spinner";
-import { toast } from "react-toastify";
-import { toastSetup } from "../../../functions/toastSetup";
+import React, { useEffect, useRef, useState } from 'react';
+import ArrowIcon from '../../../assets/ikonice/arrow_icon.svg';
+import { EventDayCard } from './EventDayCard';
+import axios from 'axios';
+import CategoryCard from './CategoyCard';
+import { hrTimeFormatShort } from '../../../components/helper/timeFormatShort';
+import { saveAs } from 'file-saver';
+import { Bars } from 'react-loader-spinner';
+import { toast } from 'react-toastify';
+import { toastSetup } from '../../../functions/toastSetup';
 
 export const EventCard = ({ ids, i }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -31,15 +30,16 @@ export const EventCard = ({ ids, i }) => {
         `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${ids._id}`
       );
       setData(response.data[0]);
+      console.log(response.data[0]);
 
       setLoading(false); // Set loading to false when data is fetched successfully
       const timeOfEvent = new Date(
         response.data[0].time_of_event
-      ).toLocaleString("hr-HR", hrTimeFormatShort);
+      ).toLocaleString('hr-HR', hrTimeFormatShort);
       const date = timeOfEvent.charAt(0).toUpperCase() + timeOfEvent.slice(1);
       setDate(date);
     } catch (error) {
-      console.error("Error fetching profile data:", error);
+      console.error('Error fetching profile data:', error);
       setLoading(false); // Set loading to false if there's an error
     }
   };
@@ -71,10 +71,10 @@ export const EventCard = ({ ids, i }) => {
   function goToReseller(e) {
     e.preventDefault();
 
-    document.querySelector(".add-reseller-link").click();
+    document.querySelector('.add-reseller-link').click();
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   }
   const handlePdfPrint = async (e, eventIndex) => {
@@ -91,19 +91,19 @@ export const EventCard = ({ ids, i }) => {
       setLoader(false);
       if (!fromDateInput.value && !toDateInput.value) {
         toast.warning(
-          "Molimo unesite oba datuma.",
-          toastSetup("bottom-center", 3000)
+          'Molimo unesite oba datuma.',
+          toastSetup('bottom-center', 3000)
         );
       } else if (!fromDateInput.value) {
         toast.warning(
-          "Molimo unesite datum početka pretrage.",
-          toastSetup("bottom-center", 3000)
+          'Molimo unesite datum početka pretrage.',
+          toastSetup('bottom-center', 3000)
         );
         fromDateInput.focus();
       } else {
         toast.warning(
-          "Molimo unesite datum završetka pretrage.",
-          toastSetup("bottom-center", 3000)
+          'Molimo unesite datum završetka pretrage.',
+          toastSetup('bottom-center', 3000)
         );
         toDateInput.focus();
       }
@@ -124,20 +124,19 @@ export const EventCard = ({ ids, i }) => {
             endDate: toDateValue,
           },
           {
-            responseType: "blob", // Set the response type to 'blob' to handle binary data
+            responseType: 'blob', // Set the response type to 'blob' to handle binary data
           }
         );
 
         // Save the response data as a file using FileSaver
-        const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-        saveAs(pdfBlob, "concert_history.pdf");
+        const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+        saveAs(pdfBlob, 'concert_history.pdf');
         setLoader(false);
       } catch (error) {
-        console.error("Error downloading PDF:", error);
+        console.error('Error downloading PDF:', error);
       }
     }
   };
-
   return (
     // Show loading indicator or data once it's available
     isLoading ? (
@@ -145,18 +144,18 @@ export const EventCard = ({ ids, i }) => {
     ) : data ? ( // Check if data is available before rendering
       <div
         style={{
-          borderBottomLeftRadius: hasBorderRadius ? "7px" : "0",
-          borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
-          marginBottom: dropdown ? dropdownHeight + 10 + marginB : "10px",
+          borderBottomLeftRadius: hasBorderRadius ? '7px' : '0',
+          borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
+          marginBottom: dropdown ? dropdownHeight + 10 + marginB : '10px',
         }}
         className="myevent-card-reseller"
       >
         <div className="myevent-card-part-1">
           <img
-            style={{ borderBottomLeftRadius: hasBorderRadius ? "7px" : "0" }}
+            style={{ borderBottomLeftRadius: hasBorderRadius ? '7px' : '0' }}
             src={
               `${process.env.REACT_APP_API_URL}/static/event-images/${data.poster.portrait}` ||
-              ""
+              ''
             }
             alt="Portrait image"
           />
@@ -177,7 +176,7 @@ export const EventCard = ({ ids, i }) => {
                 Prodano: <strong>{data.tickets.online_sale.sold_amount}</strong>
               </span>
               <span>
-                Ukupno:{" "}
+                Ukupno:{' '}
                 <strong>
                   {data.tickets.online_sale.amount_inBAM} <small>BAM</small>
                 </strong>
@@ -203,7 +202,7 @@ export const EventCard = ({ ids, i }) => {
                 Prodano: <strong>{data.tickets.free_sale.sold_amount}</strong>
               </span>
               <span>
-                Ukupno:{" "}
+                Ukupno:{' '}
                 <strong>
                   {data.tickets.free_sale.amount_inBAM} <small>BAM</small>
                 </strong>
@@ -228,14 +227,14 @@ export const EventCard = ({ ids, i }) => {
           onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
           className="myevent-card-part-3"
           style={{
-            borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
+            borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
             backgroundColor: hasBorderRadius
-              ? "rgba(69, 91, 217, 0.7)"
-              : "rgba(69, 91, 217, 0.5)",
+              ? 'rgba(69, 91, 217, 0.7)'
+              : 'rgba(69, 91, 217, 0.5)',
           }}
         >
           <img
-            style={dropdown ? { rotate: "-180deg" } : { rotate: "0deg" }}
+            style={dropdown ? { rotate: '-180deg' } : { rotate: '0deg' }}
             src={ArrowIcon}
             alt="Drop"
           />
@@ -262,7 +261,7 @@ export const EventCard = ({ ids, i }) => {
             ) : (
               <span className="warnning-message">
                 Trenutno nemate preprodavača za ovaj događaj. Dodajte ih na
-                sučelju{" "}
+                sučelju{' '}
                 <a
                   onClick={(e) => {
                     goToReseller(e);
@@ -294,7 +293,7 @@ export const EventCard = ({ ids, i }) => {
               </button>
               {loader ? (
                 <div className="loader">
-                  <Bars height="50" width="50" color="#455cd9" />{" "}
+                  <Bars height="50" width="50" color="#455cd9" />{' '}
                 </div>
               ) : null}
             </div>
