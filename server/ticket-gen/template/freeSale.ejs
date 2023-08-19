@@ -25,19 +25,36 @@
                   <h5 class="preformer h5">
                     <%= concertData.performer_name %>
                   </h5>
-                  <span class="time"><%= formattedDate %></span>
-                  <span class="location"><%= place %></span>
-                  <span class="ticket-location"
-                    ><%= categoryName %> -<strong>
-                      <%= ticketType %></strong
-                    ></span
-                  >
+                  <div class="info-wrapper">
+                    <div class="info-left">
+                      <span class="time"><%= formattedDate %></span>
+                      <span class="location"><%= place %></span>
+                      <span class="ticket-location"
+                        ><%= categoryName %> -<strong>
+                          <%= ticketType %></strong
+                        ></span
+                      >
+                      <div class="price-qr">
+                        <div class="serial-number">
+                          N<%= ticket.ticketNumber %>
+                        </div>
+                        <div class="price">
+                          Cijena:
+                          <strong><%= ticketPrice %> <small>BAM</small></strong>
+                        </div>
+                      </div>
+                    </div>
 
-                  <div class="price-qr">
-                    <div class="serial-number">N<%= ticket.ticketNumber %></div>
-                    <div class="price">
-                      Cijena:
-                      <strong><%= ticketPrice %> <small>BAM</small></strong>
+                    <div class="info-right">
+                      <span class="large-letter">
+                        <%= categoryName.charAt(0) %> - <%= ticketType.charAt(0)
+                        %>
+                      </span>
+                      <span class="ticket-location"
+                        ><%= categoryName %> -<strong>
+                          <%= ticketType %></strong
+                        ></span
+                      >
                     </div>
                   </div>
                 </div>

@@ -72,11 +72,37 @@ body {
         border-radius: 10px;
 
         .info {
-          width: 70%;
+          width: 90%;
           margin: 8px auto;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+          .info-wrapper {
+            display: flex;
+            height: 100%;
+            gap: 45px;
+            .info-left {
+              width: 65%;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-around;
+            }
+            .info-right {
+              display: flex;
+              flex-direction: column;
+              justify-content: space-around;
+              .large-letter {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 62px;
+                letter-spacing: -5px;
+                font-weight: 300;
+                display: inline-block; /* Make sure the element wraps the content */
+                transform: scaleY(
+                  1.5
+                ); /* Adjust the value to stretch vertically */
+              }
+            }
+          }
         }
         .h5 {
           font-size: 22px;
@@ -96,7 +122,6 @@ body {
           text-transform: uppercase;
         }
         .preformer {
-          margin: 0;
           font-size: 32px;
           text-transform: uppercase;
           font-family: Arial, sans-serif;
@@ -109,7 +134,7 @@ body {
         }
 
         .price-qr {
-          width: 65%;
+          width: 70%;
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
@@ -153,7 +178,7 @@ body {
     background-image: linear-gradient(to top, #ececec, #fff);
     display: flex;
     padding: 3.3px 5px;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-direction: row-reverse;
     align-items: center;
     flex-grow: 1;
