@@ -30,7 +30,6 @@ export const EventCard = ({ ids, i }) => {
         `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${ids._id}`
       );
       setData(response.data[0]);
-      console.log(response.data[0]);
 
       setLoading(false); // Set loading to false when data is fetched successfully
       const timeOfEvent = new Date(
