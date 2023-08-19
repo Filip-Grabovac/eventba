@@ -18,7 +18,7 @@ async function sendEmailWithAttachment(email, ticket) {
       from: process.env.SENDING_MAIL,
       to: email,
       subject: "Event.ba Ticket",
-      text: "Your ticket is attached.",
+      text: "Vaša ulaznica je u privitku",
       attachments: [
         {
           filename: "ticket.pdf",

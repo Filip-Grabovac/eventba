@@ -15,6 +15,12 @@ async function updateFreeSale(concertId, ticketList) {
 
     // Check if the concert document exists
     if (concert) {
+      console.log(
+        concert.tickets.free_sale.total_amount,
+        concert.tickets.online_sale.sold_amount,
+        concert.tickets.free_sale.sold_amount
+      );
+
       const ticketNumber = await Number(
         concert.tickets.free_sale.total_amount +
           concert.tickets.online_sale.sold_amount +

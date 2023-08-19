@@ -135,7 +135,6 @@ async function generateFreeSaleTicket({
 
       console.log("ended");
       // Close the server for the current ticket
-      server.close();
 
       // Save the PDF buffer for this batch
 

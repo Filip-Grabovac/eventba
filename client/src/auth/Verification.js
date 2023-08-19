@@ -13,7 +13,7 @@ export const Verification = () => {
     const verifyUser = async () => {
       try {
         const response = await axios.patch(
-          `/api/v1/users/verify/${verificationCode}`
+          `${process.env.REACT_APP_API_URL}/api/v1/users/verify/${verificationCode}`
         );
 
         setTimeout(() => {

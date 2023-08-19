@@ -29,10 +29,35 @@ body {
   .main-container {
     border-top: #3d627a dotted 2px;
     border-bottom: #3d627a dotted 2px;
+    .top-stripe {
+      background: linear-gradient(120deg, #354286 0%, #2793a7 100%);
+      border-radius: 0 0 15px 15px;
+      color: white;
+      margin: 0;
+      padding: 0;
+      height: 30px;
+      .logos {
+        width: 100%;
+        margin: 0 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 4px;
+
+        .event {
+          color: white;
+          font-weight: 600;
+          font-size: 14px;
+          margin: 0;
+        }
+      }
+    }
   }
 
   .inner-container {
+    height: 190px;
     display: flex;
+    flex-direction: row-reverse;
     align-items: stretch;
     .left {
       width: 71.4%;
@@ -40,26 +65,18 @@ body {
 
       margin-right: 5px;
       .top {
+        height: 190px;
         display: flex;
         gap: 10px;
         background-image: linear-gradient(to top, #ececec, #fff);
         border-radius: 10px;
-        .poster {
-          border-radius: 0 10px 10px;
-          height: 230px;
-          width: 320px;
-          object-fit: cover;
-          object-position: -20px;
-          img {
-            border-radius: 0 10px 10px;
-          }
-        }
+
         .info {
+          width: 70%;
           margin: 8px auto;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          align-items: center;
         }
         .h5 {
           font-size: 22px;
@@ -70,7 +87,6 @@ body {
         .ticket-location,
         .serial-number,
         .price {
-          text-align: center;
           font-size: 15px;
           display: inline-block;
           font-weight: 600;
@@ -81,94 +97,82 @@ body {
         }
         .preformer {
           margin: 0;
+          font-size: 32px;
+          text-transform: uppercase;
+          font-family: Arial, sans-serif;
         }
         .serial-number,
         .price {
-          font-size: 18px;
+          font-size: 17px;
           margin-bottom: 0;
           padding-bottom: 0;
         }
 
         .price-qr {
-          width: 90%;
+          width: 65%;
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
-        }
-      }
-      .bot {
-        height: 40px;
-        background-image: linear-gradient(to top, #ececec, #fff);
-        display: flex;
-        padding: 3px;
-        justify-content: space-between;
-        align-items: center;
-        flex-grow: 1;
-        .logos {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 4px;
-          .logo {
-            height: 43px;
-          }
-          .event {
-            color: #555555;
-            font-weight: 700;
-            font-size: 12px;
-            margin: 0;
-          }
-        }
-        .sponsor {
-          max-height: fit-content;
-          max-width: 45px;
         }
       }
     }
     .right {
       transform: translateY(1px);
       width: 28.57%;
-      height: 230px;
       border-left: 0.8px solid #7c8ce4;
       display: flex;
       flex-direction: column;
+      justify-content: space-around;
       .left-part {
-        height: 284px;
         display: flex;
-        align-items: center;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 10px;
+        flex-direction: column;
+        text-align: center;
+        flex-grow: 1;
         justify-content: space-around;
+        .left-part-row {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+        }
       }
       .left-part span {
-        font-size: 16px;
+        font-size: 15px;
         width: 100%;
-        text-align: center;
       }
-      .left-part div {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-      .right-part {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
 
+      .right-part {
+        margin: 0 auto;
         .qr {
-          width: 150px;
+          width: 100px;
         }
       }
     }
   }
+  .bot {
+    height: 40px;
+    background-image: linear-gradient(to top, #ececec, #fff);
+    display: flex;
+    padding: 3.3px 5px;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: center;
+    flex-grow: 1;
+
+    .sponsor {
+      max-height: fit-content;
+      max-width: 55px;
+      max-height: 45px;
+    }
+  }
+  .bottom-stripe {
+    height: 11px;
+    background: linear-gradient(120deg, #2793a7 0%, #354286 100%);
+    border-radius: 15px 15px 0 0;
+  }
 }
 .serial-number {
-  font-size: 14px;
-  display: inline-block;
   font-weight: 600;
+  font-size: 15px;
 }
 .color-text {
   color: #3d627a;
