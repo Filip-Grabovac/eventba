@@ -340,7 +340,7 @@
           }
 
           .custom-file-input {
-            height: 50px;
+            height: 70px;
             width: 130px;
             margin: 0;
             padding: 10px 5px;
@@ -354,7 +354,7 @@
             font-size: 14px;
           }
           .custom-file-input::before {
-            content: "Dodaj sponzore";
+            content: 'Dodaj sponzore';
             display: inline-block;
             background: linear-gradient(top, #f9f9f9, #d8d8d8);
             border: 2px solid #999;
