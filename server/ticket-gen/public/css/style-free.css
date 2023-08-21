@@ -13,13 +13,17 @@ body {
   padding: 0;
   size: 21cm 29.7cm;
   background-color: rgb(255, 255, 255);
-  font-family: "Nunito", "Trebuchet MS", sans-serif;
+  font-family: "Name1", "Nunito", "Trebuchet MS", sans-serif;
   color: #333333;
 }
 
-.section3,
-.section4 {
-  background-color: rgb(255, 255, 255);
+@font-face {
+  font-family: "Name"; /* Use a suitable name */
+  src: url("fonts/IndonesiaRaya-jEl3R.otf") format("opentype");
+}
+@font-face {
+  font-family: "Name1";
+  src: url("fonts/BrandinkSans-rgOpA.otf") format("opentype");
 }
 
 .section3 {
@@ -35,6 +39,7 @@ body {
       color: white;
       margin: 0;
       padding: 0;
+      opacity: 0;
       height: 30px;
       .logos {
         width: 100%;
@@ -62,8 +67,8 @@ body {
     .left {
       width: 71.4%;
       color: #333333;
-
       margin-right: 5px;
+
       .top {
         height: 190px;
         display: flex;
@@ -73,41 +78,37 @@ body {
 
         .info {
           width: 90%;
+          height: 187px;
           margin: 8px auto;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           .info-wrapper {
             display: flex;
-            height: 100%;
-            gap: 45px;
+            justify-content: space-between;
+
             .info-left {
               width: 65%;
               display: flex;
               flex-direction: column;
-              justify-content: space-around;
+              justify-content: space-evenly;
             }
             .info-right {
               display: flex;
               flex-direction: column;
+              text-align: center;
               justify-content: space-around;
               .large-letter {
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: 62px;
-                letter-spacing: -5px;
-                font-weight: 300;
+                flex-grow: 1;
+                font-family: "Name", Arial, Helvetica, sans-serif;
+                font-size: 108px;
+                font-weight: 400;
                 display: inline-block; /* Make sure the element wraps the content */
-                transform: scaleY(
-                  1.5
-                ); /* Adjust the value to stretch vertically */
               }
             }
           }
         }
-        .h5 {
-          font-size: 22px;
-          margin: 0px;
-        }
+
         .time,
         .location,
         .ticket-location,
@@ -122,9 +123,18 @@ body {
           text-transform: uppercase;
         }
         .preformer {
-          font-size: 32px;
+          letter-spacing: 2px;
+          margin: 0px;
+          font-size: 36px;
           text-transform: uppercase;
-          font-family: Arial, sans-serif;
+          font-family: "Name", Arial, sans-serif;
+          font-weight: 700;
+
+          /* Ensure text stays on one line */
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis; /* Add 'ellipsis' to show ... if text overflows */
+          max-width: 100%; /* Adjust this value as needed */
         }
         .serial-number,
         .price {
@@ -145,6 +155,7 @@ body {
       transform: translateY(1px);
       width: 28.57%;
       border-left: 0.8px solid #7c8ce4;
+      padding-right: 10px;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
@@ -190,9 +201,10 @@ body {
     }
   }
   .bottom-stripe {
-    height: 11px;
+    height: 10px;
     background: linear-gradient(120deg, #2793a7 0%, #354286 100%);
     border-radius: 15px 15px 0 0;
+    opacity: 0;
   }
 }
 .serial-number {
@@ -201,45 +213,7 @@ body {
 }
 .color-text {
   color: #3d627a;
-  font-weight: 700;
+  font-weight: 400;
   text-transform: uppercase;
-}
-.section4 {
-  display: flex;
-
-  .section4-1st {
-    display: flex;
-    flex-direction: column;
-
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    width: 12%;
-    border-top: 0.5px solid rgba(124, 140, 228, 0.604);
-
-    .qr {
-      width: 110px;
-    }
-  }
-  .section4-2nd {
-    margin: 20px 10px 10px;
-    width: 88%;
-    border-top: 0.5px solid rgba(124, 140, 228, 0.604);
-    border-bottom: 2px solid #7c8ce4;
-
-    .color-text {
-      font-size: 12px;
-    }
-  }
-
-  .section4-2nd p {
-    margin: 0 5px 0 0;
-    font-size: 10px;
-  }
-  .section4-2nd p:nth-child(3) {
-    text-align: right;
-    font-size: 12px;
-    color: #000;
-    font-weight: 600;
-  }
+  font-family: "Name";
 }

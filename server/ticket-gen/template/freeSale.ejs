@@ -29,11 +29,15 @@
                     <div class="info-left">
                       <span class="time"><%= formattedDate %></span>
                       <span class="location"><%= place %></span>
-                      <span class="ticket-location"
-                        ><%= categoryName %> -<strong>
-                          <%= ticketType %></strong
-                        ></span
-                      >
+                      <span class="ticket-location">
+                        <%= categoryName %> <% if (categoryName !== "" &&
+                        ticketType !== "") { %> &nbsp;-&nbsp;<strong
+                          ><%= ticketType %></strong
+                        >
+                        <% } else if (ticketType !== "") { %>
+                        <strong><%= ticketType %></strong>
+                        <% } %>
+                      </span>
                       <div class="price-qr">
                         <div class="serial-number">
                           N<%= ticket.ticketNumber %>
@@ -46,15 +50,21 @@
                     </div>
 
                     <div class="info-right">
+                      <% if (categoryName !== "") { %>
                       <span class="large-letter">
-                        <%= categoryName.charAt(0) %> - <%= ticketType.charAt(0)
-                        %>
+                        <%= categoryName.charAt(0) %>
                       </span>
-                      <span class="ticket-location"
-                        ><%= categoryName %> -<strong>
-                          <%= ticketType %></strong
-                        ></span
-                      >
+                      <% } else if (ticketType !== "") { %>
+                      <span class="large-letter">
+                        <%= ticketType.charAt(0).toUpperCase() %>
+                      </span>
+                      <% } %>
+
+                      <span class="ticket-location color-text">
+                        <% if (categoryName !== "") { %> <%= categoryName %> <%
+                        } else if (ticketType !== "") { %> <%= ticketType %> <%
+                        } %>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -64,9 +74,12 @@
               <div class="left-part">
                 <div>
                   <div class="left-part-row">
-                    <span class="color-text"
-                      ><%= categoryName %> - <%= ticketType %></span
-                    >
+                    <span class="color-text">
+                      <%= categoryName %> <% if (categoryName !== "" &&
+                      ticketType !== "") { %> &nbsp;-&nbsp;<%= ticketType %> <%
+                      } else if (categoryName === "" && ticketType !== "") { %>
+                      <%= ticketType %> <% } %>
+                    </span>
                   </div>
                 </div>
                 <div class="left-part-row">
@@ -90,56 +103,6 @@
             <% } %>
           </div>
           <div class="bottom-stripe"></div>
-        </div>
-      </div>
-      <% } %>
-    </div>
-    <div class="page ticket">
-      <% for (const ticket of tickets) { %>
-      <div class="section4">
-        <div class="section4-1st">
-          <img src="<%= ticket.qrPath %>" class="qr" />
-        </div>
-        <div class="section4-2nd">
-          <span class="color-text"
-            >Uvjeti korištenja ulaznice i ponašanja na događaju</span
-          >
-          <p>
-            Kupovinom ove ulaznice, posjetitelj potpuno prihvaća sve uvjete i
-            pravila ponašanja na mjestu događanja, kao i uvjete za kupce
-            Event.ba na stranici www.event.ba. Nepoštivanje navedenih uvjeta i
-            pravila može rezultirati zabranom ulaska na događaj ili udaljenjem s
-            mjesta događanja. Nakon kupovine, ulaznicu nije moguće zamijeniti
-            niti vratiti, osim u slučaju otkazivanja ili promjene datuma
-            događaja. Event.ba ne preuzima odgovornost u slučaju oštećenja,
-            gubitka ili krađe ulaznice ili njenih zaštitnih podataka (kao što su
-            qr kod, serijski broj, zaštitni kod itd.), te u tim situacijama nije
-            moguć povrat novca niti zamjena ulaznice. Oštećena, ukradena,
-            krivotvorena ili ulaznica bez odreska ili zaštitnih podataka smatra
-            se nevažećom, a s takvom ulaznicom posjetitelj neće moći ući na
-            događaj. Molimo vas da ulaznice kupujete isključivo na www.event.ba
-            ili na ovlaštenim prodajnim mjestima. Nakon skeniranja jedinstvenog
-            koda na ulaznici, ona postaje nevažeća, a ulaz je dozvoljen samo
-            prvom nositelju te ulaznice. Svaki pokušaj ulaska s istim kodom bit
-            će onemogućen. U slučaju otkazivanja događaja ili promjene datuma,
-            povrat novca za ulaznice moguće je zatražiti putem stranice
-            www.event.ba/refund. U određenim slučajevima, povrat novca će biti
-            izvršen izravno od strane organizatora. Molimo imajte na umu da
-            naknada za izdavanje ulaznice, kao i eventualne dodatne naknade
-            Event.ba, te privatni troškovi poput smještaja ili prijevoza, nisu
-            povratni. Krivotvorenje, zloupotreba i ilegalna preprodaja Event.ba
-            ulaznica su zakonom kažnjivi i bit će prijavljeni policiji. Na
-            mjesto događanja zabranjeno je unošenje oružja, pirotehničkih
-            sredstava, boca, limenki i drugih predmeta koji mogu ugroziti
-            sigurnost drugih posjetitelja. Također je zabranjeno unošenje opreme
-            za audiovizualno snimanje. Važno je napomenuti da glasna glazba može
-            oštetiti sluh. Dolaskom na događaj, posjetitelj preuzima sve rizike,
-            uključujući rizk od gubitka, krađe i oštećenja vlastite imovine, kao
-            i rizik od tjelesnih ozljeda. Dolaskom na događaj, posjetitelj
-            pristaje biti audiovizualno snimljen bez ograničenja i bez
-            mogućnosti financijske kompenzacije za upotrebu takvih snimaka.
-          </p>
-          <p>info@event.ba</p>
         </div>
       </div>
       <% } %>

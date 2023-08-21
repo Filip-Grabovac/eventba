@@ -58,11 +58,7 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
 
     await generateQRCode(String(serialNumber));
 
-    function generateRandomPort(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    const port = generateRandomPort(3000, 60000);
+    const port = 3333;
 
     // Create a new Express app instance for the current ticket
     const app = express();
@@ -91,7 +87,7 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
       res.render("onlineSale", {
         serialNumber,
         place: `
-      ${concertData.place.place}, ${concertData.place.city}, ${concertData.place.country};`,
+      ${concertData.place.place}, ${concertData.place.city}, ${concertData.place.country}`,
         price,
         name,
         lname,

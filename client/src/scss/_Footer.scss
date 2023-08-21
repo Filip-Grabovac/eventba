@@ -12,7 +12,7 @@
 
   // Sponsor Bar
   .sponsor-scroll::after {
-    content: '';
+    content: "";
     display: block;
     width: 90%;
     border-bottom: solid 1px rgba(69, 92, 217, 0.5);
@@ -44,7 +44,7 @@
       top: 0;
       width: 20%;
       height: 100%;
-      content: '';
+      content: "";
       z-index: 2;
     }
 

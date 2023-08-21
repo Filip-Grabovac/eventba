@@ -75,7 +75,7 @@ async function generateFreeSaleTicket({
         ticketNumber = (Number(ticketNumber) + 1).toString().padStart(6, "0");
       }
 
-      const port = generateRandomPort(3000, 60000);
+      const port = 8888;
 
       // Create a new Express app instance for the current ticket
       const app = express();
@@ -105,7 +105,7 @@ async function generateFreeSaleTicket({
           const templatePath = path.join(__dirname, "template", "freeSale.ejs");
 
           const renderedHtml = await ejs.renderFile(templatePath, {
-            place: `${concertData.place.place}, ${concertData.place.city}, ${concertData.place.country};`,
+            place: `${concertData.place.place}, ${concertData.place.city}, ${concertData.place.country}`,
             ticketPrice,
             ticketType,
             categoryName,
@@ -135,13 +135,13 @@ async function generateFreeSaleTicket({
 
       console.log("ended");
       // Close the server for the current ticket
-
+      server.close();
+      const random = generateRandomPort(3000, 1000000);
       // Save the PDF buffer for this batch
-
       const pdfPath = path.resolve(
         __dirname,
         "pdf-folder",
-        `batch_${port}.pdf`
+        `batch_${random}.pdf`
       );
       await savePdfToFile(pdfBuffer, pdfPath);
       allPdfPaths.push(pdfPath);
