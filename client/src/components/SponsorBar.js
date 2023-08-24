@@ -30,6 +30,7 @@ export const SponsorBar = () => {
       <div className="logos">
         {logosSlideElement}
         {clonedLogosSlideElement}
+        {clonedLogosSlideElement}
       </div>
     </div>
   );
