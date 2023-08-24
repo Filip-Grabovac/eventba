@@ -46,10 +46,10 @@ h6 {
   flex-direction: column;
 }
 .Toastify__toast-body {
-  font-family: "Nunito", sans-serif;
+  font-family: 'Nunito', sans-serif;
 }
 body {
-  font-family: "Nunito", sans-serif;
+  font-family: 'Nunito', sans-serif;
   background: rgb(217, 222, 247);
   background: linear-gradient(
     180deg,
@@ -125,7 +125,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield !important;
 }
 
@@ -145,27 +145,28 @@ small {
 .navlink-active {
   background-color: rgba(255, 255, 255, 0.115);
 }
-@import "Navbar.scss";
-@import "Footer.scss";
-@import "ListPage";
-@import "Hero.scss";
-@import "ThisWeek.scss";
-@import "SinglePage.scss";
-@import "Login.scss";
-@import "Buy.scss";
-@import "ThankYou.scss";
-@import "Info";
-@import "Error";
+@import 'Navbar.scss';
+@import 'Footer.scss';
+@import 'ListPage';
+@import 'Hero.scss';
+@import 'ThisWeek.scss';
+@import 'SinglePage.scss';
+@import 'Login.scss';
+@import 'Buy.scss';
+@import 'ThankYou.scss';
+@import 'Info';
+@import 'Error';
+@import 'DrawPlace';
 
-@import "profile-styles/AddTickets";
-@import "profile-styles/MyEvent";
-@import "profile-styles/Profile";
-@import "profile-styles/EntranceController";
-@import "profile-styles/AddHall";
-@import "profile-styles/MyTickets";
-@import "profile-styles/UserManager";
-@import "profile-styles/RequestResseler";
-@import "profile-styles/ResellerRequests";
-@import "profile-styles/AddReseller";
-@import "profile-styles/CheckResellerTickets";
-@import "profile-styles/SponsorModal";
+@import 'profile-styles/AddTickets';
+@import 'profile-styles/MyEvent';
+@import 'profile-styles/Profile';
+@import 'profile-styles/EntranceController';
+@import 'profile-styles/AddHall';
+@import 'profile-styles/MyTickets';
+@import 'profile-styles/UserManager';
+@import 'profile-styles/RequestResseler';
+@import 'profile-styles/ResellerRequests';
+@import 'profile-styles/AddReseller';
+@import 'profile-styles/CheckResellerTickets';
+@import 'profile-styles/SponsorModal';

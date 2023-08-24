@@ -14,6 +14,7 @@ import { EntranceControllerLogin } from '../pages/entrance-controller/EntranceCo
 import { ListPage } from '../pages/list-page/ListPage';
 import { OverallInfo } from '../pages/overall-info-pages/OverallInfo';
 import { ErrorPage } from '../components/ErrorPage';
+import { DrawPlace } from '../pages/draw-place/DrawPlace';
 
 export const AllRoutes = () => {
   return (
@@ -61,6 +62,14 @@ export const AllRoutes = () => {
           element={
             <ProtectedRoute>
               <OverallInfo />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/draw"
+          element={
+            <ProtectedRoute>
+              <DrawPlace />
             </ProtectedRoute>
           }
         />
