@@ -14,6 +14,7 @@ const {
   getEventsWithinDates,
   findUnverifiedEvents,
   verifyEvent,
+  deleteEvent,
 } = require("../controllers/concerts");
 
 router.route("/").get(getAllConcerts);
@@ -28,7 +29,8 @@ router.route("/update/:concertId").post(updateConcert);
 router.route("/get_event_within_dates").post(getEventsWithinDates);
 router.route("/:type/:value").get(findConcert);
 router.route("/get_hot_events").get(calculateEvents);
-router.route("/unferified_events").get(findUnverifiedEvents);
+router.route("/unverified_events").get(findUnverifiedEvents);
 router.route("/verify_event").post(verifyEvent);
+router.route("/delete").delete(deleteEvent);
 
 module.exports = router;

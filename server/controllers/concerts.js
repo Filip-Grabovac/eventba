@@ -92,6 +92,26 @@ const createEvent = async (req, res) => {
     res.status(500).json({ error: "Greška pri dodavanju događaja" });
   }
 };
+const deleteEvent = async (req, res) => {
+  const { _id } = req.body; // Assuming _id is the identifier for the concert
+
+  try {
+    // Find the concert by _id and delete it
+    const deletedConcert = await Concert.findByIdAndDelete(_id);
+
+    if (!deletedConcert) {
+      return res.status(404).json({ message: "Koncert nije pronađen" });
+    }
+
+    // You can perform any additional cleanup or actions here
+    // For example, updating related data or performing cascading deletes
+
+    res.status(200).json({ message: "Koncert uspješno obrisan" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Greška prilikom brisanja koncerta" });
+  }
+};
 
 const findUnverifiedEvents = async (req, res) => {
   try {
@@ -337,6 +357,7 @@ module.exports = {
   getAllConcerts,
   findConcert,
   createEvent,
+  deleteEvent,
   searchEventByType,
   getEventsByOrganizerId,
   updateConcertProperty,

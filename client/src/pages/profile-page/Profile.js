@@ -52,22 +52,12 @@ export const Profile = () => {
         fetchAllResellers();
       } else if (response.data.role === "admin") {
         setNavItems([
-<<<<<<< HEAD
-          'Ažuriraj podatke',
-          'Moje ulaznice',
-          'Upravljaj korisnicima',
-          'Zahtjevi preprodavača',
-          'Dodaj ulaznice',
-          'Odobri događaj',
-=======
           "Ažuriraj podatke",
-          "Organiziraj događaj",
-          "Dodaj ulaznice",
+          "Moje ulaznice",
           "Upravljaj korisnicima",
           "Zahtjevi preprodavača",
-          "Moje ulaznice",
-          "Verificiraj događaj",
->>>>>>> 66c1da18418a65e6e24ff98ea01328f900c595e3
+          "Dodaj ulaznice",
+          "Odobri događaj",
         ]);
 
         fetchResellerRequests();
