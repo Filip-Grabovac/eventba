@@ -1,8 +1,121 @@
 .verify-event-wrapper {
   padding: 10px;
+  display: flex;
+  align-items: center;
 
   .verify-event-wrapper-img {
-    width: 200px;
+    width: 70%;
     border-radius: 5px;
+  }
+
+  .verify-event-portrait-wrapper {
+    width: 15%;
+  }
+  .sponsors-wrapper {
+    width: 15%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    margin-left: 5px;
+    padding: 5px;
+
+    h6 {
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    ul {
+      width: 100%;
+      margin: 20px auto 0;
+      list-style: none;
+      padding: 0;
+      height: 120px;
+      overflow-y: auto;
+
+      li {
+        font-weight: 600;
+        margin-bottom: 10px;
+        text-align: center;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+  .line {
+    width: 2px;
+    background-color: rgba(255, 255, 255, 0.505);
+    height: 180px;
+    display: block;
+    margin-left: 15px;
+  }
+  .description-wrapper {
+    width: 35%;
+    margin-left: 15px;
+    height: 180px;
+    overflow-y: auto;
+
+    h6 {
+      background-color: rgba(255, 255, 255, 0.508);
+      width: fit-content;
+      padding: 5px 15px;
+      border-radius: 10px;
+    }
+
+    p {
+      line-height: 21px;
+      font-size: 15px;
+      margin: 10px 10px 0 0;
+      font-weight: 600;
+    }
+  }
+  .event-verifier-btns-wrapper {
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 170px;
+
+    div {
+      width: 40px;
+      margin: 0 auto;
+      background-color: rgba(255, 255, 255, 0.774);
+      padding: 10px;
+      border-radius: 7px;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+  .additional-event-info {
+    width: 20%;
+
+    div {
+      background-color: rgba(255, 255, 255, 0.507);
+      width: fit-content;
+      border-radius: 10px;
+      padding: 5px 30px;
+      margin: 20px auto 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    p {
+      text-align: center;
+      margin: 5px 0;
+    }
+
+    h6 {
+      text-align: center;
+      margin: 5px 0;
+    }
   }
 }
