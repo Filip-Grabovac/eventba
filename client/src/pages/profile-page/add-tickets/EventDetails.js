@@ -2,7 +2,11 @@ import React from "react";
 import { hrTimeFormat } from "../../../components/helper/timeFormat";
 import { TicketGen } from "./TicketGen";
 
-export const EventDetails = ({ concertData, displayTicketGen }) => {
+export const EventDetails = ({
+  concertData,
+  displayTicketGen,
+  setConcertData,
+}) => {
   return (
     <div className="concert-container smaller-profile">
       {concertData && (
@@ -29,7 +33,14 @@ export const EventDetails = ({ concertData, displayTicketGen }) => {
               alt="concertData.poster.landscape"
             />
           </div>
-          {displayTicketGen ? <TicketGen concertData={concertData} /> : ""}
+          {displayTicketGen ? (
+            <TicketGen
+              setConcertData={setConcertData}
+              concertData={concertData}
+            />
+          ) : (
+            ""
+          )}
         </>
       )}
     </div>

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { ProfileLeft } from './ProfileLeft';
-import { ProfileForm } from './ProfileForm';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import ProfileIcon from '../../assets/ikonice/profile_user_icon.svg';
-import { Tooltip } from 'react-tooltip';
+import React, { useEffect, useState } from "react";
+import { ProfileLeft } from "./ProfileLeft";
+import { ProfileForm } from "./ProfileForm";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import ProfileIcon from "../../assets/ikonice/profile_user_icon.svg";
+import { Tooltip } from "react-tooltip";
 
 export const Profile = () => {
   const [profileData, setProfileData] = useState(null);
@@ -15,7 +15,7 @@ export const Profile = () => {
   const [resellersRequests, setResellersRequests] = useState();
   const [resellers, setResellers] = useState();
   const [isInfoVisible, setInfoVisibility] = useState(false);
-  const [activeNavItem, setActiveNavItem] = useState('Ažuriraj podatke');
+  const [activeNavItem, setActiveNavItem] = useState("Ažuriraj podatke");
 
   const [entranceData, setEntranceData] = useState();
 
@@ -28,41 +28,43 @@ export const Profile = () => {
       setBuyHistory(response.data.buy_history);
 
       // Set profile navbar based on role
-      if (response.data.role === 'standard') {
+      if (response.data.role === "standard") {
         setNavItems([
-          'Ažuriraj podatke',
-          'Moje ulaznice',
-          'Zatraži preprodavača',
+          "Ažuriraj podatke",
+          "Moje ulaznice",
+          "Zatraži preprodavača",
         ]);
-      } else if (response.data.role === 'reseller') {
-        setNavItems(['Ažuriraj podatke', 'Moje ulaznice', 'Pregled prodaje']);
-      } else if (response.data.role === 'organizer') {
+      } else if (response.data.role === "reseller") {
+        setNavItems(["Ažuriraj podatke", "Moje ulaznice", "Pregled prodaje"]);
+      } else if (response.data.role === "organizer") {
         setNavItems([
-          'Ažuriraj podatke',
-          'Moje ulaznice',
-          'Organiziraj događaj',
-          'Postavke ulaza',
-          'Dodaj dvoranu',
-          'Moji događaji',
-          'Dodaj preprodavača',
+          "Ažuriraj podatke",
+          "Moje ulaznice",
+          "Organiziraj događaj",
+          "Postavke ulaza",
+          "Dodaj dvoranu",
+          "Moji događaji",
+          "Dodaj preprodavača",
         ]);
 
         fetchEntranceCheckers(userId);
         fetchOrganizerConcerts(userId);
         fetchAllResellers();
-      } else if (response.data.role === 'admin') {
+      } else if (response.data.role === "admin") {
         setNavItems([
-          'Ažuriraj podatke',
-          'Moje ulaznice',
-          'Upravljaj korisnicima',
-          'Zahtjevi preprodavača',
-          'Dodaj ulaznice',
+          "Ažuriraj podatke",
+          "Organiziraj događaj",
+          "Dodaj ulaznice",
+          "Upravljaj korisnicima",
+          "Zahtjevi preprodavača",
+          "Moje ulaznice",
+          "Verificiraj događaj",
         ]);
 
         fetchResellerRequests();
       }
     } catch (error) {
-      console.error('Error fetching profile data:', error);
+      console.error("Error fetching profile data:", error);
     }
   };
 
@@ -74,7 +76,7 @@ export const Profile = () => {
       );
       setEntranceData(response.data);
     } catch (error) {
-      console.error('Error fetching entrance checker:', error);
+      console.error("Error fetching entrance checker:", error);
     }
   };
 
@@ -85,7 +87,7 @@ export const Profile = () => {
       );
       setOrganizerEvents(response.data);
     } catch (error) {
-      console.error('Error fetching entrance checker:', error);
+      console.error("Error fetching entrance checker:", error);
     }
   };
 
@@ -96,7 +98,7 @@ export const Profile = () => {
       );
       setResellersRequests(response.data);
     } catch (error) {
-      console.error('Error fetching entrance checker:', error);
+      console.error("Error fetching entrance checker:", error);
     }
   };
 
@@ -107,7 +109,7 @@ export const Profile = () => {
       );
       setResellers(response.data);
     } catch (error) {
-      console.error('Error fetching entrance checker:', error);
+      console.error("Error fetching entrance checker:", error);
     }
   };
 
@@ -130,7 +132,7 @@ export const Profile = () => {
   return (
     <div className="profile">
       <Tooltip
-        style={{ borderRadius: '10px', backgroundColor: '#455cd9' }}
+        style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
         anchorId="profile-info-icon"
         place="bottom"
         variant="info"
@@ -157,9 +159,9 @@ export const Profile = () => {
                   <li key={i}>
                     <a
                       className={`${
-                        activeNavItem === e ? 'active-profile-nav-link ' : ''
+                        activeNavItem === e ? "active-profile-nav-link " : ""
                       }${
-                        e === 'Dodaj preprodavača' ? 'add-reseller-link' : ''
+                        e === "Dodaj preprodavača" ? "add-reseller-link" : ""
                       }`}
                       onClick={(event) => {
                         event.preventDefault();

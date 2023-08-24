@@ -1,10 +1,11 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { GetAllEvents } from './GetAllEvents';
-import { EventDetails } from './EventDetails';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { GetAllEvents } from "./GetAllEvents";
+import { EventDetails } from "./EventDetails";
+
 export const AddTickets = () => {
   const [allEvents, setAllEvents] = useState([]);
-  const [event, setEvent] = useState('');
+  const [event, setEvent] = useState("");
   const [concertData, setConcertData] = useState(null);
 
   useEffect(() => {
@@ -18,7 +19,7 @@ export const AddTickets = () => {
       );
       setAllEvents(response.data.concerts);
     } catch (error) {
-      console.error('Error fetching profile data:', error);
+      console.error("Error fetching profile data:", error);
     }
   };
 
@@ -28,7 +29,7 @@ export const AddTickets = () => {
 
     // Extracting the data-id from the selected option
     const dataId =
-      e.target.options[e.target.selectedIndex].getAttribute('data-id');
+      e.target.options[e.target.selectedIndex].getAttribute("data-id");
 
     // Fetching concert data using the extracted dataId
     try {
@@ -37,13 +38,13 @@ export const AddTickets = () => {
       );
       setConcertData(response.data[0]);
     } catch (error) {
-      console.error('Error fetching concert data:', error);
+      console.error("Error fetching concert data:", error);
     }
   };
 
   return (
     <>
-      <div className={`choose-concert${concertData ? ' smaller-profile' : ''}`}>
+      <div className={`choose-concert${concertData ? " smaller-profile" : ""}`}>
         <h6>Ispis ulaznica</h6>
         <GetAllEvents
           allEvents={allEvents}
@@ -51,7 +52,11 @@ export const AddTickets = () => {
           handleSelectChange={handleSelectChange}
         />
       </div>
-      <EventDetails concertData={concertData} displayTicketGen={true} />
+      <EventDetails
+        concertData={concertData}
+        setConcertData={setConcertData}
+        displayTicketGen={true}
+      />
     </>
   );
 };

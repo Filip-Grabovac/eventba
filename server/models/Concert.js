@@ -83,6 +83,8 @@ const ConcertSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
   },
+
+  verified: { type: Boolean, default: false },
   concert_history: [
     {
       _id: false,
