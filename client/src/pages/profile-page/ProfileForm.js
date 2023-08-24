@@ -11,6 +11,7 @@ import { ResellerRequest } from './reseller-requests/ResellerRequest.js';
 import { AddTickets } from './add-tickets/AddTickets.js';
 import { AddReseller } from './add-reseller-for-organizer/AddReseller.js';
 import { CheckResellerTickets } from './check-reseller-tickets/CheckResellerTickets.js';
+import { VerifyEvents } from './verify-events/VerifyEvents';
 
 export function ProfileForm(props) {
   return (
@@ -48,6 +49,8 @@ export function ProfileForm(props) {
           resellerInfo={props.profileData.reseller_info}
           reseller_id={props.profileData._id}
         />
+      ) : props.activeNavItem === 'Odobri događaj' ? (
+        <VerifyEvents />
       ) : (
         ''
       )}

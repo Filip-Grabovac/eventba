@@ -20,7 +20,7 @@ export const AddControllerFunction = async (
     name: e.target.elements.name.value,
     password: e.target.elements.password.value,
     organizer_id: userId,
-    collectionName: `tickets_for_${selectedOptionId.getAttribute('data-id')}`,
+    collection_name: `tickets_for_${selectedOptionId.getAttribute('data-id')}`,
   };
 
   // Check all form data before adding a entrance controller

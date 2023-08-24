@@ -55,20 +55,20 @@ export const EntranceControllerLogin = () => {
           password: password,
         }
       );
-
+      console.log(response);
       dispatch(
         setUserID({
           controllerId: response.data.id,
-          dbId: response.data.collectionName,
+          dbId: response.data.collection_name,
         })
       );
       localStorage.setItem(
         'entranceControllerId',
         response.data.id,
         'dbId',
-        response.data.collectionName
+        response.data.collection_name
       );
-      localStorage.setItem('dbId', response.data.collectionName);
+      localStorage.setItem('dbId', response.data.collection_name);
       toast.success(response.data.message, toastSetup('top-right', 3000));
     } catch (error) {
       toast.warn(error.response.data.message, toastSetup('top-right', 3000));

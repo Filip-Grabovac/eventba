@@ -91,6 +91,10 @@ export const QRscanner = () => {
     toast.success('Uspješna odjava', toastSetup('top-right', 2000));
   }
 
+  useEffect(() => {
+    console.log(document.querySelector('#html5-qrcode-button-camera-stop'));
+  }, []);
+
   return (
     <div className="qr-scanner-container">
       <nav className="navbar navbar-expand-lg custom-navbar">

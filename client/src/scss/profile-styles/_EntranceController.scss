@@ -39,6 +39,9 @@
     padding: 3px !important;
   }
 
+  #reader__dashboard_section {
+    padding-top: 0 !important;
+  }
   #reader__dashboard_section_csr {
     span {
       margin-right: 0 !important;
@@ -46,13 +49,13 @@
     button {
       border: none !important;
       background: #f4cd46 !important;
-      padding: 5px 10px !important;
+      padding: 3px 10px !important;
       border-radius: 10px !important;
       color: #343434 !important;
     }
   }
 
-  img[alt="Info icon"] {
+  img[alt='Info icon'] {
     display: none;
   }
   #html5-qrcode-button-camera-permission,
@@ -61,11 +64,11 @@
     border: none;
     font-size: 0;
     border-radius: 10px;
-    padding: 5px 15px;
-    margin-top: 30px;
+    padding: 3px 15px;
+    margin-top: 0;
   }
   #html5-qrcode-button-camera-permission::before {
-    content: "Dozvolite Pristup Kameri";
+    content: 'Dozvolite Pristup Kameri';
     color: #343434;
     font-size: 16px;
     font-weight: 600;
@@ -97,7 +100,7 @@
   }
   .qr-message {
     width: 50%;
-    margin: 40px auto;
+    margin: 10px auto;
     height: 200px;
     display: flex;
     flex-direction: column;
@@ -111,7 +114,7 @@
 
     @media only screen and (max-width: 640px) {
       width: 90%;
-      height: 150px;
+      height: 130px;
     }
     @media only screen and (max-width: 290px) {
       width: 96%;
@@ -157,7 +160,7 @@
 .entrance-controller-login-section {
   width: 100vw;
   height: 100vh;
-  background-image: url("assets/images/controller_login_bg.png");
+  background-image: url('assets/images/controller_login_bg.png');
   background-size: cover;
   background-repeat: no-repeat;
 }

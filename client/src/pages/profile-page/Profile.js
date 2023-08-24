@@ -57,6 +57,7 @@ export const Profile = () => {
           'Upravljaj korisnicima',
           'Zahtjevi preprodavača',
           'Dodaj ulaznice',
+          'Odobri događaj',
         ]);
 
         fetchResellerRequests();
