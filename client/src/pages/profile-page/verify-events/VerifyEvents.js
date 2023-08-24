@@ -19,12 +19,24 @@ export const VerifyEvents = () => {
       console.error("Error fetching unverified events:", error);
     }
   };
-
+  const handleRefetch = async () => {
+    await fetchEvents();
+  };
   return (
     <>
-      {unverifiedEvents.map((event) => (
-        <VerifyEventsCard event={event} key={event.id} />
-      ))}
+      {unverifiedEvents.length > 0 ? (
+        unverifiedEvents.map((event, i) => (
+          <VerifyEventsCard
+            event={event}
+            handleRefetch={handleRefetch}
+            key={i}
+          />
+        ))
+      ) : (
+        <h6 style={{ textAlign: "center" }}>
+          Nema događaja koji čekaju na odobrenje
+        </h6>
+      )}
     </>
   );
 };
