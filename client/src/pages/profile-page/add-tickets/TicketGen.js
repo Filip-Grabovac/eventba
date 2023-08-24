@@ -6,7 +6,7 @@ import { toastSetup } from "../../../functions/toastSetup";
 import { toast } from "react-toastify";
 import { Bars } from "react-loader-spinner";
 
-export const TicketGen = ({ concertData }) => {
+export const TicketGen = ({ concertData, setConcertData }) => {
   const [rowNum, setRowNum] = useState(0);
   const [tickets, setTickets] = useState([]);
   const [totalTickets, setTotalTickets] = useState(0);
@@ -44,7 +44,14 @@ export const TicketGen = ({ concertData }) => {
         "Molimo navedite cijene i jedinstvena imena za kategorije  ulaznica.",
         toastSetup("top-right", 3000)
       );
-      if (firstInvalidInputRef.current) {
+      if (!firstInvalidInputRef.current) {
+        return;
+      }
+      const firstInvalidInputName = firstInvalidInputRef.current.name;
+      if (
+        firstInvalidInputName === "categoryName" ||
+        firstInvalidInputName === "ticketPrice"
+      ) {
         firstInvalidInputRef.current.focus();
       }
       setLoader(false);
@@ -68,7 +75,16 @@ export const TicketGen = ({ concertData }) => {
 
       // Extract the pdfFilePath from the response and update the state
 
-      await setPdfFilePath(response.data.pdfFilePath);
+      setPdfFilePath(response.data.pdfFilePath);
+
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${concertData._id}`
+        );
+        setConcertData(response.data[0]);
+      } catch (error) {
+        console.error("Error fetching concert data:", error);
+      }
       setLoader(false);
       // Show a toast message or any other indication that the tickets have been generated successfully
       toast.success(
@@ -96,9 +112,11 @@ export const TicketGen = ({ concertData }) => {
             concertData.tickets.free_sale.type[categoryName].price.toString(),
         })
       );
-
       setTickets(initialRows);
       setRowNum(initialRows.length);
+    } else {
+      setRowNum(0);
+      setTickets([]);
     }
   }, [concertData]);
 
@@ -153,6 +171,8 @@ export const TicketGen = ({ concertData }) => {
           {Array.from({ length: rowNum }).map((_, i) => {
             const isDeletableRow =
               i >= Object.keys(concertData.tickets.free_sale.type || []).length;
+            const categoryNameRef = i === 0 ? firstInvalidInputRef : null;
+            const ticketPriceRef = i === 0 ? null : firstInvalidInputRef;
             return (
               <div key={i} className="row">
                 <div className="col-lg-6">
@@ -167,7 +187,7 @@ export const TicketGen = ({ concertData }) => {
                       e.target.style = "outline: none;";
                     }}
                     disabled={!isDeletableRow}
-                    ref={tickets.categoryName ? null : firstInvalidInputRef}
+                    ref={categoryNameRef}
                   />
                   <input
                     className="event-input ticket-type"
@@ -206,7 +226,7 @@ export const TicketGen = ({ concertData }) => {
                         e.target.style = "outline: none;";
                       }}
                       disabled={!isDeletableRow}
-                      ref={tickets.categoryName ? null : firstInvalidInputRef}
+                      ref={ticketPriceRef}
                     />
                     <span>BAM</span>
                     {isDeletableRow && (

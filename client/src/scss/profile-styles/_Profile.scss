@@ -51,7 +51,7 @@
       flex-shrink: 0;
       align-items: center;
 
-      @media only screen and (max-width: 860px) {
+      @media only screen and (max-width: 1050px) {
         width: fit-content;
       }
 
@@ -59,7 +59,7 @@
         margin-right: auto;
         margin-left: -37px;
 
-        @media only screen and (max-width: 860px) {
+        @media only screen and (max-width: 1050px) {
           margin-left: 20px;
         }
       }
@@ -86,18 +86,20 @@
       li {
         display: inline-block;
         text-align: center;
-        width: 100px;
-
+        width: 125px;
+        @media only screen and (max-width: 600px) {
+          width: 100px;
+        }
         &:last-child {
           margin-right: auto;
         }
 
         a {
-          margin: 0 auto;
+          margin: 0 10px;
           display: block;
           color: #343434c5;
           font-weight: 600;
-          padding: 3px 3px;
+          padding: 3px 6px;
           border-radius: 8px;
           text-decoration: none;
           white-space: break-spaces;
@@ -105,6 +107,7 @@
           @media only screen and (max-width: 600px) {
             font-size: 14px;
             padding: 2px 10px;
+            margin: 0 auto;
           }
           &:hover {
             color: #455cd9;
@@ -354,7 +357,7 @@
             font-size: 14px;
           }
           .custom-file-input::before {
-            content: 'Dodaj sponzore';
+            content: "Dodaj sponzore";
             display: inline-block;
             background: linear-gradient(top, #f9f9f9, #d8d8d8);
             border: 2px solid #999;
