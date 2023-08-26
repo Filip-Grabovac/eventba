@@ -54,10 +54,13 @@ export const Profile = () => {
         setNavItems([
           "Ažuriraj podatke",
           "Moje ulaznice",
+          "Organiziraj događaj",
+          "Dodaj ulaznice",
+          "Moji događaji",
+          "Dodaj preprodavača",
+          "Odobri događaj",
           "Upravljaj korisnicima",
           "Zahtjevi preprodavača",
-          "Dodaj ulaznice",
-          "Odobri događaj",
         ]);
 
         fetchResellerRequests();

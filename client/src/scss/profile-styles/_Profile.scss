@@ -33,7 +33,7 @@
     max-width: 1400px;
     overflow-x: auto;
 
-    @media only screen and (max-width: 1050px) {
+    @media only screen and (max-width: 1200px) {
       width: 95%;
     }
 
@@ -51,7 +51,7 @@
       flex-shrink: 0;
       align-items: center;
 
-      @media only screen and (max-width: 1050px) {
+      @media only screen and (max-width: 1200px) {
         width: fit-content;
       }
 
@@ -59,7 +59,7 @@
         margin-right: auto;
         margin-left: -37px;
 
-        @media only screen and (max-width: 1050px) {
+        @media only screen and (max-width: 1200px) {
           margin-left: 20px;
         }
       }
@@ -205,7 +205,7 @@
     box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
     -webkit-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
     -moz-box-shadow: -1px 22px 46px 11px rgba(186, 186, 186, 0.66);
-    @media only screen and (max-width: 1050px) {
+    @media only screen and (max-width: 1200px) {
       width: 95%;
       padding: 2% 1%;
     }

@@ -1,3 +1,9 @@
+.profile-form .mytickets-card .event-request-landscape {
+  height: 100%;
+  @media only screen and (max-width: 400px) {
+    display: none;
+  }
+}
 .verify-event-wrapper {
   padding: 10px;
   display: flex;
@@ -6,16 +12,22 @@
   .verify-event-wrapper-img {
     width: 70%;
     border-radius: 5px;
+    @media only screen and (max-width: 600px) {
+      display: none;
+    }
   }
 
   .verify-event-portrait-wrapper {
-    width: 15%;
+    margin-right: 10px;
+    img {
+      height: 192px;
+      min-width: 120px;
+    }
   }
   .sponsors-wrapper {
-    width: 15%;
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 10px;
-    margin-left: 5px;
+    flex-grow: 1;
     padding: 5px;
 
     h6 {
@@ -26,7 +38,7 @@
     ul {
       width: 100%;
       margin: 20px auto 0;
-      list-style: none;
+
       padding: 0;
       height: 120px;
       overflow-y: auto;
@@ -47,12 +59,14 @@
     background-color: rgba(255, 255, 255, 0.505);
     height: 180px;
     display: block;
-    margin-left: 15px;
+    margin: 0 15px;
+    @media only screen and (max-width: 600px) {
+      margin: 0 6px;
+    }
   }
   .description-wrapper {
-    width: 35%;
-    margin-left: 15px;
     height: 180px;
+    flex-grow: 1;
     overflow-y: auto;
 
     h6 {
@@ -67,6 +81,10 @@
       font-size: 15px;
       margin: 10px 10px 0 0;
       font-weight: 600;
+      @media only screen and (max-width: 600px) {
+        font-size: 13px;
+        line-height: 17px;
+      }
     }
   }
   .event-verifier-btns-wrapper {
@@ -83,7 +101,9 @@
       padding: 10px;
       border-radius: 7px;
       cursor: pointer;
-
+      @media only screen and (max-width: 600px) {
+        width: 35px;
+      }
       &:hover {
         transform: scale(1.1);
       }
@@ -94,13 +114,10 @@
     }
   }
   .additional-event-info {
-    width: 20%;
-
     div {
       background-color: rgba(255, 255, 255, 0.507);
-      width: fit-content;
       border-radius: 10px;
-      padding: 5px 30px;
+      padding: 5px 2px;
       margin: 20px auto 0;
 
       &:first-child {
@@ -111,11 +128,19 @@
     p {
       text-align: center;
       margin: 5px 0;
+      @media only screen and (max-width: 600px) {
+        font-size: 13px;
+      }
     }
-
-    h6 {
-      text-align: center;
-      margin: 5px 0;
+  }
+  h6 {
+    text-align: center;
+    margin: 5px 0;
+    @media only screen and (max-width: 600px) {
+      font-size: 15px;
+    }
+    @media only screen and (max-width: 350px) {
+      font-size: 14px;
     }
   }
 }

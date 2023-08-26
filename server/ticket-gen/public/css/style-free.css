@@ -18,12 +18,16 @@ body {
 }
 
 @font-face {
-  font-family: "Name"; /* Use a suitable name */
+  font-family: "Name3"; /* Use a suitable name */
   src: url("fonts/IndonesiaRaya-jEl3R.otf") format("opentype");
 }
 @font-face {
   font-family: "Name1";
   src: url("fonts/BrandinkSans-rgOpA.otf") format("opentype");
+}
+@font-face {
+  font-family: "Name";
+  src: url("fonts/rexlia rg.otf") format("opentype");
 }
 
 .section3 {
@@ -39,7 +43,7 @@ body {
       color: white;
       margin: 0;
       padding: 0;
-      opacity: 0;
+      opacity: 1;
       height: 30px;
       .logos {
         width: 100%;
@@ -101,7 +105,7 @@ body {
               .large-letter {
                 flex-grow: 1;
                 font-family: "Name", Arial, Helvetica, sans-serif;
-                font-size: 108px;
+                font-size: 98px;
                 font-weight: 400;
                 display: inline-block; /* Make sure the element wraps the content */
               }
@@ -123,7 +127,6 @@ body {
           text-transform: uppercase;
         }
         .preformer {
-          letter-spacing: 2px;
           margin: 0px;
           font-size: 36px;
           text-transform: uppercase;
@@ -132,7 +135,7 @@ body {
 
           /* Ensure text stays on one line */
           white-space: nowrap;
-          overflow: hidden;
+
           text-overflow: ellipsis; /* Add 'ellipsis' to show ... if text overflows */
           max-width: 100%; /* Adjust this value as needed */
         }
@@ -204,7 +207,7 @@ body {
     height: 10px;
     background: linear-gradient(120deg, #2793a7 0%, #354286 100%);
     border-radius: 15px 15px 0 0;
-    opacity: 0;
+    opacity: 1;
   }
 }
 .serial-number {

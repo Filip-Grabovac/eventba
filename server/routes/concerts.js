@@ -31,6 +31,6 @@ router.route("/:type/:value").get(findConcert);
 router.route("/get_hot_events").get(calculateEvents);
 router.route("/unverified_events").get(findUnverifiedEvents);
 router.route("/verify_event").post(verifyEvent);
-router.route("/delete").delete(deleteEvent);
+router.route("/delete/:id").delete(deleteEvent);
 
 module.exports = router;

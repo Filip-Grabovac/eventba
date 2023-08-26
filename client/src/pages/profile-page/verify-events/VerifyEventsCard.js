@@ -77,8 +77,7 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `${process.env.REACT_APP_API_URL}/api/v1/concerts/delete`,
-        { _id: event._id }
+        `${process.env.REACT_APP_API_URL}/api/v1/concerts/delete/${event._id}`
       );
       handleRefetch();
       toast.success(
@@ -106,7 +105,8 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
         <img
           style={{ borderBottomLeftRadius: hasBorderRadius ? "7px" : "0" }}
           src={`${process.env.REACT_APP_API_URL}/static/event-images/${event.poster.landscape}`}
-          alt=""
+          className="event-request-landscape"
+          alt="event.poster.landscape"
         />
         <div className="mytickets-card-part">
           <div>

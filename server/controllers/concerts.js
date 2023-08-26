@@ -93,11 +93,12 @@ const createEvent = async (req, res) => {
   }
 };
 const deleteEvent = async (req, res) => {
-  const { _id } = req.body; // Assuming _id is the identifier for the concert
+  const concertId = req.params.id; // Assuming _id is the identifier for the concert
 
+  console.log(concertId);
   try {
     // Find the concert by _id and delete it
-    const deletedConcert = await Concert.findByIdAndDelete(_id);
+    const deletedConcert = await Concert.findByIdAndDelete(concertId);
 
     if (!deletedConcert) {
       return res.status(404).json({ message: "Koncert nije pronađen" });
