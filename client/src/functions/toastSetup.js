@@ -7,7 +7,6 @@ export const toastSetup = (position, autoClose) => {
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
-    theme: "dark",
   };
 
   return toastSetup;

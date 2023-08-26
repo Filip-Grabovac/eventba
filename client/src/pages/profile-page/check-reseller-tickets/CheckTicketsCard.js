@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
-import ArrowIcon from '../../../assets/ikonice/arrow_icon.svg';
-import { TicketManager } from './TicketManager';
-import { ApproveTicketSale } from './ApproveTicketSale';
-import { hrTimeFormat } from '../../../components/helper/timeFormat';
+import React, { useEffect, useRef, useState } from "react";
+import ArrowIcon from "../../../assets/ikonice/arrow_icon.svg";
+import { TicketManager } from "./TicketManager";
+import { ApproveTicketSale } from "./ApproveTicketSale";
+import { hrTimeFormat } from "../../../components/helper/timeFormat";
 
 export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -15,7 +15,7 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
   const [soldMoney, setTotalSoldMoney] = useState();
   const [leftMoney, setLeftMoney] = useState();
   const date = new Date(data.time_of_event).toLocaleDateString(
-    'hr-HR',
+    "hr-HR",
     hrTimeFormat
   );
 
@@ -74,14 +74,14 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
   return (
     <div
       style={{
-        borderBottomLeftRadius: hasBorderRadius ? '7px' : '0',
-        borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
-        marginBottom: dropdown ? dropdownHeight + 10 : '10px',
+        borderBottomLeftRadius: hasBorderRadius ? "7px" : "0",
+        borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
+        marginBottom: dropdown ? dropdownHeight + 10 : "10px",
       }}
       className="mytickets-card check-reseller-tickets"
     >
       <img
-        style={{ borderBottomLeftRadius: hasBorderRadius ? '7px' : '0' }}
+        style={{ borderBottomLeftRadius: hasBorderRadius ? "7px" : "0" }}
         src={`${process.env.REACT_APP_API_URL}/static/event-images/${data.poster.portrait}`}
         alt=""
       />
@@ -103,12 +103,12 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
       <div
         onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
         style={{
-          borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
+          borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
         }}
         className="dropdown-arrow-wrapper"
       >
         <img
-          style={dropdown ? { rotate: '-180deg' } : { rotate: '0deg' }}
+          style={dropdown ? { rotate: "-180deg" } : { rotate: "0deg" }}
           src={ArrowIcon}
           alt="Drop"
           className="dropdown-arrow"

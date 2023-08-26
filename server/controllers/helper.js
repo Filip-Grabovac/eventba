@@ -50,4 +50,21 @@ const updateSponsorList = async (sponsors) => {
   }
 };
 
-module.exports = { getSponsorList, updateSponsorList };
+const getHotEvents = async (req, res) => {
+  try {
+    // Find the Helper document by its ID
+    const helper = await Helper.findById("64e7c5f97400f2436bb1cf47");
+
+    if (!helper) {
+      return res.status(404).json({ message: "Helper document not found." });
+    }
+
+    const hotEvents = helper.hot_events;
+
+    res.json(hotEvents); // Send the hot_events array as a JSON response
+  } catch (error) {
+    console.error("An error occurred:", error);
+    res.status(500).json({ message: "An error occurred." }); // Handle the error and send an error response
+  }
+};
+module.exports = { getSponsorList, updateSponsorList, getHotEvents };

@@ -211,7 +211,13 @@ export const OrganizeEventPage = () => {
           sold_amount: 0,
           amount_inBAM: 0,
         },
-        free_sale: [],
+        free_sale: {
+          total_amount: 0,
+          amount_inBAM: 0,
+          total_loaned: 0,
+          sold_amount: 0,
+          type: {},
+        },
       },
       tickets_yesterday: {
         online_sale: {
@@ -220,7 +226,13 @@ export const OrganizeEventPage = () => {
           sold_amount: 0,
           amount_inBAM: 0,
         },
-        free_sale: [],
+        free_sale: {
+          total_amount: 0,
+          amount_inBAM: 0,
+          total_loaned: 0,
+          sold_amount: 0,
+          type: {},
+        },
       },
       sponsors: sponsorNames,
       time_of_event: form.get("timeOfEvent"),
@@ -516,6 +528,7 @@ export const OrganizeEventPage = () => {
             name="performerName"
             placeholder="Ime izvođača"
             min={3}
+            maxLength={25}
             type="text"
             onInput={(e) => {
               e.target.style = "outline: none;";

@@ -11,16 +11,10 @@ async function updateFreeSale(concertId, ticketList) {
       "concerts"
     );
     // Retrieve the concert document from the collection
-    const concert = await Concert.findById(concertId);
+    const concert = await Concert.findById({ _id: concertId });
 
     // Check if the concert document exists
     if (concert) {
-      console.log(
-        concert.tickets.free_sale.total_amount,
-        concert.tickets.online_sale.sold_amount,
-        concert.tickets.free_sale.sold_amount
-      );
-
       const ticketNumber = await Number(
         concert.tickets.free_sale.total_amount +
           concert.tickets.online_sale.sold_amount +
@@ -71,6 +65,8 @@ async function updateFreeSale(concertId, ticketList) {
           $set: {
             "tickets.free_sale.total_amount": currentTotalAmount,
             "tickets.free_sale.type": currentCategories,
+            "tickets_yesterday.free_sale.total_amount": currentTotalAmount, // Update tickets_yesterday
+            "tickets_yesterday.free_sale.type": currentCategories, // Update tickets_yesterday
           },
         }
       );

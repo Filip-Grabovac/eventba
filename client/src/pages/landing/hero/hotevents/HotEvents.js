@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import FireIcon from '../../../../assets/ikonice/fire_icon.svg';
-import HotEventsRow from './HotEventsRow';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import FireIcon from "../../../../assets/ikonice/fire_icon.svg";
+import HotEventsRow from "./HotEventsRow";
+import axios from "axios";
 
 export const HotEvents = () => {
   const [hotEvents, setHotEvents] = useState();
@@ -10,11 +10,11 @@ export const HotEvents = () => {
     const fetchHotEvents = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/v1/concerts/get_hot_events`
+          `${process.env.REACT_APP_API_URL}/api/v1/helper/hot_events`
         );
         setHotEvents(response.data);
       } catch (error) {
-        console.error('Error fetching profile data:', error);
+        console.error("Error fetching profile data:", error);
       }
     };
     fetchHotEvents();

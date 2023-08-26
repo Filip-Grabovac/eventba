@@ -1,8 +1,10 @@
-const cron = require("node-cron");
-const concertHistory = require("./controllers/concertHistory");
+const {
+  calculateHotEvents,
+} = require("../functions/concert/calculateHotEvents");
+const processConcerts = require("./controllers/concertHistory");
 
-// Schedule the task to run every minute
-cron.schedule("* * * * *", () => {
-  console.log("CronJob every minute!");
-  concertHistory();
-});
+module.exports = () => {
+  console.log("Running concertHistory function...");
+  processConcerts();
+  calculateHotEvents(); // Call the function
+};

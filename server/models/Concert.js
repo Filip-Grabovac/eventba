@@ -8,7 +8,59 @@ const ConcertSchema = new mongoose.Schema({
     landscape: String,
     portrait: String,
   },
-  tickets_yesterday: {},
+  tickets_yesterday: {
+    online_sale: {
+      total_amount: Number,
+      sold_amount: Number,
+      amount_inBAM: Number,
+      type: Object,
+    },
+    free_sale: {
+      total_amount: {
+        type: Number,
+        default: 0, // Set default value for total_amount
+      },
+      amount_inBAM: {
+        type: Number,
+        default: 0, // Set default value for amount_inBAM
+      },
+      total_loaned: {
+        type: Number,
+        default: 0, // Set default value for total_loaned
+      },
+      sold_amount: {
+        type: Number,
+        default: 0, // Set default value for sold_amount
+      },
+      type: {
+        type: Object,
+        default: {}, // Set default value for type
+      },
+      amount_inBAM: {
+        type: Number,
+        default: 0, // Set default value for type
+      },
+      resellers: {
+        type: [
+          {
+            reseller_id: {
+              type: mongoose.Schema.Types.ObjectId, // Set the field type to ObjectId
+              ref: "users",
+            },
+            reseller_name: String,
+            reseller_address: String,
+            transactions: {
+              type: [Object], // Change the type to an array of Objects
+              default: [], // Set default value to an empty array
+            },
+
+            type: Object,
+          },
+        ],
+        default: [], // Set default value for resellers
+      },
+    },
+  },
   tickets: {
     online_sale: {
       total_amount: Number,

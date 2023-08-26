@@ -8,7 +8,7 @@ async function updateConcertFunc(req, res, Concert) {
 
   try {
     // Find the concert with "_id" property matching the concertId
-    const concert = await Concert.findById(concertId);
+    const concert = await Concert.findById({ _id: concertId });
 
     if (!concert) {
       return res.status(404).json({ message: "Koncert nije pronađen." });

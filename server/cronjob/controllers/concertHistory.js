@@ -5,12 +5,37 @@ const connectDB = require("../../db/connect");
 // Step 1: Function to add tickets to concert history
 async function addTicketsToConcertHistory(concert) {
   const currentDate = new Date();
-  const todayOnlineSaleTickets = concert.tickets.online_sale.type;
-  const yesterdayOnlineSaleTickets = concert.tickets_yesterday.online_sale.type;
 
-  const todayFreeSaleResellers = concert.tickets.free_sale.resellers;
+  const todayOnlineSaleTickets = concert.tickets.online_sale?.type || {};
+  const yesterdayOnlineSaleTickets =
+    concert.tickets_yesterday.online_sale?.type || {};
+
+  const todayFreeSaleResellers = concert.tickets.free_sale?.resellers || [];
   const yesterdayFreeSaleResellers =
-    concert.tickets_yesterday.free_sale.resellers;
+    concert.tickets_yesterday.free_sale?.resellers || [];
+
+  // Patch missing online sale categories in tickets_yesterday
+  if (concert.tickets_yesterday.online_sale?.type) {
+    Object.keys(todayOnlineSaleTickets).forEach((category) => {
+      if (!concert.tickets_yesterday.online_sale.type[category]) {
+        concert.tickets_yesterday.online_sale.type[category] =
+          todayOnlineSaleTickets[category];
+      }
+    });
+  }
+
+  // Patch missing free sale categories for each reseller in tickets_yesterday
+  todayFreeSaleResellers.forEach((reseller, index) => {
+    const existingReseller =
+      concert.tickets_yesterday.free_sale.resellers[index];
+    if (existingReseller) {
+      Object.keys(reseller.type).forEach((category) => {
+        if (!existingReseller.type[category]) {
+          existingReseller.type[category] = reseller.type[category];
+        }
+      });
+    }
+  });
 
   if (!concert.concert_history) {
     concert.concert_history = [];
@@ -31,6 +56,7 @@ async function addTicketsToConcertHistory(concert) {
     const soldAmountForDay =
       Number(todayCategoryData.max_amount - todayCategoryData.amount) -
       Number(yesterdayCategoryData.max_amount - yesterdayCategoryData.amount);
+    console.log(soldAmountForDay);
     modifiedOnlineSaleTickets[category] = {
       name: todayCategoryData.name,
       sold_amount: soldAmountForDay,
@@ -109,4 +135,4 @@ async function processConcerts() {
     console.error("Error occurred:", error);
   }
 }
-processConcerts();
+module.exports = processConcerts;

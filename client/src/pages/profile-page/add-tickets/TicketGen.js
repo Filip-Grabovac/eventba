@@ -6,7 +6,7 @@ import { toastSetup } from "../../../functions/toastSetup";
 import { toast } from "react-toastify";
 import { Bars } from "react-loader-spinner";
 
-export const TicketGen = ({ concertData, setConcertData }) => {
+export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
   const [rowNum, setRowNum] = useState(0);
   const [tickets, setTickets] = useState([]);
   const [totalTickets, setTotalTickets] = useState(0);
@@ -92,6 +92,10 @@ export const TicketGen = ({ concertData, setConcertData }) => {
     }
 
     try {
+      toast.success(
+        `Ulaznice su tijeku izrade. Po završetku ih preuzmite izravno ili putem poveznice koja će vam biti poslana na ${adminEmail}`,
+        toastSetup("top-right", 5000)
+      );
       const filteredTickets = tickets.filter(
         (ticket) => ticket.ticketsNum !== ""
       );
@@ -101,6 +105,7 @@ export const TicketGen = ({ concertData, setConcertData }) => {
         {
           ticketGenData: filteredTickets,
           concertData,
+          adminEmail,
         }
       );
 
@@ -116,7 +121,7 @@ export const TicketGen = ({ concertData, setConcertData }) => {
       }
       setLoader(false);
       toast.success(
-        "Generiranje ulaznica uspješno. Preuzmite ulaznice izravno ili putem poveznice koja će vam biti poslana e-poštom.",
+        "Generiranje ulaznica uspješno!",
         toastSetup("top-right", 3000)
       );
     } catch (error) {

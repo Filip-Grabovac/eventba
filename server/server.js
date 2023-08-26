@@ -14,7 +14,14 @@ const freeSale = require("./routes/freeSale");
 const helper = require("./routes/helper");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
-// const cronJob = require("./cronjob/dailyOperations");
+const cron = require("node-cron");
+const cronJob = require("./cronjob/dailyOperations");
+
+// Schedule the task to run every minute
+cron.schedule("0 1 * * *", () => {
+  console.log("CronJob at 1:00 AM CET every day!");
+  cronJob(); // Call the cronJob function
+});
 
 app.use(fileUpload());
 app.use(cors());
@@ -33,16 +40,18 @@ app.use("/api/v1/helper", helper);
 
 const start = async () => {
   try {
-    // const httpsOptions = {
-    //   key: fs.readFileSync("/etc/letsencrypt/live/event.ba/privkey.pem"),
-    //   cert: fs.readFileSync("/etc/letsencrypt/live/event.ba/fullchain.pem"),
-    // };
-    // const server = https.createServer(httpsOptions, app);
-    app.listen(5000, console.log("Server is listening on port 5000 (HTTPS)"));
+    const httpsOptions = {
+      key: fs.readFileSync("/etc/letsencrypt/live/event.ba/privkey.pem"),
+      cert: fs.readFileSync("/etc/letsencrypt/live/event.ba/fullchain.pem"),
+    };
+    const server = https.createServer(httpsOptions, app);
+    server.listen(
+      5000,
+      console.log("Server is listening on port 5000 (HTTPS)")
+    );
   } catch (error) {
     console.error(error);
   }
 };
-// cronJob;
 
 start();

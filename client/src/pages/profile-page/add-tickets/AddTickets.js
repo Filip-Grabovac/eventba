@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { GetAllEvents } from "./GetAllEvents";
 import { EventDetails } from "./EventDetails";
 
-export const AddTickets = () => {
+export const AddTickets = ({ adminEmail }) => {
   const [allEvents, setAllEvents] = useState([]);
   const [event, setEvent] = useState("");
   const [concertData, setConcertData] = useState(null);
@@ -53,6 +53,7 @@ export const AddTickets = () => {
         />
       </div>
       <EventDetails
+        adminEmail={adminEmail}
         concertData={concertData}
         setConcertData={setConcertData}
         displayTicketGen={true}

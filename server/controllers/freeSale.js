@@ -12,7 +12,7 @@ const verifyTransactionController = require("../functions/concert/verifyTransact
 const getTickets = async (req, res) => {
   try {
     // Get the required data from the request body
-    const { ticketGenData, concertData } = req.body;
+    const { ticketGenData, concertData, adminEmail } = req.body;
 
     // Generate the current date at the start of the ticket generation process
     const currentDate = new Date();
@@ -37,7 +37,7 @@ const getTickets = async (req, res) => {
     );
 
     sendMailWithHyperlink(
-      "13kreso@gmail.com",
+      adminEmail,
       "Ulaznice za slobodnu prodaju",
       `Preuzmite ulaznice za ${concertData.performer_name} na linku: `,
       "Ulaznice",

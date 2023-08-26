@@ -127,16 +127,29 @@ const findUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id: userID } = req.params;
-    const user = await User.findOneAndUpdate({ _id: userID }, req.body, {
+    const user = await User.findOne({ _id: userID });
+
+    if (!user) {
+      return res.status(404).json({ msg: `No user with this id: ${userID}` });
+    }
+
+    // Check if the updated email already exists
+    if (req.body.email !== user.email) {
+      const existingUser = await User.findOne({ email: req.body.email });
+      if (existingUser) {
+        return res
+          .status(400)
+          .json({ msg: "Email već postoji u bazi podataka." });
+      }
+    }
+
+    // Update the user
+    const updatedUser = await User.findOneAndUpdate({ _id: userID }, req.body, {
       new: true,
       runValidators: true,
     });
-    if (!user) {
-      return res
-        .status(404)
-        .json({ msg: `Nema korisnika s ovim id-om: ${userID}` });
-    }
-    res.status(200).json({});
+
+    res.status(200).json(updatedUser);
   } catch (error) {
     res.status(500).json({ msg: error });
   }

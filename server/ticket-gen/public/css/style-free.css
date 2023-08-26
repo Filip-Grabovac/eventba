@@ -14,7 +14,6 @@ body {
   size: 21cm 29.7cm;
   background-color: rgb(255, 255, 255);
   font-family: "Name1", "Nunito", "Trebuchet MS", sans-serif;
-  color: #333333;
 }
 
 @font-face {
@@ -43,7 +42,7 @@ body {
       color: white;
       margin: 0;
       padding: 0;
-      opacity: 1;
+      opacity: 0;
       height: 30px;
       .logos {
         width: 100%;
@@ -81,18 +80,17 @@ body {
         border-radius: 10px;
 
         .info {
-          width: 90%;
           height: 187px;
-          margin: 8px auto;
+          margin: 4px 20px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           .info-wrapper {
             display: flex;
             justify-content: space-between;
-
+            flex-grow: 1;
             .info-left {
-              width: 65%;
+              width: 400px;
               display: flex;
               flex-direction: column;
               justify-content: space-evenly;
@@ -102,10 +100,14 @@ body {
               flex-direction: column;
               text-align: center;
               justify-content: space-around;
+              position: absolute;
+              right: 15px;
+              bottom: 80px;
+
               .large-letter {
                 flex-grow: 1;
                 font-family: "Name", Arial, Helvetica, sans-serif;
-                font-size: 98px;
+                font-size: 112px;
                 font-weight: 400;
                 display: inline-block; /* Make sure the element wraps the content */
               }
@@ -121,23 +123,17 @@ body {
           font-size: 15px;
           display: inline-block;
           font-weight: 600;
-          margin-bottom: 8px;
         }
         .ticket-location {
           text-transform: uppercase;
         }
         .preformer {
+          display: block;
           margin: 0px;
-          font-size: 36px;
+          font-size: 34px;
           text-transform: uppercase;
           font-family: "Name", Arial, sans-serif;
           font-weight: 700;
-
-          /* Ensure text stays on one line */
-          white-space: nowrap;
-
-          text-overflow: ellipsis; /* Add 'ellipsis' to show ... if text overflows */
-          max-width: 100%; /* Adjust this value as needed */
         }
         .serial-number,
         .price {
@@ -207,7 +203,7 @@ body {
     height: 10px;
     background: linear-gradient(120deg, #2793a7 0%, #354286 100%);
     border-radius: 15px 15px 0 0;
-    opacity: 1;
+    opacity: 0;
   }
 }
 .serial-number {
@@ -215,7 +211,6 @@ body {
   font-size: 15px;
 }
 .color-text {
-  color: #3d627a;
   font-weight: 400;
   text-transform: uppercase;
   font-family: "Name";

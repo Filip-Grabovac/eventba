@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export const UpdateProfileInput = ({
   placeholder,
@@ -12,9 +12,8 @@ export const UpdateProfileInput = ({
         placeholder={placeholder}
         type="text"
         id={id}
-        value={inputValue || ''}
+        value={inputValue || ""}
         onChange={(e) => setValue(e.target.value)}
-        required
       />
     </div>
   );
