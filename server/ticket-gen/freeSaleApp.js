@@ -135,7 +135,7 @@ async function generateFreeSaleTicket({
 
       console.log("ended");
       // Close the server for the current ticket
-      // server.close();
+      server.close();
       const random = generateRandomPort(3000, 1000000);
       // Save the PDF buffer for this batch
       const pdfPath = path.resolve(

@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { toastSetup } from '../../../functions/toastSetup';
+import axios from "axios";
+import { toast } from "react-toastify";
+import { toastSetup } from "../../../functions/toastSetup";
 
 export const UpdateControllerFunction = async (
   e,
@@ -21,15 +21,15 @@ export const UpdateControllerFunction = async (
     name: e.target.elements.name.value,
     password: e.target.elements.password.value,
     organizer_id: userId,
-    collection_name: `tickets_for_${selectedOptionId.getAttribute('data-id')}`,
+    collection_name: `tickets_for_${selectedOptionId.getAttribute("data-id")}`,
   };
 
   // Check all form data before adding a entrance controller
   if (
-    formData.event !== '' &&
-    formData.entrance_num !== '' &&
-    formData.name !== '' &&
-    (formData.password.length >= 6 || formData.password === '')
+    formData.event !== "" &&
+    formData.entrance_num !== "" &&
+    formData.name !== "" &&
+    (formData.password.length >= 6 || formData.password === "")
   ) {
     try {
       // Update user
@@ -40,10 +40,10 @@ export const UpdateControllerFunction = async (
       );
 
       if (response.status === 200) {
-        toast.success(response.data.message, toastSetup('top-right', 2000));
-        setSelectedValue('');
+        toast.success(response.data.message, toastSetup("top-right", 2000));
+        setSelectedValue("");
         setUpdateData();
-        document.querySelector('.control-password-input').value = '';
+        document.querySelector(".control-password-input").value = "";
 
         // Update selected controller in user interface with new data
         const existingIndex = entranceControllorAcc.findIndex(
@@ -51,34 +51,34 @@ export const UpdateControllerFunction = async (
         );
         entranceControllorAcc[existingIndex] = response.data.updatedController;
 
-        setButtonContent('Dodaj račun');
+        setButtonContent("Dodaj račun");
       } else {
-        toast.warn(response.data.message, toastSetup('top-right', 2000));
+        toast.warn(response.data.message, toastSetup("top-right", 2000));
       }
     } catch (error) {
-      toast.warn(error.message, toastSetup('top-right', 2000));
+      toast.warn(error.message, toastSetup("top-right", 2000));
     }
   } else {
     let counter = 0;
 
     // Shou outline on each input that is ==== ""
-    document.querySelectorAll('.control-input').forEach((e) => {
-      if (e.value === '') {
-        e.style = 'outline: 2px solid #f4cd46;';
+    document.querySelectorAll(".control-input").forEach((e) => {
+      if (e.value === "") {
+        e.style = "outline: 2px solid #f4cd46;";
         counter++;
       }
     });
 
     // Display different errors
     if (counter > 0) {
-      toast.warn('Molimo unesite sva polja', toastSetup('top-right', 3000));
+      toast.warn("Molimo unesite sva polja", toastSetup("top-right", 3000));
     } else {
       toast.warn(
-        'Sifra mora biti duga minimalno 6 karaktera',
-        toastSetup('top-right', 3000)
+        "Šifra mora biti duga minimalno 6 karaktera",
+        toastSetup("top-right", 3000)
       );
-      document.querySelector('.control-password-input').style =
-        'outline: 2px solid #f4cd46;';
+      document.querySelector(".control-password-input").style =
+        "outline: 2px solid #f4cd46;";
     }
   }
 };

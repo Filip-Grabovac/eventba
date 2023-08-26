@@ -8,7 +8,7 @@ export const EventDetails = ({
   setConcertData,
 }) => {
   return (
-    <div className="concert-container smaller-profile">
+    <div className="concert-container">
       {concertData && (
         <>
           <div className="top-part">

@@ -61,6 +61,7 @@ export const Profile = () => {
           "Dodaj preprodavača",
           "Odobri događaj",
           "Upravljaj korisnicima",
+          "Dodaj dvoranu",
           "Zahtjevi preprodavača",
         ]);
         fetchEntranceCheckers(userId);

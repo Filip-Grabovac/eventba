@@ -15,48 +15,78 @@ export const TicketGen = ({ concertData, setConcertData }) => {
   const [pdfFilePath, setPdfFilePath] = useState("");
   const [loader, setLoader] = useState(false);
   const firstInvalidInputRef = useRef(null);
+  const [invalidInputs, setInvalidInputs] = useState([]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setPdfFilePath("");
     setLoader(true);
 
-    // Check for duplicate category names
     const categoryNames = tickets.map((ticket) => ticket.categoryName.trim());
     const hasDuplicates = new Set(categoryNames).size !== categoryNames.length;
 
     if (hasDuplicates) {
       toast.warn(
-        "Molimo navedite jedinstvena imena za kategorije.",
+        "Molimo unesite jedinstvene nazive zona ulaznica.",
         toastSetup("top-right", 3000)
       );
       setLoader(false);
       return;
     }
 
-    // Check for validation before submitting
     const hasInvalidData = tickets.some(
       (ticket) =>
         !ticket.categoryName || !ticket.ticketPrice || !ticket.ticketType
     );
 
     if (hasInvalidData) {
+      const invalidFields = tickets
+        .map((ticket, index) => ({
+          index,
+          fields: ["categoryName", "ticketPrice", "ticketType"].filter(
+            (field) => !ticket[field]
+          ),
+        }))
+        .filter((ticket) => ticket.fields.length > 0);
+
       toast.warn(
-        "Molimo navedite imena kategorija, cijene ulaznica i tipove ulaznica za sve kategorije.",
+        "Molimo unesite sve potrebne podatke za zone ulaznica.",
         toastSetup("top-right", 3000)
       );
+      if (invalidFields.length > 0) {
+        setInvalidInputs(invalidFields);
+        setLoader(false);
+        return;
+      }
+
       if (!firstInvalidInputRef.current) {
         setLoader(false);
         return;
       }
+
       const firstInvalidInputName = firstInvalidInputRef.current.name;
       if (
-        firstInvalidInputName === "categoryName" ||
-        firstInvalidInputName === "ticketPrice" ||
-        firstInvalidInputName === "ticketType"
+        ["categoryName", "ticketPrice", "ticketType"].includes(
+          firstInvalidInputName
+        )
       ) {
         firstInvalidInputRef.current.focus();
       }
+      setLoader(false);
+      return;
+    }
+
+    const totalTicketNum = tickets.reduce(
+      (total, ticket) => total + parseInt(ticket.ticketsNum || 0),
+      0
+    );
+
+    // Check if the total number of tickets is 0
+    if (totalTicketNum === 0) {
+      toast.warn(
+        "Nema ulaznica za ispis. Unesite broj ulaznica za neku od kategorija.",
+        toastSetup("top-right", 3000)
+      );
       setLoader(false);
       return;
     }
@@ -66,7 +96,6 @@ export const TicketGen = ({ concertData, setConcertData }) => {
         (ticket) => ticket.ticketsNum !== ""
       );
 
-      // Send the POST request using Axios and wait for the response
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/v1/freeSale/generate-tickets`,
         {
@@ -74,8 +103,6 @@ export const TicketGen = ({ concertData, setConcertData }) => {
           concertData,
         }
       );
-
-      // Extract the pdfFilePath from the response and update the state
 
       setPdfFilePath(response.data.pdfFilePath);
 
@@ -85,18 +112,16 @@ export const TicketGen = ({ concertData, setConcertData }) => {
         );
         setConcertData(response.data[0]);
       } catch (error) {
-        console.error("Error fetching concert data:", error);
+        console.error("Greška pri dohvaćanju podataka o koncertu:", error);
       }
       setLoader(false);
-      // Show a toast message or any other indication that the tickets have been generated successfully
       toast.success(
-        "Generacija ulaznica uspješna. Preuzmite ulaznice direktno ili putem linka koji će biti poslan na mail.",
-        toastSetup("top-right", 5000)
+        "Generiranje ulaznica uspješno. Preuzmite ulaznice izravno ili putem poveznice koja će vam biti poslana e-poštom.",
+        toastSetup("top-right", 3000)
       );
     } catch (error) {
-      // Handle any errors that occurred during the request
       toast.error(
-        "Problem s generacijom ulaznica, pokušajte kasnije...",
+        "Problem s generiranjem ulaznica. Pokušajte ponovno kasnije...",
         toastSetup("top-right", 3000)
       );
     }
@@ -104,7 +129,6 @@ export const TicketGen = ({ concertData, setConcertData }) => {
 
   useEffect(() => {
     if (concertData.tickets.free_sale.type) {
-      // Initialize rows based on the keys of the concertData.tickets.free_sale.type object
       const initialRows = Object.keys(concertData.tickets.free_sale.type).map(
         (categoryName) => ({
           categoryName,
@@ -146,6 +170,12 @@ export const TicketGen = ({ concertData, setConcertData }) => {
       [name]: value,
     };
     setTickets(updatedTickets);
+
+    // Remove the invalid input from invalidInputs
+    setInvalidInputs((prevInvalidInputs) =>
+      prevInvalidInputs.filter((input) => input.index !== index)
+    );
+
     setPdfFilePath("");
   };
 
@@ -179,7 +209,15 @@ export const TicketGen = ({ concertData, setConcertData }) => {
               <div key={i} className="row">
                 <div className="col-lg-6">
                   <input
-                    className="event-input category-name"
+                    className={`event-input category-name ${
+                      invalidInputs.some(
+                        (input) =>
+                          input.index === i &&
+                          input.fields.includes("categoryName")
+                      )
+                        ? "invalid-input"
+                        : ""
+                    }`}
                     name="categoryName"
                     value={tickets[i]?.categoryName || ""}
                     placeholder="Zona ulaznice"
@@ -190,10 +228,17 @@ export const TicketGen = ({ concertData, setConcertData }) => {
                     }}
                     disabled={!isDeletableRow}
                     ref={categoryNameRef}
-                    required
                   />
                   <input
-                    className="event-input ticket-type"
+                    className={`event-input ticket-type ${
+                      invalidInputs.some(
+                        (input) =>
+                          input.index === i &&
+                          input.fields.includes("ticketType")
+                      )
+                        ? "invalid-input"
+                        : ""
+                    }`}
                     name="ticketType"
                     value={tickets[i]?.ticketType || ""}
                     placeholder="Tip ulaznice"
@@ -203,7 +248,6 @@ export const TicketGen = ({ concertData, setConcertData }) => {
                       e.target.style = "outline: none;";
                     }}
                     disabled={!isDeletableRow}
-                    required
                   />
                 </div>
                 <div className="col-lg-6 add-tickets-right-col">
@@ -220,7 +264,15 @@ export const TicketGen = ({ concertData, setConcertData }) => {
                   />
                   <div className="price">
                     <input
-                      className="event-input ticket-price"
+                      className={`event-input ticket-price ${
+                        invalidInputs.some(
+                          (input) =>
+                            input.index === i &&
+                            input.fields.includes("ticketPrice")
+                        )
+                          ? "invalid-input"
+                          : ""
+                      }`}
                       name="ticketPrice"
                       value={tickets[i]?.ticketPrice || ""}
                       placeholder="Cijena ulaznice"
@@ -231,7 +283,6 @@ export const TicketGen = ({ concertData, setConcertData }) => {
                       }}
                       disabled={!isDeletableRow}
                       ref={ticketPriceRef}
-                      required
                     />
                     <span>BAM</span>
                     {isDeletableRow && (

@@ -44,7 +44,7 @@ export const AddTickets = () => {
 
   return (
     <>
-      <div className={`choose-concert${concertData ? " smaller-profile" : ""}`}>
+      <div className={`choose-concert`}>
         <h6>Ispis ulaznica</h6>
         <GetAllEvents
           allEvents={allEvents}
