@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { hrTimeFormatShort } from "../../../components/helper/timeFormatShort";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { toastSetup } from "../../../functions/toastSetup";
-import ArrowIcon from "../../../assets/ikonice/arrow_icon.svg";
-import CheckIcon from "../../../assets/ikonice/check2_icon.svg";
-import TrashCan from "../../../assets/ikonice/trash_can.svg";
+import React, { useEffect, useRef, useState } from 'react';
+import { hrTimeFormatShort } from '../../../components/helper/timeFormatShort';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { toastSetup } from '../../../functions/toastSetup';
+import ArrowIcon from '../../../assets/ikonice/arrow_icon.svg';
+import CheckIcon from '../../../assets/ikonice/check2_icon.svg';
+import TrashCan from '../../../assets/ikonice/trash_can.svg';
+import { useTranslation } from 'react-i18next';
 
 export const VerifyEventsCard = ({ event, handleRefetch }) => {
   const [hasBorderRadius, setBorderRadius] = useState(true);
@@ -13,7 +14,9 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef(null);
   const [arrowDisabled, disableArrow] = useState(false);
-  const [organizerName, setOrganizerName] = useState("");
+  const [organizerName, setOrganizerName] = useState('');
+  const { t } = useTranslation();
+
   useEffect(() => {
     // Get the height of the dropdown content
     setDropdownHeight(dropdown ? dropdownRef.current.scrollHeight : 0);
@@ -50,7 +53,7 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
     } catch (error) {
       toast.error(
         `Greška pri dohvatanju podataka`,
-        toastSetup("top-center", 3000)
+        toastSetup('top-center', 3000)
       );
     }
   };
@@ -64,13 +67,13 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
 
       handleRefetch();
       toast.success(
-        "Uspješno verificiran događaj!",
-        toastSetup("top-center", 3000)
+        'Uspješno verificiran događaj!',
+        toastSetup('top-center', 3000)
       );
     } catch (error) {
       toast.error(
         `Greška pri verfikaciji događaja`,
-        toastSetup("top-center", 3000)
+        toastSetup('top-center', 3000)
       );
     }
   };
@@ -81,13 +84,13 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
       );
       handleRefetch();
       toast.success(
-        "Uspješno obrisan događaj!",
-        toastSetup("top-center", 3000)
+        'Uspješno obrisan događaj!',
+        toastSetup('top-center', 3000)
       );
     } catch (error) {
       toast.error(
         `Greška pri brisanju događaja`,
-        toastSetup("top-center", 3000)
+        toastSetup('top-center', 3000)
       );
     }
   };
@@ -96,14 +99,14 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
     <div>
       <div
         style={{
-          borderBottomLeftRadius: hasBorderRadius ? "7px" : "0",
-          borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
-          marginBottom: dropdown ? dropdownHeight + 10 : "10px",
+          borderBottomLeftRadius: hasBorderRadius ? '7px' : '0',
+          borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
+          marginBottom: dropdown ? dropdownHeight + 10 : '10px',
         }}
         className="mytickets-card"
       >
         <img
-          style={{ borderBottomLeftRadius: hasBorderRadius ? "7px" : "0" }}
+          style={{ borderBottomLeftRadius: hasBorderRadius ? '7px' : '0' }}
           src={`${process.env.REACT_APP_API_URL}/static/event-images/${event.poster.landscape}`}
           className="event-request-landscape"
           alt="event.poster.landscape"
@@ -113,7 +116,7 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
             <h5>{event.performer_name}</h5>
             <p>
               {new Date(event.time_of_event).toLocaleDateString(
-                "hr-HR",
+                'hr-HR',
                 hrTimeFormatShort
               )}
             </p>
@@ -130,14 +133,14 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
           className="mytickets-card-part"
           onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
           style={{
-            borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
+            borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
             backgroundColor: hasBorderRadius
-              ? "rgba(69, 91, 217, 0.7)"
-              : "rgba(69, 91, 217, 0.5)",
+              ? 'rgba(69, 91, 217, 0.7)'
+              : 'rgba(69, 91, 217, 0.5)',
           }}
         >
           <img
-            style={dropdown ? { rotate: "-180deg" } : { rotate: "0deg" }}
+            style={dropdown ? { rotate: '-180deg' } : { rotate: '0deg' }}
             src={ArrowIcon}
             alt="Drop"
           />
@@ -160,7 +163,7 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
 
               <ul>
                 {event.sponsors.map((sponsor, i) => {
-                  return <li key={i}>{sponsor.split(".")[0]}</li>;
+                  return <li key={i}>{sponsor.split('.')[0]}</li>;
                 })}
               </ul>
             </div>
@@ -168,7 +171,9 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
             <div className="additional-event-info">
               <div>
                 <h6>Tip</h6>
-                <p>{event.type[0]}</p>
+                <p>
+                  {t(`type.${event.type[0] && event.type[0].toLowerCase()}`)}
+                </p>
               </div>
               <div>
                 <h6>Organizator</h6>

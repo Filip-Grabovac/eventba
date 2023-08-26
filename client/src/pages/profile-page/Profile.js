@@ -10,9 +10,9 @@ export const Profile = () => {
   const [profileData, setProfileData] = useState(null);
   const userId = useSelector((state) => state.userState.user);
   const [navItems, setNavItems] = useState([]);
-  const [organizerEvents, setOrganizerEvents] = useState();
-  const [buy_history, setBuyHistory] = useState();
-  const [resellersRequests, setResellersRequests] = useState();
+  const [organizerEvents, setOrganizerEvents] = useState([]);
+  const [buy_history, setBuyHistory] = useState([]);
+  const [resellersRequests, setResellersRequests] = useState([]);
   const [resellers, setResellers] = useState();
   const [isInfoVisible, setInfoVisibility] = useState(false);
   const [activeNavItem, setActiveNavItem] = useState("Ažuriraj podatke");
@@ -57,13 +57,16 @@ export const Profile = () => {
           "Organiziraj događaj",
           "Dodaj ulaznice",
           "Moji događaji",
+          "Postavke ulaza",
           "Dodaj preprodavača",
           "Odobri događaj",
           "Upravljaj korisnicima",
           "Zahtjevi preprodavača",
         ]);
-
+        fetchEntranceCheckers(userId);
+        fetchOrganizerConcerts(userId);
         fetchResellerRequests();
+        fetchAllResellers();
       }
     } catch (error) {
       console.error("Error fetching profile data:", error);

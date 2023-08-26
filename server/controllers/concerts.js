@@ -6,16 +6,21 @@ const {
 } = require("../functions/concert/calculateHotEvents");
 const generatePdf = require("../functions/concert/concert-history/generatePdf");
 const { updateSponsorList } = require("./helper");
+const User = require("../models/User");
 
 const Concert = connectDB(process.env.DATABASE_URL).model(
   "Concert",
   concertSchema,
   "concerts"
 );
+
 const getAllConcerts = async (req, res) => {
   try {
-    const currentDate = new Date(); // Get the current date and time
-    const concerts = await Concert.find({ time_of_event: { $gt: currentDate } })
+    const currentDate = new Date();
+    const concerts = await Concert.find({
+      time_of_event: { $gt: currentDate },
+      verified: true, // Filter for verified concerts
+    })
       .select("_id time_of_event performer_name place")
       .exec();
 
@@ -24,23 +29,29 @@ const getAllConcerts = async (req, res) => {
     res.status(500).json({ msg: error });
   }
 };
-
 const findConcert = async (req, res) => {
   try {
     const { type, value } = req.params;
     let query;
+
     if (type === "is_promoted_event") {
-      query = { is_promoted_event: value === "true" };
+      query = { is_promoted_event: value === "true", verified: true };
     } else if (type === "id") {
-      query = { _id: value };
+      query = { _id: value, verified: true };
     } else if (type === "this_week") {
       const today = new Date();
       const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-      query = { time_of_event: { $gte: today, $lt: nextWeek } };
+      query = {
+        time_of_event: { $gte: today, $lt: nextWeek },
+        verified: true, // Filter for verified concerts
+      };
     } else if (type === "type") {
-      query = { type: { $in: [value] } };
+      query = { type: { $in: [value] }, verified: true };
     } else if (type === "search") {
-      query = { performer_name: { $regex: value, $options: "i" } };
+      query = {
+        performer_name: { $regex: value, $options: "i" },
+        verified: true,
+      };
     } else {
       return res.status(400).json({ error: "Pogrešna pretraga" });
     }
@@ -79,7 +90,6 @@ const findConcert = async (req, res) => {
     });
   }
 };
-
 const createEvent = async (req, res) => {
   try {
     // Create new event
@@ -92,10 +102,10 @@ const createEvent = async (req, res) => {
     res.status(500).json({ error: "Greška pri dodavanju događaja" });
   }
 };
-const deleteEvent = async (req, res) => {
-  const concertId = req.params.id; // Assuming _id is the identifier for the concert
 
-  console.log(concertId);
+const deleteEvent = async (req, res) => {
+  const concertId = req.params.id;
+
   try {
     // Find the concert by _id and delete it
     const deletedConcert = await Concert.findByIdAndDelete(concertId);
@@ -103,9 +113,6 @@ const deleteEvent = async (req, res) => {
     if (!deletedConcert) {
       return res.status(404).json({ message: "Koncert nije pronađen" });
     }
-
-    // You can perform any additional cleanup or actions here
-    // For example, updating related data or performing cascading deletes
 
     res.status(200).json({ message: "Koncert uspješno obrisan" });
   } catch (error) {
@@ -180,20 +187,38 @@ const getEventsByOrganizerId = async (req, res) => {
   const { organizerId } = req.params;
 
   try {
-    const events = await Concert.find({ organizer: organizerId }).select({
-      performer_name: 1,
-      _id: 1,
-      time_of_event: 1,
-      place: 1,
-    });
+    const user = await User.findById(organizerId);
+
+    if (!user) {
+      return res.status(404).json({ message: "Korisnik nije pronađen" });
+    }
+
+    let events;
+
+    if (user.role === "admin") {
+      // If user is an admin, get all concerts
+      events = await Concert.find().select({
+        performer_name: 1,
+        _id: 1,
+        time_of_event: 1,
+        place: 1,
+      });
+    } else {
+      // If user is not an admin, get concerts for the specific organizer
+      events = await Concert.find({ organizer: organizerId }).select({
+        performer_name: 1,
+        _id: 1,
+        time_of_event: 1,
+        place: 1,
+      });
+    }
 
     res.status(200).json(events);
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Greška u dostavljanju podataka za organizatora." });
+    res.status(500).json({ message: "Greškra pri dobahvatanju podataka." });
   }
 };
+
 const getEventsWithinDates = async (req, res) => {
   const { organizerId, concertId, startDate, endDate } = req.body;
 

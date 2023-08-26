@@ -36,21 +36,24 @@ export const TicketGen = ({ concertData, setConcertData }) => {
 
     // Check for validation before submitting
     const hasInvalidData = tickets.some(
-      (ticket) => !ticket.categoryName || !ticket.ticketPrice
+      (ticket) =>
+        !ticket.categoryName || !ticket.ticketPrice || !ticket.ticketType
     );
 
     if (hasInvalidData) {
       toast.warn(
-        "Molimo navedite cijene i jedinstvena imena za kategorije  ulaznica.",
+        "Molimo navedite imena kategorija, cijene ulaznica i tipove ulaznica za sve kategorije.",
         toastSetup("top-right", 3000)
       );
       if (!firstInvalidInputRef.current) {
+        setLoader(false);
         return;
       }
       const firstInvalidInputName = firstInvalidInputRef.current.name;
       if (
         firstInvalidInputName === "categoryName" ||
-        firstInvalidInputName === "ticketPrice"
+        firstInvalidInputName === "ticketPrice" ||
+        firstInvalidInputName === "ticketType"
       ) {
         firstInvalidInputRef.current.focus();
       }
@@ -63,7 +66,6 @@ export const TicketGen = ({ concertData, setConcertData }) => {
         (ticket) => ticket.ticketsNum !== ""
       );
 
-      console.log(filteredTickets);
       // Send the POST request using Axios and wait for the response
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/v1/freeSale/generate-tickets`,
@@ -180,7 +182,7 @@ export const TicketGen = ({ concertData, setConcertData }) => {
                     className="event-input category-name"
                     name="categoryName"
                     value={tickets[i]?.categoryName || ""}
-                    placeholder="Ime kategorije"
+                    placeholder="Zona ulaznice"
                     type="text"
                     onChange={(e) => handleInputChange(e, i, "categoryName")}
                     onInput={(e) => {
@@ -188,6 +190,7 @@ export const TicketGen = ({ concertData, setConcertData }) => {
                     }}
                     disabled={!isDeletableRow}
                     ref={categoryNameRef}
+                    required
                   />
                   <input
                     className="event-input ticket-type"
@@ -200,6 +203,7 @@ export const TicketGen = ({ concertData, setConcertData }) => {
                       e.target.style = "outline: none;";
                     }}
                     disabled={!isDeletableRow}
+                    required
                   />
                 </div>
                 <div className="col-lg-6 add-tickets-right-col">
@@ -227,6 +231,7 @@ export const TicketGen = ({ concertData, setConcertData }) => {
                       }}
                       disabled={!isDeletableRow}
                       ref={ticketPriceRef}
+                      required
                     />
                     <span>BAM</span>
                     {isDeletableRow && (

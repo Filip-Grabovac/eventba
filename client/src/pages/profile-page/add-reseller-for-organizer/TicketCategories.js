@@ -75,7 +75,9 @@ const TicketCategories = ({
             >
               <div>
                 <p>
-                  {categoryKey} - {category.name}
+                  {categoryKey}{" "}
+                  {categoryKey !== "" && category.name !== "" ? "-" : ""}{" "}
+                  {category.name}
                 </p>
               </div>
               <div>

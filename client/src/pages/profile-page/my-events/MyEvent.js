@@ -1,5 +1,5 @@
-import React from 'react';
-import { EventCard } from './EventCard';
+import React from "react";
+import { EventCard } from "./EventCard";
 
 export const MyEvent = ({ organizerEvents }) => {
   return (
@@ -9,9 +9,7 @@ export const MyEvent = ({ organizerEvents }) => {
           return <EventCard key={i} ids={e} i={i} />;
         })
       ) : (
-        <p className="no-bought-tickets-msg">
-          Nemate kupljenih ulaznica do sada
-        </p>
+        <p className="no-bought-tickets-msg">Nemate organiziranih događaja</p>
       )}
     </div>
   );

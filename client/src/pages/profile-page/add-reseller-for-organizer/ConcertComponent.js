@@ -27,7 +27,9 @@ const ConcertComponent = ({ concertData }) => {
                 return (
                   <div key={categoryKey} className="category">
                     <p>
-                      {category.name} - {categoryKey}
+                      {categoryKey}{" "}
+                      {categoryKey !== "" && category.name !== "" ? "-" : ""}{" "}
+                      {category.name}
                     </p>
                     <p>
                       Ukupno/Zaduženo: {category.max_amount}/
