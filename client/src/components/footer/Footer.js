@@ -1,23 +1,23 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 //Images
-import Logo from '../../assets/logos/Logo.svg';
-import instagram from '../../assets/logos/Instagram.svg';
-import twitter from '../../assets/logos/twitter.svg';
-import facebook from '../../assets/logos/facebook.svg';
-import gmail from '../../assets/logos/gmail.svg';
+import Logo from "../../assets/logos/Logo.svg";
+import instagram from "../../assets/logos/Instagram.svg";
+import twitter from "../../assets/logos/twitter.svg";
+import facebook from "../../assets/logos/facebook.svg";
+import gmail from "../../assets/logos/gmail.svg";
 //Components
-import { SponsorBar } from '../SponsorBar';
-import { FooterLink } from './FooterLink';
-import { FooterSocial } from './FooterSocial';
+import { SponsorBar } from "../SponsorBar";
+import { FooterLink } from "./FooterLink";
+import { FooterSocial } from "./FooterSocial";
 
 export const Footer = () => {
   const location = useLocation();
 
   // Hide footer for /qr_scanner and /controller_login
   if (
-    location.pathname === '/qr_scanner' ||
-    location.pathname === '/controller_login'
+    location.pathname === "/qr_scanner" ||
+    location.pathname === "/controller_login"
   )
     return;
   return (
@@ -40,21 +40,17 @@ export const Footer = () => {
         <ul>
           <FooterLink content="Način plaćanja" pageLink="payment_info" />
           <FooterLink content="Prodajna mjesta" pageLink="selling_places" />
-          <FooterLink content="Kontakti" pageLink="contact" />
-        </ul>
-        <ul>
-          <FooterLink
-            content="Uvjeti korištenja za kupca"
-            pageLink="terms_of_use_buyer"
-          />
-          <FooterLink
-            content="Uvjeti korištenja za organizatora"
-            pageLink="terms_of_use_organizer"
-          />
           <FooterLink
             content="Politika privatnosti"
             pageLink="privacy_policy"
           />
+        </ul>
+        <ul>
+          <FooterLink
+            content="Uvjeti korištenja"
+            pageLink="terms_of_use_buyer"
+          />
+          <FooterLink content="Kontakti" pageLink="contact" />
           <FooterLink content="Newsletter" pageLink="newsletter" />
         </ul>
         <ul className="social-icons">

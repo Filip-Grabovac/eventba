@@ -1,12 +1,21 @@
-import React from 'react';
-import { PageRow } from '../info-pages-parts/PageRow';
+import React from "react";
+import { PageRow } from "../info-pages-parts/PageRow";
+import { NavLink } from "react-router-dom";
 
-export const TermsOfUseOrganizer = ({ heading }) => {
+export const TermsOfUseOrganizer = () => {
   return (
     <div className="info-page">
-      <h4>{heading}</h4>
+      <div className="navbar-terms-of-use">
+        <NavLink to={`?page_type=terms_of_use_buyer`}>
+          <h4 className="terms-h4"> Uvijeti korištenja za kupca</h4>
+        </NavLink>
+
+        <NavLink to="?page_type=terms_of_use_organizer" className="current">
+          <h4 className="terms-h4">Uvijeti korištenja za organizatore</h4>
+        </NavLink>
+      </div>
       <PageRow
-        heading="Općeniti uvjeti poslovanja s Organizatorom"
+        heading="Opći uvjeti poslovanja s Organizatorom"
         content={`Korištenjem event.ba sustava za prodaju ulaznica, prihvaćate i slažete se sa svim pravima, obvezama i odgovornostima navedenim u ovom dokumentu. Ovaj dokument predstavlja i ugovor između Vas kao Organizatora i event.ba.
       `}
       />

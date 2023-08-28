@@ -1,5 +1,5 @@
-import React from 'react';
-import { PageRow } from '../info-pages-parts/PageRow';
+import React from "react";
+import { PageRow } from "../info-pages-parts/PageRow";
 
 export const FAQ = ({ heading }) => {
   return (
@@ -9,7 +9,7 @@ export const FAQ = ({ heading }) => {
         heading="Kupio sam ulaznice za događaj koji je otkazan / odložen ili premešten. Šta treba da radim?"
         content={`Event.ba nije organizator događaja i stoga ne snosi odgovornost za povraćaj novca od ulaznice. Međutim, mi činimo sve da se obezbedi sigurnost novca od ulaznice i samim tim normalno da koristimo sledeće procedure:
 
-        U slučaju otkazivanja/odlaganja ili premeštanja događaja, molimo Vas da nas kontaktirate na mail eventba@gmail.com ili putem telefona našeg call centera 0900 11 00 11 (Cena poziva iz fiksne i mobilne mreže MTS-a iznosi 48,00 din/min. Porez je uračunat u cenu poziva)
+        U slučaju otkazivanja/odlaganja ili premeštanja događaja, molimo Vas da nas kontaktirate na mail event.ba.mailer@gmail.com.
         `}
       />
       <PageRow
@@ -25,43 +25,43 @@ export const FAQ = ({ heading }) => {
       />
       <PageRow
         heading="Izgubio/la sam ulaznice ili su ukradene. Možete li mi pomoći?"
-        content={`Ulaznica je fizički dokument - za koji ne može biti izdana zamjena u slučaju gubitka ili krađe. Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na kontakt@event.ba ili telefonom na našem call centru na broj 0900 11 00 11 (Cijena poziva iz fiksne i mobilne mreže MTS-a iznosi 48,00 din/min. Porez je uključen u cijenu poziva).
+        content={`Ulaznica je fizički dokument - za koji ne može biti izdana zamjena u slučaju gubitka ili krađe. Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na event.ba.mailer@gmail.com.
     `}
       />
 
       <PageRow
         heading="Tijekom online kupovine rezervirao/la sam krivi događaj / krivi broj karata / krivu kategoriju..."
-        content={`Odmah nakon završetka postupka kupovine, sustav automatski evidentira ulaznice kao prodane i nikakve promjene nisu moguće. Molimo vas da nas kontaktirate putem e-pošte na kontakt@event.ba ili telefonom na našem call centru na broj 0900 11 00 11 (Cijena poziva iz fiksne i mobilne mreže MTS-a iznosi 48,00 din/min. Porez je uključen u cijenu poziva).
+        content={`Odmah nakon završetka postupka kupovine, sustav automatski evidentira ulaznice kao prodane i nikakve promjene nisu moguće. Molimo vas da nas kontaktirate putem e-pošte na event.ba.mailer@gmail.com.
     `}
       />
 
       <PageRow
         heading="Mogu li nakon kupovine promijeniti ili otkazati svoju rezervaciju?"
-        content={`Odmah nakon završetka postupka kupovine, sustav automatski evidentira ulaznice kao prodane i nikakve promjene nisu moguće. Nažalost, nismo u mogućnosti otkazati/promijeniti narudžbu nakon što ste već kupili ulaznice. Zamjena, poništenje ili otkazivanje ulaznica nije dopušteno od strane organizatora s kojima surađujemo. Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na kontakt@event.ba ili telefonom na našem call centru na broj 0900 11 00 11 (Cijena poziva iz fiksne i mobilne mreže MTS-a iznosi 48,00 din/min. Porez je uključen u cijenu poziva).
+        content={`Odmah nakon završetka postupka kupovine, sustav automatski evidentira ulaznice kao prodane i nikakve promjene nisu moguće. Nažalost, nismo u mogućnosti otkazati/promijeniti narudžbu nakon što ste već kupili ulaznice. Zamjena, poništenje ili otkazivanje ulaznica nije dopušteno od strane organizatora s kojima surađujemo. Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na event.ba.mailer@gmail.com.
     `}
       />
 
       <PageRow
         heading="Naplaćen je pogrešan iznos s računa moje kreditne kartice."
-        content={`U tom slučaju, kontaktirajte nas putem e-pošte na kontakt@event.ba ili telefonom na našem call centru na broj 0900 11 00 11 (Cijena poziva iz fiksne i mobilne mreže MTS-a iznosi 48,00 din/min. Porez je uključen u cijenu poziva).
+        content={`U tom slučaju, kontaktirajte nas putem e-pošte na event.ba.mailer@gmail.com.
     `}
       />
 
       <PageRow
         heading="Moja kupovina nije uspjela / došlo je do pogreške."
-        content={`Molimo vas da nas kontaktirate putem e-pošte na kontakt@event.ba ili telefonom na našem call centru na broj 0900 11 00 11 (Cijena poziva iz fiksne i mobilne mreže MTS-a iznosi 48,00 din/min. Porez je uključen u cijenu poziva).
+        content={`Molimo vas da nas kontaktirate putem e-pošte na event.ba.mailer@gmail.com.
     `}
       />
 
       <PageRow
         heading="Cijena na ulaznici je niža od cijene koju sam platio/la za ulaznicu."
-        content={`Event.ba je odgovoran za rezervacije, bukiranje i dostavu ulaznica, te pružanje ulaznica dostupnih u pretprodaji. Stoga se unaprijed naplaćuje prodaja i dostava, kao i određene pristojbe. Na web stranici događaja, kao i na samoj ulaznici, prikazana je cijena same ulaznice, bez troškova dodatnih usluga.
+        content={`Event.ba je odgovoran za rezervacije, bukiranje i dostavu ulaznica, te pružanje ulaznica dostupnih u pretprodaji. Stoga se unaprijed naplaćuje prodaja, kao i određene pristojbe. Na web stranici događaja, kao i na samoj ulaznici, prikazana je cijena same ulaznice, bez troškova dodatnih usluga.
     `}
       />
 
       <PageRow
         heading="Kako su stvoreni dodatni troškovi na mom računu?"
-        content={`Konačni iznos koji morate platiti za ulaznice sastoji se od cijene ulaznica, dodatnih troškova usluge po narudžbi (uključujući sve druge pristojbe vezane uz rezervaciju i bukiranje ulaznica) te odabrane vrste dostave.
+        content={`Konačni iznos koji morate platiti za ulaznice sastoji se od cijene ulaznica, dodatnih troškova usluge po narudžbi (uključujući sve druge pristojbe vezane uz rezervaciju i bukiranje ulaznica).
     `}
       />
 
@@ -73,17 +73,17 @@ export const FAQ = ({ heading }) => {
 
       <PageRow
         heading="Vrijednost ulaznica nije vraćena nakon otkazivanja događaja."
-        content={`U tom slučaju, molimo vas da nas kontaktirate putem e-pošte na kontakt@event.ba ili telefonom na našem call centru na broj 0900 11 00 11 (Cijena poziva iz fiksne i mobilne mreže MTS-a iznosi 48,00 din/min. Porez je uključen u cijenu poziva).
+        content={`U tom slučaju, molimo vas da nas kontaktirate putem e-pošte na event.ba.mailer@gmail.com.
     `}
       />
 
       <PageRow
         heading="Kupio/la sam ulaznice na internetu, ali još nisam dobio/la potvrdu."
         content={`Molimo vas da provjerite je li naša e-pošta s potvrdom možda završila u vašem neželjenom poštanskom sandučiću (spam, junk, important...). Također, moguće je da niste primili potvrdu zbog krivo unesene e-adrese ili iz drugih razloga.
-
-    U tom slučaju, molimo vas da nas kontaktirate putem e-pošte na kontakt@event.ba. Navedite svoje puno ime, datum vaše narudžbe i koji je događaj u pitanju. Obavijestit ćemo vas je li vaša narudžba uspješna ili neuspješna.
-    
-    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na kontakt@event.ba ili telefonom na našem call centru na broj 0900 11 00 11 (Cijena poziva iz fiksne i mobilne mreže MTS-a iznosi 48,00 din/min. Porez je uključen u cijenu poziva).
+<br />
+    U tom slučaju, molimo vas da nas kontaktirate putem e-pošte na event.ba.mailer@gmail.com. Navedite svoje puno ime, datum vaše narudžbe i koji je događaj u pitanju. Obavijestit ćemo vas je li vaša narudžba uspješna ili neuspješna.
+    <br />
+    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na event.ba.mailer@gmail.com.
     `}
       />
 
@@ -91,7 +91,7 @@ export const FAQ = ({ heading }) => {
         heading="Želim ostaviti komentar / pritužbu o događaju kojem sam prisustvovao/la"
         content={`Event.ba osigurava ulaznice i nije odgovoran za kvalitetu događaja. Potpuna organizacija događaja, lokacija i utvrđivanje cijena je odgovornost organizatora događaja i nema veze s našim radom.
 
-    Ako vaša narudžba/ulaznica nije valjana, molimo vas da nas obavijestite putem e-pošte na kontakt@event.ba ili telefonom na našem call centru na broj 0900 11 00 11 (Cijena poziva iz fiksne i mobilne mreže MTS-a iznosi 48,00 din/min. Porez je uključen u cijenu poziva).
+    Ako vaša narudžba/ulaznica nije valjana, molimo vas da nas obavijestite putem e-pošte na event.ba.mailer@gmail.com.
     `}
       />
       <PageRow
@@ -100,39 +100,22 @@ export const FAQ = ({ heading }) => {
 
     Molimo vas da koristite polje "Prijava" koje se nalazi na vrhu web stranice kako biste unijeli svoju e-adresu i lozinku koju ste odabrali. Nakon uspješne prijave, samo kliknite na dio računa koji želite provjeriti (moj profil, moje ulaznice, newsletter...).
     
-    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na kontakt@event.ba ili telefonom na našem call centru na broj 0900 11 00 11 (Cijena poziva iz fiksne i mobilne mreže MTS-a iznosi 48,00 din/min. Porez je uključen u cijenu poziva).
+    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na event.ba.mailer@gmail.com.
     `}
       />
 
       <PageRow
         heading="Zaboravio/la sam svoju lozinku. Šta mogu učiniti?"
-        content={`Ako ste zaboravili svoju lozinku, jednostavno kliknite na dugme "Prijava" na našoj početnoj stranici i ispod obrasca za prijavu će se pojaviti opcija "Zaboravljena lozinka?" Tada ćete primiti e-poruku na unesenu e-adresu s uputama o tome što trebate poduzeti.
+        content={`Ako ste zaboravili svoju lozinku, jednostavno kliknite na dugme "Prijavi se" na našoj početnoj stranici i ispod obrasca za prijavu će se pojaviti opcija "Zaboravljena lozinka?" Tada ćete primiti e-poruku na unesenu e-adresu s uputama o tome što trebate poduzeti.
 
-    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na kontakt@event.ba ili telefonom na našem call centru na broj 0900 11 00 11 (Cijena poziva iz fiksne i mobilne mreže MTS-a iznosi 48,00 din/min. Porez je uključen u cijenu poziva).
+    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte naevent.ba.mailer@gmail.com.
     `}
       />
       <PageRow
         heading="Kako mogu promijeniti svoje podatke?"
-        content={`Da biste promijenili svoje podatke, prijavite se na našoj web stranici ili, ako već jeste prijavljeni, kliknite na "Moj profil/uredi profil". Ovdje možete promijeniti svoje informacije.
+        content={`Da biste promijenili svoje podatke, prijavite se na našoj web stranici ili, ako već jeste prijavljeni, kliknite na "Profil/Ažuriraj podatke". Ovdje možete promijeniti svoje informacije.
 
-    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na kontakt@event.ba ili telefonom na našem call centru na broj 0900 11 00 11 (Cijena poziva iz fiksne i mobilne mreže MTS-a iznosi 48,00 din/min. Porez je uključen u cijenu poziva).
-    `}
-      />
-
-      <PageRow
-        heading="Kako kupiti ulaznice za više od jednog događaja?"
-        content={`Imate mogućnost naručivanja ulaznica za više od jednog događaja. U ovom slučaju, jednostavno odaberite događaj koji želite posjetiti i dodajte ulaznice u svoju košaricu za kupovinu. Ako želite kupiti ulaznice za dodatne događaje, kliknite na "Nastavi s kupovinom", odaberite željene događaje i dodajte dodatne ulaznice u košaricu za kupovinu.
-
-    Imajte na umu da će vaše ulaznice biti rezervirane najviše 25 minuta nakon što ih dodate u košaricu, nakon čega će se vratiti u redovnu prodaju.
-    
-    Nakon što dodate sve željene ulaznice, jednostavno kliknite na "Nastavi" kako biste dovršili i potvrdili svoju narudžbu.
-    
-    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na kontakt@event.ba ili telefonom na našem call centru na broj 0900 11 00 11 (Cijena poziva iz fiksne i mobilne mreže MTS-a iznosi 48,00 din/min. Porez je uključen u cijenu poziva).
-    `}
-      />
-      <PageRow
-        heading="Imam event.ba poklon bon. Kako ga mogu iskoristiti?"
-        content={`event.ba poklon bon se može koristiti za kupovinu na web stranici www.event.ba za bilo koji događaj u našem sustavu, u roku od godine dana od datuma kupnje. Poklon bon se koristi kao sredstvo plaćanja tijekom online kupovine unošenjem koda bona u polje "Bon" koje se pojavi u košarici nakon što odaberete željene ulaznice. Sustav će na temelju koda bona prepoznati iznos bona i koristiti ga kao sredstvo plaćanja. Ako vrijednost ulaznica u košarici bude manja od iznosa bona, preostali novac ostaje na tom bonu i može se koristiti u idućoj transakciji.
+    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na event.ba.mailer@gmail.com.
     `}
       />
 
@@ -155,7 +138,7 @@ export const FAQ = ({ heading }) => {
 
     Vaše sugestije i pritužbe ozbiljno shvaćamo i jamčimo da ćemo ih uzeti u obzir jer nam je vaše mišljenje izuzetno važno.
     
-    Ako želite da nas kontaktirate, slobodno nas možete dohvatiti putem e-pošte na adresu kontakt@event.ba.
+    Ako želite da nas kontaktirate, slobodno nas možete dohvatiti putem e-pošte na adresu event.ba.mailer@gmail.com.
     `}
       />
     </div>

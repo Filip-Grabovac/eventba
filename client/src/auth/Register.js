@@ -33,6 +33,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
   const emailRef = useRef(null);
   // Phone Input settings
   const [phone, setPhone] = useState("");
+  const [agreed, setAgreed] = useState(false);
 
   const [country, setCountry] = useState("BA");
 
@@ -41,7 +42,20 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
   // Register a user
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (!verified) {
+      toast.error(
+        "Niste potvrdili da se slažete s uvijetima korištenja.",
+        toastSetup("top-right", 3000)
+      );
+      return;
+    }
+    if (!agreed) {
+      toast.error(
+        "Niste potvrdili da niste robot.",
+        toastSetup("top-right", 3000)
+      );
+      return;
+    }
     const user = {
       full_name:
         e.target.elements.name.value + " " + e.target.elements.lname.value,
@@ -57,6 +71,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
       repeatPassword: e.target.elements.repeatPassword.value,
       buy_history: [],
       is_banned: false,
+      newsletter: false,
     };
 
     if (Decrypt(user.password, secretKey) === user.repeatPassword) {
@@ -114,6 +129,10 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
   function onChange() {
     setVerified(true);
   }
+
+  const handleCheckboxChange = (event) => {
+    setAgreed(event.target.checked);
+  };
 
   return (
     <div className="login-screen" onClick={handleModalClick}>
@@ -178,7 +197,6 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
                 isRequired={false}
               />
             </div>
-
             <PhoneInput
               placeholder="Mobitel"
               value={phone || ""}
@@ -206,7 +224,6 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
               labels={hr}
               locales="hr"
             />
-
             <RegisterInput
               placeholder="Lozinka"
               type="password"
@@ -233,13 +250,27 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
               Imas event.ba račun?{" "}
               <Link onClick={handleOpenLogin}>Prijavi se.</Link>
             </p>
+            <div className="terms-of-use-container">
+              <p>Pročitao sam i slažem se s uvijetima korištenja</p>
+              <input
+                className="terms-of-use"
+                type="checkbox"
+                checked={agreed}
+                onChange={handleCheckboxChange}
+              />
+            </div>
             <ReCAPTCHA
               className="recaptcha"
               sitekey="6LeMm1MnAAAAAOElXfMI6txzQnUG3q2F4QVUnYYq"
               onChange={onChange}
               theme="dark"
             />
-            <button type="submit" className="login-btn" disabled={!verified}>
+
+            <button
+              type="submit"
+              className="login-btn"
+              disabled={!verified || !agreed}
+            >
               Registriraj se!
             </button>
           </form>

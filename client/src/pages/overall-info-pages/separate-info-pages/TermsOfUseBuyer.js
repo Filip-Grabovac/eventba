@@ -1,10 +1,19 @@
-import React from 'react';
-import { PageRow } from '../info-pages-parts/PageRow';
+import React from "react";
+import { PageRow } from "../info-pages-parts/PageRow";
+import { Link } from "react-router-dom";
 
-export const TermsOfUseBuyer = ({ heading }) => {
+export const TermsOfUseBuyer = () => {
   return (
     <div className="info-page">
-      <h4>{heading}</h4>
+      <div className="navbar-terms-of-use">
+        <Link to="?page_type=terms_of_use_buyer" className="current">
+          <h4 className="terms-h4"> Uvijeti korištenja za kupca</h4>
+        </Link>
+
+        <Link to="?page_type=terms_of_use_organizer">
+          <h4 className="terms-h4">Uvijeti korištenja za organizatore </h4>
+        </Link>
+      </div>
       <PageRow
         heading="Opis usluge"
         content={`Platforma event.ba pruža korisnicima mogućnost kupovine proizvoda i usluga putem svoje internetske stranice. Kao posrednik, event.ba omogućava organizatorima događaja da promoviraju i prodaju svoje proizvode/usluge te korisnicima pruža priliku da pribave pravo pristupa različitim događanjima. Sustav je osmišljen kako bi olakšao povezivanje organizatora događaja i kupaca, omogućujući im da međusobno ostvare kontakt i sklope poslove.

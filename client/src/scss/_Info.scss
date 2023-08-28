@@ -3,11 +3,29 @@
   margin: 0 auto;
   padding: 40px 0;
 
+  .navbar-terms-of-use {
+    display: flex;
+    margin: 0 auto 40px;
+    justify-content: space-evenly;
+    a {
+      padding: 7px 15px;
+      text-decoration: none;
+      border-radius: 10px;
+    }
+    .current {
+      background-color: #f3f3f3;
+      box-shadow: 5px 5px 50px 10px rgba(0, 0, 0, 0.1);
+    }
+  }
+
   h4 {
     text-align: center;
     color: #455cd9;
     font-weight: 600;
     margin-bottom: 40px;
+  }
+  .terms-h4 {
+    margin-bottom: 0;
   }
 
   .page-row {

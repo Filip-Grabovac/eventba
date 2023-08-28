@@ -141,6 +141,8 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
           ticketsNum: "",
           ticketPrice:
             concertData.tickets.free_sale.type[categoryName].price.toString(),
+          ticketsAlready:
+            concertData.tickets.free_sale.type[categoryName].max_amount,
         })
       );
       setTickets(initialRows);
@@ -210,6 +212,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
               i >= Object.keys(concertData.tickets.free_sale.type || []).length;
             const categoryNameRef = i === 0 ? firstInvalidInputRef : null;
             const ticketPriceRef = i === 0 ? null : firstInvalidInputRef;
+            console.log(tickets[i]);
             return (
               <div key={i} className="row">
                 <div className="col-lg-6">
@@ -260,7 +263,9 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
                     className="event-input tickets-num"
                     name="ticketsNum"
                     value={tickets[i]?.ticketsNum || ""}
-                    placeholder="Broj ulaznica"
+                    placeholder={`Broj ulaznica. (${
+                      tickets[i]?.ticketsAlready || "0"
+                    })`}
                     type="text"
                     onChange={(e) => handleInputChange(e, i, "ticketsNum")}
                     onInput={(e) => {
