@@ -68,6 +68,39 @@ const verifyUser = async (req, res) => {
   }
 };
 
+const findUsersByAccountType = async (req, res) => {
+  try {
+    const accountType = req.params.type;
+
+    // Provjeravamo je li predana vrsta računa
+    if (!accountType) {
+      return res.status(400).json({ error: "Nedostaje vrsta računa" });
+    }
+
+    // Dohvaćamo sve korisnike s određenom vrstom računa
+    const usersWithAccountType = await User.find({ role: accountType });
+
+    // Provjeravamo jesu li pronađeni korisnici
+    if (!usersWithAccountType || usersWithAccountType.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "Nema korisnika s tom vrstom računa" });
+    }
+    if (accountType === "reseller") {
+      const resellerInfoList = usersWithAccountType.map(
+        (user) => user.reseller_info
+      );
+      return res.status(200).json(resellerInfoList);
+    }
+    // Vraćamo pronađene korisnike
+    return res.status(200).json(usersWithAccountType);
+  } catch (error) {
+    res.status(500).json({
+      error: "Došlo je do greške na serveru, molimo pokušajte kasnije",
+    });
+  }
+};
+
 const findUser = async (req, res) => {
   try {
     const { type, value } = req.params;
@@ -295,4 +328,5 @@ module.exports = {
   updateUserRole,
   deleteUser,
   getUserRole,
+  findUsersByAccountType,
 };

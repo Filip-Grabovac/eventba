@@ -1,7 +1,8 @@
-import React from 'react';
+import React from "react";
+import { ResellerConcertCard } from "./ResellerConcertCard";
 
-export const PageRow = ({ heading, content }) => {
-  const paragraphs = content.split('<br />');
+export const PageRow = ({ heading, content, data }) => {
+  const paragraphs = content.split("<br />");
 
   return (
     <div className="page-row">
@@ -11,6 +12,13 @@ export const PageRow = ({ heading, content }) => {
           <p key={index}>{paragraph}</p>
         ))}
       </div>
+      {data && data?.concerts !== [] && (
+        <div className="event-div">
+          {data.concerts.map((concertId, i) => (
+            <ResellerConcertCard key={i} concertId={concertId} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
