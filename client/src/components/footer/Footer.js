@@ -34,23 +34,27 @@ export const Footer = () => {
         </ul>
         <ul>
           <FooterLink content="O nama" pageLink="about_us" />
-          <FooterLink content="Info" pageLink="info" />
-          <FooterLink content="FAQ" pageLink="faq" />
+          <FooterLink content="FAQ" pageLink="FAQ" />
           <FooterLink content="Pomoć" pageLink="help" />
         </ul>
         <ul>
           <FooterLink content="Način plaćanja" pageLink="payment_info" />
           <FooterLink content="Prodajna mjesta" pageLink="selling_places" />
           <FooterLink content="Kontakti" pageLink="contact" />
-          <FooterLink content="Otkazani događaji" pageLink="cancelled_events" />
         </ul>
         <ul>
-          <FooterLink content="Uvjeti korištenja" pageLink="terms_of_use" />
+          <FooterLink
+            content="Uvjeti korištenja za kupca"
+            pageLink="terms_of_use_buyer"
+          />
+          <FooterLink
+            content="Uvjeti korištenja za organizatora"
+            pageLink="terms_of_use_organizer"
+          />
           <FooterLink
             content="Politika privatnosti"
             pageLink="privacy_policy"
           />
-          <FooterLink content="Način isporuke" pageLink="delivery_method" />
           <FooterLink content="NewsLetter" pageLink="newsletter" />
         </ul>
         <ul className="social-icons">
