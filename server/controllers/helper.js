@@ -1,5 +1,5 @@
-const Helper = require("../models/Helper");
-const User = require("../models/User");
+const Helper = require('../models/Helper');
+const User = require('../models/User');
 
 const getSponsorList = async (req, res) => {
   try {
@@ -44,7 +44,7 @@ const updateSponsorList = async (sponsors) => {
       const updateQuery = { $set: { sponsors: updatedSponsors } };
       await Helper.updateOne(query, updateQuery);
     } else {
-      console.log("No doc with sponsor property");
+      console.log('No doc with sponsor property');
     }
   } catch (error) {
     console.log({ msg: error });
@@ -53,25 +53,28 @@ const updateSponsorList = async (sponsors) => {
 
 const getHotEvents = async (req, res) => {
   try {
-    // Find the Helper document by its ID
-    const helper = await Helper.findById("64e7c5f97400f2436bb1cf47");
+    // Find the document with a "hot_events" property
+    const documentWithHotEvents = await Helper.findOne({
+      hot_events: { $exists: true },
+    });
 
-    if (!helper) {
-      return res.status(404).json({ message: "Helper document not found." });
+    if (!documentWithHotEvents) {
+      return res
+        .status(404)
+        .json({ message: 'No document with "hot_events" property found.' });
     }
 
-    const hotEvents = helper.hot_events;
-
-    res.json(hotEvents); // Send the hot_events array as a JSON response
+    const hotEvents = documentWithHotEvents.hot_events;
+    res.json(hotEvents);
   } catch (error) {
-    console.error("An error occurred:", error);
-    res.status(500).json({ message: "An error occurred." }); // Handle the error and send an error response
+    console.error('An error occurred:', error);
+    res.status(500).json({ message: 'An error occurred.' });
   }
 };
 
 const manageNewsletterSubscription = async (req, res) => {
   try {
-    const helperId = "64ec823175ccc834678f4698";
+    const helperId = '64ec823175ccc834678f4698';
     const userId = req.params.id;
     const { userEmail } = req.body; // Pretpostavljamo da je e-pošta poslana u tijelu zahtjeva
 
@@ -81,7 +84,7 @@ const manageNewsletterSubscription = async (req, res) => {
     if (!helper) {
       return res
         .status(404)
-        .json({ message: "Dokument pomoćnika nije pronađen." });
+        .json({ message: 'Dokument pomoćnika nije pronađen.' });
     }
 
     const newsletterArray = helper.newsletter || [];
@@ -100,7 +103,7 @@ const manageNewsletterSubscription = async (req, res) => {
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: "Korisnik nije pronađen." });
+      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
     }
 
     // Prebaci status pretplate na newsletter
@@ -110,16 +113,16 @@ const manageNewsletterSubscription = async (req, res) => {
     await User.updateOne({ _id: userId }, { newsletter: user.newsletter });
 
     const subscriptionMessage = user.newsletter
-      ? "Uspješno ste se pretplatili."
-      : "Uspješno ste prekinuli pretplatu.";
+      ? 'Uspješno ste se pretplatili.'
+      : 'Uspješno ste prekinuli pretplatu.';
 
     res.status(200).json({
       message: subscriptionMessage,
       user,
     });
   } catch (error) {
-    console.error("Dogodila se pogreška:", error);
-    res.status(500).json({ message: "Dogodila se pogreška." });
+    console.error('Dogodila se pogreška:', error);
+    res.status(500).json({ message: 'Dogodila se pogreška.' });
   }
 };
 

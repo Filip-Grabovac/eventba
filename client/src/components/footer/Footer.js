@@ -55,7 +55,7 @@ export const Footer = () => {
             content="Politika privatnosti"
             pageLink="privacy_policy"
           />
-          <FooterLink content="NewsLetter" pageLink="newsletter" />
+          <FooterLink content="Newsletter" pageLink="newsletter" />
         </ul>
         <ul className="social-icons">
           <FooterSocial

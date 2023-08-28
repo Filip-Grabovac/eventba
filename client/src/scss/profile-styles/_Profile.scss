@@ -59,6 +59,8 @@
       .profile-links-wrapper {
         margin-right: auto;
         margin-left: 20px;
+        display: flex;
+        align-items: center;
       }
 
       .profile-img-li {
@@ -84,6 +86,7 @@
         display: inline-block;
         text-align: center;
         width: 125px;
+
         @media only screen and (max-width: 600px) {
           width: 100px;
         }
@@ -352,7 +355,7 @@
             font-size: 14px;
           }
           .custom-file-input::before {
-            content: "Dodaj sponzore";
+            content: 'Dodaj sponzore';
             display: inline-block;
             background: linear-gradient(top, #f9f9f9, #d8d8d8);
             border: 2px solid #999;
