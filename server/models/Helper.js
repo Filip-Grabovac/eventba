@@ -6,6 +6,7 @@ const HelperSchema = new mongoose.Schema(
     sponsors: { type: Array, default: undefined },
     hot_events: { type: Array, default: undefined },
     newsletter: { type: Array, default: undefined },
+    resellers_requests: { type: Array, default: undefined },
   },
   { versionKey: false }
 );
