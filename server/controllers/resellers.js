@@ -1,20 +1,20 @@
-const User = require('../models/User');
+const User = require("../models/User");
 
 const createReseller = async (req, res) => {
   try {
     const userId = req.params.id;
-    const adminId = '64abebf0437ec5030c423540';
+    const adminId = "64abebf0437ec5030c423540";
 
     // Find the user by ID
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
+      return res.status(404).json({ message: "Korisnik nije pronađen." });
     }
 
     // Find the admin user by adminId
     const admin = await User.findById(adminId);
     if (!admin) {
-      return res.status(404).json({ message: 'Admin nije pronađen.' });
+      return res.status(404).json({ message: "Admin nije pronađen." });
     }
 
     // Add the userId to the "resellers_requests" array in admin
@@ -27,20 +27,20 @@ const createReseller = async (req, res) => {
     user.reseller_info = req.body;
     await user.save();
 
-    return res.status(200).json({ message: 'Uspješno ste poslali zahjev.' });
+    return res.status(200).json({ message: "Uspješno ste poslali zahjev." });
   } catch (error) {
-    return res.status(500).json({ message: 'Serverska greška.' });
+    return res.status(500).json({ message: "Serverska greška." });
   }
 };
 
 const getAllResellers = async (req, res) => {
   try {
-    const adminId = '64abebf0437ec5030c423540';
+    const adminId = "64abebf0437ec5030c423540";
 
     // Find the admin user by adminId
     const admin = await User.findById(adminId);
     if (!admin) {
-      return res.status(404).json({ message: 'Admin nije pronađen.' });
+      return res.status(404).json({ message: "Admin nije pronađen." });
     }
 
     const resellersIds = admin.resellers_requests;
@@ -51,29 +51,29 @@ const getAllResellers = async (req, res) => {
     // Return the array with users' data
     return res.status(200).json({ resellers });
   } catch (error) {
-    return res.status(500).json({ message: 'Serverska greška.' });
+    return res.status(500).json({ message: "Serverska greška." });
   }
 };
 
 const setReseller = async (req, res) => {
   try {
     const userId = req.params.id;
-    const adminId = '64abebf0437ec5030c423540';
+    const adminId = "64abebf0437ec5030c423540";
 
     // Find the user by ID
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
+      return res.status(404).json({ message: "Korisnik nije pronađen." });
     }
 
     // Find the admin user by adminId
     const admin = await User.findById(adminId);
     if (!admin) {
-      return res.status(404).json({ message: 'Admin nije pronađen.' });
+      return res.status(404).json({ message: "Admin nije pronađen." });
     }
 
     // Change the "role" property of the user to "reseller"
-    user.role = 'reseller';
+    user.role = "reseller";
     await user.save();
 
     // Remove the userId from the "resellers_requests" array in admin
@@ -82,27 +82,29 @@ const setReseller = async (req, res) => {
     );
     await admin.save();
 
-    return res.status(200).json({ message: 'Korisnik je postao preprodavač.' });
+    return res
+      .status(200)
+      .json({ message: "Korisniku je dodjeljena uloga preprodavača." });
   } catch (error) {
-    return res.status(500).json({ message: 'Serverska greška.' });
+    return res.status(500).json({ message: "Serverska greška." });
   }
 };
 
 const removeReseller = async (req, res) => {
   try {
     const userId = req.params.id;
-    const adminId = '64abebf0437ec5030c423540';
+    const adminId = "64abebf0437ec5030c423540";
 
     // Find the user by ID
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
+      return res.status(404).json({ message: "Korisnik nije pronađen." });
     }
 
     // Find the admin user by adminId
     const admin = await User.findById(adminId);
     if (!admin) {
-      return res.status(404).json({ message: 'Admin nije pronađen.' });
+      return res.status(404).json({ message: "Admin nije pronađen." });
     }
 
     // Remove the userId from the "resellers_requests" array in admin
@@ -117,9 +119,9 @@ const removeReseller = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: 'Zahtjev preprodavača je uklonjen.' });
+      .json({ message: "Zahtjev preprodavača je uklonjen." });
   } catch (error) {
-    return res.status(500).json({ message: 'Serverska greška.' });
+    return res.status(500).json({ message: "Serverska greška." });
   }
 };
 

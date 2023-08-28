@@ -1,23 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import MainSearchNav from './MainSearchNav';
-import MainSearchCard from './MainSearchCard';
-import { HotEvents } from '../hotevents/HotEvents';
-import { Bars } from 'react-loader-spinner';
+import React, { useEffect, useState } from "react";
+import MainSearchNav from "./MainSearchNav";
+import MainSearchCard from "./MainSearchCard";
+import { HotEvents } from "../hotevents/HotEvents";
+import { Bars } from "react-loader-spinner";
 
 const MainSearch = () => {
   const [events, setEvents] = useState([]);
   const [loader, setLoader] = useState(true);
-  //Animation for showing cards
+  // Animacija za prikaz kartica
   const [show, setShow] = useState(false);
 
-  // Loading events with opacity from 0-1
+  // Učitavanje događaja s postupnim pojavljivanjem
   useEffect(() => {
     setShow(false);
     if (events.length > 0) {
       setLoader(false);
       setTimeout(() => {
         setShow(true);
-      }, 200); // Change the time according to your needs
+      }, 200); // Promijenite vrijeme prema potrebama
+    } else {
+      // Ako nema događaja, odmah prikaži bez efekta fade-in
+      setLoader(false);
+      setShow(true);
     }
   }, [events]);
 
@@ -38,14 +42,14 @@ const MainSearch = () => {
             />
           </div>
           <div
-            className={`fade-in search-cards-container ${show ? 'show' : ''}`}
+            className={`search-cards-container fade-in ${show ? " show" : ""}`}
           >
             {events.length > 0 ? (
               events.map((event) => (
                 <MainSearchCard key={event._id} event={event} />
               ))
             ) : (
-              <p>Nema dostupnih događaja.</p>
+              <h6>Nema dostupnih događaja.</h6>
             )}
           </div>
         </div>

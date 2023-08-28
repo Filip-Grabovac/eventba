@@ -1,10 +1,12 @@
 import React from 'react';
+import { ResellerConcertCard } from './ResellerConcertCard';
 
 export const PageRow = ({
   heading,
   content,
   newsletterFunction,
   btnContent,
+  data,
 }) => {
   const paragraphs = content.split('<br />');
   return (
@@ -28,6 +30,13 @@ export const PageRow = ({
           ''
         )}
       </div>
+      {data && data?.concerts !== [] && (
+        <div className="event-div">
+          {data.concerts.map((concertId, i) => (
+            <ResellerConcertCard key={i} concertId={concertId} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
