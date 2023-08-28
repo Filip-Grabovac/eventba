@@ -1,4 +1,5 @@
 const Helper = require("../models/Helper");
+const User = require("../models/User");
 
 const getSponsorList = async (req, res) => {
   try {
@@ -71,40 +72,54 @@ const getHotEvents = async (req, res) => {
 const manageNewsletterSubscription = async (req, res) => {
   try {
     const helperId = "64ec823175ccc834678f4698";
-    const newsletterId = req.params.id;
-    const userEmail = req.body;
+    const userId = req.params.id;
+    const userEmail = req.body.email; // Pretpostavljamo da je e-pošta poslana u tijelu zahtjeva
 
-    // Find the Helper document by its ID
+    // Pronađi Helper dokument prema njegovom ID-u
     const helper = await Helper.findById(helperId);
 
     if (!helper) {
       return res
         .status(404)
-        .json({ message: "Helper dokument nije pronađen." });
+        .json({ message: "Dokument pomoćnika nije pronađen." });
     }
 
     const newsletterArray = helper.newsletter || [];
 
-    const newsletterIndex = newsletterArray.indexOf(newsletterId);
+    const newsletterIndex = newsletterArray.indexOf(userEmail);
     if (newsletterIndex !== -1) {
-      // If the ID is found, remove it
+      // Ako se e-pošta pronađe, ukloni je
       newsletterArray.splice(newsletterIndex, 1);
     } else {
-      // If the ID is not found, add it
-      newsletterArray.push(newsletterId);
+      // Ako se e-pošta ne pronađe, dodaj je
+      newsletterArray.push(userEmail);
     }
-    // Update the Helper document's newsletter array
-    helper.newsletter = newsletterArray;
-    await helper.save();
 
-    const isSubscribed = newsletterIndex === -1;
+    // Ažuriraj niz newslettera Helper dokumenta pomoću updateOne
+    await Helper.updateOne({ _id: helperId }, { newsletter: newsletterArray });
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "Korisnik nije pronađen." });
+    }
+
+    // Prebaci status pretplate na newsletter
+    user.newsletter = !user.newsletter;
+
+    // Ažuriraj status newslettera User dokumenta pomoću updateOne
+    await User.updateOne({ _id: userId }, { newsletter: user.newsletter });
+
+    const subscriptionMessage = user.newsletter
+      ? "Uspješno ste se pretplatili."
+      : "Uspješno ste prekinuli pretplatu.";
+
     res.status(200).json({
-      message: "Newsletter pretplata je ažurirana uspješno.",
-      isSubscribed,
+      message: subscriptionMessage,
+      user,
     });
   } catch (error) {
-    console.error("An error occurred:", error);
-    res.status(500).json({ message: "An error occurred." });
+    console.error("Dogodila se pogreška:", error);
+    res.status(500).json({ message: "Dogodila se pogreška." });
   }
 };
 
