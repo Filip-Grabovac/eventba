@@ -31,7 +31,7 @@ export const NewsLetter = ({ heading }) => {
   async function handleSubscription() {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_URL}/api/v1/users/newsletter`,
+        `${process.env.REACT_APP_API_URL}/api/v1/users/newsletter/${userId}`,
         userData.email
       );
 
