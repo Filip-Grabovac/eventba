@@ -7,6 +7,7 @@ const {
 const generatePdf = require("../functions/concert/concert-history/generatePdf");
 const { updateSponsorList } = require("./helper");
 const User = require("../models/User");
+const sendNewsLetterMail = require("../functions/concert/sendNewsLetter");
 
 const Concert = connectDB(process.env.DATABASE_URL).model(
   "Concert",
@@ -93,9 +94,11 @@ const findConcert = async (req, res) => {
 const createEvent = async (req, res) => {
   try {
     // Create new event
-    await Concert.create(req.body);
+    const createdEvent = await Concert.create(req.body);
 
     updateSponsorList(req.body.sponsors);
+    sendNewsLetterMail(createdEvent); // Pass the created event document
+
     res.status(201).json({ message: "Uspješno dodan događaj" });
   } catch (error) {
     console.log(error);
