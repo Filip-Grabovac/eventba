@@ -1,4 +1,4 @@
-const Helper = require("../models/Helper");
+const Helper = require('../models/Helper');
 
 const getSponsorList = async (req, res) => {
   try {
@@ -43,7 +43,7 @@ const updateSponsorList = async (sponsors) => {
       const updateQuery = { $set: { sponsors: updatedSponsors } };
       await Helper.updateOne(query, updateQuery);
     } else {
-      console.log("No doc with sponsor property");
+      console.log('No doc with sponsor property');
     }
   } catch (error) {
     console.log({ msg: error });
@@ -53,18 +53,87 @@ const updateSponsorList = async (sponsors) => {
 const getHotEvents = async (req, res) => {
   try {
     // Find the Helper document by its ID
-    const helper = await Helper.findById("64e7c5f97400f2436bb1cf47");
+    const helper = await Helper.findById('64e7c5f97400f2436bb1cf47');
 
     if (!helper) {
-      return res.status(404).json({ message: "Helper document not found." });
+      return res.status(404).json({ message: 'Helper document not found.' });
     }
 
     const hotEvents = helper.hot_events;
 
     res.json(hotEvents); // Send the hot_events array as a JSON response
   } catch (error) {
-    console.error("An error occurred:", error);
-    res.status(500).json({ message: "An error occurred." }); // Handle the error and send an error response
+    console.error('An error occurred:', error);
+    res.status(500).json({ message: 'An error occurred.' }); // Handle the error and send an error response
   }
 };
-module.exports = { getSponsorList, updateSponsorList, getHotEvents };
+
+const manageNewsletterSubscription = async (req, res) => {
+  try {
+    const helperId = '64ec823175ccc834678f4698';
+    const newsletterId = req.params.id;
+
+    // Find the Helper document by its ID
+    const helper = await Helper.findById(helperId);
+
+    if (!helper) {
+      return res
+        .status(404)
+        .json({ message: 'Helper dokument nije pronađen.' });
+    }
+
+    const newsletterArray = helper.newsletter || [];
+
+    const newsletterIndex = newsletterArray.indexOf(newsletterId);
+    if (newsletterIndex !== -1) {
+      // If the ID is found, remove it
+      newsletterArray.splice(newsletterIndex, 1);
+    } else {
+      // If the ID is not found, add it
+      newsletterArray.push(newsletterId);
+    }
+    // Update the Helper document's newsletter array
+    helper.newsletter = newsletterArray;
+    await helper.save();
+
+    const isSubscribed = newsletterIndex === -1;
+    res.status(200).json({
+      message: 'Newsletter pretplata je ažurirana uspješno.',
+      isSubscribed,
+    });
+  } catch (error) {
+    console.error('An error occurred:', error);
+    res.status(500).json({ message: 'An error occurred.' });
+  }
+};
+
+const getNewsletterSubscription = async (req, res) => {
+  try {
+    const helperId = '64ec823175ccc834678f4698'; // Change to the appropriate Helper ID
+    const userId = req.params.id; // User's ID for subscription check
+
+    // Find the Helper document by its ID
+    const helper = await Helper.findById(helperId);
+
+    if (!helper) {
+      return res.status(404).json({ message: 'Helper document not found.' });
+    }
+
+    const newsletterArray = helper.newsletter || [];
+
+    const isSubscribed = newsletterArray.includes(userId); // Check if user's ID is in array
+
+    res.status(200).json({ isSubscribed }); // Send subscription status as JSON response
+  } catch (error) {
+    console.error('An error occurred:', error);
+    res.status(500).json({ message: 'An error occurred.' });
+  }
+};
+
+module.exports = {
+  getSponsorList,
+  updateSponsorList,
+  getHotEvents,
+  manageNewsletterSubscription,
+  getNewsletterSubscription,
+};
