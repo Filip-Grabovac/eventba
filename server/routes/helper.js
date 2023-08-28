@@ -6,13 +6,9 @@ const {
   updateSponsorList,
   getHotEvents,
   manageNewsletterSubscription,
-  getNewsletterSubscription,
 } = require('../controllers/helper');
 
-router
-  .route('/newsletter/:id')
-  .get(getNewsletterSubscription)
-  .put(manageNewsletterSubscription);
+router.route('/newsletter/:id').put(manageNewsletterSubscription);
 router.route('/sponsors').get(getSponsorList).post(updateSponsorList);
 router.route('/hot_events').get(getHotEvents);
 

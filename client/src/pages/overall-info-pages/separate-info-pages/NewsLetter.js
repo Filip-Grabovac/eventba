@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { toastSetup } from '../../../functions/toastSetup';
 
 export const NewsLetter = ({ heading }) => {
-  const [isSubscribed, setSubscription] = useState();
+  const [userData, setUserData] = useState();
   const userId = useSelector((state) => state.userState.user);
 
   // GET subscription
@@ -14,10 +14,9 @@ export const NewsLetter = ({ heading }) => {
     async function fetchSubscriptionStatus() {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/v1/helper/newsletter/${userId}`
+          `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
         );
-
-        setSubscription(response.data.isSubscribed);
+        setUserData(response.data);
       } catch (error) {
         console.error('An error occurred:', error);
       }
@@ -26,21 +25,21 @@ export const NewsLetter = ({ heading }) => {
     fetchSubscriptionStatus();
   }, [userId]);
 
+  if (!userData) return;
+
   // Switch subscription
   async function handleSubscription() {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_URL}/api/v1/helper/newsletter/${userId}`
+        `${process.env.REACT_APP_API_URL}/api/v1/users/newsletter`,
+        userData.email
       );
 
-      setSubscription(response.data.isSubscribed);
       toast.success(response.data.message, toastSetup('top-right', 3000));
     } catch (error) {
       console.error('An error occurred:', error);
     }
   }
-
-  if (isSubscribed === undefined) return;
 
   return (
     <div className="info-page">
@@ -49,9 +48,8 @@ export const NewsLetter = ({ heading }) => {
         heading="Newsletter"
         content={`Prijavom na newsletter, korisnik prihvata da od strane Ticket Vision-a na email dobija Novosti vezane za događaje koji su u sistemu prodaje. Korisnik u svakom trenutku može samostalno da se odjavi sa mailing liste - link za odjavu se nalazi u mailu koji se šalje prilikom prijave. Vaši lični podaci su zaštićeni te neće biti dati na uvid trećim licima.
       `}
-        isSubscribed={isSubscribed}
         newsletterFunction={handleSubscription}
-        btnContent={isSubscribed ? 'Poništi pretplatu' : 'Pretplati se'}
+        btnContent={userData.newsletter ? 'Poništi pretplatu' : 'Pretplati se'}
       />
     </div>
   );

@@ -107,33 +107,9 @@ const manageNewsletterSubscription = async (req, res) => {
   }
 };
 
-const getNewsletterSubscription = async (req, res) => {
-  try {
-    const helperId = '64ec823175ccc834678f4698'; // Change to the appropriate Helper ID
-    const userId = req.params.id; // User's ID for subscription check
-
-    // Find the Helper document by its ID
-    const helper = await Helper.findById(helperId);
-
-    if (!helper) {
-      return res.status(404).json({ message: 'Helper document not found.' });
-    }
-
-    const newsletterArray = helper.newsletter || [];
-
-    const isSubscribed = newsletterArray.includes(userId); // Check if user's ID is in array
-
-    res.status(200).json({ isSubscribed }); // Send subscription status as JSON response
-  } catch (error) {
-    console.error('An error occurred:', error);
-    res.status(500).json({ message: 'An error occurred.' });
-  }
-};
-
 module.exports = {
   getSponsorList,
   updateSponsorList,
   getHotEvents,
   manageNewsletterSubscription,
-  getNewsletterSubscription,
 };
