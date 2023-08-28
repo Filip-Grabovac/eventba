@@ -3,6 +3,7 @@ const connectDB = require("../db/connect");
 
 const UserSchema = new mongoose.Schema({
   full_name: { type: String },
+  newsletter: { type: Boolean, default: false },
   email: { type: String },
   fbEmail: { type: String },
   address: { type: String },

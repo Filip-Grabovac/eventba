@@ -1,4 +1,4 @@
-const Helper = require('../models/Helper');
+const Helper = require("../models/Helper");
 
 const getSponsorList = async (req, res) => {
   try {
@@ -43,7 +43,7 @@ const updateSponsorList = async (sponsors) => {
       const updateQuery = { $set: { sponsors: updatedSponsors } };
       await Helper.updateOne(query, updateQuery);
     } else {
-      console.log('No doc with sponsor property');
+      console.log("No doc with sponsor property");
     }
   } catch (error) {
     console.log({ msg: error });
@@ -53,25 +53,26 @@ const updateSponsorList = async (sponsors) => {
 const getHotEvents = async (req, res) => {
   try {
     // Find the Helper document by its ID
-    const helper = await Helper.findById('64e7c5f97400f2436bb1cf47');
+    const helper = await Helper.findById("64e7c5f97400f2436bb1cf47");
 
     if (!helper) {
-      return res.status(404).json({ message: 'Helper document not found.' });
+      return res.status(404).json({ message: "Helper document not found." });
     }
 
     const hotEvents = helper.hot_events;
 
     res.json(hotEvents); // Send the hot_events array as a JSON response
   } catch (error) {
-    console.error('An error occurred:', error);
-    res.status(500).json({ message: 'An error occurred.' }); // Handle the error and send an error response
+    console.error("An error occurred:", error);
+    res.status(500).json({ message: "An error occurred." }); // Handle the error and send an error response
   }
 };
 
 const manageNewsletterSubscription = async (req, res) => {
   try {
-    const helperId = '64ec823175ccc834678f4698';
+    const helperId = "64ec823175ccc834678f4698";
     const newsletterId = req.params.id;
+    const userEmail = req.body;
 
     // Find the Helper document by its ID
     const helper = await Helper.findById(helperId);
@@ -79,7 +80,7 @@ const manageNewsletterSubscription = async (req, res) => {
     if (!helper) {
       return res
         .status(404)
-        .json({ message: 'Helper dokument nije pronađen.' });
+        .json({ message: "Helper dokument nije pronađen." });
     }
 
     const newsletterArray = helper.newsletter || [];
@@ -98,12 +99,12 @@ const manageNewsletterSubscription = async (req, res) => {
 
     const isSubscribed = newsletterIndex === -1;
     res.status(200).json({
-      message: 'Newsletter pretplata je ažurirana uspješno.',
+      message: "Newsletter pretplata je ažurirana uspješno.",
       isSubscribed,
     });
   } catch (error) {
-    console.error('An error occurred:', error);
-    res.status(500).json({ message: 'An error occurred.' });
+    console.error("An error occurred:", error);
+    res.status(500).json({ message: "An error occurred." });
   }
 };
 
