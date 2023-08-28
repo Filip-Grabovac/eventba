@@ -381,31 +381,37 @@ export const BuyPage = () => {
             }
             alt="concertData.poster.landscape"
           />
-
-          <div className="payment-bill">
-            {[...Array(ticketAmount)].map((_, i) => (
-              <TicketBill key={i} i={i} />
-            ))}
-          </div>
-          <div className="saldo">
-            <p>Ukupna cijena:</p>
-            <span>
-              {totalAmount} <small> BAM</small>
-            </span>
-          </div>
-          <div className="payment-method">
-            <button className="pay-method" onClick={handleButtonClick}>
-              Idi na plaćanje
-            </button>
-            {showPaymentForm && (
-              <PaymentForm
-                showPaymentForm={showPaymentForm}
-                totalAmount={totalAmount}
-                profileData={profileData}
-                orderNumber={orderNumber}
-              />
-            )}
-          </div>
+          {concertData.tickets?.online_sale &&
+          concertData.tickets.online_sale.hasOwnProperty("type") ? (
+            <>
+              <div className="payment-bill">
+                {[...Array(ticketAmount)].map((_, i) => (
+                  <TicketBill key={i} i={i} />
+                ))}
+              </div>
+              <div className="saldo">
+                <p>Ukupna cijena:</p>
+                <span>
+                  {totalAmount} <small> BAM</small>
+                </span>
+              </div>
+              <div className="payment-method">
+                <button className="pay-method" onClick={handleButtonClick}>
+                  Idi na plaćanje
+                </button>
+                {showPaymentForm && (
+                  <PaymentForm
+                    showPaymentForm={showPaymentForm}
+                    totalAmount={totalAmount}
+                    profileData={profileData}
+                    orderNumber={orderNumber}
+                  />
+                )}
+              </div>
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>
