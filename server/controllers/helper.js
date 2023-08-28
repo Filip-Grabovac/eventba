@@ -73,7 +73,7 @@ const manageNewsletterSubscription = async (req, res) => {
   try {
     const helperId = "64ec823175ccc834678f4698";
     const userId = req.params.id;
-    const userEmail = req.body.email; // Pretpostavljamo da je e-pošta poslana u tijelu zahtjeva
+    const { userEmail } = req.body; // Pretpostavljamo da je e-pošta poslana u tijelu zahtjeva
 
     // Pronađi Helper dokument prema njegovom ID-u
     const helper = await Helper.findById(helperId);
