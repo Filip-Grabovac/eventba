@@ -806,7 +806,7 @@
     }
 
     button {
-      margin: 20px 0;
+      margin: 20px auto;
       right: 50%;
       max-width: 180px;
       text-align: center;
@@ -823,6 +823,10 @@
         width: 15px;
         margin-left: 10px;
       }
+    }
+
+    .save-changes-btn {
+      margin: 20px 0;
     }
 
     .profile-btns-row {

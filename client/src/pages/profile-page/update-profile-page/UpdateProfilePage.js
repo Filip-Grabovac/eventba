@@ -240,8 +240,11 @@ export const UpdateProfilePage = (props) => {
         />
       </div>
       <div className="row profile-btns-row">
-        <button type="submit">Spremi promjene</button>
+        <button className="save-changes-btn" type="submit">
+          Spremi promjene
+        </button>
         <button
+          className="save-changes-btn"
           onClick={(e) => {
             e.preventDefault();
             setModalVisibility(true);
