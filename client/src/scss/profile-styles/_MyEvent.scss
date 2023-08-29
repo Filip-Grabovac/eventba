@@ -182,6 +182,35 @@
     overflow: hidden;
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
+    .delete-event {
+      position: absolute;
+      right: 1%;
+      top: 4%;
+      display: flex;
+      flex-direction: row-reverse;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      background: #f4cd46;
+      padding: 5px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      &:hover {
+        background-color: #e9be31;
+        img {
+          transform: scale(1.2);
+        }
+      }
+      img {
+        padding: 5px;
+        border-radius: 100%;
+        background: #fcfcfcaf;
+        height: 30px;
+      }
+      p {
+        margin: 0;
+      }
+    }
     .profile-concert-wrapper {
       padding: 0 5px;
     }

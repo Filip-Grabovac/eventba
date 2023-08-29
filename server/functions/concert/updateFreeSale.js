@@ -35,7 +35,7 @@ async function updateFreeSale(concertId, ticketList) {
       // Iterate through the ticketList and update the concert's tickets.free_sale.type accordingly
       for (const ticket of ticketsArray) {
         const { categoryName, ticketType, ticketsNum, ticketPrice } = ticket;
-        console.log(ticketType);
+
         // Parse the new ticket number to integer
         const newTicketNum = parseInt(ticketsNum);
 

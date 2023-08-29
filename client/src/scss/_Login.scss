@@ -17,7 +17,7 @@
     background-color: rgba(69, 91, 217, 0.6);
 
     height: auto;
-    width: 500px;
+    width: min(500px, 95%);
     border-radius: 10px;
     .close-btn {
       position: absolute;
@@ -232,7 +232,6 @@
           }
         }
         .login-btns-wrapper {
-          margin-bottom: 20px;
           height: auto;
           display: flex;
           flex-wrap: wrap;

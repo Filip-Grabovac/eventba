@@ -1,5 +1,5 @@
-const User = require('../models/User');
-const Helper = require('../models/Helper');
+const User = require("../models/User");
+const Helper = require("../models/Helper");
 
 const createReseller = async (req, res) => {
   try {
@@ -12,7 +12,7 @@ const createReseller = async (req, res) => {
 
     // Check if the document with resellers_requests property exists
     if (!documentWithSponsors) {
-      return res.status(404).json({ message: 'Dokument nije pronađen.' });
+      return res.status(404).json({ message: "Dokument nije pronađen." });
     }
 
     // Add the userId to the "resellers_requests" array in Helper document
@@ -24,16 +24,16 @@ const createReseller = async (req, res) => {
     // Step 2: Find the user by ID
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
+      return res.status(404).json({ message: "Korisnik nije pronađen." });
     }
 
     // Add the "reseller_info" object to the user
     user.reseller_info = req.body;
     await user.save();
 
-    return res.status(200).json({ message: 'Uspješno ste poslali zahtjev.' });
+    return res.status(200).json({ message: "Uspješno ste poslali zahtjev." });
   } catch (error) {
-    return res.status(500).json({ message: 'Serverska greška.' });
+    return res.status(500).json({ message: "Serverska greška." });
   }
 };
 
@@ -43,11 +43,10 @@ const getAllResellers = async (req, res) => {
     const documentWithSponsors = await Helper.findOne({
       resellers_requests: { $exists: true },
     });
-    console.log(documentWithSponsors);
 
     // Check if the document with resellers_requests property exists
     if (!documentWithSponsors) {
-      return res.status(404).json({ message: 'Dokument nije pronađen.' });
+      return res.status(404).json({ message: "Dokument nije pronađen." });
     }
 
     const resellersIds = documentWithSponsors.resellers_requests;
@@ -58,7 +57,7 @@ const getAllResellers = async (req, res) => {
     // Return the array with users' data
     return res.status(200).json({ resellers });
   } catch (error) {
-    return res.status(500).json({ message: 'Serverska greška.' });
+    return res.status(500).json({ message: "Serverska greška." });
   }
 };
 
@@ -69,7 +68,7 @@ const setReseller = async (req, res) => {
     // Find the user by ID
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
+      return res.status(404).json({ message: "Korisnik nije pronađen." });
     }
 
     // Step 1: Find the document with the "resellers_requests" property using Helper model
@@ -79,11 +78,11 @@ const setReseller = async (req, res) => {
 
     // Check if the document with resellers_requests property exists
     if (!documentWithSponsors) {
-      return res.status(404).json({ message: 'Dokument nije pronađen.' });
+      return res.status(404).json({ message: "Dokument nije pronađen." });
     }
 
     // Change the "role" property of the user to "reseller"
-    user.role = 'reseller';
+    user.role = "reseller";
     await user.save();
 
     // Step 2: Remove the userId from the "resellers_requests" array in Helper document
@@ -93,9 +92,9 @@ const setReseller = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: 'Korisniku je dodijeljena uloga preprodavača.' });
+      .json({ message: "Korisniku je dodijeljena uloga preprodavača." });
   } catch (error) {
-    return res.status(500).json({ message: 'Serverska greška.' });
+    return res.status(500).json({ message: "Serverska greška." });
   }
 };
 
@@ -106,7 +105,7 @@ const removeReseller = async (req, res) => {
     // Find the user by ID
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
+      return res.status(404).json({ message: "Korisnik nije pronađen." });
     }
 
     // Step 1: Find the document with the "resellers_requests" property using Helper model
@@ -116,7 +115,7 @@ const removeReseller = async (req, res) => {
 
     // Check if the document with resellers_requests property exists
     if (!documentWithSponsors) {
-      return res.status(404).json({ message: 'Dokument nije pronađen.' });
+      return res.status(404).json({ message: "Dokument nije pronađen." });
     }
 
     // Step 2: Remove the userId from the "resellers_requests" array in Helper document
@@ -130,9 +129,9 @@ const removeReseller = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: 'Zahtjev preprodavača je uklonjen.' });
+      .json({ message: "Zahtjev preprodavača je uklonjen." });
   } catch (error) {
-    return res.status(500).json({ message: 'Serverska greška.' });
+    return res.status(500).json({ message: "Serverska greška." });
   }
 };
 

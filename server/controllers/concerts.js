@@ -94,10 +94,9 @@ const findConcert = async (req, res) => {
 const createEvent = async (req, res) => {
   try {
     // Create new event
-    const createdEvent = await Concert.create(req.body);
+    await Concert.create(req.body);
 
     updateSponsorList(req.body.sponsors);
-    sendNewsLetterMail(createdEvent); // Pass the created event document
 
     res.status(201).json({ message: "Uspješno dodan događaj" });
   } catch (error) {
@@ -148,7 +147,7 @@ const verifyEvent = async (req, res) => {
     if (!updatedConcert) {
       return res.status(404).json({ error: "Koncert nije pronađen." });
     }
-
+    sendNewsLetterMail(updatedConcert);
     res.status(200).json(updatedConcert);
   } catch (error) {
     res

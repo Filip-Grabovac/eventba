@@ -8,6 +8,7 @@ import { saveAs } from "file-saver";
 import { Bars } from "react-loader-spinner";
 import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
+import trashCan from "../../../assets/ikonice/trash_can.svg";
 
 export const EventCard = ({ ids, i }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -24,6 +25,7 @@ export const EventCard = ({ ids, i }) => {
   useEffect(() => {
     fetchConcertData();
   }, []);
+
   const fetchConcertData = async () => {
     try {
       const response = await axios.get(
@@ -76,6 +78,20 @@ export const EventCard = ({ ids, i }) => {
       behavior: "smooth",
     });
   }
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/v1/concerts/delete/${data._id}`
+      );
+      setData(null);
+      toast.success(response.data.message, toastSetup("bottom-center", 3000));
+    } catch (error) {
+      toast.error(error.data.message, toastSetup("bottom-center", 3000));
+    }
+  };
+
+  // Pdf print
   const handlePdfPrint = async (e, eventIndex) => {
     e.preventDefault();
     setLoader(true);
@@ -136,174 +152,180 @@ export const EventCard = ({ ids, i }) => {
       }
     }
   };
-  return (
-    // Show loading indicator or data once it's available
-    isLoading ? (
-      <p>Učitavanje...</p>
-    ) : data ? ( // Check if data is available before rendering
-      <div
-        style={{
-          borderBottomLeftRadius: hasBorderRadius ? "7px" : "0",
-          borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
-          marginBottom: dropdown ? dropdownHeight + 10 + marginB : "10px",
-        }}
-        className="myevent-card-reseller"
-      >
-        <div className="myevent-card-part-1">
-          <img
-            style={{ borderBottomLeftRadius: hasBorderRadius ? "7px" : "0" }}
-            src={
-              `${process.env.REACT_APP_API_URL}/static/event-images/${data.poster.portrait}` ||
-              ""
-            }
-            alt="Portrait image"
-          />
-
-          <div className="conc-info">
-            <h6>{data.performer_name}</h6>
-            <p>{date}</p>
-            <p>
-              {data.place.place}, {data.place.city}, {data.place.country}
-            </p>
-          </div>
-        </div>
-        <div className="sales-wrapper">
-          <div className="myevent-card-part-2">
-            <p className="heading">Online prodaja</p>
-            <div className="top-part">
-              <span>
-                Prodano: <strong>{data.tickets.online_sale.sold_amount}</strong>
-              </span>
-              <span>
-                Ukupno:{" "}
-                <strong>
-                  {data.tickets.online_sale.amount_inBAM} <small>BAM</small>
-                </strong>
-              </span>
-            </div>
-            <div className="bottom-part-wrapper">
-              <div className="bottom-part">
-                {data.tickets.online_sale.type &&
-                  Object.keys(data.tickets.online_sale.type).map(
-                    (categoryKey) => (
-                      <CategoryCard
-                        key={categoryKey}
-                        {...data.tickets.online_sale.type[categoryKey]}
-                        categoryName={categoryKey}
-                      />
-                    )
-                  )}
-              </div>
-            </div>
-          </div>
-          <div className="myevent-card-part-2">
-            <p className="heading">Slobodna prodaja</p>
-            <div className="top-part">
-              <span>
-                Prodano: <strong>{data.tickets.free_sale.sold_amount}</strong>
-              </span>
-              <span>
-                Ukupno:{" "}
-                <strong>
-                  {data.tickets.free_sale.amount_inBAM} <small>BAM</small>
-                </strong>
-              </span>
-            </div>
-            <div className="bottom-part-wrapper">
-              <div className="bottom-part">
-                {data.tickets.free_sale.type &&
-                  Object.keys(data.tickets.free_sale.type).map(
-                    (categoryKey) => (
-                      <CategoryCard
-                        key={categoryKey}
-                        {...data.tickets.free_sale.type[categoryKey]}
-                        categoryName={categoryKey}
-                      />
-                    )
-                  )}
-              </div>
-            </div>
-          </div>
-        </div>
+  if (data)
+    return (
+      // Show loading indicator or data once it's available
+      isLoading ? (
+        <p>Učitavanje...</p>
+      ) : data ? ( // Check if data is available before rendering
         <div
-          onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
-          className="myevent-card-part-3"
           style={{
+            borderBottomLeftRadius: hasBorderRadius ? "7px" : "0",
             borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
-            backgroundColor: hasBorderRadius
-              ? "rgba(69, 91, 217, 0.7)"
-              : "rgba(69, 91, 217, 0.5)",
+            marginBottom: dropdown ? dropdownHeight + 10 + marginB : "10px",
           }}
+          className="myevent-card-reseller"
         >
-          <img
-            style={dropdown ? { rotate: "-180deg" } : { rotate: "0deg" }}
-            src={ArrowIcon}
-            alt="Drop"
-          />
-        </div>
-        <div
-          style={{ maxHeight: dropdown ? dropdownHeight + 100 + marginB : 0 }}
-          className="myevents-card-dropdown"
-          ref={dropdownRef}
-        >
-          <p className="heading">Preprodavači</p>
-          <div className="profile-concert-wrapper">
-            {data.tickets.free_sale.resellers[0] ? (
-              data.tickets.free_sale.resellers.map((e, i) => {
-                return (
-                  <EventDayCard
-                    key={i}
-                    setMarginB={setMarginB}
-                    iterator={i}
-                    data={e}
-                    concertId={data._id}
-                  />
-                );
-              })
-            ) : (
-              <span className="warnning-message">
-                Trenutno nemate preprodavača za ovaj događaj. Dodajte ih na
-                sučelju{" "}
-                <a
-                  onClick={(e) => {
-                    goToReseller(e);
-                  }}
-                  href="#"
-                >
-                  "Dodaj preprodavača"
-                </a>
-                .
-              </span>
-            )}
-          </div>
+          <div className="myevent-card-part-1">
+            <img
+              style={{ borderBottomLeftRadius: hasBorderRadius ? "7px" : "0" }}
+              src={
+                `${process.env.REACT_APP_API_URL}/static/event-images/${data.poster.portrait}` ||
+                ""
+              }
+              alt="Portrait image"
+            />
 
-          <p className="heading">Vremenski pregled prodaje</p>
-          <div className="selling-timestamp">
-            <p>Unesite datum pretrage:</p>
-            <div className="time-input-wrapper">
-              <p>Od:</p>
-              <input className={`from-date`} data-index={i} type="date" />
-              <p>Do:</p>
-              <input className={`to-date`} data-index={i} type="date" />
-              <button
-                className="print-pdf-btn"
-                onClick={(e) => {
-                  handlePdfPrint(e, i); // Pass the event index as an argument
-                }}
-              >
-                Ispiši u PDF-u
-              </button>
-              {loader ? (
-                <div className="loader">
-                  <Bars height="50" width="50" color="#455cd9" />{" "}
+            <div className="conc-info">
+              <h6>{data.performer_name}</h6>
+              <p>{date}</p>
+              <p>
+                {data.place.place}, {data.place.city}, {data.place.country}
+              </p>
+            </div>
+          </div>
+          <div className="sales-wrapper">
+            <div className="myevent-card-part-2">
+              <p className="heading">Online prodaja</p>
+              <div className="top-part">
+                <span>
+                  Prodano:{" "}
+                  <strong>{data.tickets.online_sale.sold_amount}</strong>
+                </span>
+                <span>
+                  Ukupno:{" "}
+                  <strong>
+                    {data.tickets.online_sale.amount_inBAM} <small>BAM</small>
+                  </strong>
+                </span>
+              </div>
+              <div className="bottom-part-wrapper">
+                <div className="bottom-part">
+                  {data.tickets.online_sale.type &&
+                    Object.keys(data.tickets.online_sale.type).map(
+                      (categoryKey) => (
+                        <CategoryCard
+                          key={categoryKey}
+                          {...data.tickets.online_sale.type[categoryKey]}
+                          categoryName={categoryKey}
+                        />
+                      )
+                    )}
                 </div>
-              ) : null}
+              </div>
+            </div>
+            <div className="myevent-card-part-2">
+              <p className="heading">Slobodna prodaja</p>
+              <div className="top-part">
+                <span>
+                  Prodano: <strong>{data.tickets.free_sale.sold_amount}</strong>
+                </span>
+                <span>
+                  Ukupno:{" "}
+                  <strong>
+                    {data.tickets.free_sale.amount_inBAM} <small>BAM</small>
+                  </strong>
+                </span>
+              </div>
+              <div className="bottom-part-wrapper">
+                <div className="bottom-part">
+                  {data.tickets.free_sale.type &&
+                    Object.keys(data.tickets.free_sale.type).map(
+                      (categoryKey) => (
+                        <CategoryCard
+                          key={categoryKey}
+                          {...data.tickets.free_sale.type[categoryKey]}
+                          categoryName={categoryKey}
+                        />
+                      )
+                    )}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
+            className="myevent-card-part-3"
+            style={{
+              borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
+              backgroundColor: hasBorderRadius
+                ? "rgba(69, 91, 217, 0.7)"
+                : "rgba(69, 91, 217, 0.5)",
+            }}
+          >
+            <img
+              style={dropdown ? { rotate: "-180deg" } : { rotate: "0deg" }}
+              src={ArrowIcon}
+              alt="Drop"
+            />
+          </div>
+          <div
+            style={{ maxHeight: dropdown ? dropdownHeight + 100 + marginB : 0 }}
+            className="myevents-card-dropdown"
+            ref={dropdownRef}
+          >
+            <div className="delete-event" onClick={(e) => handleDelete(e)}>
+              <img src={trashCan} alt="trashCan" />
+              <p>Obriši događaj</p>
+            </div>
+            <p className="heading">Preprodavači</p>
+            <div className="profile-concert-wrapper">
+              {data.tickets.free_sale.resellers[0] ? (
+                data.tickets.free_sale.resellers.map((e, i) => {
+                  return (
+                    <EventDayCard
+                      key={i}
+                      setMarginB={setMarginB}
+                      iterator={i}
+                      data={e}
+                      concertId={data._id}
+                    />
+                  );
+                })
+              ) : (
+                <span className="warnning-message">
+                  Trenutno nemate preprodavača za ovaj događaj. Dodajte ih na
+                  sučelju{" "}
+                  <a
+                    onClick={(e) => {
+                      goToReseller(e);
+                    }}
+                    href="#"
+                  >
+                    "Dodaj preprodavača"
+                  </a>
+                  .
+                </span>
+              )}
+            </div>
+
+            <p className="heading">Vremenski pregled prodaje</p>
+            <div className="selling-timestamp">
+              <p>Unesite datum pretrage:</p>
+              <div className="time-input-wrapper">
+                <p>Od:</p>
+                <input className={`from-date`} data-index={i} type="date" />
+                <p>Do:</p>
+                <input className={`to-date`} data-index={i} type="date" />
+                <button
+                  className="print-pdf-btn"
+                  onClick={(e) => {
+                    handlePdfPrint(e, i); // Pass the event index as an argument
+                  }}
+                >
+                  Ispis (.pdf)
+                </button>
+                {loader ? (
+                  <div className="loader">
+                    <Bars height="50" width="50" color="#455cd9" />{" "}
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    ) : (
-      <p>Greška pri dohvatanju podataka. Pokušajte kasnije...</p>
-    )
-  );
+      ) : (
+        <p>Podatci trenutno nedostupni ili nepostoje.</p>
+      )
+    );
 };
