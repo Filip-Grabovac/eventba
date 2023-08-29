@@ -1,5 +1,5 @@
-import React from 'react';
-import { PageRow } from '../info-pages-parts/PageRow';
+import React from "react";
+import { PageRow } from "../info-pages-parts/PageRow";
 
 export const Contact = ({ heading }) => {
   return (
@@ -22,17 +22,12 @@ export const Contact = ({ heading }) => {
         Email: **EMAIL**
       `}
       />
-      <PageRow
-        heading="Call centar"
-        content={`Cijena poziva iz fiksne i mobilne mreže MTS-a iznosi 48,00 dinara po minuti. Porez je uključen u cijenu poziva.
-        Radno vrijeme: ponedjeljak – petak od 10:00 do 16:00 sati (subota i nedjelja - neradni dani).
-        Email: callcenter@event.ba
-      `}
-      />
+
       <PageRow
         heading="Kontakt centar"
         content={`Sve informacije u vezi s kupovinom ulaznica, povratom novca za otkazane/odgođene događaje, promjenom lokacije događaja i drugim općim informacijama možete dobiti putem e-maila.
-        E-mail: kontakt@event.ba
+        <br />
+        E-mail: event.ba.mailer@gmail.com
       `}
       />
     </div>

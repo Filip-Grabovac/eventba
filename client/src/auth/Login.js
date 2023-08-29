@@ -1,23 +1,23 @@
-import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 // Images
-import X from '../assets/ikonice/X.svg';
-import PasswordEye from '../assets/ikonice/invisible.svg';
-import mail from '../assets/ikonice/mail.svg';
+import X from "../assets/ikonice/X.svg";
+import PasswordEye from "../assets/ikonice/invisible.svg";
+import mail from "../assets/ikonice/mail.svg";
 // Redux
-import { useDispatch } from 'react-redux';
-import { setUserID } from '../store/userSlice';
+import { useDispatch } from "react-redux";
+import { setUserID } from "../store/userSlice";
 // Components
-import { Link } from 'react-router-dom';
-import { RegisterInput } from './RegisterInput';
-import { toast } from 'react-toastify';
-import FacebookLogin from 'react-facebook-login';
+import { Link } from "react-router-dom";
+import { RegisterInput } from "./RegisterInput";
+import { toast } from "react-toastify";
+import FacebookLogin from "react-facebook-login";
 // Functions
-import { Decrypt } from './Decrypt';
-import { useCloseModalOnEsc } from '../functions/closeModalOnEsc';
-import { useFacebookLogin } from '../functions/facebookLogin';
-import { toastSetup } from '../functions/toastSetup';
-import { setLoginIsOpen } from '../store/loginSlice';
+import { Decrypt } from "./Decrypt";
+import { useCloseModalOnEsc } from "../functions/closeModalOnEsc";
+import { useFacebookLogin } from "../functions/facebookLogin";
+import { toastSetup } from "../functions/toastSetup";
+import { setLoginIsOpen } from "../store/loginSlice";
 
 export const Login = ({ setIsRegisterOpen }) => {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ export const Login = ({ setIsRegisterOpen }) => {
 
   // Around modal click exit login
   const handleModalClick = (e) => {
-    if (e.target.classList.contains('login-screen'))
+    if (e.target.classList.contains("login-screen"))
       dispatch(setLoginIsOpen(false));
   };
 
@@ -47,7 +47,7 @@ export const Login = ({ setIsRegisterOpen }) => {
         `${process.env.REACT_APP_API_URL}/api/v1/users/email/${email}`,
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
@@ -57,7 +57,7 @@ export const Login = ({ setIsRegisterOpen }) => {
       if (is_banned) {
         toast.error(
           `Ovom korisniku je zabranjen pristup platformi!`,
-          toastSetup('top-center', 3000)
+          toastSetup("top-center", 3000)
         );
         return;
       }
@@ -67,18 +67,18 @@ export const Login = ({ setIsRegisterOpen }) => {
         Decrypt(userPassword, secretKey) === e.target.elements.password.value
       ) {
         dispatch(setUserID(id));
-        localStorage.setItem('userId', id);
+        localStorage.setItem("userId", id);
         dispatch(setLoginIsOpen(false));
 
-        toast.success('Uspješna prijava!', toastSetup('top-center', 3000));
+        toast.success("Uspješna prijava!", toastSetup("top-center", 3000));
       } else {
-        toast.error(`Lozinka nije ispravna!`, toastSetup('top-center', 3000));
+        toast.error(`Lozinka nije ispravna!`, toastSetup("top-center", 3000));
         passwordRef.current.focus();
       }
     } catch (error) {
       toast.error(
         `Došlo je do pogreške prilikom prijave. ${error.response.data.error}!`,
-        toastSetup('top-center', 3000)
+        toastSetup("top-center", 3000)
       );
     }
   };
@@ -138,8 +138,10 @@ export const Login = ({ setIsRegisterOpen }) => {
                 }}
               />
             </div>
+            <p>Zaboravili ste lozinku?</p>
             <p>
-              Nemaš event.ba račun?{' '}
+              Nemaš event.ba račun?
+              <br />
               <Link onClick={handleOpenRegister}>Registriraj</Link> se!
             </p>
           </form>

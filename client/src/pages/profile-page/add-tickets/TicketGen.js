@@ -212,7 +212,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
               i >= Object.keys(concertData.tickets.free_sale.type || []).length;
             const categoryNameRef = i === 0 ? firstInvalidInputRef : null;
             const ticketPriceRef = i === 0 ? null : firstInvalidInputRef;
-            console.log(tickets[i]);
+
             return (
               <div key={i} className="row">
                 <div className="col-lg-6">
