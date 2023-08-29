@@ -24,7 +24,7 @@ export const useFacebookLogin = (setUserID) => {
 
         const { id } = response.data;
         dispatch(setUserID(id));
-        localStorage.setItem("userId", id);
+        sessionStorage.setItem("userId", id);
 
         toast.success("Uspješna prijava!", toastSetup("top-center", 3000));
       } catch (error) {
@@ -54,7 +54,7 @@ export const useFacebookLogin = (setUserID) => {
           );
 
           dispatch(setUserID(response.data.user._id));
-          localStorage.setItem("userId", response.data.user._id);
+          sessionStorage.setItem("userId", response.data.user._id);
 
           dispatch(setLoginIsOpen(false));
 

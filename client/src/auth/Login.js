@@ -42,7 +42,6 @@ export const Login = ({ setIsRegisterOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.elements.email.value;
-
     // Get user from database
     try {
       const response = await axios.get(
@@ -68,8 +67,12 @@ export const Login = ({ setIsRegisterOpen }) => {
       if (
         Decrypt(userPassword, secretKey) === e.target.elements.password.value
       ) {
+        if (rememberMe) {
+          localStorage.setItem('userId', id); // Save in local storage
+        } else {
+          sessionStorage.setItem('userId', id); // Save in session storage
+        }
         dispatch(setUserID(id));
-        localStorage.setItem('userId', id);
         dispatch(setLoginIsOpen(false));
 
         toast.success('Uspješna prijava!', toastSetup('top-center', 3000));
@@ -189,15 +192,19 @@ export const Login = ({ setIsRegisterOpen }) => {
                   ? 'Zaboravili ste lozinku?'
                   : 'Natrag na prijavu'}
               </a>
-              <p className="remember-me">
-                Zapamti me{' '}
-                <input
-                  onChange={() => {
-                    setRememberStatus(!rememberMe);
-                  }}
-                  type="checkbox"
-                />
-              </p>
+              {!forgotPasswordFields ? (
+                <p className="remember-me">
+                  Zapamti me{' '}
+                  <input
+                    onChange={() => {
+                      setRememberStatus(!rememberMe);
+                    }}
+                    type="checkbox"
+                  />
+                </p>
+              ) : (
+                ''
+              )}
             </div>
             <p>
               Nemaš event.ba račun?
