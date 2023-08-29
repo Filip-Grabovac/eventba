@@ -286,7 +286,7 @@
   background-color: rgba(46, 110, 152, 0.404) !important;
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(20px) !important;
-  transition: all 0.3s;
+  transition: all 0.3s, z-index 0;
 }
 .nav-wrapper {
   height: 70px;

@@ -26,6 +26,7 @@ export const Login = ({ setIsRegisterOpen }) => {
   const secretKey = process.env.REACT_APP_SECRET_KEY;
   const facebookLogin = useFacebookLogin(setUserID);
   const [forgotPasswordFields, isForgotPasswordVisible] = useState(false);
+  const [rememberMe, setRememberStatus] = useState(false);
 
   // Around modal click exit login
   const handleModalClick = (e) => {
@@ -104,12 +105,15 @@ export const Login = ({ setIsRegisterOpen }) => {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/v1/users/reset_password`,
-        email
+        `${process.env.REACT_APP_API_URL}/api/v1/helper/request_password`,
+        {
+          email,
+        }
       );
 
-      console.log(response);
+      toast.success(response.data, toastSetup('top-center', 3000));
     } catch (error) {
+      toast.error(error.response.data, toastSetup('top-center', 3000));
       console.error('Error posting data:', error);
     }
   }
@@ -125,7 +129,7 @@ export const Login = ({ setIsRegisterOpen }) => {
         >
           <img src={X} alt="" />
         </button>
-        <h2>{!forgotPasswordFields ? 'Prijava' : 'Resetiranje'}</h2>
+        <h2>{!forgotPasswordFields ? 'Prijava' : 'Nova lozinka'}</h2>
         <div className="text-section">
           <form
             onSubmit={(e) => {
@@ -173,17 +177,28 @@ export const Login = ({ setIsRegisterOpen }) => {
                 Pošalji mail
               </button>
             )}
-            <a
-              onClick={(e) => {
-                forgotPassword(e);
-              }}
-              className="forgot-password"
-              href="#"
-            >
-              {!forgotPasswordFields
-                ? 'Zaboravili ste lozinku?'
-                : 'Natrag na prijavu'}
-            </a>
+            <div className="login-remember-wrapper">
+              <a
+                onClick={(e) => {
+                  forgotPassword(e);
+                }}
+                className="forgot-password"
+                href="#"
+              >
+                {!forgotPasswordFields
+                  ? 'Zaboravili ste lozinku?'
+                  : 'Natrag na prijavu'}
+              </a>
+              <p className="remember-me">
+                Zapamti me{' '}
+                <input
+                  onChange={() => {
+                    setRememberStatus(!rememberMe);
+                  }}
+                  type="checkbox"
+                />
+              </p>
+            </div>
             <p>
               Nemaš event.ba račun?
               <br />

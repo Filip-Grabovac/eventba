@@ -264,6 +264,32 @@
         color: #ebebeb;
         margin-bottom: 10px;
       }
+      .remember-me {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0;
+
+        input {
+          width: 17px;
+          margin-left: 10px;
+        }
+      }
+      .login-remember-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin-bottom: 10px;
+
+        p,
+        a {
+          margin: 0;
+          text-align: center;
+        }
+
+        a {
+          color: #f4cd46;
+        }
+      }
     }
   }
 

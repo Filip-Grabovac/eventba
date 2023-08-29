@@ -1,6 +1,6 @@
-const sendMailWithHyperlink = require("../mailer/mailer");
-const Helper = require("../models/Helper");
-const User = require("../models/User");
+const sendMailWithHyperlink = require('../mailer/mailer');
+const Helper = require('../models/Helper');
+const User = require('../models/User');
 
 const getSponsorList = async (req, res) => {
   try {
@@ -45,7 +45,7 @@ const updateSponsorList = async (sponsors) => {
       const updateQuery = { $set: { sponsors: updatedSponsors } };
       await Helper.updateOne(query, updateQuery);
     } else {
-      console.log("No doc with sponsor property");
+      console.log('No doc with sponsor property');
     }
   } catch (error) {
     console.log({ msg: error });
@@ -68,14 +68,14 @@ const getHotEvents = async (req, res) => {
     const hotEvents = documentWithHotEvents.hot_events;
     res.json(hotEvents);
   } catch (error) {
-    console.error("An error occurred:", error);
-    res.status(500).json({ message: "An error occurred." });
+    console.error('An error occurred:', error);
+    res.status(500).json({ message: 'An error occurred.' });
   }
 };
 
 const manageNewsletterSubscription = async (req, res) => {
   try {
-    const helperId = "64ec823175ccc834678f4698";
+    const helperId = '64ec823175ccc834678f4698';
     const userId = req.params.id;
     const { userEmail } = req.body; // Pretpostavljamo da je e-pošta poslana u tijelu zahtjeva
 
@@ -85,7 +85,7 @@ const manageNewsletterSubscription = async (req, res) => {
     if (!helper) {
       return res
         .status(404)
-        .json({ message: "Dokument pomoćnika nije pronađen." });
+        .json({ message: 'Dokument pomoćnika nije pronađen.' });
     }
 
     const newsletterArray = helper.newsletter || [];
@@ -104,7 +104,7 @@ const manageNewsletterSubscription = async (req, res) => {
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: "Korisnik nije pronađen." });
+      return res.status(404).json({ message: 'Korisnik nije pronađen.' });
     }
 
     // Prebaci status pretplate na newsletter
@@ -114,16 +114,16 @@ const manageNewsletterSubscription = async (req, res) => {
     await User.updateOne({ _id: userId }, { newsletter: user.newsletter });
 
     const subscriptionMessage = user.newsletter
-      ? "Uspješno ste se pretplatili."
-      : "Uspješno ste prekinuli pretplatu.";
+      ? 'Uspješno ste se pretplatili.'
+      : 'Uspješno ste prekinuli pretplatu.';
 
     res.status(200).json({
       message: subscriptionMessage,
       user,
     });
   } catch (error) {
-    console.error("Dogodila se pogreška:", error);
-    res.status(500).json({ message: "Dogodila se pogreška." });
+    console.error('Dogodila se pogreška:', error);
+    res.status(500).json({ message: 'Dogodila se pogreška.' });
   }
 };
 
@@ -133,24 +133,24 @@ const requestPassword = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).send("Korisnik nije pronađen");
+      return res.status(404).send('Korisnik nije pronađen');
     }
 
     const currentTime = Date.now();
     const requestDate = user.request_date || 0;
     const timeDifferenceInMinutes = (currentTime - requestDate) / (1000 * 60);
 
-    // if (timeDifferenceInMinutes < 60) {
-    //   return res
-    //     .status(400)
-    //     .send(
-    //       `Zahtjev za resetiranje lozinke poslan prije ${Math.floor(
-    //         timeDifferenceInMinutes
-    //       )} minuta. Molimo sačekajte ${
-    //         60 - Math.floor(timeDifferenceInMinutes)
-    //       } minuta do novog zahtjeva.`
-    //     );
-    // }
+    if (timeDifferenceInMinutes < 60) {
+      return res
+        .status(400)
+        .send(
+          `Zahtjev za resetiranje lozinke poslan prije ${Math.floor(
+            timeDifferenceInMinutes
+          )} minuta. Molimo sačekajte ${
+            60 - Math.floor(timeDifferenceInMinutes)
+          } minuta do novog zahtjeva.`
+        );
+    }
 
     user.request_number = currentTime;
     user.request_date = currentTime;
@@ -160,16 +160,16 @@ const requestPassword = async (req, res) => {
 
     sendMailWithHyperlink(
       email,
-      "Link za regeneraciju lozinke",
-      "Kliknite na link za generaciju nove lozinke",
-      "link",
+      'Link za regeneraciju lozinke',
+      'Kliknite na link za generaciju nove lozinke',
+      'link',
       verificationLink
     );
 
     res.status(200).send(`E-pošta za resetiranje lozinke poslana na ${email}.`);
   } catch (error) {
-    console.error("Pogreška pri resetiranju lozinke:", error);
-    res.status(500).send("Interna serverska pogreška");
+    console.error('Pogreška pri resetiranju lozinke:', error);
+    res.status(500).send('Interna serverska pogreška');
   }
 };
 
@@ -180,7 +180,7 @@ const resetPassword = async (req, res) => {
 
     const existingUserWithCode = await User.findOneAndUpdate(
       { request_number: Number(request_number) },
-      { $set: { password: encryptedPass }, $unset: { request_number: "" } },
+      { $set: { password: encryptedPass }, $unset: { request_number: '' } },
       {
         new: true,
         runValidators: true,
@@ -193,12 +193,12 @@ const resetPassword = async (req, res) => {
       });
     }
     res.status(200).json({
-      msg: "Uspješno ste promjenili lozinku! Ažurirajte lozinku na svom profilu!",
+      msg: 'Uspješno ste promjenili lozinku! Ažurirajte lozinku na svom profilu!',
     });
   } catch (error) {
     res
       .status(500)
-      .json({ msg: "Došlo je do greške pri generaciji nove loznike. " });
+      .json({ msg: 'Došlo je do greške pri generaciji nove loznike. ' });
   }
 };
 
