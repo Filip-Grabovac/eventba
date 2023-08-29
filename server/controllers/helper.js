@@ -140,17 +140,17 @@ const requestPassword = async (req, res) => {
     const requestDate = user.request_date || 0;
     const timeDifferenceInMinutes = (currentTime - requestDate) / (1000 * 60);
 
-    // if (timeDifferenceInMinutes < 60) {
-    //   return res
-    //     .status(400)
-    //     .send(
-    //       `Zahtjev za resetiranje lozinke poslan prije ${Math.floor(
-    //         timeDifferenceInMinutes
-    //       )} minuta. Molimo sačekajte ${
-    //         60 - Math.floor(timeDifferenceInMinutes)
-    //       } minuta do novog zahtjeva.`
-    //     );
-    // }
+    if (timeDifferenceInMinutes < 60) {
+      return res
+        .status(400)
+        .send(
+          `Zahtjev za resetiranje lozinke poslan prije ${Math.floor(
+            timeDifferenceInMinutes
+          )} minuta. Molimo sačekajte ${
+            60 - Math.floor(timeDifferenceInMinutes)
+          } minuta do novog zahtjeva.`
+        );
+    }
 
     user.request_number = currentTime;
     user.request_date = currentTime;

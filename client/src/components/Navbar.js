@@ -29,6 +29,7 @@ export const Navbar = () => {
     setIsDropdownOpen(false);
     dispatch(setUserID(""));
     localStorage.clear();
+    sessionStorage.clear();
     navigate("/");
     toast.success("Uspješna odjava", toastSetup("top-right", 2000));
   };

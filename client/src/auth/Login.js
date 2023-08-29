@@ -40,7 +40,8 @@ export const Login = ({ setIsRegisterOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.elements.email.value;
-
+    const rememberLogin = e.target.elements.rememberLogin.checked;
+    console.log(rememberLogin);
     // Get user from database
     try {
       const response = await axios.get(
@@ -66,8 +67,13 @@ export const Login = ({ setIsRegisterOpen }) => {
       if (
         Decrypt(userPassword, secretKey) === e.target.elements.password.value
       ) {
+        if (rememberLogin) {
+          localStorage.setItem("userId", id); // Save in local storage
+        } else {
+          sessionStorage.setItem("userId", id); // Save in session storage
+        }
         dispatch(setUserID(id));
-        localStorage.setItem("userId", id);
+
         dispatch(setLoginIsOpen(false));
 
         toast.success("Uspješna prijava!", toastSetup("top-center", 3000));
@@ -124,6 +130,16 @@ export const Login = ({ setIsRegisterOpen }) => {
               isPasswordVisible={isPasswordVisible}
               setIsPasswordVisible={setIsPasswordVisible}
             />
+            <div className="terms-of-use-container">
+              <p>Zapamti me</p>
+              <input
+                type="checkbox"
+                id="rememberLogin"
+                name="rememberLogin"
+                className="terms-of-use"
+              />
+            </div>
+
             <div className="login-btns-wrapper">
               <button type="submit" className="login-btn">
                 Prijavi se!

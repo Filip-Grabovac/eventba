@@ -97,7 +97,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
           setIsRegisterOpen(false);
           // Login user
           dispatch(setUserID(response.data.user._id));
-          localStorage.setItem("userId", response.data.user._id);
+          sessionStorage.setItem("userId", response.data.user._id);
         })
         .catch((error) => {
           // Handle any errors
