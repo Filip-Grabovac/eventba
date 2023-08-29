@@ -57,14 +57,7 @@ export const AllRoutes = () => {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/informations"
-          element={
-            <ProtectedRoute>
-              <OverallInfo />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/informations" element={<OverallInfo />} />
         <Route
           path="/draw"
           element={
