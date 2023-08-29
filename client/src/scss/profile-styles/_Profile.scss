@@ -231,9 +231,9 @@
       margin: 0 auto;
 
       .modal-window {
-        height: 200px;
-        width: 100%;
-        max-width: 400px;
+        height: 180px;
+
+        width: min(350px, 90%);
         position: absolute;
         z-index: 9999;
         background-color: rgba(255, 255, 255, 0.6);
@@ -406,7 +406,7 @@
             font-size: 14px;
           }
           .custom-file-input::before {
-            content: 'Dodaj sponzore';
+            content: "Dodaj sponzore";
             display: inline-block;
             background: linear-gradient(top, #f9f9f9, #d8d8d8);
             border: 2px solid #999;
