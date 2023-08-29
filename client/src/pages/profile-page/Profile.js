@@ -183,7 +183,7 @@ export const Profile = () => {
                       }}
                       href="#"
                     >
-                      {e}
+                      {e === 'Newsletter' ? 'News\nLetter' : e}
                     </a>
                   </li>
                 );
