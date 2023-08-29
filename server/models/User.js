@@ -19,7 +19,8 @@ const UserSchema = new mongoose.Schema({
   buy_history: { type: Array },
   is_banned: { type: Boolean },
   reseller_info: { type: Object },
-  resellers_requests: { type: Array, default: undefined },
+  request_date: { type: Number },
+  request_number: { type: Number },
 });
 
 module.exports = connectDB(process.env.DATABASE_URL).model(

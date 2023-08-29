@@ -29,6 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/static", express.static("ticket-gen/public"));
+
 app.use("/api/v1/users", users);
 app.use("/api/v1/concerts", concerts);
 app.use("/api/v1/payment", payment);
