@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import ImageMapper, { Mode } from '../../draw-place/image-mapper/ImageMapper';
-import { toast } from 'react-toastify';
-import { toastSetup } from '../../../functions/toastSetup';
+import React, { useEffect, useState } from "react";
+import ImageMapper, { Mode } from "../../draw-place/image-mapper/ImageMapper";
+import { toast } from "react-toastify";
+import { toastSetup } from "../../../functions/toastSetup";
 
 export const Theater = ({ placeData }) => {
   const [groundPlanImg, setImg] = useState(null);
   const [modalWindow, setModalWindow] = useState(false);
   const [selectedZoneData, setSelectedZoneData] = useState();
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState("");
+  const [zones, setZones] = useState(placeData.zones);
 
   // Load ground image
   useEffect(() => {
@@ -35,7 +36,7 @@ export const Theater = ({ placeData }) => {
         // Set the src AFTER defining the onload handler
         imgElement.src = imageUrl;
       } catch (error) {
-        console.error('Error loading image:', error);
+        console.error("Error loading image:", error);
       }
     };
 
@@ -46,9 +47,9 @@ export const Theater = ({ placeData }) => {
   function handleZoneClick(e, zoneData) {
     setModalWindow(true);
     setSelectedZoneData(zoneData);
-    if (document.querySelector('.highlighted'))
-      document.querySelector('.highlighted').classList.remove('highlighted');
-    e.target.classList.add('highlighted');
+    if (document.querySelector(".highlighted"))
+      document.querySelector(".highlighted").classList.remove("highlighted");
+    e.target.classList.add("highlighted");
   }
 
   // Save zone
@@ -56,43 +57,44 @@ export const Theater = ({ placeData }) => {
     e.preventDefault();
 
     if (!price) {
-      document.querySelector('.price-input').style =
-        'outline: 2px solid #f4cd46;';
-      toast.warn('Unesite cijenu', toastSetup('top-right', 3000));
+      document.querySelector(".price-input").style =
+        "outline: 2px solid #f4cd46;";
+      toast.warn("Unesite cijenu", toastSetup("top-right", 3000));
       return;
     }
 
-    // Selected zone data and price
-    console.log(selectedZoneData);
-    console.log(price);
+    setZones((zone) => (zone[selectedZoneData[0]].price = Number(price)));
 
-    document.querySelector('.highlighted').classList.add('done');
-    document.querySelector('.highlighted').classList.remove('highlighted');
+    document.querySelector(".highlighted").classList.add("done");
+    document.querySelector(".highlighted").classList.remove("highlighted");
     setModalWindow(false);
-    setPrice();
   }
-
+  const handleChange = (e) => setPrice(e.target.value);
+  console.log(price);
   return (
     groundPlanImg && (
       <>
         {modalWindow ? (
           <>
             <div className="modal">
-              <h6>Odaberite cijenu sjedala za ovu zonu</h6>
-              <input
-                className="price-input"
-                type="number"
-                onInput={(e) => {
-                  setPrice(e.target.value);
-                }}
-              />
-              <button
-                onClick={(e) => {
-                  saveZone(e);
-                }}
-              >
-                Spremi
-              </button>
+              <form action="">
+                <h6>Odaberite cijenu sjedala za ovu zonu</h6>
+                <input
+                  value={price}
+                  className="price-input"
+                  type="number"
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                />
+                <button
+                  onClick={(e) => {
+                    saveZone(e);
+                  }}
+                >
+                  Spremi
+                </button>
+              </form>
             </div>
             <div
               onClick={() => {
@@ -102,7 +104,7 @@ export const Theater = ({ placeData }) => {
             ></div>
           </>
         ) : (
-          ''
+          ""
         )}
         <ImageMapper
           mode={Mode.SELECT}
