@@ -3,12 +3,12 @@ import ImageMapper, { Mode } from "../../draw-place/image-mapper/ImageMapper";
 import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
 
-export const Theater = ({ placeData }) => {
+export const Theater = ({ placeData, setRows }) => {
   const [groundPlanImg, setImg] = useState(null);
   const [modalWindow, setModalWindow] = useState(false);
   const [selectedZoneData, setSelectedZoneData] = useState();
   const [price, setPrice] = useState("");
-  const [zones, setZones] = useState(placeData.zones);
+  const [type, setType] = useState("Regular");
 
   // Load ground image
   useEffect(() => {
@@ -62,15 +62,37 @@ export const Theater = ({ placeData }) => {
       toast.warn("Unesite cijenu", toastSetup("top-right", 3000));
       return;
     }
+    const zoneKey = selectedZoneData[0]; // Get the zone key, e.g., "I"
+    const totalSeats = parseInt(selectedZoneData[1].rows[zoneKey].total_seats); // Parse total_seats as an integer
+    console.log(totalSeats);
+    // Create an array of seat numbers based on the total_seats value
+    const seatNumbersArray = Array.from(
+      { length: totalSeats },
+      (_, i) => i + 1
+    );
 
-    setZones((zone) => (zone[selectedZoneData[0]].price = Number(price)));
+    // Update the rows state to include the new seats array
+    setRows((prevRows) => ({
+      ...prevRows,
+      [zoneKey]: {
+        ...prevRows[zoneKey],
+        price: Number(price),
+        name: type,
+        rows: {
+          ...prevRows[zoneKey].rows,
+          [zoneKey]: {
+            ...prevRows[zoneKey].rows[zoneKey],
+            seats: seatNumbersArray,
+          },
+        },
+      },
+    }));
 
     document.querySelector(".highlighted").classList.add("done");
     document.querySelector(".highlighted").classList.remove("highlighted");
     setModalWindow(false);
   }
-  const handleChange = (e) => setPrice(e.target.value);
-  console.log(price);
+
   return (
     groundPlanImg && (
       <>
@@ -84,7 +106,16 @@ export const Theater = ({ placeData }) => {
                   className="price-input"
                   type="number"
                   onChange={(e) => {
-                    handleChange(e);
+                    setPrice(e.target.value);
+                  }}
+                />
+                <h6>Tip ulaznice</h6>
+                <input
+                  value={type}
+                  className="price-input"
+                  type="text"
+                  onChange={(e) => {
+                    setType(e.target.value);
                   }}
                 />
                 <button

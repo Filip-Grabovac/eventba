@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
 // Images
-import UploadImage from '../../../assets/images/uplad_img_placeholder.png';
-import plus from '../../../assets/ikonice/plus_icon.svg';
-import trashcan from '../../../assets/ikonice/trash_can.svg';
+import UploadImage from "../../../assets/images/uplad_img_placeholder.png";
+import plus from "../../../assets/ikonice/plus_icon.svg";
+import trashcan from "../../../assets/ikonice/trash_can.svg";
 // Components
-import { toast } from 'react-toastify';
-import { toastSetup } from '../../../functions/toastSetup';
-import { OrganizeEventCategories } from './OrganizeEventCategories';
-import SponsorModal from './SponsorModal';
-import { Theater } from './Theater';
+import { toast } from "react-toastify";
+import { toastSetup } from "../../../functions/toastSetup";
+import { OrganizeEventCategories } from "./OrganizeEventCategories";
+import SponsorModal from "./SponsorModal";
+import { Theater } from "./Theater";
 
 export const OrganizeEventPage = () => {
-  const [selectedValue, setSelectedValue] = useState('');
-  const [textareaLimit, setTextareaLimit] = useState('0');
+  const [selectedValue, setSelectedValue] = useState("");
+  const [textareaLimit, setTextareaLimit] = useState("0");
   const [selectedImagesForUpload, setImages] = useState([]);
   const [sponsors, setSponsors] = useState([]);
   const [sponsorNames, setSponsorNames] = useState([]);
   const [concertHalls, setConcertHalls] = useState([]);
-  const [selectedPlace, setSelectedPlace] = useState('');
+  const [selectedPlace, setSelectedPlace] = useState("");
   const [zones, setZones] = useState([]);
   const [ticketInputs, setTicketInputs] = useState([]);
   const [placeData, setPlaceData] = useState({});
   const [cities, setCities] = useState();
-  const [cityInputValue, setCityInputValue] = useState('');
+  const [cityInputValue, setCityInputValue] = useState("");
   const userId = useSelector((state) => state.userState.user);
+  const [rows, setRows] = useState({});
   const [selectedImages, setSelectedImages] = useState([
     UploadImage,
     UploadImage,
@@ -44,7 +45,7 @@ export const OrganizeEventPage = () => {
 
   // Fetch halls with the city name
   useEffect(() => {
-    if (cityInputValue === '') {
+    if (cityInputValue === "") {
       setConcertHalls([]);
       return;
     }
@@ -57,10 +58,10 @@ export const OrganizeEventPage = () => {
         setConcertHalls(response.data.placeNames);
 
         // Clear places UI if no matching halls
-        if (response.data.placeNames[0] === undefined) setSelectedPlace('');
+        if (response.data.placeNames[0] === undefined) setSelectedPlace("");
       })
       .catch((error) => {
-        console.error('Error fetching concert halls:', error);
+        console.error("Error fetching concert halls:", error);
       });
   }, [cityInputValue]);
 
@@ -72,8 +73,8 @@ export const OrganizeEventPage = () => {
       setExistingSponsors(response.data);
     } catch (error) {
       toast.error(
-        'Greška pri dohvatanju sponzora',
-        toastSetup('top-right', 3000)
+        "Greška pri dohvatanju sponzora",
+        toastSetup("top-right", 3000)
       );
     }
   };
@@ -101,11 +102,12 @@ export const OrganizeEventPage = () => {
       setZones(zonesArray);
       setTicketInputs(zonesArray);
       setPlaceData(response.data);
+      if ((response.data.type = "theater")) setRows(response.data.zones);
     } catch (error) {
-      console.error('Error fetching zones:', error);
+      console.error("Error fetching zones:", error);
     }
   };
-
+  console.log();
   const renderConcertHallOptions = () => {
     if (!Array.isArray(concertHalls)) {
       return null; // or return an appropriate fallback if concertHalls is not an array
@@ -123,22 +125,22 @@ export const OrganizeEventPage = () => {
   };
 
   const handleImageClick = (index, aspectRatio) => () => {
-    const input = document.createElement('input');
-    input.classList.add('portrait-img');
-    input.type = 'file';
-    input.accept = 'image/jpeg, image/png'; // Only accept JPG and PNG images
+    const input = document.createElement("input");
+    input.classList.add("portrait-img");
+    input.type = "file";
+    input.accept = "image/jpeg, image/png"; // Only accept JPG and PNG images
 
     input.onchange = async (e) => {
       const file = e.target.files[0];
 
       // Validate file type
       if (
-        !file.type.startsWith('image/') ||
-        (file.type !== 'image/jpeg' && file.type !== 'image/png')
+        !file.type.startsWith("image/") ||
+        (file.type !== "image/jpeg" && file.type !== "image/png")
       ) {
         toast.warn(
-          'Molimo dodajte sliku u JPG ili PNG formatu.',
-          toastSetup('top-right', 3000)
+          "Molimo dodajte sliku u JPG ili PNG formatu.",
+          toastSetup("top-right", 3000)
         );
         return;
       }
@@ -148,7 +150,7 @@ export const OrganizeEventPage = () => {
       reader.onload = async (upload) => {
         const newImage = upload.target.result;
 
-        const imageElement = document.createElement('img');
+        const imageElement = document.createElement("img");
         imageElement.onload = async () => {
           const width = imageElement.width;
           const height = imageElement.height;
@@ -162,11 +164,11 @@ export const OrganizeEventPage = () => {
           ) {
             // Remove outline if user set image
             if (index === 0)
-              document.querySelector('.portrait-wrapper').style =
-                'outline: none';
+              document.querySelector(".portrait-wrapper").style =
+                "outline: none";
             else
-              document.querySelector('.landscape-wrapper').style =
-                'outline: none';
+              document.querySelector(".landscape-wrapper").style =
+                "outline: none";
 
             setSelectedImages((prevImages) => {
               const updatedImages = [...prevImages];
@@ -182,9 +184,9 @@ export const OrganizeEventPage = () => {
           } else {
             toast.warn(
               `Molimo dodajte sliku s ${
-                aspectRatio === 2 / 3 ? '2:3' : '16:9'
+                aspectRatio === 2 / 3 ? "2:3" : "16:9"
               } formatom.`,
-              toastSetup('top-right', 3000)
+              toastSetup("top-right", 3000)
             );
 
             // Remove the selected image from the file input
@@ -209,10 +211,10 @@ export const OrganizeEventPage = () => {
     // Map event type
 
     const event = {
-      performer_name: form.get('performerName'),
+      performer_name: form.get("performerName"),
       poster: {
-        landscape: '',
-        portrait: '',
+        landscape: "",
+        portrait: "",
       },
       verified: false,
       tickets: {
@@ -246,19 +248,19 @@ export const OrganizeEventPage = () => {
         },
       },
       sponsors: sponsorNames,
-      time_of_event: form.get('timeOfEvent'),
+      time_of_event: form.get("timeOfEvent"),
       place: {
-        country: form.get('country'),
-        city: form.get('city'),
-        place: form.get('place'),
+        country: form.get("country"),
+        city: form.get("city"),
+        place: form.get("place"),
         type: placeData.type,
       },
-      type: form.get('eventType'),
+      type: form.get("eventType"),
       is_promoted_event: false,
-      description: form.get('eventDescription'),
+      description: form.get("eventDescription"),
       organizer: userId,
     };
-    if (placeData.type === 'hall')
+    if (placeData.type === "hall")
       ticketInputs.forEach((ticket) => {
         const categoryKey = ticket.name;
         event.tickets.online_sale.type[categoryKey] = {
@@ -270,11 +272,12 @@ export const OrganizeEventPage = () => {
 
         event.tickets.online_sale.total_amount += parseInt(ticket.amount);
       });
+    if (placeData.type === "theater") event.tickets.online_sale.zones = rows;
 
     // Check if everything is valid(all fields + images)
     if (
-      !selectedImages[0].includes('uplad_img_placeholder') &&
-      !selectedImages[1].includes('uplad_img_placeholder') &&
+      !selectedImages[0].includes("uplad_img_placeholder") &&
+      !selectedImages[1].includes("uplad_img_placeholder") &&
       event.performer_name &&
       event.type &&
       event.place.country &&
@@ -287,14 +290,14 @@ export const OrganizeEventPage = () => {
       const uniqueNames = selectedImagesForUpload.map((_, index) => {
         const timestamp = Date.now();
         const randomNum = Math.floor(Math.random() * 1000);
-        const extension = '.jpg';
-        const suffix = index === 0 ? '_portrait' : '_landscape';
+        const extension = ".jpg";
+        const suffix = index === 0 ? "_portrait" : "_landscape";
         return `${timestamp}_${randomNum}${suffix}${extension}`;
       });
 
       // Create an array to store the updated selected images with unique names
       const updatedSelectedImages = selectedImages.map((image, index) => {
-        return image.includes('uplad_img_placeholder')
+        return image.includes("uplad_img_placeholder")
           ? image
           : uniqueNames[index];
       });
@@ -310,11 +313,11 @@ export const OrganizeEventPage = () => {
         };
 
         const response = await axios.post(
-          process.env.REACT_APP_API_URL + '/api/v1/concerts/create_event',
+          process.env.REACT_APP_API_URL + "/api/v1/concerts/create_event",
           updatedEvent,
           {
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           }
         );
@@ -323,12 +326,12 @@ export const OrganizeEventPage = () => {
         const formData = new FormData();
 
         for (let i = 0; i < sponsors.length; i++) {
-          formData.append('firstFiles', sponsors[i], sponsors[i].name);
+          formData.append("firstFiles", sponsors[i], sponsors[i].name);
         }
 
         for (let i = 0; i < selectedImagesForUpload.length; i++) {
           formData.append(
-            'secondFiles',
+            "secondFiles",
             selectedImagesForUpload[i],
             uniqueNames[i]
           );
@@ -337,58 +340,58 @@ export const OrganizeEventPage = () => {
         // Send formData to the backend
 
         const response2 = await axios.post(
-          process.env.REACT_APP_API_URL + '/api/v1/concerts/upload_img',
+          process.env.REACT_APP_API_URL + "/api/v1/concerts/upload_img",
           formData,
           {
             headers: {
-              'Content-Type': 'multipart/form-data',
+              "Content-Type": "multipart/form-data",
             },
           }
         );
 
         toast.success(
           `${response.data.message} ${response2.data.message}`,
-          toastSetup('top-right', 3000)
+          toastSetup("top-right", 3000)
         );
       } catch (error) {
         // Handle any errors
         toast.error(
           `Došlo je do pogreške prilikom dodavanja događaja. ${error.response.data.error}!`,
-          toastSetup('top-right', 3000)
+          toastSetup("top-right", 3000)
         );
       }
     } else {
       // Check which fields are empty
-      document.querySelectorAll('.event-input').forEach((e) => {
-        if (e.value === '') {
-          e.style = 'outline: 2px solid #f4cd46;';
+      document.querySelectorAll(".event-input").forEach((e) => {
+        if (e.value === "") {
+          e.style = "outline: 2px solid #f4cd46;";
         }
       });
 
       // CHECK IMAGES
       // First image
-      if (selectedImages[0].includes('uplad_img_placeholder'))
-        document.querySelector('.portrait-wrapper').style =
-          'outline: 2px solid #f4cd46;';
-      else document.querySelector('.portrait-wrapper').style = 'outline: none';
+      if (selectedImages[0].includes("uplad_img_placeholder"))
+        document.querySelector(".portrait-wrapper").style =
+          "outline: 2px solid #f4cd46;";
+      else document.querySelector(".portrait-wrapper").style = "outline: none";
 
       // Second image
-      if (selectedImages[1].includes('uplad_img_placeholder'))
-        document.querySelector('.landscape-wrapper').style =
-          'outline: 2px solid #f4cd46;';
-      else document.querySelector('.landscape-wrapper').style = 'outline: none';
+      if (selectedImages[1].includes("uplad_img_placeholder"))
+        document.querySelector(".landscape-wrapper").style =
+          "outline: 2px solid #f4cd46;";
+      else document.querySelector(".landscape-wrapper").style = "outline: none";
 
       // Check if textarea.length > 300
-      if (document.querySelector('.event-description').value.length > 500) {
+      if (document.querySelector(".event-description").value.length > 500) {
         toast.warn(
           `Opis događaja ne smije sadržavati više od 500 znakova`,
-          toastSetup('top-right', 3000)
+          toastSetup("top-right", 3000)
         );
       }
 
       toast.warn(
         `Molimo popunite sva polja i dodajte obje slike`,
-        toastSetup('top-right', 3000)
+        toastSetup("top-right", 3000)
       );
     }
   }
@@ -405,13 +408,13 @@ export const OrganizeEventPage = () => {
       setCities(response.data.city);
     } catch (error) {
       // If input is empty close dropdown
-      if (cityName === '') {
-        document.querySelector('.all-cities').style =
-          'visibility: hidden; opacity: 0;';
+      if (cityName === "") {
+        document.querySelector(".all-cities").style =
+          "visibility: hidden; opacity: 0;";
         setCities();
 
         // Clear places UI if input is empty = no halls
-        setSelectedPlace('');
+        setSelectedPlace("");
         return;
       } else {
         setCities([error.response.data.msg]);
@@ -419,8 +422,8 @@ export const OrganizeEventPage = () => {
     }
 
     // If there is value open the dropdown
-    document.querySelector('.all-cities').style =
-      'visibility: visible; opacity: 1;';
+    document.querySelector(".all-cities").style =
+      "visibility: visible; opacity: 1;";
   }
 
   // Update ticketInputs when zones changes
@@ -428,10 +431,10 @@ export const OrganizeEventPage = () => {
     // Populate ticketInputs with data from zones if they are not already set
     if (zones.length > 0 && ticketInputs.length === 0) {
       const initialTicketInputs = zones.map((zone) => ({
-        name: zone.name ? zone.name : '',
-        amount: zone.amount ? zone.amount : '',
-        type: zone.type ? zone.type : '',
-        price: zone.price ? zone.price : '',
+        name: zone.name ? zone.name : "",
+        amount: zone.amount ? zone.amount : "",
+        type: zone.type ? zone.type : "",
+        price: zone.price ? zone.price : "",
       }));
       setTicketInputs(initialTicketInputs);
     }
@@ -439,7 +442,7 @@ export const OrganizeEventPage = () => {
 
   // After selecting the hall, render the inputs
   const renderTicketInputs = (zones) => {
-    if (placeData.type !== 'hall') {
+    if (placeData.type !== "hall") {
       return null;
     }
     return zones.map((zone, index) => {
@@ -476,7 +479,7 @@ export const OrganizeEventPage = () => {
   const handleAddCategory = () => {
     setZones((prevZones) => [
       ...prevZones,
-      { name: '', amount: '', type: '', price: '' },
+      { name: "", amount: "", type: "", price: "" },
     ]);
   };
 
@@ -510,9 +513,9 @@ export const OrganizeEventPage = () => {
           <div className="portrait-wrapper">
             <img
               className={`${
-                !selectedImages[0].includes('uplad_img_placeholder')
-                  ? 'uploaded-event-image'
-                  : ''
+                !selectedImages[0].includes("uplad_img_placeholder")
+                  ? "uploaded-event-image"
+                  : ""
               }`}
               src={selectedImages[0]}
               alt="Upload"
@@ -522,9 +525,9 @@ export const OrganizeEventPage = () => {
           <div className="landscape-wrapper">
             <img
               className={`${
-                !selectedImages[1].includes('uplad_img_placeholder')
-                  ? 'uploaded-event-image'
-                  : ''
+                !selectedImages[1].includes("uplad_img_placeholder")
+                  ? "uploaded-event-image"
+                  : ""
               }`}
               src={selectedImages[1]}
               alt="Upload"
@@ -543,7 +546,7 @@ export const OrganizeEventPage = () => {
             maxLength={25}
             type="text"
             onInput={(e) => {
-              e.target.style = 'outline: none;';
+              e.target.style = "outline: none;";
             }}
           />
         </div>
@@ -554,7 +557,7 @@ export const OrganizeEventPage = () => {
             onChange={handleSelectChange}
             className="event-input"
             onChangeCapture={(e) => {
-              e.target.style = 'outline: none;';
+              e.target.style = "outline: none;";
             }}
           >
             <option value="" disabled hidden>
@@ -576,7 +579,7 @@ export const OrganizeEventPage = () => {
           <ul className="sponsors-ul">
             {sponsorNames[0] !== undefined ? (
               sponsorNames.map((e, i) => {
-                return <li key={i}>{e.split('.')[0]}</li>;
+                return <li key={i}>{e.split(".")[0]}</li>;
               })
             ) : (
               <li className="not-selected-sponsor">
@@ -601,7 +604,7 @@ export const OrganizeEventPage = () => {
             placeholder="Vrijeme izvođenja"
             type="datetime-local"
             onInput={(e) => {
-              e.target.style = 'outline: none;';
+              e.target.style = "outline: none;";
             }}
           />
         </div>
@@ -615,7 +618,7 @@ export const OrganizeEventPage = () => {
               className="location-input event-input"
               placeholder="Država"
               onInput={(e) => {
-                e.target.style = 'outline: none;';
+                e.target.style = "outline: none;";
               }}
             />
           </div>
@@ -629,7 +632,7 @@ export const OrganizeEventPage = () => {
               value={cityInputValue}
               onInput={(e) => {
                 setCityInputValue(e.target.value);
-                e.target.style = 'outline: none;';
+                e.target.style = "outline: none;";
                 getCities(e);
               }}
             />
@@ -639,15 +642,15 @@ export const OrganizeEventPage = () => {
                   cities.map((e, i) => {
                     return (
                       <li
-                        className={e.includes('ne nalazi') ? 'city-error' : ''}
+                        className={e.includes("ne nalazi") ? "city-error" : ""}
                         key={i}
                       >
                         <a
                           onClick={(e) => {
                             e.preventDefault();
                             setCityInputValue(e.target.textContent);
-                            document.querySelector('.all-cities').style =
-                              'visibility: hidden; opacity: 0;';
+                            document.querySelector(".all-cities").style =
+                              "visibility: hidden; opacity: 0;";
                           }}
                           href="#"
                         >
@@ -668,7 +671,7 @@ export const OrganizeEventPage = () => {
               value={selectedPlace}
               onChange={handlePlaceChange}
               onChangeCapture={(e) => {
-                e.target.style = 'outline: none;';
+                e.target.style = "outline: none;";
               }}
             >
               <option className="place-option" value="" disabled hidden>
@@ -677,7 +680,7 @@ export const OrganizeEventPage = () => {
               {concertHalls[0] === undefined ? (
                 <option disabled>Ne postoji mjesto u tom gradu</option>
               ) : (
-                ''
+                ""
               )}
               {renderConcertHallOptions()}
             </select>
@@ -685,7 +688,7 @@ export const OrganizeEventPage = () => {
         </div>
       </div>
       <h6>Online ulaznice</h6>
-      {selectedPlace && placeData.type === 'hall' && (
+      {selectedPlace && placeData.type === "hall" && (
         <>
           <div className="preset-category">
             <p>Naziv zone</p>
@@ -699,8 +702,8 @@ export const OrganizeEventPage = () => {
           </div>
         </>
       )}
-      {selectedPlace && placeData.type === 'theater' && (
-        <Theater placeData={placeData} />
+      {selectedPlace && placeData.type === "theater" && (
+        <Theater placeData={placeData} setRows={setRows} />
       )}
       <div className="organize-bottom-part">
         <p className="textarea-limit">{textareaLimit}-500</p>
@@ -708,7 +711,7 @@ export const OrganizeEventPage = () => {
           name="eventDescription"
           onInput={(e) => {
             setTextareaLimit(e.target.value.length);
-            e.target.style = 'outline: none;';
+            e.target.style = "outline: none;";
           }}
           placeholder="Kratak opis događaja"
           className="event-description event-input"
