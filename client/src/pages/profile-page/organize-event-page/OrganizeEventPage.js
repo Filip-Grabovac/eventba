@@ -258,17 +258,18 @@ export const OrganizeEventPage = () => {
       description: form.get('eventDescription'),
       organizer: userId,
     };
-    ticketInputs.forEach((ticket) => {
-      const categoryKey = ticket.name;
-      event.tickets.online_sale.type[categoryKey] = {
-        amount: Number(ticket.amount),
-        max_amount: Number(ticket.amount),
-        price: Number(ticket.price),
-        name: ticket.type,
-      };
+    if (placeData.type === 'hall')
+      ticketInputs.forEach((ticket) => {
+        const categoryKey = ticket.name;
+        event.tickets.online_sale.type[categoryKey] = {
+          amount: Number(ticket.amount),
+          max_amount: Number(ticket.amount),
+          price: Number(ticket.price),
+          name: ticket.type,
+        };
 
-      event.tickets.online_sale.total_amount += parseInt(ticket.amount);
-    });
+        event.tickets.online_sale.total_amount += parseInt(ticket.amount);
+      });
 
     // Check if everything is valid(all fields + images)
     if (
@@ -438,7 +439,6 @@ export const OrganizeEventPage = () => {
 
   // After selecting the hall, render the inputs
   const renderTicketInputs = (zones) => {
-    console.log(zones);
     if (placeData.type !== 'hall') {
       return null;
     }

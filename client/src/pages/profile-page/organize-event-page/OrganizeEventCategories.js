@@ -11,7 +11,6 @@ export const OrganizeEventCategories = ({
   setTicketInputs,
   ticketInputs,
 }) => {
-  console.log(ticketInputs);
   const handleTicketInputChange = (index, field, value) => {
     const updatedInputs = [...ticketInputs];
 
