@@ -329,7 +329,8 @@ export const BuyPage = () => {
             />
           </div>
           {concertData.tickets?.online_sale &&
-          concertData.tickets.online_sale.hasOwnProperty('type') ? (
+          concertData.tickets.online_sale.hasOwnProperty('type') &&
+          concertData.place.type === 'hall' ? (
             <div className="specification">
               <div className="amount">
                 <h4>Količina</h4>
@@ -367,6 +368,10 @@ export const BuyPage = () => {
                 ))}
               </Carousel>
             </div>
+          ) : concertData.tickets?.online_sale &&
+            concertData.tickets.online_sale.hasOwnProperty('zones') &&
+            concertData.place.type === 'theater' ? (
+            'Kazaliste'
           ) : (
             <h6>Nema ulaznica za online prodaju</h6>
           )}
@@ -381,7 +386,7 @@ export const BuyPage = () => {
             alt="concertData.poster.landscape"
           />
           {concertData.tickets?.online_sale &&
-          concertData.tickets.online_sale.hasOwnProperty("type") ? (
+          concertData.tickets.online_sale.hasOwnProperty('type') ? (
             <>
               <div className="payment-bill">
                 {[...Array(ticketAmount)].map((_, i) => (
@@ -409,7 +414,7 @@ export const BuyPage = () => {
               </div>
             </>
           ) : (
-            ""
+            ''
           )}
         </div>
       </div>
