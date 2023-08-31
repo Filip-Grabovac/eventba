@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import { toastSetup } from '../../functions/toastSetup';
 import { hrTimeFormat } from '../../components/helper/timeFormat';
 import { setLoginIsOpen } from '../../store/loginSlice';
+import { TheaterBuyPage } from './TheaterBuyPage';
 
 export const BuyPage = () => {
   const [concertData, setConcertData] = useState({});
@@ -22,6 +23,8 @@ export const BuyPage = () => {
   const [orderNumber, setOrderNumber] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const [toolTipOpen, setToolTipOpen] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [selectedZoneData, setSelectedZoneData] = useState();
   const dispatch = useDispatch();
   const activeCardRef = useRef(null);
   const allTickets = useSelector((state) => state.ticketState.ticketList);
@@ -295,8 +298,30 @@ export const BuyPage = () => {
     }
   }, [showPaymentForm]);
 
+  console.log(selectedZoneData);
+
   return (
     <div className="single-page-container">
+      {modal ? (
+        <>
+          <div className="modal">
+            <h6>Odaberi sjedalo</h6>
+            {/* {selectedZoneData &&
+              Object.entries(selectedZoneData[1].rows).map(([key, value]) => {
+                console.log(value);
+              })} */}
+            <a href="#">Spremi</a>
+          </div>
+          <div
+            onClick={() => {
+              setModal(false);
+            }}
+            className="blur"
+          ></div>
+        </>
+      ) : (
+        ''
+      )}
       <div className="single-page-top">
         <img
           src={
@@ -371,7 +396,11 @@ export const BuyPage = () => {
           ) : concertData.tickets?.online_sale &&
             concertData.tickets.online_sale.hasOwnProperty('zones') &&
             concertData.place.type === 'theater' ? (
-            'Kazaliste'
+            <TheaterBuyPage
+              concertData={concertData}
+              setModal={setModal}
+              setSelectedZoneData={setSelectedZoneData}
+            />
           ) : (
             <h6>Nema ulaznica za online prodaju</h6>
           )}
@@ -386,7 +415,8 @@ export const BuyPage = () => {
             alt="concertData.poster.landscape"
           />
           {concertData.tickets?.online_sale &&
-          concertData.tickets.online_sale.hasOwnProperty('type') ? (
+          (concertData.tickets.online_sale.hasOwnProperty('type') ||
+            concertData.tickets.online_sale.hasOwnProperty('zones')) ? (
             <>
               <div className="payment-bill">
                 {[...Array(ticketAmount)].map((_, i) => (

@@ -385,6 +385,14 @@
         display: none !important;
       }
     }
+
+    .buy-plan-wrapper {
+      svg {
+        width: 100%;
+        max-width: 540px;
+        height: auto;
+      }
+    }
   }
   .right {
     display: flex;
