@@ -21,7 +21,7 @@ export const OrganizeEventPage = () => {
   const [selectedPlace, setSelectedPlace] = useState("");
   const [zones, setZones] = useState([]);
   const [ticketInputs, setTicketInputs] = useState([]);
-  const [typeOfPlace, setTypeOfPlace] = useState("");
+  const [placeData, setPlaceData] = useState({});
   const [cities, setCities] = useState();
   const [cityInputValue, setCityInputValue] = useState("");
   const userId = useSelector((state) => state.userState.user);
@@ -99,7 +99,7 @@ export const OrganizeEventPage = () => {
       }));
       setZones(zonesArray);
       setTicketInputs(zonesArray);
-      setTypeOfPlace(response.data.type);
+      setPlaceData(response.data);
     } catch (error) {
       console.error("Error fetching zones:", error);
     }
@@ -250,7 +250,7 @@ export const OrganizeEventPage = () => {
         country: form.get("country"),
         city: form.get("city"),
         place: form.get("place"),
-        type: typeOfPlace,
+        type: placeData.type,
       },
       type: form.get("eventType"),
       is_promoted_event: false,
@@ -438,7 +438,7 @@ export const OrganizeEventPage = () => {
   // After selecting the hall, render the inputs
   const renderTicketInputs = (zones) => {
     console.log(zones);
-    if (typeOfPlace !== "hall") {
+    if (placeData.type !== "hall") {
       return null;
     }
     return zones.map((zone, index) => {
@@ -684,7 +684,7 @@ export const OrganizeEventPage = () => {
         </div>
       </div>
       <h6>Online ulaznice</h6>
-      {selectedPlace && typeOfPlace === "hall" && (
+      {selectedPlace && placeData.type === "hall" && (
         <>
           <div className="preset-category">
             <p>Naziv zone</p>
@@ -698,7 +698,15 @@ export const OrganizeEventPage = () => {
           </div>
         </>
       )}
-
+      {selectedPlace && placeData.type === "theater" && (
+        <>
+          <img
+            className="list-page-landscape"
+            src={`${process.env.REACT_APP_API_URL}/static/ground-plans/${placeData.ground_plan}`}
+            alt="Ground-plan"
+          />
+        </>
+      )}
       <div className="organize-bottom-part">
         <p className="textarea-limit">{textareaLimit}-500</p>
         <textarea
