@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-
-import { toastSetup } from "../functions/toastSetup";
-import { Encrypt } from "./Encrypt";
+import React, { useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { toastSetup } from '../functions/toastSetup';
+import { Encrypt } from './Encrypt';
 
 export const PasswordReset = () => {
   const { requestNumber } = useParams();
@@ -22,9 +21,9 @@ export const PasswordReset = () => {
           { encryptedPass } // Sending encrypted password in the request body
         );
 
-        toast.success(response.data.msg, toastSetup("top-right", 3000));
+        toast.success(response.data.msg, toastSetup('top-right', 3000));
       } catch (error) {
-        toast.error(error.response.data.msg, toastSetup("top-right", 3000));
+        toast.error(error.response.data.msg, toastSetup('top-right', 3000));
       }
     };
     resetPassword();

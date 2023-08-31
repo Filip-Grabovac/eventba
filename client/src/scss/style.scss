@@ -145,6 +145,22 @@ small {
 .navlink-active {
   background-color: rgba(255, 255, 255, 0.115);
 }
+
+.highlighted {
+  fill: rgba(244, 206, 70, 0.794);
+}
+
+.done {
+  fill: rgba(102, 179, 102, 0.802);
+}
+
+rect,
+polygon {
+  &:hover {
+    filter: brightness(70%);
+  }
+}
+
 @import 'Navbar.scss';
 @import 'Footer.scss';
 @import 'ListPage';
