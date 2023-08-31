@@ -298,18 +298,35 @@ export const BuyPage = () => {
     }
   }, [showPaymentForm]);
 
-  console.log(selectedZoneData);
-
   return (
     <div className="single-page-container">
       {modal ? (
         <>
           <div className="modal">
             <h6>Odaberi sjedalo</h6>
-            {/* {selectedZoneData &&
+            {selectedZoneData &&
               Object.entries(selectedZoneData[1].rows).map(([key, value]) => {
-                console.log(value);
-              })} */}
+                return (
+                  <div key={key} className="seats-container">
+                    <p>Red: {key}</p>
+                    <div className="seats-wrapper">
+                      {Array.from(
+                        { length: Number(value.total_seats) },
+                        (_, i) => (
+                          <div
+                            className={
+                              !value.seats.includes(i + 1) ? `taken` : `free`
+                            }
+                            key={i}
+                          >
+                            {i + 1}
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
             <a href="#">Spremi</a>
           </div>
           <div

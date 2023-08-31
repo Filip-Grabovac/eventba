@@ -14,6 +14,7 @@ const ConcertSchema = new mongoose.Schema({
       sold_amount: Number,
       amount_inBAM: Number,
       type: Object,
+      zones: {},
     },
     free_sale: {
       total_amount: {

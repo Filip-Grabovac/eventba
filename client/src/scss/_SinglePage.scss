@@ -23,7 +23,7 @@
     display: block;
     height: auto;
     width: 100%;
-    max-width: 600px;
+    max-width: 750px;
     z-index: 9999;
     border-radius: 10px;
     padding: 10px;
@@ -48,6 +48,27 @@
         padding: 5px 15px;
         font-size: 14px;
         font-weight: 600;
+      }
+
+      .seats-wrapper {
+        display: flex;
+        gap: 5px;
+
+        div {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+
+        .taken {
+          background-color: red;
+          cursor: not-allowed;
+          pointer-events: none;
+        }
+        .free {
+          background-color: green;
+        }
       }
     }
 
