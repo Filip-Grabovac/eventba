@@ -48,7 +48,7 @@ export const Profile = () => {
           "Moje ulaznice",
           "Organiziraj događaj",
           "Postavke ulaza",
-          "Dodaj dvoranu",
+          "Dodaj objekat",
           "Moji događaji",
           "Dodaj preprodavača",
         ]);
@@ -67,7 +67,7 @@ export const Profile = () => {
           "Dodaj preprodavača",
           "Odobri događaj",
           "Upravljaj korisnicima",
-          "Dodaj dvoranu",
+          "Dodaj objekat",
           "Zahtjevi preprodavača",
         ]);
         fetchEntranceCheckers(userId);
@@ -181,7 +181,7 @@ export const Profile = () => {
                       }}
                       href="#"
                     >
-                      {e === 'Newsletter' ? 'News\nLetter' : e}
+                      {e === "Newsletter" ? "News\nLetter" : e}
                     </a>
                   </li>
                 );

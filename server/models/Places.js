@@ -6,7 +6,7 @@ const PlaceSchema = new mongoose.Schema({
   name: { type: String },
   location: { type: String },
   type: { type: String },
-  zones: { type: Array },
+  zones: { type: Object },
 });
 
 module.exports = eventba.model("Place", PlaceSchema, "places");

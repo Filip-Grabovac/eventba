@@ -78,21 +78,31 @@ export const OrganizeEventPage = () => {
   };
 
   // Get zones after hall select
-  const handlePlaceChange = (e) => {
+  const handlePlaceChange = async (e) => {
     const selectedHall = e.target.value;
     setSelectedPlace(selectedHall);
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/places/zones`,
+        {
+          params: { selectedHall },
+        }
+      );
 
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/api/v1/places/zones`, {
-        params: { selectedHall },
-      })
-      .then((response) => {
-        setZones(response.data.zones);
-        setTypeOfPlace(response.data.type);
-      })
-      .catch((error) => {
-        console.error("Error fetching zones:", error);
-      });
+      const zonesData = response.data.zones;
+
+      const zonesArray = Object.keys(zonesData).map((zoneName) => ({
+        name: zoneName,
+        amount: zonesData[zoneName].amount,
+        type: zonesData[zoneName].type,
+        price: zonesData[zoneName].price,
+      }));
+      setZones(zonesArray);
+      setTicketInputs(zonesArray);
+      setTypeOfPlace(response.data.type);
+    } catch (error) {
+      console.error("Error fetching zones:", error);
+    }
   };
 
   const renderConcertHallOptions = () => {
@@ -417,16 +427,17 @@ export const OrganizeEventPage = () => {
     if (zones.length > 0 && ticketInputs.length === 0) {
       const initialTicketInputs = zones.map((zone) => ({
         name: zone.name ? zone.name : "",
-        amount: zone.ticket ? zone.ticket.amount : "",
-        type: zone.ticket ? zone.ticket.type : "",
-        price: zone.ticket ? zone.ticket.price : "",
+        amount: zone.amount ? zone.amount : "",
+        type: zone.type ? zone.type : "",
+        price: zone.price ? zone.price : "",
       }));
       setTicketInputs(initialTicketInputs);
     }
   }, [zones, ticketInputs.length]);
 
   // After selecting the hall, render the inputs
-  const renderTicketInputs = () => {
+  const renderTicketInputs = (zones) => {
+    console.log(zones);
     if (typeOfPlace !== "hall") {
       return null;
     }
@@ -443,7 +454,7 @@ export const OrganizeEventPage = () => {
       return (
         <div className="event-categories-container">
           <OrganizeEventCategories
-            key={index}
+            key={zone.name}
             index={index}
             inputType={inputType}
             inputName={inputName}
@@ -672,24 +683,18 @@ export const OrganizeEventPage = () => {
           </div>
         </div>
       </div>
-      {zones[0] !== undefined ? (
+      <h6>Online ulaznice</h6>
+      {selectedPlace && typeOfPlace === "hall" && (
         <>
-          <h6>Online ulaznice</h6>
           <div className="preset-category">
-            <p>Naziv kategorije</p>
+            <p>Naziv zone</p>
             <p>Tip ulaznice</p>
             <p>Broj ulaznica</p>
             <p>Cijena ulaznice</p>
           </div>
-        </>
-      ) : (
-        ""
-      )}
-      {selectedPlace && (
-        <>
-          {renderTicketInputs()}
+          {renderTicketInputs(zones)}
           <div className="plus-icon" onClick={() => handleAddCategory()}>
-            <img src={plus} />
+            <img src={plus} alt="Add" />
           </div>
         </>
       )}
