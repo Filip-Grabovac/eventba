@@ -60,9 +60,9 @@ async function updateCategoryAmount(concertId, ticketList) {
       for (const ticket of ticketsArray) {
         const { category } = ticket;
 
-        if (concert.tickets.online_sale.type.hasOwnProperty(category)) {
-          if (concert.tickets.online_sale.type[category].amount !== 0) {
-            concert.tickets.online_sale.type[category].amount -= 1;
+        if (concert.tickets.online_sale.zones.hasOwnProperty(category)) {
+          if (concert.tickets.online_sale.zones[category].amount !== 0) {
+            concert.tickets.online_sale.zones[category].amount -= 1;
           } else {
             console.error(`Ticket of category ${category} is unavailable.`);
           }

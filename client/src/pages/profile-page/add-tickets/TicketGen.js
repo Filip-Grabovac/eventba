@@ -84,7 +84,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
     // Check if the total number of tickets is 0
     if (totalTicketNum === 0) {
       toast.warn(
-        "Nema ulaznica za ispis. Unesite broj ulaznica za neku od kategorija.",
+        "Nema ulaznica za ispis. Unesite broj ulaznica za neku od zona.",
         toastSetup("top-right", 3000)
       );
       setLoader(false);
@@ -133,16 +133,16 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
   };
 
   useEffect(() => {
-    if (concertData.tickets.free_sale.type) {
-      const initialRows = Object.keys(concertData.tickets.free_sale.type).map(
+    if (concertData.tickets.free_sale.zones) {
+      const initialRows = Object.keys(concertData.tickets.free_sale.zones).map(
         (categoryName) => ({
           categoryName,
-          ticketType: concertData.tickets.free_sale.type[categoryName].name,
+          ticketType: concertData.tickets.free_sale.zones[categoryName].name,
           ticketsNum: "",
           ticketPrice:
-            concertData.tickets.free_sale.type[categoryName].price.toString(),
+            concertData.tickets.free_sale.zones[categoryName].price.toString(),
           ticketsAlready:
-            concertData.tickets.free_sale.type[categoryName].max_amount,
+            concertData.tickets.free_sale.zones[categoryName].max_amount,
         })
       );
       setTickets(initialRows);
@@ -209,7 +209,8 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
         <div className="tickets-categories-container container-fluid">
           {Array.from({ length: rowNum }).map((_, i) => {
             const isDeletableRow =
-              i >= Object.keys(concertData.tickets.free_sale.type || []).length;
+              i >=
+              Object.keys(concertData.tickets.free_sale.zones || []).length;
             const categoryNameRef = i === 0 ? firstInvalidInputRef : null;
             const ticketPriceRef = i === 0 ? null : firstInvalidInputRef;
 

@@ -13,7 +13,7 @@ const ConcertSchema = new mongoose.Schema({
       total_amount: Number,
       sold_amount: Number,
       amount_inBAM: Number,
-      type: Object,
+
       zones: {},
     },
     free_sale: {
@@ -33,10 +33,7 @@ const ConcertSchema = new mongoose.Schema({
         type: Number,
         default: 0, // Set default value for sold_amount
       },
-      type: {
-        type: Object,
-        default: {}, // Set default value for type
-      },
+
       amount_inBAM: {
         type: Number,
         default: 0, // Set default value for type
@@ -51,11 +48,11 @@ const ConcertSchema = new mongoose.Schema({
             reseller_name: String,
             reseller_address: String,
             transactions: {
-              type: [Object], // Change the type to an array of Objects
+              zones: [Object], // Change the type to an array of Objects
               default: [], // Set default value to an empty array
             },
 
-            type: Object,
+            zones: Object,
           },
         ],
         default: [], // Set default value for resellers
@@ -67,7 +64,7 @@ const ConcertSchema = new mongoose.Schema({
       total_amount: Number,
       sold_amount: Number,
       amount_inBAM: Number,
-      type: Object,
+      zones: Object,
     },
     free_sale: {
       total_amount: {
@@ -86,7 +83,7 @@ const ConcertSchema = new mongoose.Schema({
         type: Number,
         default: 0, // Set default value for sold_amount
       },
-      type: {
+      zones: {
         type: Object,
         default: {}, // Set default value for type
       },
@@ -104,11 +101,11 @@ const ConcertSchema = new mongoose.Schema({
             reseller_name: String,
             reseller_address: String,
             transactions: {
-              type: [Object], // Change the type to an array of Objects
+              zones: [Object], // Change the type to an array of Objects
               default: [], // Set default value to an empty array
             },
 
-            type: Object,
+            zones: Object,
           },
         ],
         default: [], // Set default value for resellers
@@ -122,6 +119,7 @@ const ConcertSchema = new mongoose.Schema({
     country: String,
     city: String,
     place: String,
+    ground_plan: String,
     type: {
       type: String,
       default: "hall", // Set the default value to "hall"

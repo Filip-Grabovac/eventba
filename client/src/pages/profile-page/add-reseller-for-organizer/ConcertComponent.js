@@ -19,11 +19,11 @@ const ConcertComponent = ({ concertData }) => {
               concertData.tickets.free_sale.total_loaned}
           </p>
           <div className="line"></div>
-          {concertData.tickets.free_sale.type &&
-            Object.keys(concertData.tickets.free_sale.type).map(
+          {concertData.tickets.free_sale.zones &&
+            Object.keys(concertData.tickets.free_sale.zones).map(
               (categoryKey) => {
                 const category =
-                  concertData.tickets.free_sale.type[categoryKey];
+                  concertData.tickets.free_sale.zones[categoryKey];
                 return (
                   <div key={categoryKey} className="category">
                     <p>

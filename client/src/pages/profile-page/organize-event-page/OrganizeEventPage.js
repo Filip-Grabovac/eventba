@@ -101,13 +101,14 @@ export const OrganizeEventPage = () => {
       }));
       setZones(zonesArray);
       setTicketInputs(zonesArray);
+
       setPlaceData(response.data);
-      if ((response.data.type = "theater")) setRows(response.data.zones);
+      if (response.data.type === "theater") setRows(response.data.zones);
     } catch (error) {
       console.error("Error fetching zones:", error);
     }
   };
-  console.log();
+
   const renderConcertHallOptions = () => {
     if (!Array.isArray(concertHalls)) {
       return null; // or return an appropriate fallback if concertHalls is not an array
@@ -220,7 +221,7 @@ export const OrganizeEventPage = () => {
       tickets: {
         online_sale: {
           total_amount: 0,
-          type: {},
+          zones: {},
           sold_amount: 0,
           amount_inBAM: 0,
         },
@@ -229,13 +230,13 @@ export const OrganizeEventPage = () => {
           amount_inBAM: 0,
           total_loaned: 0,
           sold_amount: 0,
-          type: {},
+          zones: {},
         },
       },
       tickets_yesterday: {
         online_sale: {
           total_amount: 0,
-          type: {},
+          zones: {},
           sold_amount: 0,
           amount_inBAM: 0,
         },
@@ -244,7 +245,7 @@ export const OrganizeEventPage = () => {
           amount_inBAM: 0,
           total_loaned: 0,
           sold_amount: 0,
-          type: {},
+          zones: {},
         },
       },
       sponsors: sponsorNames,
@@ -263,7 +264,7 @@ export const OrganizeEventPage = () => {
     if (placeData.type === "hall")
       ticketInputs.forEach((ticket) => {
         const categoryKey = ticket.name;
-        event.tickets.online_sale.type[categoryKey] = {
+        event.tickets.online_sale.zones[categoryKey] = {
           amount: Number(ticket.amount),
           max_amount: Number(ticket.amount),
           price: Number(ticket.price),
@@ -688,7 +689,7 @@ export const OrganizeEventPage = () => {
         </div>
       </div>
       <h6>Online ulaznice</h6>
-      {selectedPlace && placeData.type === "hall" && (
+      {placeData && placeData.type === "hall" && (
         <>
           <div className="preset-category">
             <p>Naziv zone</p>
@@ -702,7 +703,7 @@ export const OrganizeEventPage = () => {
           </div>
         </>
       )}
-      {selectedPlace && placeData.type === "theater" && (
+      {placeData && placeData.type === "theater" && (
         <Theater placeData={placeData} setRows={setRows} />
       )}
       <div className="organize-bottom-part">

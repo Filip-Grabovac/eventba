@@ -91,7 +91,7 @@ Date(time).toLocaleDateString('hr-HR', options); } %>
         </tr>
         <tr>
           <th>Online prodaja</th>
-          <th>Kategorija</th>
+          <th>Zona</th>
           <th>Prodano</th>
           <th><small>BAM</small></th>
         </tr>
@@ -99,8 +99,8 @@ Date(time).toLocaleDateString('hr-HR', options); } %>
       <tbody>
         <% if (day.tickets.online_sale) { %> <% let totalAmount = 0; %> <% let
         totalAmountInBAM = 0; %> <%
-        Object.keys(day.tickets.online_sale.types).forEach(category => { %> <%
-        const saleData = day.tickets.online_sale.types[category]; %> <% const
+        Object.keys(day.tickets.online_sale.zones).forEach(category => { %> <%
+        const saleData = day.tickets.online_sale.zones[category]; %> <% const
         categoryTotal = saleData.sold_amount; %> <% const categoryTotalInBAM =
         categoryTotal * saleData.price; %> <% totalAmount += categoryTotal; %>
         <% totalAmountInBAM += categoryTotalInBAM; %>
@@ -122,7 +122,7 @@ Date(time).toLocaleDateString('hr-HR', options); } %>
       <thead>
         <tr>
           <th>Slobodna prodaja</th>
-          <th>Kategorija</th>
+          <th>Zona</th>
           <th>Prodano</th>
           <th><small>BAM</small></th>
         </tr>
@@ -130,8 +130,8 @@ Date(time).toLocaleDateString('hr-HR', options); } %>
       <tbody>
         <% day.tickets.free_sale.resellers.forEach(function(reseller) { %> <%
         let resellerTotalAmount = 0; %> <% let resellerTotalAmountInBAM = 0; %>
-        <% Object.keys(reseller.types).forEach(category => { %> <% const
-        resellerData = reseller.types[category]; %> <% const
+        <% Object.keys(reseller.zones).forEach(category => { %> <% const
+        resellerData = reseller.zones[category]; %> <% const
         resellerCategoryTotal = resellerData.sold_amount; %> <% const
         resellerCategoryTotalInBAM = resellerCategoryTotal * resellerData.price;
         %> <% resellerTotalAmount += resellerCategoryTotal; %> <%

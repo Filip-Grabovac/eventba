@@ -23,7 +23,7 @@ const TicketCategories = ({
   const handleSaveChanges = async () => {
     // Check if the number of loaned tickets exceeds the available tickets
     for (const categoryKey in ticketInputs) {
-      const category = freeSaleData.type[categoryKey];
+      const category = freeSaleData.zones[categoryKey];
       const availableTickets = category.max_amount - category.loaned;
       const loanedTickets = parseInt(ticketInputs[categoryKey]);
 
@@ -60,9 +60,9 @@ const TicketCategories = ({
       className="myevents-card-dropdown resellers-list-dropdown"
       ref={dropdownRef}
     >
-      {freeSaleData.type ? (
-        Object.keys(freeSaleData.type).map((categoryKey) => {
-          const category = freeSaleData.type[categoryKey];
+      {freeSaleData.zones ? (
+        Object.keys(freeSaleData.zones).map((categoryKey) => {
+          const category = freeSaleData.zones[categoryKey];
           const availableTickets = category.max_amount - category.loaned;
           const isSoldOut = availableTickets <= 0;
 

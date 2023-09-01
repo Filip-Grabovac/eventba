@@ -39,8 +39,9 @@ async function updateConcertFunc(req, res, Concert) {
     }
 
     // Find the category object with the matching "category_name" inside the "type" object
-    const targetCategory = targetReseller.type[category_name];
-    const targetOverallCategory = concert.tickets.free_sale.type[category_name];
+    const targetCategory = targetReseller.zones[category_name];
+    const targetOverallCategory =
+      concert.tickets.free_sale.zones[category_name];
     let soldAmount = targetCategory.sold;
 
     if (total_amount === "-") {
@@ -69,9 +70,9 @@ async function updateConcertFunc(req, res, Concert) {
           "tickets.free_sale.total_amount": updatedTotalAmount,
           "tickets.free_sale.sold_amount": updatedSoldAmount,
           "tickets.free_sale.amount_inBAM": updatedAmountInBAM,
-          [`tickets.free_sale.resellers.${targetResellerIndex}.type.${category_name}.sold`]:
+          [`tickets.free_sale.resellers.${targetResellerIndex}.zones.${category_name}.sold`]:
             soldAmount,
-          [`tickets.free_sale.type.${category_name}.amount`]:
+          [`tickets.free_sale.zones.${category_name}.amount`]:
             updatedOverallCategory,
         },
       },

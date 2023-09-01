@@ -201,12 +201,12 @@ export const EventCard = ({ ids, i }) => {
               </div>
               <div className="bottom-part-wrapper">
                 <div className="bottom-part">
-                  {data.tickets.online_sale.type &&
-                    Object.keys(data.tickets.online_sale.type).map(
+                  {data.tickets.online_sale.zones &&
+                    Object.keys(data.tickets.online_sale.zones).map(
                       (categoryKey) => (
                         <CategoryCard
                           key={categoryKey}
-                          {...data.tickets.online_sale.type[categoryKey]}
+                          {...data.tickets.online_sale.zones[categoryKey]}
                           categoryName={categoryKey}
                         />
                       )
@@ -229,12 +229,12 @@ export const EventCard = ({ ids, i }) => {
               </div>
               <div className="bottom-part-wrapper">
                 <div className="bottom-part">
-                  {data.tickets.free_sale.type &&
-                    Object.keys(data.tickets.free_sale.type).map(
+                  {data.tickets.free_sale.zones &&
+                    Object.keys(data.tickets.free_sale.zones).map(
                       (categoryKey) => (
                         <CategoryCard
                           key={categoryKey}
-                          {...data.tickets.free_sale.type[categoryKey]}
+                          {...data.tickets.free_sale.zones[categoryKey]}
                           categoryName={categoryKey}
                         />
                       )

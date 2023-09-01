@@ -33,7 +33,7 @@ export const OrganizeEventCategories = ({
             name={`ticketName-${index}`}
             type="text"
             className="location-input event-input"
-            placeholder="Kategorija"
+            placeholder="Zona"
             value={inputName !== undefined ? inputName : zoneName}
             onChange={(e) =>
               handleTicketInputChange(index, "name", e.target.value)

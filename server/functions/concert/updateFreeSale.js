@@ -30,7 +30,7 @@ async function updateFreeSale(concertId, ticketList) {
 
       // Calculate the current total amount and ticket numbers for each category
       let currentTotalAmount = concert.tickets.free_sale.total_amount || 0;
-      let currentCategories = concert.tickets.free_sale.type || {};
+      let currentCategories = concert.tickets.free_sale.zones || {};
 
       // Iterate through the ticketList and update the concert's tickets.free_sale.type accordingly
       for (const ticket of ticketsArray) {
@@ -64,9 +64,9 @@ async function updateFreeSale(concertId, ticketList) {
         {
           $set: {
             "tickets.free_sale.total_amount": currentTotalAmount,
-            "tickets.free_sale.type": currentCategories,
+            "tickets.free_sale.zones": currentCategories,
             "tickets_yesterday.free_sale.total_amount": currentTotalAmount, // Update tickets_yesterday
-            "tickets_yesterday.free_sale.type": currentCategories, // Update tickets_yesterday
+            "tickets_yesterday.free_sale.zones": currentCategories, // Update tickets_yesterday
           },
         }
       );
@@ -96,9 +96,9 @@ async function updateLoanTickets(ticketInputs, userData, concertId) {
 
     // Update the concert's free_sale.type object and total_loaned value
     for (const category in ticketInputs) {
-      if (concert.tickets.free_sale.type[category]) {
-        const categoryName = concert.tickets.free_sale.type[category].name;
-        concert.tickets.free_sale.type[category].loaned += parseInt(
+      if (concert.tickets.free_sale.zones[category]) {
+        const categoryName = concert.tickets.free_sale.zones[category].name;
+        concert.tickets.free_sale.zones[category].loaned += parseInt(
           ticketInputs[category]
         );
         concert.tickets.free_sale.total_loaned += parseInt(
@@ -122,21 +122,21 @@ async function updateLoanTickets(ticketInputs, userData, concertId) {
       // If the reseller already exists, update the loaned amounts and handle new category
       for (const category in ticketInputs) {
         if (
-          concert.tickets.free_sale.resellers[existingResellerIndex].type[
+          concert.tickets.free_sale.resellers[existingResellerIndex].zones[
             category
           ]
         ) {
-          concert.tickets.free_sale.resellers[existingResellerIndex].type[
+          concert.tickets.free_sale.resellers[existingResellerIndex].zones[
             category
           ].loaned += parseInt(ticketInputs[category]);
         } else {
-          const categoryName = concert.tickets.free_sale.type[category].name;
-          concert.tickets.free_sale.resellers[existingResellerIndex].type[
+          const categoryName = concert.tickets.free_sale.zones[category].name;
+          concert.tickets.free_sale.resellers[existingResellerIndex].zones[
             category
           ] = {
             loaned: parseInt(ticketInputs[category]),
             name: categoryName,
-            price: parseInt(concert.tickets.free_sale.type[category].price),
+            price: parseInt(concert.tickets.free_sale.zones[category].price),
             sold: 0,
           };
         }
@@ -147,19 +147,19 @@ async function updateLoanTickets(ticketInputs, userData, concertId) {
         reseller_name: userData.reseller_info.sellingPlaceName,
         reseller_address: userData.reseller_info.sellingPlaceAddress,
         reseller_id: ObjectId(userData._id), // Convert _id to ObjectId
-        type: {},
+        zones: {},
       };
       for (const category in ticketInputs) {
-        if (concert.tickets.free_sale.type[category]) {
-          const categoryName = concert.tickets.free_sale.type[category].name;
-          resellerTickets.type[category] = {
+        if (concert.tickets.free_sale.zones[category]) {
+          const categoryName = concert.tickets.free_sale.zones[category].name;
+          resellerTickets.zones[category] = {
             loaned: parseInt(ticketInputs[category]),
             name: categoryName,
-            price: parseInt(concert.tickets.free_sale.type[category].price),
+            price: parseInt(concert.tickets.free_sale.zones[category].price),
           };
 
-          if (!resellerTickets.type[category].hasOwnProperty("sold")) {
-            resellerTickets.type[category].sold = 0;
+          if (!resellerTickets.zones[category].hasOwnProperty("sold")) {
+            resellerTickets.zones[category].sold = 0;
           }
         }
       }
@@ -171,7 +171,7 @@ async function updateLoanTickets(ticketInputs, userData, concertId) {
       { _id: concertId },
       {
         $set: {
-          "tickets.free_sale.type": concert.tickets.free_sale.type,
+          "tickets.free_sale.zones": concert.tickets.free_sale.zones,
           "tickets.free_sale.total_loaned":
             concert.tickets.free_sale.total_loaned,
           "tickets.free_sale.resellers": concert.tickets.free_sale.resellers,

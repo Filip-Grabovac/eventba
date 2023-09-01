@@ -6,19 +6,19 @@ const connectDB = require("../../db/connect");
 async function addTicketsToConcertHistory(concert) {
   const currentDate = new Date();
 
-  const todayOnlineSaleTickets = concert.tickets.online_sale?.type || {};
+  const todayOnlineSaleTickets = concert.tickets.online_sale?.zones || {};
   const yesterdayOnlineSaleTickets =
-    concert.tickets_yesterday.online_sale?.type || {};
+    concert.tickets_yesterday.online_sale?.zones || {};
 
   const todayFreeSaleResellers = concert.tickets.free_sale?.resellers || [];
   const yesterdayFreeSaleResellers =
     concert.tickets_yesterday.free_sale?.resellers || [];
 
   // Patch missing online sale categories in tickets_yesterday
-  if (concert.tickets_yesterday.online_sale?.type) {
+  if (concert.tickets_yesterday.online_sale?.zones) {
     Object.keys(todayOnlineSaleTickets).forEach((category) => {
-      if (!concert.tickets_yesterday.online_sale.type[category]) {
-        concert.tickets_yesterday.online_sale.type[category] =
+      if (!concert.tickets_yesterday.online_sale.zones[category]) {
+        concert.tickets_yesterday.online_sale.zones[category] =
           todayOnlineSaleTickets[category];
       }
     });
@@ -29,9 +29,9 @@ async function addTicketsToConcertHistory(concert) {
     const existingReseller =
       concert.tickets_yesterday.free_sale.resellers[index];
     if (existingReseller) {
-      Object.keys(reseller.type).forEach((category) => {
-        if (!existingReseller.type[category]) {
-          existingReseller.type[category] = reseller.type[category];
+      Object.keys(reseller.zones).forEach((category) => {
+        if (!existingReseller.zones[category]) {
+          existingReseller.zones[category] = reseller.zones[category];
         }
       });
     }
@@ -69,13 +69,13 @@ async function addTicketsToConcertHistory(concert) {
     const modifiedCategories = {};
 
     // Iterate through category types for the reseller
-    Object.keys(reseller.type).forEach((category) => {
-      const todayCategoryData = reseller.type[category];
+    Object.keys(reseller.zones).forEach((category) => {
+      const todayCategoryData = reseller.zones[category];
 
       const yesterdayReseller = yesterdayFreeSaleResellers[index] || {
-        type: {},
+        zones: {},
       };
-      const yesterdayCategoryData = yesterdayReseller.type[category] || {
+      const yesterdayCategoryData = yesterdayReseller.zones[category] || {
         sold: 0,
       };
 
@@ -91,7 +91,7 @@ async function addTicketsToConcertHistory(concert) {
 
     modifiedFreeSaleResellers.push({
       reseller_name: reseller.reseller_name,
-      types: modifiedCategories,
+      zones: modifiedCategories,
     });
   });
 
@@ -100,7 +100,7 @@ async function addTicketsToConcertHistory(concert) {
     date: currentDate,
     tickets: {
       online_sale: {
-        types: modifiedOnlineSaleTickets,
+        zones: modifiedOnlineSaleTickets,
       },
       free_sale: {
         resellers: modifiedFreeSaleResellers,

@@ -65,11 +65,11 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
   };
 
   useEffect(() => {
-    const totalLoaned = calculateTotalLoaned(data.reseller.type);
+    const totalLoaned = calculateTotalLoaned(data.reseller.zones);
     setAvailable(totalLoaned.loaned);
     setTotalSold(totalLoaned.sold);
     setTotalSoldMoney(totalLoaned.soldMoney);
-  }, [data.reseller.type]);
+  }, [data.reseller.zones]);
 
   return (
     <div
@@ -122,8 +122,8 @@ export const CheckTicketsCard = ({ data, concertId, reseller_id }) => {
         <div className="profile-concert-wrapper">
           <div className="check-ticket-container">
             <div className="check-ticket-manager">
-              {data.reseller.type &&
-                Object.entries(data.reseller.type).map(
+              {data.reseller.zones &&
+                Object.entries(data.reseller.zones).map(
                   ([categoryName, categoryData]) => (
                     <TicketManager
                       key={categoryName}
