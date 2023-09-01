@@ -6,7 +6,7 @@ export const TicketBill = ({ i }) => {
   const ticket = useSelector((state) =>
     state.ticketState.ticketList.find((ticket) => ticket.id === ticketID)
   );
-  console.log(ticket);
+
   return (
     <div className="ticket-bill">
       <div className="ticket">

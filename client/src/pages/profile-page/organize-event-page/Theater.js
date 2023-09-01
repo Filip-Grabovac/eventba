@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import ImageMapper, { Mode } from '../../draw-place/image-mapper/ImageMapper';
-import { toast } from 'react-toastify';
-import { toastSetup } from '../../../functions/toastSetup';
+import React, { useEffect, useState } from "react";
+import ImageMapper, { Mode } from "../../draw-place/image-mapper/ImageMapper";
+import { toast } from "react-toastify";
+import { toastSetup } from "../../../functions/toastSetup";
 
 export const Theater = ({ placeData, setRows }) => {
   const [groundPlanImg, setImg] = useState(null);
   const [modalWindow, setModalWindow] = useState(false);
   const [selectedZoneData, setSelectedZoneData] = useState();
-  const [price, setPrice] = useState('');
-  const [type, setType] = useState('Regular');
+  const [price, setPrice] = useState("");
+  const [type, setType] = useState("Regular");
 
   // Load ground image
   useEffect(() => {
@@ -36,7 +36,7 @@ export const Theater = ({ placeData, setRows }) => {
         // Set the src AFTER defining the onload handler
         imgElement.src = imageUrl;
       } catch (error) {
-        console.error('Error loading image:', error);
+        console.error("Error loading image:", error);
       }
     };
 
@@ -47,9 +47,9 @@ export const Theater = ({ placeData, setRows }) => {
   function handleZoneClick(e, zoneData) {
     setModalWindow(true);
     setSelectedZoneData(zoneData);
-    if (document.querySelector('.highlighted'))
-      document.querySelector('.highlighted').classList.remove('highlighted');
-    e.target.classList.add('highlighted');
+    if (document.querySelector(".highlighted"))
+      document.querySelector(".highlighted").classList.remove("highlighted");
+    e.target.classList.add("highlighted");
   }
 
   // Save zone
@@ -57,15 +57,16 @@ export const Theater = ({ placeData, setRows }) => {
     e.preventDefault();
 
     if (!price) {
-      document.querySelector('.price-input').style =
-        'outline: 2px solid #f4cd46;';
-      toast.warn('Unesite cijenu', toastSetup('top-right', 3000));
+      document.querySelector(".price-input").style =
+        "outline: 2px solid #f4cd46;";
+      toast.warn("Unesite cijenu", toastSetup("top-right", 3000));
       return;
     }
     const zoneKey = selectedZoneData[0]; // Get the zone key, e.g., "I"
     const totalSeats = parseInt(selectedZoneData[1].rows[zoneKey].total_seats); // Parse total_seats as an integer
     console.log(totalSeats);
     // Create an array of seat numbers based on the total_seats value
+
     const seatNumbersArray = Array.from(
       { length: totalSeats },
       (_, i) => i + 1
@@ -88,8 +89,8 @@ export const Theater = ({ placeData, setRows }) => {
       },
     }));
 
-    document.querySelector('.highlighted').classList.add('done');
-    document.querySelector('.highlighted').classList.remove('highlighted');
+    document.querySelector(".highlighted").classList.add("done");
+    document.querySelector(".highlighted").classList.remove("highlighted");
     setModalWindow(false);
   }
 
@@ -135,7 +136,7 @@ export const Theater = ({ placeData, setRows }) => {
             ></div>
           </>
         ) : (
-          ''
+          ""
         )}
         <ImageMapper
           mode={Mode.SELECT}

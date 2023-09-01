@@ -3,11 +3,16 @@ import ImageMapper, { Mode } from "../draw-place/image-mapper/ImageMapper";
 import { useDispatch } from "react-redux";
 import { addTicketPrice } from "../../store/ticketSlice";
 
-export const TheaterBuyPage = ({ concertData, ticketID }) => {
+export const TheaterBuyPage = ({
+  concertData,
+  activeCardIndex,
+  theaterZones,
+  setTheaterZones,
+  setShowPaymentForm,
+}) => {
   const [groundPlanImg, setImg] = useState(null);
   const [modal, setModal] = useState(false);
   const [selectedZoneData, setSelectedZoneData] = useState();
-  const [zones, setZones] = useState(concertData.tickets.online_sale.zones);
   const dispatch = useDispatch();
 
   addTicketPrice();
@@ -46,100 +51,117 @@ export const TheaterBuyPage = ({ concertData, ticketID }) => {
 
   // Hanlde zone click (select seat)
   function handleZoneClick(e, data) {
+    setShowPaymentForm(false);
     setModal(true);
     setSelectedZoneData(data);
+    const selected = document.querySelector(".selected");
+    if (selected) selected.classList.remove("selected");
+    e.target.classList.add("selected");
   }
 
-  const takeSeat = async (seatNumber) => {
+  // TEST
+  //
+  //
+  //
+  const takeSeat = async (seatNumber, ticketID) => {
     if (selectedZoneData) {
-      const zoneKey = selectedZoneData[0];
-      const rowInfo = selectedZoneData[1].rows[zoneKey];
+      setShowPaymentForm(false);
+      setTheaterZones((prevZones) => {
+        const newZones = { ...prevZones };
+        const selectedZoneDataKey = selectedZoneData[0];
 
-      await dispatch(
-        addTicketPrice({
-          ticketPrice: Number(selectedZoneData[1].price),
-          ticketID,
-          category: `Red: ${zoneKey} - Mjesto: ${seatNumber}`,
-          name: selectedZoneData[1].name,
-        })
-      );
+        // Iterate through all zones
+        for (const zoneKey in newZones) {
+          const zone = newZones[zoneKey];
+          const rowToUpdate = zone.rows[zoneKey];
 
-      setZones((prevRows) => {
-        const newZones = { ...prevRows };
-        const rowToUpdate = newZones[zoneKey].rows[zoneKey];
-        const seatIndex = rowToUpdate.seats.indexOf(seatNumber);
+          // Initialize reserved_seats as an empty object if it's undefined
+          rowToUpdate.reserved_seats = rowToUpdate.reserved_seats || {};
 
-        if (seatIndex !== -1) {
-          // Seat is currently reserved by the same ticket, remove it
-          if (rowToUpdate.reserved_seats[seatIndex]?.ticketID === ticketID) {
-            rowToUpdate.reserved_seats.splice(seatIndex, 1);
+          // If it's the selected zone, update reservations
+          if (zoneKey === selectedZoneDataKey) {
+            // Remove all reservations with the same ticketID
+            for (const seatKey in rowToUpdate.reserved_seats) {
+              if (rowToUpdate.reserved_seats[seatKey].ticketID === ticketID) {
+                delete rowToUpdate.reserved_seats[seatKey];
+              }
+            }
+            // Reserve the new seat with the associated ticketID
+            rowToUpdate.reserved_seats[seatNumber] = { seatNumber, ticketID };
+
+            // Update the zone's row with the modified row
+            newZones[zoneKey].rows[zoneKey] = rowToUpdate;
+          } else {
+            // For other zones, delete all reservations with the same ticketID
+            for (const seatKey in rowToUpdate.reserved_seats) {
+              if (rowToUpdate.reserved_seats[seatKey].ticketID === ticketID) {
+                delete rowToUpdate.reserved_seats[seatKey];
+              }
+            }
           }
-        } else {
-          // Seat is currently free, add it to the seats array and set it as reserved
-          rowToUpdate.seats.push(seatNumber);
-          // Add the seat to the reserved_seats array with the associated ticketID
-          rowToUpdate.reserved_seats.push({ seatNumber, ticketID });
         }
 
-        return {
-          ...prevRows,
-          [zoneKey]: {
-            ...prevRows[zoneKey],
-            rows: {
-              ...prevRows[zoneKey].rows,
-              [zoneKey]: rowToUpdate,
-            },
-          },
-        };
-      });
+        // Dispatch the action and update the state as before
+        dispatch(
+          addTicketPrice({
+            ticketPrice: Number(selectedZoneData[1].price),
+            ticketID,
+            category: `Red: ${selectedZoneDataKey} - Sjedalo: ${seatNumber}`,
+            name: selectedZoneData[1].name,
+          })
+        );
 
-      setModal(false);
+        return newZones;
+      });
     }
   };
 
   return (
     <div className="buy-plan-wrapper">
-      {modal ? (
+      {modal && (
         <>
           <div className="modal">
-            <h6>Odaberi sjedalo</h6>
             {selectedZoneData &&
               Object.entries(selectedZoneData[1].rows).map(([key, value]) => {
+                // Initialize reserved_seats as an empty object if it's undefined
+                const reservedSeats = value.reserved_seats || {};
+
                 return (
                   <div key={key} className="seats-container">
-                    <p>Red: {key}</p>
+                    <p>Zona: {key}</p>
                     <div className="seats-wrapper">
                       {Array.from(
                         { length: Number(value.total_seats) },
-                        (_, i) => (
-                          <div
-                            className={
-                              value.seats.includes(i + 1)
-                                ? value.reserved_seats?.includes(i + 1)
-                                  ? `reserved`
-                                  : `free`
-                                : `sold`
-                            }
-                            key={i}
-                            onClick={() => {
-                              takeSeat(i + 1);
-                            }}
-                          >
-                            {i + 1}
-                          </div>
-                        )
+                        (_, i) => {
+                          const seatNumber = i + 1;
+                          const isSeatReserved = seatNumber in reservedSeats;
+                          const reservedTicketID = isSeatReserved
+                            ? reservedSeats[seatNumber].ticketID
+                            : null;
+
+                          return (
+                            <div
+                              className={
+                                value.seats.includes(i + 1)
+                                  ? isSeatReserved
+                                    ? `reserved`
+                                    : `free`
+                                  : `sold`
+                              }
+                              key={i}
+                              onClick={() => {
+                                takeSeat(seatNumber, activeCardIndex + 1); // Pass the currentTicketID
+                              }}
+                            >
+                              {reservedTicketID || seatNumber}
+                            </div>
+                          );
+                        }
                       )}
                     </div>
                   </div>
                 );
               })}
-            <a
-              onClick={() => {
-                setModal(false);
-              }}
-            >
-              Spremi
-            </a>
           </div>
           <div
             onClick={() => {
@@ -148,10 +170,8 @@ export const TheaterBuyPage = ({ concertData, ticketID }) => {
             className="blur"
           ></div>
         </>
-      ) : (
-        ""
       )}
-      {groundPlanImg && (
+      {groundPlanImg && theaterZones && (
         <ImageMapper
           mode={Mode.SELECT}
           cb={(editor) => {
@@ -163,7 +183,7 @@ export const TheaterBuyPage = ({ concertData, ticketID }) => {
             height: groundPlanImg.height,
           }}
           handleZoneClick={handleZoneClick}
-          preDrawnShapes={zones}
+          preDrawnShapes={theaterZones}
         />
       )}
     </div>

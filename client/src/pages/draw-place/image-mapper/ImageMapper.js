@@ -1,5 +1,5 @@
-import { editor } from '@overlapmedia/imagemapper';
-import React from 'react';
+import { editor } from "@overlapmedia/imagemapper";
+import React from "react";
 
 function ImageMapper({
   options = {},
@@ -27,12 +27,6 @@ function ImageMapper({
       switch (mode) {
         case Mode.RECT:
           editorRef.current.rect();
-          break;
-        case Mode.CIRCLE:
-          editorRef.current.circle();
-          break;
-        case Mode.ELLIPSE:
-          editorRef.current.ellipse();
           break;
         case Mode.POLYGON:
           editorRef.current.polygon();
@@ -63,7 +57,6 @@ function ImageMapper({
     >
       {preDrawnShapes &&
         Object.entries(preDrawnShapes).map(([zoneName, zoneData], index) => {
-          let centerX, centerY;
           let totalSeats = 0;
           let totalRemainingSeats = 0;
 
@@ -72,36 +65,11 @@ function ImageMapper({
             totalRemainingSeats += value.seats.length;
           });
 
-          const containerStyle = `rgb(160, ${Math.floor(
+          const containerStyle = `rgb(110, ${Math.floor(
             (totalRemainingSeats / totalSeats) * 255
           )}, 0)`;
 
-          if (zoneData.location.shape === 'rect') {
-            // Calculate center for rectangle
-            centerX =
-              Number(zoneData.location.position.x) +
-              Number(zoneData.location.size.width) / 2;
-            centerY =
-              Number(zoneData.location.position.y) +
-              Number(zoneData.location.size.height) / 2;
-          } else if (zoneData.location.shape === 'polygon') {
-            const pointsArray = zoneData.location.points
-              .split(' ')
-              .map((point) => point.split(',').map((coord) => parseInt(coord)));
-
-            // Calculate the highest Y point
-            const highestY = Math.min(...pointsArray.map((point) => point[1]));
-
-            // Reduce the highest Y point by 5
-            const adjustedY = highestY + 25;
-
-            centerX =
-              pointsArray.reduce((sum, point) => sum + point[0], 0) /
-              pointsArray.length;
-            centerY = adjustedY; // Use the adjusted Y coordinate
-          }
-
-          if (zoneData.location.shape === 'rect') {
+          if (zoneData.location.shape === "rect") {
             return (
               <g key={`rect_${index}`}>
                 <rect
@@ -121,29 +89,18 @@ function ImageMapper({
                     handleZoneClick(e, [zoneName, zoneData]);
                   }}
                 ></rect>
-                <text
-                  x={centerX}
-                  y={centerY}
-                  dominantBaseline="middle"
-                  textAnchor="middle"
-                  fontSize="12"
-                  fill="#455cd9" // Set the color using the fill attribute
-                  pointerEvents="none"
-                >
-                  {zoneName}
-                </text>
               </g>
             );
-          } else if (zoneData.location.shape === 'polygon') {
+          } else if (zoneData.location.shape === "polygon") {
             // Similar modification for polygons
             return (
               <g key={`pol_${index}`}>
                 <polygon
                   points={zoneData.location.points}
                   fill={containerStyle}
-                  stroke="rgb(51, 51, 51)"
+                  stroke="rgb(21, 21, 21)"
                   cursor="pointer"
-                  strokeWidth="1"
+                  strokeWidth="5"
                   opacity="0.5"
                   strokeDasharray="none"
                   strokeLinejoin="miter"
@@ -152,17 +109,6 @@ function ImageMapper({
                     handleZoneClick(e, [zoneName, zoneData]);
                   }}
                 ></polygon>
-                <text
-                  x={centerX}
-                  y={centerY}
-                  dominantBaseline="middle"
-                  textAnchor="middle"
-                  fontSize="12"
-                  fill="#455cd9" // Set the color using the fill attribute
-                  pointerEvents="none"
-                >
-                  {zoneName} {totalRemainingSeats} / {totalSeats}
-                </text>
               </g>
             );
           }
@@ -173,11 +119,9 @@ function ImageMapper({
 }
 
 export const Mode = Object.freeze({
-  RECT: 'rect',
-  CIRCLE: 'circle',
-  ELLIPSE: 'ellipse',
-  POLYGON: 'polygon',
-  SELECT: 'selectMode',
+  RECT: "rect",
+  POLYGON: "polygon",
+  SELECT: "selectMode",
 });
 
 export default ImageMapper;
