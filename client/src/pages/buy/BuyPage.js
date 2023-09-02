@@ -194,8 +194,37 @@ export const BuyPage = () => {
     } else if (concertData.place.type === "theater") {
       const newZones = concertData.tickets.online_sale.zones;
       const oldZones = theaterZones;
+      console.log({ newZones, oldZones });
+      const unmatchedReservedSeats = [];
 
-      return [];
+      // Iterate through oldZones to find reserved seats
+      for (const oldZoneKey in oldZones) {
+        const oldZone = oldZones[oldZoneKey];
+
+        for (const rowKey in oldZone.rows) {
+          const reservedSeatsInRow = Object.values(
+            oldZone.rows[rowKey].reserved_seats
+          );
+
+          // Check if reserved seats exist in newZones
+          for (const seat of reservedSeatsInRow) {
+            const { seatNumber } = seat;
+
+            if (
+              !newZones[oldZoneKey] ||
+              !newZones[oldZoneKey].rows[rowKey] ||
+              !newZones[oldZoneKey].rows[rowKey].seats.includes(seatNumber)
+            ) {
+              // Seat is not available in newZones, add to unmatchedReservedSeats
+              unmatchedReservedSeats.push(
+                `sjedalo ${seat.seatNumber} ulaznica-${seat.ticketID}`
+              );
+            }
+          }
+        }
+      }
+
+      return unmatchedReservedSeats;
     }
   };
 
@@ -224,7 +253,7 @@ export const BuyPage = () => {
       concertDataFetched,
       ticketGenData
     );
-    console.log(categoryWithNotEnoughTickets);
+    fetchZoneData();
     {
       if (ticketsIdWithoutEmail.length === 0) {
         if (ticketsIdWithoutSeat.length === 0) {
@@ -275,11 +304,13 @@ export const BuyPage = () => {
           } else {
             {
               toast.error(
-                `Nema dovoljno ulaznica za ${
+                `${
                   categoryWithNotEnoughTickets.length === 1
-                    ? "kategoriju"
-                    : "kategorije"
-                }: ${categoryWithNotEnoughTickets}.`,
+                    ? "Ulaznica"
+                    : "Ulaznice"
+                }: ${categoryWithNotEnoughTickets} ${
+                  categoryWithNotEnoughTickets.length === 1 ? "nije" : "nisu"
+                } više u prodaji.`,
                 toastSetup("top-right", 3000)
               );
             }
