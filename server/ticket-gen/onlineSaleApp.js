@@ -14,7 +14,8 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
   const ticketsArray = Array.isArray(ticketList) ? ticketList : [ticketList];
   for (const ticket of ticketsArray) {
     // Extract ticket data
-    const { email, price, name, lname, category, ticketName } = ticket;
+    const { email, price, name, lname, category, row, seat, ticketName } =
+      ticket;
 
     const sponsors = concertData.sponsors.map(
       (sponsor) => `sponsors/${sponsor}`
@@ -36,11 +37,13 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
     const ticketData = {
       concert: concertData._id,
       performer_name: concertData.performer_name,
-      category: category, // Set the category dynamically
-      price: price, // Set the price dynamically
-      ticketName: ticketName, // Set the ticket name dynamically
+      category, // Set the category dynamically
+      seat,
+      row,
+      price, // Set the price dynamically
+      ticketName, // Set the ticket name dynamically
       owner: name + " " + lname,
-      sentOnEmail: email,
+      sent_on_email: email,
       isValid: true,
     };
 
@@ -92,6 +95,8 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
         name,
         lname,
         category,
+        seat,
+        row,
         ticketName,
         formattedDate,
         concertData,

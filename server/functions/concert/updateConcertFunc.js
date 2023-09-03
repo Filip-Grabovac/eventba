@@ -18,7 +18,7 @@ async function updateConcertFunc(req, res, Concert) {
     const { free_sale } = concert.tickets;
 
     const {
-      total_amount: currentTotalAmount,
+      total_amount_left: currentTotalAmount,
       sold_amount,
       amount_inBAM,
       resellers,
@@ -44,13 +44,13 @@ async function updateConcertFunc(req, res, Concert) {
       concert.tickets.free_sale.zones[category_name];
     let soldAmount = targetCategory.sold;
 
-    if (total_amount === "-") {
+    if (total_amount_left === "-") {
       updatedTotalAmount = currentTotalAmount - 1;
       updatedSoldAmount = sold_amount + 1;
       updatedAmountInBAM = amount_inBAM + price;
       soldAmount += 1;
       updatedOverallCategory = targetOverallCategory.amount - 1;
-    } else if (total_amount === "+") {
+    } else if (total_amount_left === "+") {
       updatedTotalAmount = currentTotalAmount + 1;
       updatedSoldAmount = sold_amount - 1;
       updatedAmountInBAM = amount_inBAM - price;
@@ -67,7 +67,7 @@ async function updateConcertFunc(req, res, Concert) {
       { _id: concertId },
       {
         $set: {
-          "tickets.free_sale.total_amount": updatedTotalAmount,
+          "tickets.free_sale.total_amount_left": updatedTotalAmount,
           "tickets.free_sale.sold_amount": updatedSoldAmount,
           "tickets.free_sale.amount_inBAM": updatedAmountInBAM,
           [`tickets.free_sale.resellers.${targetResellerIndex}.zones.${category_name}.sold`]:

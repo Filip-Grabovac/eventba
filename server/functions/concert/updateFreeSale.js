@@ -16,7 +16,7 @@ async function updateFreeSale(concertId, ticketList) {
     // Check if the concert document exists
     if (concert) {
       const ticketNumber = await Number(
-        concert.tickets.free_sale.total_amount +
+        concert.tickets.free_sale.total_amount_left +
           concert.tickets.online_sale.sold_amount +
           1 +
           concert.tickets.free_sale.sold_amount
@@ -29,7 +29,7 @@ async function updateFreeSale(concertId, ticketList) {
         : [ticketList];
 
       // Calculate the current total amount and ticket numbers for each category
-      let currentTotalAmount = concert.tickets.free_sale.total_amount || 0;
+      let currentTotalAmount = concert.tickets.free_sale.total_amount_left || 0;
       let currentCategories = concert.tickets.free_sale.zones || {};
 
       // Iterate through the ticketList and update the concert's tickets.free_sale.type accordingly
@@ -63,9 +63,9 @@ async function updateFreeSale(concertId, ticketList) {
         { _id: concertId },
         {
           $set: {
-            "tickets.free_sale.total_amount": currentTotalAmount,
+            "tickets.free_sale.total_amount_left": currentTotalAmount,
             "tickets.free_sale.zones": currentCategories,
-            "tickets_yesterday.free_sale.total_amount": currentTotalAmount, // Update tickets_yesterday
+            "tickets_yesterday.free_sale.total_amount_left": currentTotalAmount, // Update tickets_yesterday
             "tickets_yesterday.free_sale.zones": currentCategories, // Update tickets_yesterday
           },
         }

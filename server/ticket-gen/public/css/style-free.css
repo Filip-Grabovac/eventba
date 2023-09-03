@@ -13,17 +13,13 @@ body {
   padding: 0;
   size: 21cm 29.7cm;
   background-color: rgb(255, 255, 255);
-  font-family: "Name1", "Nunito", "Trebuchet MS", sans-serif;
+  font-family: "Text", "Nunito", "Trebuchet MS", sans-serif;
+}
+@font-face {
+  font-family: "Text";
+  src: url("fonts/Exo-Regular.otf") format("opentype");
 }
 
-@font-face {
-  font-family: "Name3"; /* Use a suitable name */
-  src: url("fonts/IndonesiaRaya-jEl3R.otf") format("opentype");
-}
-@font-face {
-  font-family: "Name1";
-  src: url("fonts/BrandinkSans-rgOpA.otf") format("opentype");
-}
 @font-face {
   font-family: "Name";
   src: url("fonts/rexlia rg.otf") format("opentype");

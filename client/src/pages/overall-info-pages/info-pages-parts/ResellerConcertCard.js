@@ -14,7 +14,7 @@ export const ResellerConcertCard = ({ concertId }) => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${concertId}`
       );
-      console.log(response.data);
+
       setConcertData(response.data[0]);
     } catch (error) {
       console.error("Error fetching profile data:", error);

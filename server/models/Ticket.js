@@ -1,17 +1,19 @@
 const mongoose = require("mongoose");
 
 const TicketSchema = new mongoose.Schema({
-  concert: { type: mongoose.Schema.Types.ObjectId, ref: "Concert" },
-  performer_name: { type: String },
-  category: { type: String },
-  price: { type: Number },
-  ticketName: { type: String },
-  owner: { type: String },
-  sentOnEmail: { type: String },
-  seatNumber: { type: String },
-  isValid: { type: Boolean },
-
-  // additional ticket fields
+  concert: mongoose.Schema.Types.ObjectId,
+  performer_name: String,
+  category: String,
+  seat: String,
+  row: String,
+  price: Number,
+  ticketName: String,
+  owner: String,
+  sent_on_email: String,
+  isValid: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 module.exports = TicketSchema;

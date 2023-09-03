@@ -15,7 +15,6 @@ export const Personalization = ({
   const [isChecked, setIsChecked] = useState(false);
   const [name, setName] = useState(profileData?.name || "");
   const [surname, setSurname] = useState(profileData?.lname || "");
-
   const [email, setEmail] = useState(profileData?.email || "");
   const [ticketPrice, setTicketPrice] = useState(0);
   const [activeCategory, setActiveCategory] = useState(null);

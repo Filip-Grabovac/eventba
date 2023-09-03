@@ -29,7 +29,6 @@
         transform: scale(0.85);
       }
       @media only screen and (max-width: 310px) {
-        width: 125px;
         padding-right: 2px;
         transform: scale(0.85);
       }
@@ -143,7 +142,6 @@
         background-color: #fff;
 
         div:nth-child(2) {
-          font-size: 13px;
           border-left: 2px solid rgba(201, 204, 224, 0.5);
           border-right: 2px solid rgba(201, 204, 224, 0.5);
         }

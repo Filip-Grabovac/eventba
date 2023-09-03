@@ -11,6 +11,8 @@ const ticketSlice = createSlice({
         email: "",
         price: 0,
         category: "",
+        rows: "",
+        seat: "",
         name: "",
       },
     ],
@@ -76,7 +78,8 @@ const ticketSlice = createSlice({
       return state;
     },
     addTicketPrice(state, action) {
-      const { ticketPrice, ticketID, category, name } = action.payload;
+      const { ticketPrice, ticketID, category, seat, row, name } =
+        action.payload;
 
       // Find the index of the ticket to update based on the provided ticketID
 
@@ -92,6 +95,8 @@ const ticketSlice = createSlice({
           price: ticketPrice,
           category: category,
           ticketName: name,
+          seat,
+          row,
         };
 
         // Calculate the new total amount based on the updated ticketList
@@ -107,15 +112,18 @@ const ticketSlice = createSlice({
       return state;
     },
     resetState(state, action) {
+      const email = action.payload;
       return {
         ticketList: [
           {
             id: 1,
             name: "",
             lname: "",
-            email: "",
+            email,
             price: 0,
             category: "",
+            seat: "",
+            row: "",
           },
         ],
         totalAmount: 0,

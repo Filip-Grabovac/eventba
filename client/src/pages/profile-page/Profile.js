@@ -61,14 +61,14 @@ export const Profile = () => {
           "Ažuriraj podatke",
           "Moje ulaznice",
           "Organiziraj događaj",
-          "Dodaj ulaznice",
-          "Moji događaji",
-          "Postavke ulaza",
-          "Dodaj preprodavača",
           "Odobri događaj",
+          "Moji događaji",
+          "Dodaj ulaznice",
+          "Postavke ulaza",
           "Upravljaj korisnicima",
-          "Dodaj objekat",
+          "Dodaj preprodavača",
           "Zahtjevi preprodavača",
+          "Dodaj objekat",
         ]);
         fetchEntranceCheckers(userId);
         fetchOrganizerConcerts(userId);

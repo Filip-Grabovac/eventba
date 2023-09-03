@@ -4,7 +4,7 @@ const updateUserBuyHistory = require("../functions/user/updateUserBuyHistory");
 
 const ticketInfoMap = new Map();
 const requestQueue = []; // Array to store the requests
-
+console.log(ticketInfoMap);
 // Function to process the requests in the queue
 const processQueue = async () => {
   // Check if there are any requests in the queue
@@ -35,7 +35,7 @@ const handlePaymentEndpoint = async (req, res) => {
     const { transaction_response } = req.body;
     if (transaction_response) {
       const data = JSON.parse(transaction_response);
-
+      console.log(data.status);
       if (data.status === "approved") {
         const ticketInfo = ticketInfoMap.get(Number(data.order_number));
 

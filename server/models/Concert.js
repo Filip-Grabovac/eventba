@@ -10,14 +10,14 @@ const ConcertSchema = new mongoose.Schema({
   },
   tickets_yesterday: {
     online_sale: {
-      total_amount: Number,
+      total_amount_left: Number,
       sold_amount: Number,
       amount_inBAM: Number,
 
       zones: {},
     },
     free_sale: {
-      total_amount: {
+      total_amount_left: {
         type: Number,
         default: 0, // Set default value for total_amount
       },
@@ -61,13 +61,13 @@ const ConcertSchema = new mongoose.Schema({
   },
   tickets: {
     online_sale: {
-      total_amount: Number,
+      total_amount_left: Number,
       sold_amount: Number,
       amount_inBAM: Number,
       zones: Object,
     },
     free_sale: {
-      total_amount: {
+      total_amount_left: {
         type: Number,
         default: 0, // Set default value for total_amount
       },

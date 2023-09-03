@@ -37,7 +37,7 @@ export const TicketManager = ({
       return;
     }
     let data = {
-      total_amount: "+",
+      total_amount_left: "+",
       price: price,
       reseller_id: resellerId,
       category_name: type,
@@ -58,7 +58,7 @@ export const TicketManager = ({
       return;
     }
     let data = {
-      total_amount: "-",
+      total_amount_left: "-",
       price: price,
       reseller_id: resellerId,
       category_name: type,

@@ -48,7 +48,20 @@ export const NewsLetter = ({ heading }) => {
         <h4>{heading}</h4>
         <PageRow
           heading="Newsletter"
-          content={`Prijavom na newsletter, korisnik prihvata da od strane Ticket Vision-a na email dobija Novosti vezane za događaje koji su u sistemu prodaje. Korisnik u svakom trenutku može samostalno da se odjavi sa mailing liste - link za odjavu se nalazi u mailu koji se šalje prilikom prijave. Vaši lični podaci su zaštićeni te neće biti dati na uvid trećim licima.
+          content={` 
+        Prijavom na naš newsletter, stvaramo priliku da budete u toku s
+        najnovijim događanjima na Event.ba! Pratite najnovije informacije o
+        kulturnim, sportskim i zabavnim manifestacijama koje se odvijaju u vašem
+        gradu. Posebno ističemo da se opcija za odjavu uvijek dostupna, tako da
+        je u svakom trenutku možete iskoristiti po vlastitoj želji.
+        <br />
+        Želimo naglasiti i da vaši osobni podaci ostaju sigurni kod nas i neće
+        biti dijeljeni s trećim stranama.
+         <br />
+         Slijedite Event.ba i budite prvi koji
+        će saznati o najnovijim događajima, bez obzira jeste li spremni za
+        sudjelovanje u akciji ili tražite trenutke opuštanja
+      
       `}
           newsletterFunction={handleSubscription}
           btnContent={

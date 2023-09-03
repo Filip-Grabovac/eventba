@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Name";
+  src: url("fonts/rexlia rg.otf") format("opentype");
+}
+@font-face {
+  font-family: "Text";
+  src: url("fonts/Exo-Regular.otf") format("opentype");
+}
 body {
   box-sizing: border-box;
   margin: 0;
@@ -143,12 +151,10 @@ p {
   }
   .inner-container {
     display: flex;
-    align-items: stretch;
-    .left {
-      width: 71.4%;
-      color: #333333;
 
-      margin-right: 5px;
+    height: 230px;
+    .left {
+      flex-grow: 1;
       .top {
         display: flex;
         gap: 10px;
@@ -157,16 +163,17 @@ p {
         .poster {
           border-radius: 0 10px 10px;
           height: 230px;
-          width: 320px;
-          object-fit: cover;
-          object-position: -20px;
+
           img {
             border-radius: 0 10px 10px;
           }
         }
         .info {
-          margin: 8px auto;
+          font-family: "Nunito";
+          letter-spacing: 0.2px;
+          margin: 4px;
           display: flex;
+          flex-grow: 1;
           flex-direction: column;
           justify-content: space-between;
           align-items: center;
@@ -181,16 +188,18 @@ p {
         .serial-number,
         .price {
           text-align: center;
+
           font-size: 15px;
           display: inline-block;
           font-weight: 600;
           margin-bottom: 8px;
         }
-        .ticket-location {
-          text-transform: uppercase;
-        }
+
         .preformer {
           margin: 0;
+          text-align: center;
+          font-family: "Name";
+          text-transform: uppercase;
         }
         .serial-number,
         .price {
@@ -206,40 +215,11 @@ p {
           align-items: flex-end;
         }
       }
-      .bot {
-        height: 40px;
-        background-image: linear-gradient(to top, #ececec, #fff);
-        display: flex;
-        padding: 3px;
-        justify-content: space-between;
-        align-items: center;
-        flex-grow: 1;
-        .logos {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 4px;
-          .logo {
-            height: 43px;
-          }
-          .event {
-            color: #555555;
-            font-weight: 700;
-            font-size: 12px;
-            margin: 0;
-          }
-        }
-        .sponsor {
-          max-height: fit-content;
-          max-width: 45px;
-        }
-      }
     }
     .right {
       transform: translateY(1px);
-      width: 28.57%;
-      height: 230px;
-      border-left: 0.8px solid #7c8ce4;
+      width: 130px;
+
       display: flex;
       flex-direction: column;
       .left-part {
@@ -248,20 +228,22 @@ p {
         align-items: center;
         flex-direction: row;
         flex-wrap: wrap;
-        gap: 10px;
-        justify-content: space-around;
+
+        justify-content: space-between;
+        font-family: Name;
+        .type-letter {
+          font-size: 38px;
+        }
+        .type-full {
+          font-size: 12px;
+        }
       }
       .left-part span {
         font-size: 16px;
         width: 100%;
         text-align: center;
       }
-      .left-part div {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
+
       .right-part {
         display: flex;
         flex-direction: column;
@@ -269,9 +251,37 @@ p {
         align-items: center;
 
         .qr {
-          width: 150px;
+          width: 120px;
         }
       }
+    }
+  }
+  .bot {
+    height: 40px;
+    background-image: linear-gradient(to top, #ececec, #fff);
+    display: flex;
+    padding: 3px;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+    .logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      .logo {
+        height: 43px;
+      }
+      .event {
+        color: #555555;
+        font-weight: 700;
+        font-size: 12px;
+        margin: 0;
+      }
+    }
+    .sponsor {
+      max-height: fit-content;
+      max-width: 45px;
     }
   }
 }
@@ -279,8 +289,10 @@ p {
   font-size: 14px;
   display: inline-block;
   font-weight: 600;
+  font-family: Name;
 }
 .color-text {
+  font-family: Name;
   color: #3d627a;
   font-weight: 700;
   text-transform: uppercase;

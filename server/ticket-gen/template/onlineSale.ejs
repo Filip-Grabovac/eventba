@@ -88,48 +88,40 @@
                 <span class="time"><%= formattedDate %></span>
                 <span class="location"><%= place %></span>
                 <span class="ticket-location"
-                  ><%= category %> <strong> <%= ticketName %></strong></span
+                  >Zona: <%= category %> -
+                  <strong><%= ticketName %></strong></span
                 >
+                <span class="ticket-location">
+                  <% if (row) { %> Red : <strong><%= row %>, </strong> <% } %>
+                  <% if (row && seat) { %> Mjesto :
+                  <strong><%= seat %></strong>
+                  <% } %>
+                </span>
+
                 <h5 class="ticket-owner h5"><%= name %> <%= lname %></h5>
-                <div class="price-qr">
-                  <span class="serial-number">N<%= ticketNumber %></span>
-                  <div class="price">
-                    Cijena: <strong><%= price %> <small>BAM</small></strong>
-                  </div>
-                </div>
               </div>
-            </div>
-            <div class="bot">
-              <div class="logos">
-                <img class="logo" src="images/Logo.png" alt="" />
-                <p class="event">event.ba</p>
-              </div>
-              <% for (const sponsor of sponsors) { %>
-              <img class="sponsor" src="<%= sponsor %>" alt="" />
-              <% } %>
             </div>
           </div>
           <div class="right">
             <div class="left-part">
               <span class="serial-number">N<%= ticketNumber %></span>
-              <div>
-                <span>Zona/mjesto:</span>
-                <span class="color-text"><%= category %></span>
-              </div>
-              <div>
-                <span>Tip ulaznice:</span>
-                <span class="color-text"><%= ticketName %></span>
-              </div>
-
-              <div>
-                <span>Cijena</span>
-                <span class="color-text"><%= price %> <small>BAM</small></span>
-              </div>
+              <span class="type-letter"><%= ticketName.charAt(0) %></span>
+              <span class="type-full"><%= ticketName %></span>
+              <span class="color-text"><%= price %> <small>BAM</small></span>
             </div>
             <div class="right-part">
               <img src="images/qrCode.png" class="qr" alt="" />
             </div>
           </div>
+        </div>
+        <div class="bot">
+          <div class="logos">
+            <img class="logo" src="images/Logo.png" alt="" />
+            <p class="event">event.ba</p>
+          </div>
+          <% for (const sponsor of sponsors) { %>
+          <img class="sponsor" src="<%= sponsor %>" alt="" />
+          <% } %>
         </div>
         <p class="savijacica down">Savijačica 2 - Zatim presavij sve zajedno</p>
       </div>

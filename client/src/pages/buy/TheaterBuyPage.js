@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import ImageMapper, { Mode } from '../draw-place/image-mapper/ImageMapper';
-import { useDispatch } from 'react-redux';
-import { addTicketPrice } from '../../store/ticketSlice';
+import React, { useEffect, useState } from "react";
+import ImageMapper, { Mode } from "../draw-place/image-mapper/ImageMapper";
+import { useDispatch } from "react-redux";
+import { addTicketPrice } from "../../store/ticketSlice";
+import { TheaterModal } from "./ticket-type/TheaterModal";
 
 export const TheaterBuyPage = ({
   concertData,
@@ -9,10 +10,11 @@ export const TheaterBuyPage = ({
   theaterZones,
   setTheaterZones,
   setShowPaymentForm,
+  selectedZoneData,
+  setSelectedZoneData,
 }) => {
   const [groundPlanImg, setImg] = useState(null);
   const [modal, setModal] = useState(false);
-  const [selectedZoneData, setSelectedZoneData] = useState();
   const dispatch = useDispatch();
 
   addTicketPrice();
@@ -42,7 +44,7 @@ export const TheaterBuyPage = ({
         // Set the src AFTER defining the onload handler
         imgElement.src = imageUrl;
       } catch (error) {
-        console.error('Error loading image:', error);
+        console.error("Error loading image:", error);
       }
     };
 
@@ -54,16 +56,16 @@ export const TheaterBuyPage = ({
     setShowPaymentForm(false);
     setModal(true);
     setSelectedZoneData(data);
-    const selected = document.querySelector('.selected');
-    if (selected) selected.classList.remove('selected');
-    e.target.classList.add('selected');
+    const selected = document.querySelector(".selected");
+    if (selected) selected.classList.remove("selected");
+    e.target.classList.add("selected");
   }
 
   // TEST
   //
   //
   //
-  const takeSeat = async (seatNumber, ticketID) => {
+  const takeSeat = async (seatNumber, ticketID, row) => {
     if (selectedZoneData) {
       setShowPaymentForm(false);
       setTheaterZones((prevZones) => {
@@ -102,67 +104,34 @@ export const TheaterBuyPage = ({
         }
 
         // Dispatch the action and update the state as before
-        dispatch(
-          addTicketPrice({
-            ticketPrice: Number(selectedZoneData[1].price),
-            ticketID,
-            category: `Red: ${selectedZoneDataKey} - Sjedalo: ${seatNumber}`,
-            name: selectedZoneData[1].name,
-          })
-        );
 
         return newZones;
       });
+      dispatch(
+        addTicketPrice({
+          ticketPrice: Number(selectedZoneData[1].price),
+          ticketID,
+          category: selectedZoneData[0],
+          seat: seatNumber,
+          row,
+          name: selectedZoneData[1].name,
+        })
+      );
     }
   };
 
   return (
     <div className="buy-plan-wrapper">
-      {modal && (
+      {modal && theaterZones && (
         <>
-          <div className="modal">
-            {selectedZoneData &&
-              Object.entries(selectedZoneData[1].rows).map(([key, value]) => {
-                // Initialize reserved_seats as an empty object if it's undefined
-                const reservedSeats = value.reserved_seats || {};
+          <TheaterModal
+            selectedZoneData={selectedZoneData}
+            theaterZones={theaterZones}
+            setShowPaymentForm={setShowPaymentForm}
+            takeSeat={takeSeat}
+            activeCardIndex={activeCardIndex}
+          />
 
-                return (
-                  <div key={key} className="seats-container">
-                    <p>Zona: {key}</p>
-                    <div className="seats-wrapper">
-                      {Array.from(
-                        { length: Number(value.total_seats) },
-                        (_, i) => {
-                          const seatNumber = i + 1;
-                          const isSeatReserved = seatNumber in reservedSeats;
-                          const reservedTicketID = isSeatReserved
-                            ? reservedSeats[seatNumber].ticketID
-                            : null;
-
-                          return (
-                            <div
-                              className={
-                                value.seats.includes(i + 1)
-                                  ? isSeatReserved
-                                    ? `reserved`
-                                    : `free`
-                                  : `sold`
-                              }
-                              key={i}
-                              onClick={() => {
-                                takeSeat(seatNumber, activeCardIndex + 1); // Pass the currentTicketID
-                              }}
-                            >
-                              {reservedTicketID || seatNumber}
-                            </div>
-                          );
-                        }
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
           <div
             onClick={() => {
               setModal(false);
@@ -171,12 +140,13 @@ export const TheaterBuyPage = ({
           ></div>
         </>
       )}
+
       {groundPlanImg && theaterZones && (
         <>
           <div
             id="tooltip"
             display="none"
-            style={{ position: 'absolute', display: 'none' }}
+            style={{ position: "absolute", display: "none" }}
           ></div>
           <ImageMapper
             mode={Mode.SELECT}

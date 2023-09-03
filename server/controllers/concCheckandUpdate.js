@@ -18,11 +18,11 @@ async function updateTicketAmount(concertId, price) {
       {
         concert.tickets.online_sale.sold_amount += 1;
         concert.tickets.online_sale.amount_inBAM += price;
-        concert.tickets.online_sale.total_amount -= 1;
+        concert.tickets.online_sale.total_amount_left -= 1;
 
         const ticketNumber = await Number(
           concert.tickets.online_sale.sold_amount +
-            concert.tickets.free_sale.total_amount +
+            concert.tickets.free_sale.total_amount_left +
             concert.tickets.free_sale.sold_amount
         )
           .toString()
@@ -49,8 +49,13 @@ async function updateCategoryAmount(concertId, ticketList) {
       concertSchema,
       "concerts"
     );
+
     // Retrieve the concert document from the collection
     const concert = await Concert.findById(concertId);
+
+    const concertZones = concert.tickets.online_sale.zones;
+
+    const concertType = concert.place.type;
 
     // Ensure ticketList is an array, even for a single ticket
     const ticketsArray = Array.isArray(ticketList) ? ticketList : [ticketList];
@@ -58,18 +63,31 @@ async function updateCategoryAmount(concertId, ticketList) {
     // Check if the concert document exists
     if (concert) {
       for (const ticket of ticketsArray) {
-        const { category } = ticket;
+        const { category, seat, row } = ticket;
 
-        if (concert.tickets.online_sale.zones.hasOwnProperty(category)) {
-          if (concert.tickets.online_sale.zones[category].amount !== 0) {
-            concert.tickets.online_sale.zones[category].amount -= 1;
+        if (concertZones.hasOwnProperty(category)) {
+          if (concertZones[category].amount !== 0) {
+            // Check if the seat exists in the row
+            concertZones[category].amount -= 1;
+            if (concertType !== "hall")
+              if (
+                concertZones[category].rows[row] &&
+                concertZones[category].rows[row].seats.includes(seat)
+              ) {
+                // Filter the seat from the row if it's not a "hall" type concert
+
+                concertZones[category].rows[row].seats = concertZones[
+                  category
+                ].rows[row].seats.filter((seats) => seats !== seat);
+              } else {
+                // Seat does not exist in the row, log a message in Croatian
+                console.error("Sjedalo ne postoji u toj zoni ili redu.");
+              }
           } else {
-            console.error(`Ticket of category ${category} is unavailable.`);
+            console.error(`Ulaznica zone ${category} nije dostupna.`);
           }
         } else {
-          console.error(
-            `Invalid category provided for ticket with ID ${ticket.id}.`
-          );
+          console.error(`Ulaznica ${ticket.id} ima nedostupnu zonu.`);
         }
       }
 

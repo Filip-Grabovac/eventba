@@ -56,7 +56,7 @@ async function addTicketsToConcertHistory(concert) {
     const soldAmountForDay =
       Number(todayCategoryData.max_amount - todayCategoryData.amount) -
       Number(yesterdayCategoryData.max_amount - yesterdayCategoryData.amount);
-    console.log(soldAmountForDay);
+
     modifiedOnlineSaleTickets[category] = {
       name: todayCategoryData.name,
       sold_amount: soldAmountForDay,

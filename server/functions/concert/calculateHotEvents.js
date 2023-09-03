@@ -25,10 +25,10 @@ const calculateHotEvents = async () => {
     // Iterate through the hotEvents and update the variables if larger values are found
     hotEvents.forEach((event) => {
       const freeSaleTotal =
-        event.tickets.free_sale.total_amount +
+        event.tickets.free_sale.total_amount_left +
         event.tickets.free_sale.sold_amount;
       const onlineSaleTotal =
-        event.tickets.online_sale.total_amount +
+        event.tickets.online_sale.total_amount_left +
         event.tickets.online_sale.sold_amount;
 
       if (freeSaleTotal > maxFreeSaleTotalAmount)
@@ -52,9 +52,11 @@ const calculateHotEvents = async () => {
       rating += event.sponsors.length;
 
       rating +=
-        (event.tickets.free_sale.total_amount / maxFreeSaleTotalAmount) * 15;
+        (event.tickets.free_sale.total_amount_left / maxFreeSaleTotalAmount) *
+        15;
       rating +=
-        (event.tickets.online_sale.total_amount / maxOnlineSaleTotalAmount) *
+        (event.tickets.online_sale.total_amount_left /
+          maxOnlineSaleTotalAmount) *
         15;
       rating +=
         (event.tickets.free_sale.sold_amount / maxFreeSaleSoldAmount) * 25;

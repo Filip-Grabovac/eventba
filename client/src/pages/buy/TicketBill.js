@@ -10,7 +10,14 @@ export const TicketBill = ({ i }) => {
   return (
     <div className="ticket-bill">
       <div className="ticket">
-        Ulaznica {ticketID} - {ticket?.ticketName} <br /> {ticket?.category} :
+        <big>
+          {" "}
+          Ulaznica {ticketID} - {ticket?.ticketName}
+        </big>{" "}
+        <br /> {ticket?.category && `Zona: ${ticket.category}`}
+        {ticket?.row &&
+          ticket?.seat &&
+          ` - Red: ${ticket.row} - Sjedalo: ${ticket.seat}`}
       </div>
       <span>
         {ticket ? ticket.price : 0} <small> BAM</small>
