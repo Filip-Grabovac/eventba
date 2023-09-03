@@ -45,6 +45,18 @@ function ImageMapper({
     }
   }, [mode]);
 
+  function showTooltip(evt, data) {
+    let tooltip = document.getElementById('tooltip');
+    tooltip.innerHTML = `<p>Zona: ${data.zoneName}</p><p>Cijena: ${data.price} BAM</p><p>Ukupan broj sjedala: ${data.total_amount}</p>`;
+    tooltip.style.display = 'block';
+    tooltip.style.left = evt.pageX + 'px';
+    tooltip.style.top = evt.pageY - 40 + 'px';
+  }
+
+  function hideTooltip() {
+    var tooltip = document.getElementById('tooltip');
+    tooltip.style.display = 'none';
+  }
   return (
     <svg
       className="image-map-svg"
@@ -120,6 +132,10 @@ function ImageMapper({
                   onClick={(e) => {
                     handleZoneClick(e, [zoneName, zoneData]);
                   }}
+                  onMouseMove={(e) => {
+                    showTooltip(e, 'Test');
+                  }}
+                  onMouseOut={hideTooltip}
                 ></rect>
                 <text
                   x={centerX}
@@ -151,6 +167,14 @@ function ImageMapper({
                   onClick={(e) => {
                     handleZoneClick(e, [zoneName, zoneData]);
                   }}
+                  onMouseMove={(e) => {
+                    showTooltip(e, {
+                      price: zoneData.price,
+                      total_amount: zoneData.total_amount,
+                      zoneName: zoneName,
+                    });
+                  }}
+                  onMouseOut={hideTooltip}
                 ></polygon>
                 <text
                   x={centerX}

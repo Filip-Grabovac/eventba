@@ -584,12 +584,101 @@
       }
     }
 
-    .organize-form {
+    .organize-event-plan-wrapper {
+      display: flex;
+
       svg {
-        width: 773px;
+        width: 500px;
         height: auto;
       }
 
+      .select-all-seats-wrapper {
+        background-color: #fff;
+        width: 100%;
+        max-width: 260px;
+        height: 386px;
+        margin-left: auto;
+        border-radius: 10px;
+        padding: 10px 5px;
+
+        .organize-zones-wrapper {
+          overflow-y: auto;
+          height: 200px;
+        }
+
+        h6 {
+          font-size: 14px;
+          text-align: center;
+          margin-bottom: 10px;
+        }
+
+        p {
+          font-size: 14px;
+          margin: 0;
+        }
+
+        .selling-row {
+          background-color: rgba(69, 91, 217, 0.755);
+          padding: 10px 5px;
+          border-radius: 10px;
+          margin-bottom: 10px;
+          display: flex;
+          justify-content: center;
+
+          input {
+            width: 20px;
+            margin: 0 10px 0 auto;
+          }
+          p {
+            margin-left: auto;
+            font-weight: 600;
+            color: #fff;
+          }
+
+          &:nth-child(odd) {
+            background-color: rgba(69, 91, 217, 0.623);
+          }
+        }
+        .zone {
+          margin: 5px 0;
+          font-weight: 600;
+        }
+        input {
+          border: 1px solid #000;
+          width: 80%;
+          display: block;
+          margin: 10px auto;
+        }
+
+        .zones-input-wrapper {
+          margin-top: 10px;
+
+          input {
+            height: 30px;
+          }
+
+          button {
+            padding: 7px 20px;
+            margin-top: 10px;
+          }
+        }
+      }
+
+      #tooltip {
+        background-color: #455cd9;
+        padding: 10px;
+        border-radius: 10px;
+        color: #fff;
+
+        p {
+          &:last-child {
+            margin: 0;
+          }
+        }
+      }
+    }
+
+    .organize-form {
       .modal {
         position: absolute;
         top: 50%;
@@ -614,6 +703,17 @@
           width: 50%;
           display: block;
           margin: 30px auto 0;
+        }
+
+        .disable-zone {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          input {
+            width: 13px;
+            margin: 0 0 0 10px;
+          }
         }
       }
 
