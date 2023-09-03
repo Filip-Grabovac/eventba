@@ -27,6 +27,7 @@ export const OrganizeEventPage = () => {
   const [cityInputValue, setCityInputValue] = useState('');
   const userId = useSelector((state) => state.userState.user);
   const [rows, setRows] = useState({});
+  const [groundPlan, setGroundPlan] = useState();
   const [selectedImages, setSelectedImages] = useState([
     UploadImage,
     UploadImage,
@@ -255,6 +256,7 @@ export const OrganizeEventPage = () => {
         city: form.get('city'),
         place: form.get('place'),
         type: placeData.type,
+        ground_plan: '',
       },
       type: form.get('eventType'),
       is_promoted_event: false,
@@ -273,7 +275,14 @@ export const OrganizeEventPage = () => {
 
         event.tickets.online_sale.total_amount += parseInt(ticket.amount);
       });
-    if (placeData.type === 'theater') event.tickets.online_sale.zones = rows;
+    if (placeData.type === 'theater') {
+      event.tickets.online_sale.zones = rows;
+      event.place.ground_plan = groundPlan;
+
+      Object.entries(placeData.zones).map(([key, value]) => {
+        event.tickets.online_sale.total_amount += parseInt(value.total_amount);
+      });
+    }
 
     // Check if everything is valid(all fields + images)
     if (
@@ -704,7 +713,12 @@ export const OrganizeEventPage = () => {
         </>
       )}
       {placeData && placeData.type === 'theater' && (
-        <Theater placeData={placeData} setRows={setRows} rows={rows} />
+        <Theater
+          placeData={placeData}
+          setRows={setRows}
+          rows={rows}
+          setGroundPlan={setGroundPlan}
+        />
       )}
       <div className="organize-bottom-part">
         <p className="textarea-limit">{textareaLimit}-500</p>

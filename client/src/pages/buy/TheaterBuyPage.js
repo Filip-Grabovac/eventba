@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import ImageMapper, { Mode } from "../draw-place/image-mapper/ImageMapper";
-import { useDispatch } from "react-redux";
-import { addTicketPrice } from "../../store/ticketSlice";
+import React, { useEffect, useState } from 'react';
+import ImageMapper, { Mode } from '../draw-place/image-mapper/ImageMapper';
+import { useDispatch } from 'react-redux';
+import { addTicketPrice } from '../../store/ticketSlice';
 
 export const TheaterBuyPage = ({
   concertData,
@@ -42,7 +42,7 @@ export const TheaterBuyPage = ({
         // Set the src AFTER defining the onload handler
         imgElement.src = imageUrl;
       } catch (error) {
-        console.error("Error loading image:", error);
+        console.error('Error loading image:', error);
       }
     };
 
@@ -54,9 +54,9 @@ export const TheaterBuyPage = ({
     setShowPaymentForm(false);
     setModal(true);
     setSelectedZoneData(data);
-    const selected = document.querySelector(".selected");
-    if (selected) selected.classList.remove("selected");
-    e.target.classList.add("selected");
+    const selected = document.querySelector('.selected');
+    if (selected) selected.classList.remove('selected');
+    e.target.classList.add('selected');
   }
 
   // TEST
@@ -172,19 +172,27 @@ export const TheaterBuyPage = ({
         </>
       )}
       {groundPlanImg && theaterZones && (
-        <ImageMapper
-          mode={Mode.SELECT}
-          cb={(editor) => {
-            editor.loadImage(groundPlanImg.src); // Load the URL directly
-            editor.polygon();
-          }}
-          options={{
-            width: groundPlanImg.width,
-            height: groundPlanImg.height,
-          }}
-          handleZoneClick={handleZoneClick}
-          preDrawnShapes={theaterZones}
-        />
+        <>
+          <div
+            id="tooltip"
+            display="none"
+            style={{ position: 'absolute', display: 'none' }}
+          ></div>
+          <ImageMapper
+            mode={Mode.SELECT}
+            cb={(editor) => {
+              editor.loadImage(groundPlanImg.src); // Load the URL directly
+              editor.polygon();
+            }}
+            options={{
+              width: groundPlanImg.width,
+              height: groundPlanImg.height,
+            }}
+            handleZoneClick={handleZoneClick}
+            preDrawnShapes={theaterZones}
+            page="buyPage"
+          />
+        </>
       )}
     </div>
   );

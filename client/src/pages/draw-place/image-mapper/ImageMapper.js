@@ -1,5 +1,5 @@
-import { editor } from "@overlapmedia/imagemapper";
-import React from "react";
+import { editor } from '@overlapmedia/imagemapper';
+import React from 'react';
 
 function ImageMapper({
   options = {},
@@ -9,6 +9,7 @@ function ImageMapper({
   handleShapeClick,
   preDrawnShapes,
   handleZoneClick,
+  page,
 }) {
   const elementRef = React.useRef(null);
   const editorRef = React.useRef(null);
@@ -40,11 +41,14 @@ function ImageMapper({
   }, [mode]);
 
   function showTooltip(evt, data) {
+    let x = page === 'buyPage' ? 300 : 0;
+    let y = page === 'buyPage' ? 180 : 40;
+
     let tooltip = document.getElementById('tooltip');
-    tooltip.innerHTML = `<p>Zona: ${data.zoneName}</p><p>Cijena: ${data.price} BAM</p><p>Ukupan broj sjedala: ${data.total_amount}</p>`;
+    tooltip.innerHTML = `<p>Zona: ${data.zoneName}</p><p>Cijena: ${data.price} BAM</p><p>Ukupan broj slobodnih sjedala: ${data.available_seats} / ${data.total_amount}</p>`;
     tooltip.style.display = 'block';
-    tooltip.style.left = evt.pageX + 'px';
-    tooltip.style.top = evt.pageY - 40 + 'px';
+    tooltip.style.left = evt.pageX - x + 'px';
+    tooltip.style.top = evt.pageY - y + 'px';
   }
 
   function hideTooltip() {
@@ -81,7 +85,7 @@ function ImageMapper({
             (totalRemainingSeats / totalSeats) * 255
           )}, 0)`;
 
-          if (zoneData.location.shape === "rect") {
+          if (zoneData.location.shape === 'rect') {
             return (
               <g key={`rect_${index}`}>
                 <rect
@@ -101,13 +105,17 @@ function ImageMapper({
                     handleZoneClick(e, [zoneName, zoneData]);
                   }}
                   onMouseMove={(e) => {
-                    showTooltip(e, 'Test');
+                    showTooltip(e, {
+                      price: zoneData.price,
+                      total_amount: zoneData.total_amount,
+                      zoneName: zoneName,
+                    });
                   }}
                   onMouseOut={hideTooltip}
                 ></rect>
               </g>
             );
-          } else if (zoneData.location.shape === "polygon") {
+          } else if (zoneData.location.shape === 'polygon') {
             // Similar modification for polygons
             return (
               <g key={`pol_${index}`}>
@@ -125,9 +133,15 @@ function ImageMapper({
                     handleZoneClick(e, [zoneName, zoneData]);
                   }}
                   onMouseMove={(e) => {
+                    const seatsLength =
+                      Object.values(zoneData.rows).find(
+                        (row) => row.seats.length > 0
+                      )?.seats.length || 0;
+
                     showTooltip(e, {
                       price: zoneData.price,
                       total_amount: zoneData.total_amount,
+                      available_seats: seatsLength,
                       zoneName: zoneName,
                     });
                   }}
@@ -143,9 +157,9 @@ function ImageMapper({
 }
 
 export const Mode = Object.freeze({
-  RECT: "rect",
-  POLYGON: "polygon",
-  SELECT: "selectMode",
+  RECT: 'rect',
+  POLYGON: 'polygon',
+  SELECT: 'selectMode',
 });
 
 export default ImageMapper;

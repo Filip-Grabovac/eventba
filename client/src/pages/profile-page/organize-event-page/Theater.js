@@ -3,7 +3,7 @@ import ImageMapper, { Mode } from '../../draw-place/image-mapper/ImageMapper';
 import { toast } from 'react-toastify';
 import { toastSetup } from '../../../functions/toastSetup';
 
-export const Theater = ({ placeData, setRows, rows }) => {
+export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
   const [groundPlanImg, setImg] = useState(null);
   const [modalWindow, setModalWindow] = useState(false);
   const [selectedZoneData, setSelectedZoneData] = useState();
@@ -22,6 +22,9 @@ export const Theater = ({ placeData, setRows, rows }) => {
         const blob = await response.blob();
         const imageUrl = URL.createObjectURL(blob);
 
+        // Extract the image name from the URL
+        const imageName = placeData.ground_plan.split('/').pop();
+
         // Create an image element to calculate its dimensions
         const imgElement = new Image();
 
@@ -32,6 +35,9 @@ export const Theater = ({ placeData, setRows, rows }) => {
             width: imgElement.width,
             height: imgElement.height,
           });
+
+          // Set the image name in setGroundPlan
+          setGroundPlan(imageName);
         };
 
         // Set the src AFTER defining the onload handler
