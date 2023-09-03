@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { toastSetup } from "../../functions/toastSetup";
 import { hrTimeFormat } from "../../components/helper/timeFormat";
 import { setLoginIsOpen } from "../../store/loginSlice";
+import { TheaterBuyPage } from "./TheaterBuyPage";
 
 export const BuyPage = () => {
   const [concertData, setConcertData] = useState({});
@@ -21,7 +22,7 @@ export const BuyPage = () => {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [orderNumber, setOrderNumber] = useState(null);
   const [profileData, setProfileData] = useState(null);
-
+  const [theaterZones, setTheaterZones] = useState({});
   const dispatch = useDispatch();
   const activeCardRef = useRef(null);
   const allTickets = useSelector((state) => state.ticketState.ticketList);
@@ -44,7 +45,6 @@ export const BuyPage = () => {
   const addTicket = async () => {
     await setTicketAmount(ticketAmount + 1);
     setShowPaymentForm(false);
-    setActiveCardIndex(ticketAmount + 1);
     carouselRef.current.goTo(ticketAmount + 1);
   };
 
@@ -53,12 +53,30 @@ export const BuyPage = () => {
     setTicketAmount(ticketAmount - 1);
     dispatch(removeLastTicket({ id: ticketAmount }));
     setShowPaymentForm(false);
+    // Delete card for theater
+    if (concertData && concertData?.place?.type === "theater")
+      setTheaterZones((prevZones) => {
+        const ticketID = ticketAmount;
+        const newZones = { ...prevZones };
+        for (const zoneKey in newZones) {
+          const zone = newZones[zoneKey];
+          const rowToUpdate = zone.rows[zoneKey];
+
+          for (const seatKey in rowToUpdate.reserved_seats) {
+            if (rowToUpdate.reserved_seats[seatKey].ticketID === ticketID) {
+              delete rowToUpdate.reserved_seats[seatKey];
+            }
+          }
+        }
+        return newZones;
+      });
   };
 
   const handleSliderCardClick = (index) => {
     setActiveCardIndex(index);
     carouselRef.current.goTo(index);
   };
+
   useEffect(() => {
     if (activeCardRef.current) {
       activeCardRef.current.scrollIntoView({
@@ -68,6 +86,10 @@ export const BuyPage = () => {
       });
     }
   }, [activeCardIndex]);
+
+  useEffect(() => {
+    fetchZoneData();
+  }, []);
 
   const renderSliderCards = () => {
     const sliderCards = [];
@@ -99,6 +121,22 @@ export const BuyPage = () => {
         `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${id}`
       );
       setConcertData(response.data[0]);
+      return response.data[0];
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
+  };
+
+  const fetchZoneData = async () => {
+    try {
+      const id = new URLSearchParams(new URL(window.location.href).search).get(
+        "id"
+      );
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${id}`
+      );
+
+      setTheaterZones(response.data[0].tickets.online_sale?.zones);
     } catch (error) {
       console.error("Error fetching profile data:", error);
     }
@@ -128,35 +166,72 @@ export const BuyPage = () => {
 
   // Update the areEnoughTicketsAvailable function to return the category with not enough tickets
   const areEnoughTicketsAvailable = (concertData, ticketGenData) => {
-    const missingCategories = new Set();
+    const unavailableSeats = [];
+    if (concertData.place.type === "hall") {
+      const missingCategories = new Set();
 
-    for (const ticket of ticketGenData.ticketList) {
-      const category = String(ticket?.category);
-      const concertTickets =
-        concertData.tickets.online_sale.zones[category]?.amount;
-      const ticketCount = ticketGenData.ticketList.filter(
-        (t) => t.category === category
-      ).length;
-
-      if (concertTickets >= ticketCount) {
-        // Enough tickets available for this category
-        continue;
-      } else {
-        // Not enough tickets available for this category
-        const ticketName = ticketGenData.ticketList.find(
+      for (const ticket of ticketGenData.ticketList) {
+        const category = String(ticket?.category);
+        const concertTickets =
+          concertData.tickets.online_sale.zones[category]?.amount;
+        const ticketCount = ticketGenData.ticketList.filter(
           (t) => t.category === category
-        )?.ticketName;
-        missingCategories.add(ticketName || category);
-      }
-    }
+        ).length;
 
-    return Array.from(missingCategories);
+        if (concertTickets >= ticketCount) {
+          // Enough tickets available for this category
+          continue;
+        } else {
+          // Not enough tickets available for this category
+          const ticketName = ticketGenData.ticketList.find(
+            (t) => t.category === category
+          )?.ticketName;
+          missingCategories.add(ticketName || category);
+        }
+      }
+
+      return Array.from(missingCategories);
+    } else if (concertData.place.type === "theater") {
+      const newZones = concertData.tickets.online_sale.zones;
+      const oldZones = theaterZones;
+      console.log({ newZones, oldZones });
+      const unmatchedReservedSeats = [];
+
+      // Iterate through oldZones to find reserved seats
+      for (const oldZoneKey in oldZones) {
+        const oldZone = oldZones[oldZoneKey];
+
+        for (const rowKey in oldZone.rows) {
+          const reservedSeatsInRow = Object.values(
+            oldZone.rows[rowKey].reserved_seats
+          );
+
+          // Check if reserved seats exist in newZones
+          for (const seat of reservedSeatsInRow) {
+            const { seatNumber } = seat;
+
+            if (
+              !newZones[oldZoneKey] ||
+              !newZones[oldZoneKey].rows[rowKey] ||
+              !newZones[oldZoneKey].rows[rowKey].seats.includes(seatNumber)
+            ) {
+              // Seat is not available in newZones, add to unmatchedReservedSeats
+              unmatchedReservedSeats.push(
+                `sjedalo ${seat.seatNumber} ulaznica-${seat.ticketID}`
+              );
+            }
+          }
+        }
+      }
+
+      return unmatchedReservedSeats;
+    }
   };
 
   // BUY BUTTON
   // Chek if mails are there, to enable pay button
   const handleButtonClick = async () => {
-    await fetchConcertData();
+    const concertDataFetched = await fetchConcertData();
     if (userId === "") {
       dispatch(setLoginIsOpen(true));
 
@@ -175,14 +250,14 @@ export const BuyPage = () => {
     );
     const ticketsIdWithoutSeat = ticketsWithoutSeat.map((ticket) => ticket.id);
     const categoryWithNotEnoughTickets = areEnoughTicketsAvailable(
-      concertData,
+      concertDataFetched,
       ticketGenData
     );
-
+    fetchZoneData();
     {
       if (ticketsIdWithoutEmail.length === 0) {
         if (ticketsIdWithoutSeat.length === 0) {
-          if (categoryWithNotEnoughTickets.length === 0) {
+          if (categoryWithNotEnoughTickets?.length === 0) {
             setShowPaymentForm(true);
 
             const allEmails = allTickets.map((ticket) => ticket.email);
@@ -229,11 +304,13 @@ export const BuyPage = () => {
           } else {
             {
               toast.error(
-                `Nema dovoljno ulaznica za ${
+                `${
                   categoryWithNotEnoughTickets.length === 1
-                    ? "kategoriju"
-                    : "kategorije"
-                }: ${categoryWithNotEnoughTickets}.`,
+                    ? "Ulaznica"
+                    : "Ulaznice"
+                }: ${categoryWithNotEnoughTickets} ${
+                  categoryWithNotEnoughTickets.length === 1 ? "nije" : "nisu"
+                } više u prodaji.`,
                 toastSetup("top-right", 3000)
               );
             }
@@ -273,6 +350,7 @@ export const BuyPage = () => {
   };
   useEffect(() => {
     // Check if showPaymentForm is true and click the button if it is
+
     if (showPaymentForm) {
       // Function to handle the click logic when the button is found
       const clickButton = () => {
@@ -283,7 +361,7 @@ export const BuyPage = () => {
           buttonElement.click();
         } else {
           // Retry after a short delay if the button is not found yet
-          setTimeout(clickButton, 200);
+          setTimeout(clickButton, 400);
         }
       };
 
@@ -329,7 +407,7 @@ export const BuyPage = () => {
             <div className="specification">
               <div className="amount">
                 <h4>Količina</h4>
-                <div className="left">
+                <div className="amount-left">
                   <button onClick={removeTicket}>
                     <img src={minus} alt="minus" />
                   </button>
@@ -355,6 +433,8 @@ export const BuyPage = () => {
                   <Personalization
                     key={i}
                     i={i}
+                    addTicketFunction={addTicket}
+                    activeCardIndex={activeCardIndex}
                     ticketAmount={ticketAmount}
                     concertData={concertData}
                     profileData={profileData}
@@ -362,9 +442,20 @@ export const BuyPage = () => {
                   />
                 ))}
               </Carousel>
+              {concertData && concertData?.place?.type === "theater" && (
+                <TheaterBuyPage
+                  setShowPaymentForm={setShowPaymentForm}
+                  addTicketFunction={addTicket}
+                  removeLastTicket={removeTicket}
+                  theaterZones={theaterZones}
+                  setTheaterZones={setTheaterZones}
+                  concertData={concertData}
+                  activeCardIndex={activeCardIndex}
+                />
+              )}
             </div>
           ) : (
-            <h6>Nema ulaznica za online prodaju</h6>
+            <h6>Organizator ne nudi ulaznice za online prodaju</h6>
           )}
         </div>
 

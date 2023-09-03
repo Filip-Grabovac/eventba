@@ -5,7 +5,6 @@ import { addTicket } from "../../store/ticketSlice";
 import { Tooltip } from "react-tooltip";
 import { addTicketPrice } from "../../store/ticketSlice";
 import HallTickets from "./ticket-type/HallTickets";
-import { TheaterBuyPage } from "./TheaterBuyPage";
 
 export const Personalization = ({
   i,
@@ -20,6 +19,7 @@ export const Personalization = ({
   const [email, setEmail] = useState(profileData?.email || "");
   const [ticketPrice, setTicketPrice] = useState(0);
   const [activeCategory, setActiveCategory] = useState(null);
+
   const dispatch = useDispatch();
   const ticketID = i + 1;
 
@@ -135,7 +135,10 @@ export const Personalization = ({
                     required
                   />
                   <Tooltip
-                    style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
+                    style={{
+                      borderRadius: "10px",
+                      backgroundColor: "#455cd9",
+                    }}
                     anchorId={`email-${i}`}
                     place="bottom"
                     variant="info"
@@ -148,16 +151,13 @@ export const Personalization = ({
         ) : (
           ""
         )}
-        <h4 className="choose-place">Odaberi ulaznicu:</h4>
+
         {concertData?.place?.type === "hall" && (
           <HallTickets
             concertData={concertData}
             activeCategory={activeCategory}
             handleClick={handleClick}
           />
-        )}
-        {concertData?.place?.type === "theater" && (
-          <TheaterBuyPage concertData={concertData} ticketID={ticketID} />
         )}
       </div>
     </>

@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { sha512 } from 'crypto-hash';
+import React, { useEffect, useState } from "react";
+import { sha512 } from "crypto-hash";
 
-const MyComponent = ({
-  totalAmount,
-  profileData,
-
-  orderNumber,
-}) => {
+const MyComponent = ({ totalAmount, profileData, orderNumber }) => {
   const [hashedCode, setHashCode] = useState();
 
-  const key = 'key-7db98c681752b62dc6fac2ec4daa93c1';
+  const key = "key-7db98c681752b62dc6fac2ec4daa93c1";
   const amount = totalAmount * 100;
-  const fullName = profileData.name + ' ' + profileData.lname;
+  const fullName = profileData.full_name;
   const zip = profileData.zip;
   const phone = profileData.phone;
   const email = profileData.email;
@@ -24,30 +19,30 @@ const MyComponent = ({
   };
 
   useEffect(() => {
-    handleTextInput(key + orderNumber.toString() + amount + 'BAM');
+    handleTextInput(key + orderNumber.toString() + amount + "BAM");
     if (orderNumber && hashedCode) {
-      const script1 = document.createElement('script');
-      script1.src = 'https://ipgtest.monri.com/dist/components.js';
+      const script1 = document.createElement("script");
+      script1.src = "https://ipgtest.monri.com/dist/components.js";
       document.head.appendChild(script1);
 
-      const script2 = document.createElement('script');
-      script2.src = 'https://ipgtest.monri.com/dist/lightbox.js';
-      script2.className = 'lightbox-button';
-      script2.setAttribute('data-authenticity-token', '000d6675b8e33b0eb0c6b');
-      script2.setAttribute('data-amount', amount);
-      script2.setAttribute('data-currency', 'BAM');
-      script2.setAttribute('data-order-number', orderNumber);
-      script2.setAttribute('data-order-info', 'Lightbox example');
-      script2.setAttribute('data-digest', hashedCode);
-      script2.setAttribute('data-transaction-type', 'purchase');
-      script2.setAttribute('data-ch-full-name', fullName ? fullName : '');
-      script2.setAttribute('data-ch-zip', zip ? zip : '');
-      script2.setAttribute('data-ch-phone', phone ? phone : '');
-      script2.setAttribute('data-ch-email', email ? email : '');
-      script2.setAttribute('data-ch-address', address ? address : '');
-      script2.setAttribute('data-ch-city', city ? city : '');
-      script2.setAttribute('data-ch-country', country ? country : '');
-      script2.setAttribute('data-language', 'en');
+      const script2 = document.createElement("script");
+      script2.src = "https://ipgtest.monri.com/dist/lightbox.js";
+      script2.className = "lightbox-button";
+      script2.setAttribute("data-authenticity-token", "000d6675b8e33b0eb0c6b");
+      script2.setAttribute("data-amount", amount);
+      script2.setAttribute("data-currency", "BAM");
+      script2.setAttribute("data-order-number", orderNumber);
+      script2.setAttribute("data-order-info", "Lightbox example");
+      script2.setAttribute("data-digest", hashedCode);
+      script2.setAttribute("data-transaction-type", "purchase");
+      script2.setAttribute("data-ch-full-name", fullName ? fullName : "");
+      script2.setAttribute("data-ch-zip", zip ? zip : "");
+      script2.setAttribute("data-ch-phone", phone ? phone : "");
+      script2.setAttribute("data-ch-email", email ? email : "");
+      script2.setAttribute("data-ch-address", address ? address : "");
+      script2.setAttribute("data-ch-city", city ? city : "");
+      script2.setAttribute("data-ch-country", country ? country : "");
+      script2.setAttribute("data-language", "en");
       document.body.appendChild(script2);
 
       return () => {
@@ -57,8 +52,9 @@ const MyComponent = ({
     }
   }, [orderNumber, hashedCode]);
 
-  if (orderNumber && hashedCode) {
-    return (
+  return (
+    orderNumber &&
+    hashedCode && (
       <form
         className="payment-form"
         method="POST"
@@ -74,18 +70,18 @@ const MyComponent = ({
           data-order-info="Lightbox example"
           data-digest={hashedCode}
           data-transaction-type="purchase"
-          data-ch-full-name={fullName ? fullName : ''}
-          data-ch-zip={zip ? zip : ''}
-          data-ch-phone={phone ? phone : ''}
-          data-ch-email={email ? email : ''}
-          data-ch-address={address ? address : ''}
-          data-ch-city={city ? city : ''}
-          data-ch-country={country ? country : ''}
+          data-ch-full-name={fullName ? fullName : ""}
+          data-ch-zip={zip ? zip : ""}
+          data-ch-phone={phone ? phone : ""}
+          data-ch-email={email ? email : ""}
+          data-ch-address={address ? address : ""}
+          data-ch-city={city ? city : ""}
+          data-ch-country={country ? country : ""}
           data-language="en"
         ></script>
       </form>
-    );
-  }
+    )
+  );
 };
 
 export default MyComponent;
