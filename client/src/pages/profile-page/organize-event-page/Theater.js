@@ -11,7 +11,6 @@ export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
   const [price, setPrice] = useState("");
   const [type, setType] = useState("Regular");
 
-  console.log(selectedZone);
   // Load ground image
   useEffect(() => {
     const loadImage = async () => {

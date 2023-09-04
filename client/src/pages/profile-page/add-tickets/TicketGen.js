@@ -99,17 +99,22 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
       const filteredTickets = tickets.filter(
         (ticket) => ticket.ticketsNum !== ""
       );
+      console.log({
+        ticketGenData: filteredTickets,
+        concertData,
+        adminEmail,
+      });
 
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/v1/freeSale/generate-tickets`,
-        {
-          ticketGenData: filteredTickets,
-          concertData,
-          adminEmail,
-        }
-      );
+      // const response = await axios.post(
+      //   `${process.env.REACT_APP_API_URL}/api/v1/freeSale/generate-tickets`,
+      //   {
+      //     ticketGenData: filteredTickets,
+      //     concertData,
+      //     adminEmail,
+      //   }
+      // );
 
-      setPdfFilePath(response.data.pdfFilePath);
+      // setPdfFilePath(response.data.pdfFilePath);
 
       try {
         const response = await axios.get(
