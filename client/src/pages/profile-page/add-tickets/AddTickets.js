@@ -1,11 +1,11 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { GetAllEvents } from "./GetAllEvents";
-import { EventDetails } from "./EventDetails";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { GetAllEvents } from './GetAllEvents';
+import { EventDetails } from './EventDetails';
 
 export const AddTickets = ({ adminEmail }) => {
   const [allEvents, setAllEvents] = useState([]);
-  const [event, setEvent] = useState("");
+  const [event, setEvent] = useState('');
   const [concertData, setConcertData] = useState(null);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export const AddTickets = ({ adminEmail }) => {
       );
       setAllEvents(response.data.concerts);
     } catch (error) {
-      console.error("Error fetching profile data:", error);
+      console.error('Error fetching profile data:', error);
     }
   };
 
@@ -29,7 +29,7 @@ export const AddTickets = ({ adminEmail }) => {
 
     // Extracting the data-id from the selected option
     const dataId =
-      e.target.options[e.target.selectedIndex].getAttribute("data-id");
+      e.target.options[e.target.selectedIndex].getAttribute('data-id');
 
     // Fetching concert data using the extracted dataId
     try {
@@ -38,7 +38,7 @@ export const AddTickets = ({ adminEmail }) => {
       );
       setConcertData(response.data[0]);
     } catch (error) {
-      console.error("Error fetching concert data:", error);
+      console.error('Error fetching concert data:', error);
     }
   };
 

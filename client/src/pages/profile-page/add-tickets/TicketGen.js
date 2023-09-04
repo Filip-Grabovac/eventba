@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import PlusIcon from "../../../assets/ikonice/plus_icon.svg";
-import trashCan from "../../../assets/ikonice/trash_can.svg";
-import axios from "axios";
-import { toastSetup } from "../../../functions/toastSetup";
-import { toast } from "react-toastify";
-import { Bars } from "react-loader-spinner";
+import React, { useState, useEffect, useRef } from 'react';
+import PlusIcon from '../../../assets/ikonice/plus_icon.svg';
+import trashCan from '../../../assets/ikonice/trash_can.svg';
+import axios from 'axios';
+import { toastSetup } from '../../../functions/toastSetup';
+import { toast } from 'react-toastify';
+import { Bars } from 'react-loader-spinner';
+import { Theater } from '../organize-event-page/Theater';
 
 export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
   const [rowNum, setRowNum] = useState(0);
@@ -12,14 +13,29 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
   const [totalTickets, setTotalTickets] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const [provision, setProvision] = useState(0);
-  const [pdfFilePath, setPdfFilePath] = useState("");
+  const [pdfFilePath, setPdfFilePath] = useState('');
   const [loader, setLoader] = useState(false);
   const firstInvalidInputRef = useRef(null);
   const [invalidInputs, setInvalidInputs] = useState([]);
+  const [groundPlan, setGroundPlan] = useState();
+  const [rows, setRows] = useState({});
+  let placeData;
+
+  placeData = {
+    ground_plan: concertData.place.ground_plan,
+    location: concertData.place.city,
+    name: concertData.place.place,
+    type: concertData.place.type,
+    zones: concertData.tickets.online_sale.zones,
+  };
+
+  useEffect(() => {
+    setRows(concertData.tickets.online_sale.zones);
+  }, []);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setPdfFilePath("");
+    setPdfFilePath('');
     setLoader(true);
 
     const categoryNames = tickets.map((ticket) => ticket.categoryName.trim());
@@ -27,8 +43,8 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
 
     if (hasDuplicates) {
       toast.warn(
-        "Molimo unesite jedinstvene nazive zona ulaznica.",
-        toastSetup("top-right", 3000)
+        'Molimo unesite jedinstvene nazive zona ulaznica.',
+        toastSetup('top-right', 3000)
       );
       setLoader(false);
       return;
@@ -43,15 +59,15 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
       const invalidFields = tickets
         .map((ticket, index) => ({
           index,
-          fields: ["categoryName", "ticketPrice", "ticketType"].filter(
+          fields: ['categoryName', 'ticketPrice', 'ticketType'].filter(
             (field) => !ticket[field]
           ),
         }))
         .filter((ticket) => ticket.fields.length > 0);
 
       toast.warn(
-        "Molimo unesite sve potrebne podatke za zone ulaznica.",
-        toastSetup("top-right", 3000)
+        'Molimo unesite sve potrebne podatke za zone ulaznica.',
+        toastSetup('top-right', 3000)
       );
       if (invalidFields.length > 0) {
         setInvalidInputs(invalidFields);
@@ -66,7 +82,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
 
       const firstInvalidInputName = firstInvalidInputRef.current.name;
       if (
-        ["categoryName", "ticketPrice", "ticketType"].includes(
+        ['categoryName', 'ticketPrice', 'ticketType'].includes(
           firstInvalidInputName
         )
       ) {
@@ -84,8 +100,8 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
     // Check if the total number of tickets is 0
     if (totalTicketNum === 0) {
       toast.warn(
-        "Nema ulaznica za ispis. Unesite broj ulaznica za neku od zona.",
-        toastSetup("top-right", 3000)
+        'Nema ulaznica za ispis. Unesite broj ulaznica za neku od zona.',
+        toastSetup('top-right', 3000)
       );
       setLoader(false);
       return;
@@ -94,10 +110,10 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
     try {
       toast.success(
         `Ulaznice su tijeku izrade. Po završetku ih preuzmite izravno ili putem poveznice koja će vam biti poslana na ${adminEmail}`,
-        toastSetup("top-right", 5000)
+        toastSetup('top-right', 5000)
       );
       const filteredTickets = tickets.filter(
-        (ticket) => ticket.ticketsNum !== ""
+        (ticket) => ticket.ticketsNum !== ''
       );
 
       const response = await axios.post(
@@ -117,17 +133,17 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
         );
         setConcertData(response.data[0]);
       } catch (error) {
-        console.error("Greška pri dohvaćanju podataka o koncertu:", error);
+        console.error('Greška pri dohvaćanju podataka o koncertu:', error);
       }
       setLoader(false);
       toast.success(
-        "Generiranje ulaznica uspješno!",
-        toastSetup("top-right", 3000)
+        'Generiranje ulaznica uspješno!',
+        toastSetup('top-right', 3000)
       );
     } catch (error) {
       toast.error(
-        "Problem s generiranjem ulaznica. Pokušajte ponovno kasnije...",
-        toastSetup("top-right", 3000)
+        'Problem s generiranjem ulaznica. Pokušajte ponovno kasnije...',
+        toastSetup('top-right', 3000)
       );
     }
   };
@@ -138,7 +154,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
         (categoryName) => ({
           categoryName,
           ticketType: concertData.tickets.free_sale.zones[categoryName].name,
-          ticketsNum: "",
+          ticketsNum: '',
           ticketPrice:
             concertData.tickets.free_sale.zones[categoryName].price.toString(),
           ticketsAlready:
@@ -158,7 +174,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
     // Add a new ticket object to the tickets state when adding a row
     setTickets([
       ...tickets,
-      { categoryName: "", ticketType: "", ticketsNum: "", ticketPrice: "" },
+      { categoryName: '', ticketType: '', ticketsNum: '', ticketPrice: '' },
     ]);
   };
 
@@ -183,7 +199,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
       prevInvalidInputs.filter((input) => input.index !== index)
     );
 
-    setPdfFilePath("");
+    setPdfFilePath('');
   };
 
   useEffect(() => {
@@ -192,7 +208,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
     let totalAmount = 0;
     tickets.forEach((ticket) => {
       const ticketsNum = parseInt(ticket.ticketsNum, 10);
-      const ticketPrice = parseFloat(ticket.ticketPrice.replace(",", "."));
+      const ticketPrice = parseFloat(ticket.ticketPrice.replace(',', '.'));
       if (!isNaN(ticketsNum) && !isNaN(ticketPrice)) {
         totalTickets += ticketsNum;
         totalAmount += ticketsNum * ticketPrice;
@@ -203,118 +219,133 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
     setProvision((1.5 * totalTickets).toFixed(2));
   }, [tickets]);
 
+  console.log(tickets);
+
   return (
     <div className="generator-container">
       <form onSubmit={handleFormSubmit}>
         <div className="tickets-categories-container container-fluid">
-          {Array.from({ length: rowNum }).map((_, i) => {
-            const isDeletableRow =
-              i >=
-              Object.keys(concertData.tickets.free_sale.zones || []).length;
-            const categoryNameRef = i === 0 ? firstInvalidInputRef : null;
-            const ticketPriceRef = i === 0 ? null : firstInvalidInputRef;
+          {concertData && concertData.place.type === 'theater' ? (
+            <Theater
+              placeData={placeData}
+              setRows={setRows}
+              rows={rows}
+              setGroundPlan={setGroundPlan}
+            />
+          ) : (
+            Array.from({ length: rowNum }).map((_, i) => {
+              const isDeletableRow =
+                i >=
+                Object.keys(concertData.tickets.free_sale.zones || []).length;
+              const categoryNameRef = i === 0 ? firstInvalidInputRef : null;
+              const ticketPriceRef = i === 0 ? null : firstInvalidInputRef;
 
-            return (
-              <div key={i} className="row">
-                <div className="col-lg-6">
-                  <input
-                    className={`event-input category-name ${
-                      invalidInputs.some(
-                        (input) =>
-                          input.index === i &&
-                          input.fields.includes("categoryName")
-                      )
-                        ? "invalid-input"
-                        : ""
-                    }`}
-                    name="categoryName"
-                    value={tickets[i]?.categoryName || ""}
-                    placeholder="Zona ulaznice"
-                    type="text"
-                    onChange={(e) => handleInputChange(e, i, "categoryName")}
-                    onInput={(e) => {
-                      e.target.style = "outline: none;";
-                    }}
-                    disabled={!isDeletableRow}
-                    ref={categoryNameRef}
-                  />
-                  <input
-                    className={`event-input ticket-type ${
-                      invalidInputs.some(
-                        (input) =>
-                          input.index === i &&
-                          input.fields.includes("ticketType")
-                      )
-                        ? "invalid-input"
-                        : ""
-                    }`}
-                    name="ticketType"
-                    value={tickets[i]?.ticketType || ""}
-                    placeholder="Tip ulaznice"
-                    type="text"
-                    onChange={(e) => handleInputChange(e, i, "ticketType")}
-                    onInput={(e) => {
-                      e.target.style = "outline: none;";
-                    }}
-                    disabled={!isDeletableRow}
-                  />
-                </div>
-                <div className="col-lg-6 add-tickets-right-col">
-                  <input
-                    className="event-input tickets-num"
-                    name="ticketsNum"
-                    value={tickets[i]?.ticketsNum || ""}
-                    placeholder={`Broj ulaznica. (${
-                      tickets[i]?.ticketsAlready || "0"
-                    })`}
-                    type="text"
-                    onChange={(e) => handleInputChange(e, i, "ticketsNum")}
-                    onInput={(e) => {
-                      e.target.style = "outline: none;";
-                    }}
-                  />
-                  <div className="price">
+              return (
+                <div key={i} className="row">
+                  <div className="col-lg-6">
                     <input
-                      className={`event-input ticket-price ${
+                      className={`event-input category-name ${
                         invalidInputs.some(
                           (input) =>
                             input.index === i &&
-                            input.fields.includes("ticketPrice")
+                            input.fields.includes('categoryName')
                         )
-                          ? "invalid-input"
-                          : ""
+                          ? 'invalid-input'
+                          : ''
                       }`}
-                      name="ticketPrice"
-                      value={tickets[i]?.ticketPrice || ""}
-                      placeholder="Cijena ulaznice"
+                      name="categoryName"
+                      value={tickets[i]?.categoryName || ''}
+                      placeholder="Zona ulaznice"
                       type="text"
-                      onChange={(e) => handleInputChange(e, i, "ticketPrice")}
+                      onChange={(e) => handleInputChange(e, i, 'categoryName')}
                       onInput={(e) => {
-                        e.target.style = "outline: none;";
+                        e.target.style = 'outline: none;';
                       }}
                       disabled={!isDeletableRow}
-                      ref={ticketPriceRef}
+                      ref={categoryNameRef}
                     />
-                    <span>BAM</span>
-                    {isDeletableRow && (
-                      <img
-                        src={trashCan}
-                        alt="trash can"
-                        onClick={() => handleRemoveRow(i)}
+                    <input
+                      className={`event-input ticket-type ${
+                        invalidInputs.some(
+                          (input) =>
+                            input.index === i &&
+                            input.fields.includes('ticketType')
+                        )
+                          ? 'invalid-input'
+                          : ''
+                      }`}
+                      name="ticketType"
+                      value={tickets[i]?.ticketType || ''}
+                      placeholder="Tip ulaznice"
+                      type="text"
+                      onChange={(e) => handleInputChange(e, i, 'ticketType')}
+                      onInput={(e) => {
+                        e.target.style = 'outline: none;';
+                      }}
+                      disabled={!isDeletableRow}
+                    />
+                  </div>
+                  <div className="col-lg-6 add-tickets-right-col">
+                    <input
+                      className="event-input tickets-num"
+                      name="ticketsNum"
+                      value={tickets[i]?.ticketsNum || ''}
+                      placeholder={`Broj ulaznica. (${
+                        tickets[i]?.ticketsAlready || '0'
+                      })`}
+                      type="text"
+                      onChange={(e) => handleInputChange(e, i, 'ticketsNum')}
+                      onInput={(e) => {
+                        e.target.style = 'outline: none;';
+                      }}
+                    />
+                    <div className="price">
+                      <input
+                        className={`event-input ticket-price ${
+                          invalidInputs.some(
+                            (input) =>
+                              input.index === i &&
+                              input.fields.includes('ticketPrice')
+                          )
+                            ? 'invalid-input'
+                            : ''
+                        }`}
+                        name="ticketPrice"
+                        value={tickets[i]?.ticketPrice || ''}
+                        placeholder="Cijena ulaznice"
+                        type="text"
+                        onChange={(e) => handleInputChange(e, i, 'ticketPrice')}
+                        onInput={(e) => {
+                          e.target.style = 'outline: none;';
+                        }}
+                        disabled={!isDeletableRow}
+                        ref={ticketPriceRef}
                       />
-                    )}
+                      <span>BAM</span>
+                      {isDeletableRow && (
+                        <img
+                          src={trashCan}
+                          alt="trash can"
+                          onClick={() => handleRemoveRow(i)}
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
-        <img
-          onClick={handleAddRow}
-          className="add-category-icon"
-          src={PlusIcon}
-          alt="Add"
-        />
+        {concertData && concertData.place.type !== 'theater' ? (
+          <img
+            onClick={handleAddRow}
+            className="add-category-icon"
+            src={PlusIcon}
+            alt="Add"
+          />
+        ) : (
+          ''
+        )}
         <div className="totals">
           <p>Ukupan broj ulaznica: {totalTickets}</p>
           <p>Ukupan iznos: {totalAmount} BAM</p>
@@ -328,7 +359,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
       </form>
       {loader ? (
         <div className="loader">
-          <Bars height="50" width="50" color="#455cd9" />{" "}
+          <Bars height="50" width="50" color="#455cd9" />{' '}
         </div>
       ) : null}
       {pdfFilePath ? (

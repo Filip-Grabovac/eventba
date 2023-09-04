@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
-import ImageMapper, { Mode } from "../../draw-place/image-mapper/ImageMapper";
-import { toast } from "react-toastify";
-import { toastSetup } from "../../../functions/toastSetup";
+import React, { useEffect, useState } from 'react';
+import ImageMapper, { Mode } from '../../draw-place/image-mapper/ImageMapper';
+import { toast } from 'react-toastify';
+import { toastSetup } from '../../../functions/toastSetup';
 
 export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
   const [groundPlanImg, setImg] = useState(null);
   const [modalWindow, setModalWindow] = useState(false);
   const [selectedZoneData, setSelectedZoneData] = useState();
   const [selectedZone, setSelectedZone] = useState([]);
-  const [price, setPrice] = useState("");
-  const [type, setType] = useState("Regular");
+  const [price, setPrice] = useState('');
+  const [type, setType] = useState('Regular');
 
-  console.log(selectedZone);
   // Load ground image
   useEffect(() => {
     const loadImage = async () => {
@@ -24,7 +23,7 @@ export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
         const imageUrl = URL.createObjectURL(blob);
 
         // Extract the image name from the URL
-        const imageName = placeData.ground_plan.split("/").pop();
+        const imageName = placeData.ground_plan.split('/').pop();
 
         // Create an image element to calculate its dimensions
         const imgElement = new Image();
@@ -44,7 +43,7 @@ export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
         // Set the src AFTER defining the onload handler
         imgElement.src = imageUrl;
       } catch (error) {
-        console.error("Error loading image:", error);
+        console.error('Error loading image:', error);
       }
     };
 
@@ -55,28 +54,28 @@ export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
   function handleZoneClick(e, zoneData) {
     setModalWindow(true);
     setSelectedZoneData(zoneData);
-    if (document.querySelector(".highlighted"))
-      document.querySelector(".highlighted").classList.remove("highlighted");
-    e.target.classList.add("highlighted");
+    if (document.querySelector('.highlighted'))
+      document.querySelector('.highlighted').classList.remove('highlighted');
+    e.target.classList.add('highlighted');
   }
 
   // Save zone
   function saveZone(e) {
     e.preventDefault();
     const isCheckboxChecked = document.querySelector(
-      ".disable-zone-checkbox"
+      '.disable-zone-checkbox'
     ).checked;
     let seatNumbersArray;
     let zoneKey = selectedZoneData[0];
 
     if (isCheckboxChecked) {
       seatNumbersArray = [];
-      document.getElementById(`${zoneKey}`).classList.remove("done");
+      document.getElementById(`${zoneKey}`).classList.remove('done');
     } else {
       if (!price) {
-        document.querySelector(".price-input").style =
-          "outline: 2px solid #f4cd46;";
-        toast.warn("Unesite cijenu", toastSetup("top-right", 3000));
+        document.querySelector('.price-input').style =
+          'outline: 2px solid #f4cd46;';
+        toast.warn('Unesite cijenu', toastSetup('top-right', 3000));
         return;
       }
       const totalSeats = parseInt(
@@ -85,7 +84,7 @@ export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
 
       // Create an array of seat numbers based on the total_seats value
       seatNumbersArray = Array.from({ length: totalSeats }, (_, i) => i + 1);
-      document.querySelector(".highlighted").classList.add("done");
+      document.querySelector('.highlighted').classList.add('done');
     }
 
     // Update the rows state to include the new seats array
@@ -116,7 +115,7 @@ export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
       };
     });
 
-    document.querySelector(".highlighted").classList.remove("highlighted");
+    document.querySelector('.highlighted').classList.remove('highlighted');
     setModalWindow(false);
   }
 
@@ -139,20 +138,20 @@ export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
 
   function saveRows(e) {
     e.preventDefault();
-    const rowsPrice = document.querySelector(".rows-price").value;
-    const rowsCategory = document.querySelector(".rows-category").value;
+    const rowsPrice = document.querySelector('.rows-price').value;
+    const rowsCategory = document.querySelector('.rows-category').value;
 
-    if (rowsPrice === "" || rowsCategory === "" || !selectedZone[0]) {
+    if (rowsPrice === '' || rowsCategory === '' || !selectedZone[0]) {
       toast.warn(
-        "Molimo unesite cijenu, kategoriju i odaberite barem jednu zonu.",
-        toastSetup("top-right", 3000)
+        'Molimo unesite cijenu, kategoriju i odaberite barem jednu zonu.',
+        toastSetup('top-right', 3000)
       );
       return;
     }
 
     // Update the rows state for each selected zone
     selectedZone.forEach((zoneKey) => {
-      document.getElementById(`${zoneKey}`).classList.add("done");
+      document.getElementById(`${zoneKey}`).classList.add('done');
       setRows((prevRows) => {
         const zone = prevRows[zoneKey];
 
@@ -188,8 +187,8 @@ export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
       });
     });
     toast.success(
-      "Uspješno ste dodali cijenu i kategoriju za odabrane zone.",
-      toastSetup("top-right", 3000)
+      'Uspješno ste dodali cijenu i kategoriju za odabrane zone.',
+      toastSetup('top-right', 3000)
     );
   }
 
@@ -259,13 +258,13 @@ export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
             ></div>
           </>
         ) : (
-          ""
+          ''
         )}
         <div className="organize-event-plan-wrapper">
           <div
             id="tooltip"
             display="none"
-            style={{ position: "absolute", display: "none" }}
+            style={{ position: 'absolute', display: 'none' }}
           ></div>
           <ImageMapper
             mode={Mode.SELECT}
