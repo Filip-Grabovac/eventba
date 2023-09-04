@@ -38,42 +38,97 @@ async function generateFreeSaleTicket({
   for (const ticketData of ticketGenData) {
     const { categoryName, ticketType, ticketsNum, ticketPrice, ticketRows } =
       ticketData;
+
     const amount = parseInt(ticketsNum);
     let remainingTickets = amount;
 
     // Generate tickets in batches of 4 until all tickets are generated
     while (remainingTickets > 0) {
-      tickets.length = 0;
       const batchCount = Math.min(4, remainingTickets);
       remainingTickets -= batchCount;
 
-      for (let i = 0; i < batchCount; i++) {
-        // Create a new ticket document
-        const ticketDocument = {
-          concert: concertData._id,
-          performer_name: concertData.performer_name,
-          category: ticketType, // Set the category dynamically
-          price: ticketPrice, // Set the price dynamically
-          ticketName: categoryName, // Set the ticket name dynamically
-          isValid: true,
-        };
+      // Iterate through ticketRows to assign proper row names and seat numbers
+      if (ticketRows && Object.keys(ticketRows).length > 0) {
+        for (const rowName in ticketRows) {
+          if (ticketRows.hasOwnProperty(rowName)) {
+            const row = ticketRows[rowName];
+            const totalSeats = parseInt(row.total_seats);
+            const seatsInBatch = Math.min(batchCount, totalSeats);
 
-        // Create a new ticket document with the concert ID
-        const Ticket = connectDB(process.env.DATABASE_URL_TICKET).model(
-          "Ticket",
-          TicketSchema,
-          `tickets_for_${concertData._id}`
-        );
-        const savedTicket = await new Ticket(ticketDocument).save();
-        const serialNumber = savedTicket._id; // Retrieve the ticket's _id
+            for (let i = 1; i <= seatsInBatch; i++) {
+              // Create a new ticket document
+              const ticketDocument = {
+                concert: concertData._id,
+                performer_name: concertData.performer_name,
+                category: ticketType, // Set the category dynamically
+                price: ticketPrice, // Set the price dynamically
+                ticketName: categoryName, // Set the ticket name dynamically
+                row: rowName, // Assign the row name
+                seat: i, // Assign the seat number in order
+                isValid: true,
+              };
 
-        // Generate QR code for the current ticket
-        const qrCodeName = `qr-code-${tickets.length + 1}.png`;
-        await generateQRCodeFree(String(serialNumber), qrCodeName);
-        const qrPath = `images/${qrCodeName}`;
+              // Create a new ticket document with the concert ID
+              const Ticket = connectDB(process.env.DATABASE_URL_TICKET).model(
+                "Ticket",
+                TicketSchema,
+                `tickets_for_${concertData._id}`
+              );
+              const savedTicket = await new Ticket(ticketDocument).save();
+              const serialNumber = savedTicket._id; // Retrieve the ticket's _id
 
-        tickets.push({ serialNumber, qrPath, ticketNumber });
-        ticketNumber = (Number(ticketNumber) + 1).toString().padStart(6, "0");
+              // Generate QR code for the current ticket
+              const qrCodeName = `qr-code-${tickets.length + 1}.png`;
+              await generateQRCodeFree(String(serialNumber), qrCodeName);
+              const qrPath = `images/${qrCodeName}`;
+
+              tickets.push({
+                serialNumber,
+                qrPath,
+                ticketNumber,
+                rowName,
+                seat: i,
+              });
+              ticketNumber = (Number(ticketNumber) + 1)
+                .toString()
+                .padStart(6, "0");
+            }
+          }
+        }
+      } else {
+        for (let i = 0; i < batchCount; i++) {
+          // Create a new ticket document
+          const ticketDocument = {
+            concert: concertData._id,
+            performer_name: concertData.performer_name,
+            category: ticketType, // Set the category dynamically
+            price: ticketPrice, // Set the price dynamically
+            ticketName: categoryName, // Set the ticket name dynamically
+
+            isValid: true,
+          };
+
+          // Create a new ticket document with the concert ID
+          const Ticket = connectDB(process.env.DATABASE_URL_TICKET).model(
+            "Ticket",
+            TicketSchema,
+            `tickets_for_${concertData._id}`
+          );
+          const savedTicket = await new Ticket(ticketDocument).save();
+          const serialNumber = savedTicket._id; // Retrieve the ticket's _id
+
+          // Generate QR code for the current ticket
+          const qrCodeName = `qr-code-${tickets.length + 1}.png`;
+          await generateQRCodeFree(String(serialNumber), qrCodeName);
+          const qrPath = `images/${qrCodeName}`;
+
+          tickets.push({
+            serialNumber,
+            qrPath,
+            ticketNumber,
+          });
+          ticketNumber = (Number(ticketNumber) + 1).toString().padStart(6, "0");
+        }
       }
 
       const port = 8888;
@@ -137,6 +192,7 @@ async function generateFreeSaleTicket({
       console.log("Generation ended...Server closing");
       // Close the server for the current ticket
       server.close();
+
       const random = generateRandomPort(3000, 1000000);
       // Save the PDF buffer for this batch
       const pdfPath = path.resolve(

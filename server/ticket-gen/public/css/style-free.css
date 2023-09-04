@@ -65,7 +65,7 @@ body {
     align-items: stretch;
     .left {
       width: 71.4%;
-      color: #333333;
+      color: #000000;
       margin-right: 5px;
 
       .top {
@@ -97,7 +97,7 @@ body {
               text-align: center;
               justify-content: space-around;
               position: absolute;
-              right: 15px;
+              right: 25px;
               bottom: 80px;
 
               .large-letter {
@@ -110,18 +110,26 @@ body {
             }
           }
         }
-
+        .margin-right {
+          margin-right: 10px;
+        }
         .time,
         .location,
         .ticket-location,
         .serial-number,
         .price {
-          font-size: 15px;
           display: inline-block;
           font-weight: 600;
         }
         .ticket-location {
-          text-transform: uppercase;
+          display: flex;
+          gap: 50px;
+          .location-div {
+            display: flex;
+          }
+          .location-div-flex-center {
+            margin: 0 auto;
+          }
         }
         .preformer {
           display: block;
@@ -139,9 +147,8 @@ body {
         }
 
         .price-qr {
-          width: 70%;
           display: flex;
-          justify-content: space-between;
+          gap: 50px;
           align-items: flex-end;
         }
       }

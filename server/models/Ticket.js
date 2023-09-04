@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const TicketSchema = new mongoose.Schema({
-  concert: mongoose.Schema.Types.ObjectId,
+  concert: String,
   performer_name: String,
   category: String,
   seat: String,
