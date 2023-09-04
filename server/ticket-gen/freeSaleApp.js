@@ -34,9 +34,10 @@ async function generateFreeSaleTicket({
   });
   const formattedDate = date.charAt(0).toUpperCase() + date.slice(1);
 
-  // Loop through the categories in ticketGenData
+  // Loop through the zones in ticketGenData
   for (const ticketData of ticketGenData) {
-    const { categoryName, ticketType, ticketsNum, ticketPrice } = ticketData;
+    const { categoryName, ticketType, ticketsNum, ticketPrice, ticketRows } =
+      ticketData;
     const amount = parseInt(ticketsNum);
     let remainingTickets = amount;
 
@@ -133,7 +134,7 @@ async function generateFreeSaleTicket({
       // Download tickets
       const pdfBuffer = await generatePdf(port);
 
-      console.log("ended");
+      console.log("Generation ended...Server closing");
       // Close the server for the current ticket
       server.close();
       const random = generateRandomPort(3000, 1000000);
