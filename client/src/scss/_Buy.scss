@@ -399,12 +399,8 @@
       }
       svg {
         width: 100%;
-        max-width: 540px;
+
         height: auto;
-        filter: blur(1px);
-        &:hover {
-          filter: blur(0);
-        }
       }
     }
   }

@@ -11,7 +11,7 @@ export const AddObject = () => {
 
   return (
     <div className="add-hall-container smaller-profile">
-      <h6>Object Type</h6>
+      <h6>Tip objekta</h6>
       <select
         className="select-object"
         placeholder="Izaberi vrstu objekta"
