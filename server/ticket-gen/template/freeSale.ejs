@@ -30,20 +30,32 @@
                       <span class="time"><%= formattedDate %></span>
                       <span class="location"><%= place %></span>
                       <span class="ticket-location">
-                        <%= categoryName %> <% if (categoryName !== "" &&
-                        ticketType !== "") { %> &nbsp;-&nbsp;<strong
-                          ><%= ticketType %></strong
-                        >
-                        <% } else if (ticketType !== "") { %>
-                        <strong><%= ticketType %></strong>
-                        <% } %>
+                        <div class="location-div">
+                          <%= categoryName %> <% if (categoryName !== "" &&
+                          ticketType !== "") { %> &nbsp;-&nbsp;<strong
+                            ><%= ticketType %></strong
+                          >
+                          <% } else if (ticketType !== "") { %>
+                          <strong><%= ticketType %></strong>
+                          <% } %>
+                        </div>
+                        <div class="location-div-flex-center">
+                          <% if (ticket.rowName) { %>
+                          <span class="margin-right"
+                            >Red : <%= ticket.rowName %>
+                          </span>
+                          <% } %> <% if (ticket.seat) { %>
+                          <span> Sjedalo : <%= ticket.seat %></span>
+                          <% } %>
+                        </div>
                       </span>
-                      <div class="price-qr">
+
+                      <div class="ticket-location">
                         <div class="serial-number">
                           N<%= ticket.ticketNumber %>
                         </div>
-                        <div class="price">
-                          Cijena:
+                        <div class="location-div-flex-center">
+                          <span class="margin-right">Cijena:</span>
                           <strong><%= ticketPrice %> <small>BAM</small></strong>
                         </div>
                       </div>
@@ -60,7 +72,7 @@
                       </span>
                       <% } %>
 
-                      <span class="ticket-location color-text">
+                      <span class="color-text">
                         <% if (categoryName !== "") { %> <%= categoryName %> <%
                         } else if (ticketType !== "") { %> <%= ticketType %> <%
                         } %>
