@@ -92,9 +92,20 @@ function ImageMapper({
             totalRemainingSeats += value.seats.length;
           });
 
-          const containerStyle = `rgb(110, ${Math.floor(
-            (totalRemainingSeats / totalSeats) * 255
-          )}, 0)`;
+          let containerStyle;
+
+          if (
+            page === 'ticketGen' &&
+            (!zoneData.name || zoneData.name === '')
+          ) {
+            containerStyle = 'rgb(110, 0, 0)';
+          } else if (page === 'ticketGen' && zoneData.name) {
+            containerStyle = 'rgb(110, 255, 0)';
+          } else {
+            containerStyle = `rgb(110, ${Math.floor(
+              (totalRemainingSeats / totalSeats) * 255
+            )}, 0)`;
+          }
 
           if (zoneData.location.shape === 'rect') {
             return (

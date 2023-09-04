@@ -3,13 +3,21 @@ import ImageMapper, { Mode } from '../../draw-place/image-mapper/ImageMapper';
 import { toast } from 'react-toastify';
 import { toastSetup } from '../../../functions/toastSetup';
 
-export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
+export const Theater = ({
+  placeData,
+  setRows,
+  setFreeSaleRows,
+  rows,
+  setGroundPlan,
+  page,
+  setTickets,
+}) => {
   const [groundPlanImg, setImg] = useState(null);
   const [modalWindow, setModalWindow] = useState(false);
   const [selectedZoneData, setSelectedZoneData] = useState();
   const [selectedZone, setSelectedZone] = useState([]);
   const [price, setPrice] = useState('');
-  const [type, setType] = useState('Regular');
+  const [type, setType] = useState('');
 
   // Load ground image
   useEffect(() => {
@@ -71,6 +79,7 @@ export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
     if (isCheckboxChecked) {
       seatNumbersArray = [];
       document.getElementById(`${zoneKey}`).classList.remove('done');
+      setType('');
     } else {
       if (!price) {
         document.querySelector('.price-input').style =
@@ -96,19 +105,48 @@ export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
         (total, row) => total + Number(row.total_seats),
         0
       );
+
+      // Create a new row object
+      const newRow = {
+        price: Number(price),
+        name: isCheckboxChecked ? '' : type,
+        max_amount: totalSeatsInZone,
+        amount: totalSeatsInZone,
+        seats: seatNumbersArray,
+      };
+      // Update or add the new row to the setFreeSaleRows
+      const updatedFreeSaleRows = {
+        ...setFreeSaleRows,
+        [zoneKey]: newRow,
+      };
+
+      setTickets((tickets) => [
+        ...tickets,
+        {
+          categoryName: zoneKey,
+          ticketType: document.querySelector('.ticket-type').value,
+          ticketsNum: zone.total_amount,
+          ticketPrice: document.querySelector('.price-input').value,
+          rows: Object.keys(zone.rows).reduce((acc, rowKey) => {
+            acc[rowKey] = { total_seats: zone.rows[rowKey].total_seats };
+            return acc;
+          }, {}),
+        },
+      ]);
+
       return {
         ...prevRows,
         [zoneKey]: {
           ...prevRows[zoneKey],
-          price: Number(price),
-          name: type,
-          max_amount: totalSeatsInZone,
-          amount: totalSeatsInZone, // Update 'amount' with the total number of seats
+          price: newRow.price,
+          name: newRow.name,
+          max_amount: newRow.max_amount,
+          amount: newRow.amount,
           rows: {
             ...prevRows[zoneKey].rows,
             [zoneKey]: {
               ...prevRows[zoneKey].rows[zoneKey],
-              seats: seatNumbersArray,
+              seats: newRow.seats,
             },
           },
         },
@@ -234,7 +272,7 @@ export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
                 <h6>Tip ulaznice</h6>
                 <input
                   value={type}
-                  className="price-input"
+                  className="price-input ticket-type"
                   type="text"
                   onChange={(e) => {
                     setType(e.target.value);
@@ -278,6 +316,7 @@ export const Theater = ({ placeData, setRows, rows, setGroundPlan }) => {
             }}
             handleZoneClick={handleZoneClick}
             preDrawnShapes={rows}
+            page={page}
           />
           <div className="select-all-seats-wrapper">
             <h6>Odredi cijenu i kategoriju za više redova</h6>

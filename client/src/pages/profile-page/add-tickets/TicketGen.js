@@ -19,6 +19,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
   const [invalidInputs, setInvalidInputs] = useState([]);
   const [groundPlan, setGroundPlan] = useState();
   const [rows, setRows] = useState({});
+  const [freeSaleRows, setFreeSaleRows] = useState({});
   let placeData;
 
   placeData = {
@@ -37,6 +38,8 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
     e.preventDefault();
     setPdfFilePath('');
     setLoader(true);
+
+    console.log(tickets);
 
     const categoryNames = tickets.map((ticket) => ticket.categoryName.trim());
     const hasDuplicates = new Set(categoryNames).size !== categoryNames.length;
@@ -96,9 +99,8 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
       (total, ticket) => total + parseInt(ticket.ticketsNum || 0),
       0
     );
-
     // Check if the total number of tickets is 0
-    if (totalTicketNum === 0) {
+    if (totalTicketNum === 0 && !concertData.type.includes('theaters')) {
       toast.warn(
         'Nema ulaznica za ispis. Unesite broj ulaznica za neku od zona.',
         toastSetup('top-right', 3000)
@@ -224,8 +226,6 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
     setProvision((1.5 * totalTickets).toFixed(2));
   }, [tickets]);
 
-  console.log(tickets);
-
   return (
     <div className="generator-container">
       <form onSubmit={handleFormSubmit}>
@@ -234,8 +234,11 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
             <Theater
               placeData={placeData}
               setRows={setRows}
+              setFreeSaleRows={setFreeSaleRows}
               rows={rows}
               setGroundPlan={setGroundPlan}
+              page="ticketGen"
+              setTickets={setTickets}
             />
           ) : (
             Array.from({ length: rowNum }).map((_, i) => {

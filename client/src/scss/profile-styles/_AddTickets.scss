@@ -57,12 +57,44 @@
   }
 }
 .generator-container {
-  position: relative;
-
   .tickets-categories-container {
     margin-top: 20px;
     padding: 0;
     max-width: 800px;
+
+    .modal {
+      z-index: 9999;
+      top: 50%;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      transform: translateY(-50%);
+      background-color: rgba(231, 231, 231, 0.768627451);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 400px;
+      height: auto;
+      padding: 10px;
+
+      div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      input {
+        text-align: center;
+        width: 50%;
+        display: block;
+        background: #ffffff;
+      }
+
+      .disable-zone-checkbox {
+        height: 20px;
+      }
+    }
 
     .row {
       padding: 5px;
