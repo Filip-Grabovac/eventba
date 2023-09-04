@@ -32,6 +32,7 @@
       justify-content: center;
       padding: 3% 2%;
       text-align: center;
+      flex-grow: 1;
       @media only screen and (max-width: 350px) {
         padding: 2px;
       }

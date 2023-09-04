@@ -136,8 +136,8 @@
     position: absolute;
     right: 0;
     left: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 130px;
+
     z-index: 9999;
     animation: fadeIn 0.15s ease-in;
 
@@ -598,6 +598,7 @@
       }
 
       .select-all-seats-wrapper {
+        box-shadow: 0 0 50px 5px rgba(94, 94, 94, 0.2);
         @media only screen and (max-width: 700px) {
           max-width: 90%;
           margin: 15px auto;
@@ -740,6 +741,7 @@
 
       .event-categories-container {
         position: relative;
+
         .trashcan {
           position: absolute;
           right: -10px;
