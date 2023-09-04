@@ -1,5 +1,5 @@
-import { editor } from "@overlapmedia/imagemapper";
-import React from "react";
+import { editor } from '@overlapmedia/imagemapper';
+import React from 'react';
 
 function ImageMapper({
   options = {},
@@ -41,25 +41,25 @@ function ImageMapper({
   }, [mode]);
 
   function showTooltip(evt, data) {
-    let x = page === "buyPage" ? 300 : 0;
-    let y = page === "buyPage" ? 180 : 40;
+    let x = page === 'buyPage' ? 300 : 0;
+    let y = page === 'buyPage' ? 180 : 40;
 
-    let tooltip = document.getElementById("tooltip");
+    let tooltip = document.getElementById('tooltip');
     tooltip.innerHTML = `<p>Zona: ${data.zoneName} - ${
-      data.ticket_name || "Regular"
+      data.ticket_name || 'Regular'
     }</p><p>Cijena: ${
       data.price
     } <small>BAM<small/></p><p>Ukupan broj slobodnih sjedala: ${
       data.available_seats
     } / ${data.total_amount || 0}</p>`;
-    tooltip.style.display = "block";
-    tooltip.style.left = evt.pageX - x + "px";
-    tooltip.style.top = evt.pageY - y + "px";
+    tooltip.style.display = 'block';
+    tooltip.style.left = evt.pageX - x + 'px';
+    tooltip.style.top = evt.pageY - y + 'px';
   }
 
   function hideTooltip() {
-    var tooltip = document.getElementById("tooltip");
-    tooltip.style.display = "none";
+    var tooltip = document.getElementById('tooltip');
+    tooltip.style.display = 'none';
   }
   return (
     <svg
@@ -71,6 +71,11 @@ function ImageMapper({
       height={options.height}
       viewBox={`0, 0, ${options.width}, ${options.height}`}
       preserveAspectRatio="xMinYMin"
+      onTouchStart={(e) => {
+        if (!preDrawnShapes) {
+          handleShapeClick(e);
+        }
+      }}
       onClick={(e) => {
         if (!preDrawnShapes) {
           handleShapeClick(e);
@@ -91,7 +96,7 @@ function ImageMapper({
             (totalRemainingSeats / totalSeats) * 255
           )}, 0)`;
 
-          if (zoneData.location.shape === "rect") {
+          if (zoneData.location.shape === 'rect') {
             return (
               <g key={`rect_${index}`}>
                 <rect
@@ -107,6 +112,9 @@ function ImageMapper({
                   x={zoneData.location.position.x}
                   height={zoneData.location.size.height}
                   y={zoneData.location.position.y}
+                  onTouchStart={(e) => {
+                    handleZoneClick(e, [zoneName, zoneData]);
+                  }}
                   onClick={(e) => {
                     handleZoneClick(e, [zoneName, zoneData]);
                   }}
@@ -121,7 +129,7 @@ function ImageMapper({
                 ></rect>
               </g>
             );
-          } else if (zoneData.location.shape === "polygon") {
+          } else if (zoneData.location.shape === 'polygon') {
             // Similar modification for polygons
             return (
               <g key={`pol_${index}`}>
@@ -135,6 +143,9 @@ function ImageMapper({
                   strokeDasharray="none"
                   strokeLinejoin="miter"
                   id={zoneName}
+                  onTouchStart={(e) => {
+                    handleZoneClick(e, [zoneName, zoneData]);
+                  }}
                   onClick={(e) => {
                     handleZoneClick(e, [zoneName, zoneData]);
                   }}
@@ -164,9 +175,9 @@ function ImageMapper({
 }
 
 export const Mode = Object.freeze({
-  RECT: "rect",
-  POLYGON: "polygon",
-  SELECT: "selectMode",
+  RECT: 'rect',
+  POLYGON: 'polygon',
+  SELECT: 'selectMode',
 });
 
 export default ImageMapper;
