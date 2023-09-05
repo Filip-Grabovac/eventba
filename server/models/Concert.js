@@ -1,5 +1,35 @@
 const mongoose = require("mongoose");
 
+const ticketInfo = {
+  total_amount_left: {
+    type: Number,
+    default: 0,
+  },
+  sold_amount: {
+    type: Number,
+    default: 0,
+  },
+  amount_inBAM: {
+    type: Number,
+    default: 0,
+  },
+  zones: Object, // You can specify the type of 'zones' as needed
+};
+
+const resellerInfo = {
+  reseller_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+  },
+  reseller_name: String,
+  reseller_address: String,
+  transactions: {
+    zones: [Object],
+    default: [],
+  },
+  zones: Object, // You can specify the type of 'zones' as needed
+};
+
 const ConcertSchema = new mongoose.Schema({
   type: [String],
   sponsors: [String],
@@ -9,107 +39,19 @@ const ConcertSchema = new mongoose.Schema({
     portrait: String,
   },
   tickets_yesterday: {
-    online_sale: {
-      total_amount_left: Number,
-      sold_amount: Number,
-      amount_inBAM: Number,
-
-      zones: {},
-    },
-    free_sale: {
-      total_amount_left: {
-        type: Number,
-        default: 0, // Set default value for total_amount
-      },
-      amount_inBAM: {
-        type: Number,
-        default: 0, // Set default value for amount_inBAM
-      },
-      total_loaned: {
-        type: Number,
-        default: 0, // Set default value for total_loaned
-      },
-      sold_amount: {
-        type: Number,
-        default: 0, // Set default value for sold_amount
-      },
-
-      amount_inBAM: {
-        type: Number,
-        default: 0, // Set default value for type
-      },
-      resellers: {
-        type: [
-          {
-            reseller_id: {
-              type: mongoose.Schema.Types.ObjectId, // Set the field type to ObjectId
-              ref: "users",
-            },
-            reseller_name: String,
-            reseller_address: String,
-            transactions: {
-              zones: [Object], // Change the type to an array of Objects
-              default: [], // Set default value to an empty array
-            },
-
-            zones: Object,
-          },
-        ],
-        default: [], // Set default value for resellers
-      },
+    online_sale: { ...ticketInfo },
+    free_sale: { ...ticketInfo, total_loaned: Number },
+    resellers: {
+      type: [resellerInfo],
+      default: [],
     },
   },
   tickets: {
-    online_sale: {
-      total_amount_left: Number,
-      sold_amount: Number,
-      amount_inBAM: Number,
-      zones: Object,
-    },
-    free_sale: {
-      total_amount_left: {
-        type: Number,
-        default: 0, // Set default value for total_amount
-      },
-      amount_inBAM: {
-        type: Number,
-        default: 0, // Set default value for amount_inBAM
-      },
-      total_loaned: {
-        type: Number,
-        default: 0, // Set default value for total_loaned
-      },
-      sold_amount: {
-        type: Number,
-        default: 0, // Set default value for sold_amount
-      },
-      zones: {
-        type: Object,
-        default: {}, // Set default value for type
-      },
-      amount_inBAM: {
-        type: Number,
-        default: 0, // Set default value for type
-      },
-      resellers: {
-        type: [
-          {
-            reseller_id: {
-              type: mongoose.Schema.Types.ObjectId, // Set the field type to ObjectId
-              ref: "users",
-            },
-            reseller_name: String,
-            reseller_address: String,
-            transactions: {
-              zones: [Object], // Change the type to an array of Objects
-              default: [], // Set default value to an empty array
-            },
-
-            zones: Object,
-          },
-        ],
-        default: [], // Set default value for resellers
-      },
+    online_sale: { ...ticketInfo },
+    free_sale: { ...ticketInfo, total_loaned: Number },
+    resellers: {
+      type: [resellerInfo],
+      default: [],
     },
   },
   time_of_event: {
@@ -122,7 +64,7 @@ const ConcertSchema = new mongoose.Schema({
     ground_plan: String,
     type: {
       type: String,
-      default: "hall", // Set the default value to "hall"
+      default: "hall",
     },
   },
   is_promoted_event: {
@@ -134,7 +76,6 @@ const ConcertSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
   },
-
   verified: { type: Boolean, default: false },
   concert_history: [
     {

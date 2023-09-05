@@ -9,6 +9,12 @@ export const TheaterModal = ({
 }) => {
   return (
     <div className="modal">
+      {selectedZoneData[1] && (
+        <span className="zone-info">
+          Zona: {selectedZoneData[0]} - Cijena:
+          {selectedZoneData[1].price} <small>BAM</small>
+        </span>
+      )}
       {theaterZones &&
         selectedZoneData &&
         Object.entries(theaterZones[selectedZoneData[0]].rows).map(
@@ -17,8 +23,8 @@ export const TheaterModal = ({
 
             return (
               <div key={key} className="seats-container">
-                <p>Red: {key}</p>
                 <div className="seats-wrapper">
+                  <span className="row-info">Red {key} :</span>
                   {Array.from({ length: Number(value.total_seats) }, (_, i) => {
                     const seatNumber = i + 1;
                     const isSeatReserved = seatNumber in reservedSeats;

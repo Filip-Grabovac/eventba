@@ -8,6 +8,7 @@ const CategoryCard = ({ amount, max_amount, price, name, categoryName }) => {
       </strong>
       <span>
         Prodano: {max_amount ? max_amount - amount : "Nije u prodaji"}
+        {max_amount ? ` / ${max_amount}` : null}
       </span>
       <span>
         Ukupno: {max_amount ? price * (max_amount - amount) : "--,--"}{" "}

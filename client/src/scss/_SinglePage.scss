@@ -2,33 +2,32 @@
   margin-top: -13px;
 
   .modal {
-    background-color: #ffffffa9;
+    background-color: #e5e8f6;
     display: block;
     width: 100%;
     height: fit-content;
     position: static;
     max-width: 750px;
     border-radius: 10px;
-
+    .zone-info {
+      display: block;
+      background-color: #fff;
+      width: fit-content;
+      pointer-events: none;
+      border-radius: 10px 0 10px 0;
+      padding: 4px 15px;
+      font-size: 17px;
+      font-weight: 700;
+      margin: 0;
+    }
     .seats-container {
       background-color: #e5e8f6;
       width: 100%;
       border-radius: 10px;
-
-      padding: 2px;
+      padding: 1px;
 
       &:last-child {
         margin-bottom: 0;
-      }
-
-      p {
-        background-color: #fff;
-        width: fit-content;
-        border-radius: 10px 0 10px 0;
-        padding: 5px 15px;
-        font-size: 16px;
-        font-weight: 700;
-        margin: 0;
       }
 
       .seats-wrapper {
@@ -37,7 +36,20 @@
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
-        gap: 3px;
+        gap: 2px;
+        .row-info {
+          background-color: #0e31cec0;
+          color: white;
+          width: fit-content;
+          border-radius: 7px;
+          padding: 2px 5px;
+          font-size: 15px;
+          font-weight: 700;
+          margin: 0;
+          pointer-events: none;
+          display: block;
+          margin-bottom: 4px;
+        }
         div {
           position: relative;
           min-width: 25px;

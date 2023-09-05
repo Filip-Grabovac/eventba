@@ -19,7 +19,6 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
   const [invalidInputs, setInvalidInputs] = useState([]);
   const [groundPlan, setGroundPlan] = useState();
   const [rows, setRows] = useState({});
-  const [freeSaleRows, setFreeSaleRows] = useState({});
   let placeData;
 
   placeData = {
@@ -235,7 +234,6 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
             <Theater
               placeData={placeData}
               setRows={setRows}
-              setFreeSaleRows={setFreeSaleRows}
               rows={rows}
               setGroundPlan={setGroundPlan}
               page="ticketGen"
@@ -362,24 +360,28 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
             Provizija: {provision} BAM <small>(1.5 BAM po ulaznici)</small>
           </p>
         </div>
-        <button type="submit" className="add-tickets-btn">
-          Izradi ulaznice
-        </button>
-      </form>
-      {loader ? (
-        <div className="loader">
-          <Bars height="50" width="50" color="#455cd9" />{" "}
+        <div className="button-wrapper">
+          <button type="submit" className="add-tickets-btn">
+            Izradi ulaznice
+          </button>
+          {loader ? (
+            <div className="loader">
+              <Bars height="50" width="50" color="#455cd9" />{" "}
+            </div>
+          ) : null}
+          {pdfFilePath ? (
+            <a
+              className="download-tickets-btn-wrapper"
+              href={`${process.env.REACT_APP_API_URL}/api/v1/freeSale/download-tickets?pdfFilePath=${pdfFilePath}`}
+              download
+            >
+              <button type="button" className="download-tickets-btn">
+                Preuzmi ulaznice
+              </button>
+            </a>
+          ) : null}
         </div>
-      ) : null}
-      {pdfFilePath ? (
-        <a
-          className="download-tickets-btn-wrapper"
-          href={`${process.env.REACT_APP_API_URL}/api/v1/freeSale/download-tickets?pdfFilePath=${pdfFilePath}`}
-          download
-        >
-          <button className="download-tickets-btn">Preuzmi ulaznice</button>
-        </a>
-      ) : null}
+      </form>
     </div>
   );
 };
