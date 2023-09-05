@@ -1,5 +1,5 @@
-import { editor } from '@overlapmedia/imagemapper';
-import React from 'react';
+import { editor } from "@overlapmedia/imagemapper";
+import React from "react";
 
 function ImageMapper({
   options = {},
@@ -42,34 +42,34 @@ function ImageMapper({
   }, [mode]);
 
   function showTooltip(evt, data) {
-    let x = page === 'buyPage' ? 0 : 0;
-    let y = page === 'buyPage' ? 180 : 40;
+    let x = page === "buyPage" ? 0 : 0;
+    let y = page === "buyPage" ? 180 : 40;
 
-    let tooltip = document.getElementById('tooltip');
+    let tooltip = document.getElementById("tooltip");
     tooltip.innerHTML = `<p>Zona: ${data.zoneName} - ${
-      data.ticket_name || 'Regular'
+      data.ticket_name || "Regular"
     }</p><p>Cijena: ${
       data.price
     } <small>BAM<small/></p><p>Ukupan broj slobodnih sjedala: ${
       data.available_seats
     } / ${data.total_amount || 0}</p>`;
 
-    if (page === 'buyPage') {
+    if (page === "buyPage") {
       const containerRect = document
-        .querySelector('.buy-container')
+        .querySelector(".buy-container")
         .getBoundingClientRect();
-      tooltip.style.left = evt.pageX - containerRect.left + 'px';
+      tooltip.style.left = evt.pageX - containerRect.left + "px";
     } else {
-      tooltip.style.left = evt.pageX + 'px';
+      tooltip.style.left = evt.pageX + "px";
     }
-    tooltip.style.top = evt.pageY - y + 'px';
+    tooltip.style.top = evt.pageY - y + "px";
 
-    tooltip.style.display = 'block';
+    tooltip.style.display = "block";
   }
 
   function hideTooltip() {
-    var tooltip = document.getElementById('tooltip');
-    tooltip.style.display = 'none';
+    var tooltip = document.getElementById("tooltip");
+    tooltip.style.display = "none";
   }
 
   function showZoneTooltip(zoneData, zoneName, e) {
@@ -137,28 +137,28 @@ function ImageMapper({
           if (
             freeSale &&
             freeSale.zones &&
-            page === 'ticketGen' &&
+            page === "ticketGen" &&
             !freeSale.zones.hasOwnProperty(zoneName) &&
-            (!zoneData.name || zoneData.name === '')
+            (!zoneData.name || zoneData.name === "")
           ) {
-            containerStyle = 'gray';
+            containerStyle = "gray";
           } else if (
             freeSale &&
             freeSale.zones &&
-            page === 'ticketGen' &&
+            page === "ticketGen" &&
             freeSale.zones.hasOwnProperty(zoneName) &&
-            (!zoneData.name || zoneData.name === '')
+            (!zoneData.name || zoneData.name === "")
           ) {
-            containerStyle = 'rgb(110, 255, 0)';
-          } else if (page === 'ticketGen' && zoneData.name) {
-            containerStyle = 'rgb(110, 0, 0)';
+            containerStyle = "rgb(10, 20, 255)";
+          } else if (page === "ticketGen" && zoneData.name) {
+            containerStyle = "rgb(110, 0, 0)";
           } else {
             containerStyle = `rgb(110, ${Math.floor(
               (totalRemainingSeats / totalSeats) * 255
             )}, 0)`;
           }
 
-          if (zoneData.location.shape === 'rect') {
+          if (zoneData.location.shape === "rect") {
             return (
               <g key={`rect_${index}`}>
                 <rect
@@ -187,7 +187,7 @@ function ImageMapper({
                 ></rect>
               </g>
             );
-          } else if (zoneData.location.shape === 'polygon') {
+          } else if (zoneData.location.shape === "polygon") {
             // Similar modification for polygons
             return (
               <g key={`pol_${index}`}>
@@ -222,9 +222,9 @@ function ImageMapper({
 }
 
 export const Mode = Object.freeze({
-  RECT: 'rect',
-  POLYGON: 'polygon',
-  SELECT: 'selectMode',
+  RECT: "rect",
+  POLYGON: "polygon",
+  SELECT: "selectMode",
 });
 
 export default ImageMapper;

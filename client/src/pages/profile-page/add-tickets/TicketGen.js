@@ -226,6 +226,8 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
     setProvision((1.5 * totalTickets).toFixed(2));
   }, [tickets]);
 
+  console.log(tickets);
+
   return (
     <div className="generator-container">
       <form onSubmit={handleFormSubmit}>
@@ -354,12 +356,34 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
         ) : (
           ""
         )}
+        <h6>Ulaznice za printanje</h6>
         <div className="totals">
-          <p>Ukupan broj ulaznica: {totalTickets}</p>
-          <p>Ukupan iznos: {totalAmount} BAM</p>
-          <p>
-            Provizija: {provision} BAM <small>(1.5 BAM po ulaznici)</small>
-          </p>
+          <div className="total-summ">
+            <p>Ukupan broj ulaznica: {totalTickets}</p>
+            <p>Ukupan iznos: {totalAmount} BAM</p>
+            <p>
+              Provizija: {provision} BAM <small>(1.5 BAM po ulaznici)</small>
+            </p>
+            <div className="legend">
+              <div className="online">Online prodaja</div>
+              <div className="free">Slobodna prodaja</div>
+              <div className="available">Dostupne zone</div>
+              <div className="selected">Odabrane zone</div>
+            </div>
+          </div>
+          <div className="total-per-zone">
+            {tickets.map((ticket, i) => (
+              <div className="zone" key={i}>
+                <p>
+                  Zona: {ticket.categoryName} - {ticket.ticketType} - Broj
+                  ulaznica {ticket.ticketsNum}{" "}
+                  <span>
+                    - Cijena {ticket.ticketPrice} <small>BAM</small>{" "}
+                  </span>
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
         <div className="button-wrapper">
           <button type="submit" className="add-tickets-btn">

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import ImageMapper, { Mode } from '../../draw-place/image-mapper/ImageMapper';
-import { toast } from 'react-toastify';
-import { toastSetup } from '../../../functions/toastSetup';
+import React, { useEffect, useState } from "react";
+import ImageMapper, { Mode } from "../../draw-place/image-mapper/ImageMapper";
+import { toast } from "react-toastify";
+import { toastSetup } from "../../../functions/toastSetup";
 
 export const Theater = ({
   placeData,
@@ -16,8 +16,8 @@ export const Theater = ({
   const [modalWindow, setModalWindow] = useState(false);
   const [selectedZoneData, setSelectedZoneData] = useState();
   const [selectedZone, setSelectedZone] = useState([]);
-  const [price, setPrice] = useState('');
-  const [type, setType] = useState('');
+  const [price, setPrice] = useState("");
+  const [type, setType] = useState("");
 
   // Load ground image
   useEffect(() => {
@@ -31,7 +31,7 @@ export const Theater = ({
         const imageUrl = URL.createObjectURL(blob);
 
         // Extract the image name from the URL
-        const imageName = placeData.ground_plan.split('/').pop();
+        const imageName = placeData.ground_plan.split("/").pop();
 
         // Create an image element to calculate its dimensions
         const imgElement = new Image();
@@ -51,7 +51,7 @@ export const Theater = ({
         // Set the src AFTER defining the onload handler
         imgElement.src = imageUrl;
       } catch (error) {
-        console.error('Error loading image:', error);
+        console.error("Error loading image:", error);
       }
     };
 
@@ -62,29 +62,29 @@ export const Theater = ({
   function handleZoneClick(e, zoneData) {
     setModalWindow(true);
     setSelectedZoneData(zoneData);
-    if (document.querySelector('.highlighted'))
-      document.querySelector('.highlighted').classList.remove('highlighted');
-    e.target.classList.add('highlighted');
+    if (document.querySelector(".highlighted"))
+      document.querySelector(".highlighted").classList.remove("highlighted");
+    e.target.classList.add("highlighted");
   }
 
   // Save zone
   function saveZone(e) {
     e.preventDefault();
     const isCheckboxChecked = document.querySelector(
-      '.disable-zone-checkbox'
+      ".disable-zone-checkbox"
     ).checked;
     let seatNumbersArray;
     let zoneKey = selectedZoneData[0];
 
     if (isCheckboxChecked) {
       seatNumbersArray = [];
-      document.getElementById(`${zoneKey}`).classList.remove('done');
-      setType('');
+      document.getElementById(`${zoneKey}`).classList.remove("done");
+      setType("");
     } else {
       if (!price) {
-        document.querySelector('.price-input').style =
-          'outline: 2px solid #f4cd46;';
-        toast.warn('Unesite cijenu', toastSetup('top-right', 3000));
+        document.querySelector(".price-input").style =
+          "outline: 2px solid #f4cd46;";
+        toast.warn("Unesite cijenu", toastSetup("top-right", 3000));
         return;
       }
       const totalSeats = parseInt(
@@ -93,7 +93,7 @@ export const Theater = ({
 
       // Create an array of seat numbers based on the total_seats value
       seatNumbersArray = Array.from({ length: totalSeats }, (_, i) => i + 1);
-      document.querySelector('.highlighted').classList.add('done');
+      document.querySelector(".highlighted").classList.add("done");
     }
 
     // Update the rows state to include the new seats array
@@ -109,25 +109,25 @@ export const Theater = ({
       // Create a new row object
       const newRow = {
         price: Number(price),
-        name: isCheckboxChecked ? '' : type,
+        name: isCheckboxChecked ? "" : type,
         max_amount: totalSeatsInZone,
         amount: totalSeatsInZone,
         seats: seatNumbersArray,
       };
 
       if (
-        document.querySelector('.ticket-type').value === '' ||
-        document.querySelector('.price-input').value === ''
+        document.querySelector(".ticket-type").value === "" ||
+        document.querySelector(".price-input").value === ""
       ) {
         toast.warn(
-          'Molimo unesite cijenu i tip.',
-          toastSetup('top-right', 3000)
+          "Molimo unesite cijenu i tip.",
+          toastSetup("top-right", 3000)
         );
       } else {
         // Set tickets info for printing drawed places
         setTickets((tickets) => {
           const disableCheckbox = document.querySelector(
-            '.disable-zone-checkbox'
+            ".disable-zone-checkbox"
           );
           if (disableCheckbox.checked) {
             // If the checkbox is checked, remove the element with the matching zoneKey
@@ -143,8 +143,8 @@ export const Theater = ({
               const updatedTickets = [...tickets];
               updatedTickets[existingTicketIndex] = {
                 ...updatedTickets[existingTicketIndex],
-                ticketType: document.querySelector('.ticket-type').value,
-                ticketPrice: document.querySelector('.price-input').value,
+                ticketType: document.querySelector(".ticket-type").value,
+                ticketPrice: document.querySelector(".price-input").value,
               };
               return updatedTickets;
             } else {
@@ -153,9 +153,9 @@ export const Theater = ({
                 ...tickets,
                 {
                   categoryName: zoneKey,
-                  ticketType: document.querySelector('.ticket-type').value,
+                  ticketType: document.querySelector(".ticket-type").value,
                   ticketsNum: zone.total_amount,
-                  ticketPrice: document.querySelector('.price-input').value,
+                  ticketPrice: document.querySelector(".price-input").value,
                   rows: Object.keys(zone.rows).reduce((acc, rowKey) => {
                     acc[rowKey] = {
                       total_seats: zone.rows[rowKey].total_seats,
@@ -188,7 +188,7 @@ export const Theater = ({
       };
     });
 
-    document.querySelector('.highlighted').classList.remove('highlighted');
+    document.querySelector(".highlighted").classList.remove("highlighted");
     setModalWindow(false);
   }
 
@@ -211,25 +211,25 @@ export const Theater = ({
 
   function saveRows(e) {
     e.preventDefault();
-    const rowsPrice = document.querySelector('.rows-price').value;
-    const rowsCategory = document.querySelector('.rows-category').value;
+    const rowsPrice = document.querySelector(".rows-price").value;
+    const rowsCategory = document.querySelector(".rows-category").value;
 
-    if (rowsPrice === '' || rowsCategory === '' || !selectedZone[0]) {
+    if (rowsPrice === "" || rowsCategory === "" || !selectedZone[0]) {
       toast.warn(
-        'Molimo unesite cijenu, kategoriju i odaberite barem jednu zonu.',
-        toastSetup('top-right', 3000)
+        "Molimo unesite cijenu, kategoriju i odaberite barem jednu zonu.",
+        toastSetup("top-right", 3000)
       );
       return;
     }
 
     // Update the rows state for each selected zone
     selectedZone.forEach((zoneKey) => {
-      document.getElementById(`${zoneKey}`).classList.add('done');
+      document.getElementById(`${zoneKey}`).classList.add("done");
       setRows((prevRows) => {
         const zone = prevRows[zoneKey];
 
         // Set tickets
-        if (page === 'ticketGen') {
+        if (page === "ticketGen") {
           setTickets((tickets) => {
             // If the checkbox is not checked, perform the same logic as before
             const existingTicketIndex = tickets.findIndex(
@@ -241,8 +241,8 @@ export const Theater = ({
               const updatedTickets = [...tickets];
               updatedTickets[existingTicketIndex] = {
                 ...updatedTickets[existingTicketIndex],
-                ticketType: document.querySelector('.rows-category').value,
-                ticketPrice: document.querySelector('.rows-price').value,
+                ticketType: document.querySelector(".rows-category").value,
+                ticketPrice: document.querySelector(".rows-price").value,
               };
               return updatedTickets;
             } else {
@@ -251,9 +251,9 @@ export const Theater = ({
                 ...tickets,
                 {
                   categoryName: zoneKey,
-                  ticketType: document.querySelector('.rows-category').value,
-                  ticketsNum: 'test',
-                  ticketPrice: document.querySelector('.rows-price').value,
+                  ticketType: document.querySelector(".rows-category").value,
+                  ticketsNum: "test",
+                  ticketPrice: document.querySelector(".rows-price").value,
                   rows: Object.keys(zone.rows).reduce((acc, rowKey) => {
                     acc[rowKey] = {
                       total_seats: zone.rows[rowKey].total_seats,
@@ -298,8 +298,8 @@ export const Theater = ({
       });
     });
     toast.success(
-      'Uspješno ste dodali cijenu i kategoriju za odabrane zone.',
-      toastSetup('top-right', 3000)
+      "Uspješno ste dodali cijenu i kategoriju za odabrane zone.",
+      toastSetup("top-right", 3000)
     );
   }
 
@@ -369,13 +369,13 @@ export const Theater = ({
             ></div>
           </>
         ) : (
-          ''
+          ""
         )}
         <div className="organize-event-plan-wrapper">
           <div
             id="tooltip"
             display="none"
-            style={{ position: 'absolute', display: 'none' }}
+            style={{ position: "absolute", display: "none" }}
           ></div>
           <ImageMapper
             mode={Mode.SELECT}
