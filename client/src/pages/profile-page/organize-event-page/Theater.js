@@ -114,25 +114,60 @@ export const Theater = ({
         amount: totalSeatsInZone,
         seats: seatNumbersArray,
       };
-      // Update or add the new row to the setFreeSaleRows
-      const updatedFreeSaleRows = {
-        ...setFreeSaleRows,
-        [zoneKey]: newRow,
-      };
 
-      setTickets((tickets) => [
-        ...tickets,
-        {
-          categoryName: zoneKey,
-          ticketType: document.querySelector('.ticket-type').value,
-          ticketsNum: zone.total_amount,
-          ticketPrice: document.querySelector('.price-input').value,
-          rows: Object.keys(zone.rows).reduce((acc, rowKey) => {
-            acc[rowKey] = { total_seats: zone.rows[rowKey].total_seats };
-            return acc;
-          }, {}),
-        },
-      ]);
+      if (
+        document.querySelector('.ticket-type').value === '' ||
+        document.querySelector('.price-input').value === ''
+      ) {
+        toast.warn(
+          'Molimo unesite cijenu i tip.',
+          toastSetup('top-right', 3000)
+        );
+      } else {
+        // Set tickets info for printing drawed places
+        setTickets((tickets) => {
+          const disableCheckbox = document.querySelector(
+            '.disable-zone-checkbox'
+          );
+          if (disableCheckbox.checked) {
+            // If the checkbox is checked, remove the element with the matching zoneKey
+            return tickets.filter((ticket) => ticket.categoryName !== zoneKey);
+          } else {
+            // If the checkbox is not checked, perform the same logic as before
+            const existingTicketIndex = tickets.findIndex(
+              (ticket) => ticket.categoryName === zoneKey
+            );
+
+            if (existingTicketIndex !== -1) {
+              // If a ticket with the same categoryName exists, update it
+              const updatedTickets = [...tickets];
+              updatedTickets[existingTicketIndex] = {
+                ...updatedTickets[existingTicketIndex],
+                ticketType: document.querySelector('.ticket-type').value,
+                ticketPrice: document.querySelector('.price-input').value,
+              };
+              return updatedTickets;
+            } else {
+              // If no ticket with the same categoryName exists, add a new one
+              return [
+                ...tickets,
+                {
+                  categoryName: zoneKey,
+                  ticketType: document.querySelector('.ticket-type').value,
+                  ticketsNum: zone.total_amount,
+                  ticketPrice: document.querySelector('.price-input').value,
+                  rows: Object.keys(zone.rows).reduce((acc, rowKey) => {
+                    acc[rowKey] = {
+                      total_seats: zone.rows[rowKey].total_seats,
+                    };
+                    return acc;
+                  }, {}),
+                },
+              ];
+            }
+          }
+        });
+      }
 
       return {
         ...prevRows,

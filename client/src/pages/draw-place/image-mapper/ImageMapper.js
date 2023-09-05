@@ -98,9 +98,9 @@ function ImageMapper({
             page === 'ticketGen' &&
             (!zoneData.name || zoneData.name === '')
           ) {
-            containerStyle = 'rgb(110, 0, 0)';
+            containerStyle = 'gray';
           } else if (page === 'ticketGen' && zoneData.name) {
-            containerStyle = 'rgb(110, 255, 0)';
+            containerStyle = 'rgb(110, 0, 0)';
           } else {
             containerStyle = `rgb(110, ${Math.floor(
               (totalRemainingSeats / totalSeats) * 255

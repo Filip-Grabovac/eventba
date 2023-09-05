@@ -32,15 +32,13 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
 
   useEffect(() => {
     setRows(concertData.tickets.online_sale.zones);
-  }, []);
+  }, [concertData]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setPdfFilePath("");
     setLoader(true);
-
     console.log(tickets);
-
     const categoryNames = tickets.map((ticket) => ticket.categoryName.trim());
     const hasDuplicates = new Set(categoryNames).size !== categoryNames.length;
 
@@ -375,6 +373,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
       ) : null}
       {pdfFilePath ? (
         <a
+          className="download-tickets-btn-wrapper"
           href={`${process.env.REACT_APP_API_URL}/api/v1/freeSale/download-tickets?pdfFilePath=${pdfFilePath}`}
           download
         >
