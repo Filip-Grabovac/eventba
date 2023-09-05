@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export const GetAllEvents = ({ allEvents, event, handleSelectChange }) => {
   return (
@@ -9,7 +9,7 @@ export const GetAllEvents = ({ allEvents, event, handleSelectChange }) => {
       name="event"
       value={event}
       onChange={(e) => {
-        e.target.style = 'outline: none;';
+        e.target.style = "outline: none;";
         handleSelectChange(e);
       }}
     >
@@ -24,20 +24,20 @@ export const GetAllEvents = ({ allEvents, event, handleSelectChange }) => {
             <option
               data-id={e._id}
               value={`${e.performer_name} - ${eventDate.toLocaleDateString(
-                'hr-HR',
+                "hr-HR",
                 {
-                  year: 'numeric',
-                  month: '2-digit',
-                  day: '2-digit',
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
                 }
               )} - ${e.place.place}`}
               key={i}
             >
-              {`${e.performer_name} - ${eventDate.toLocaleDateString('hr-HR', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-              })} -  ${e.place.place}`}
+              {`${e.performer_name} - ${eventDate.toLocaleDateString("hr-HR", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })} -  ${e.place.place} - ${e.place.city}`}
             </option>
           );
         })
