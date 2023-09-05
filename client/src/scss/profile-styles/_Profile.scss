@@ -586,7 +586,7 @@
 
     .organize-event-plan-wrapper {
       display: flex;
-      justify-content: center;
+      justify-content: space-evenly;
       @media only screen and (max-width: 700px) {
         flex-direction: column;
       }
@@ -679,9 +679,6 @@
             display: flex;
           }
         }
-      }
-      #tooltip {
-        transition: none;
       }
     }
 
@@ -1004,6 +1001,7 @@
   border-radius: 10px;
   color: #fff;
   z-index: 9999;
+  transition: none;
 
   p {
     &:last-child {
