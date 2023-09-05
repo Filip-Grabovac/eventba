@@ -19,7 +19,6 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
   const [invalidInputs, setInvalidInputs] = useState([]);
   const [groundPlan, setGroundPlan] = useState();
   const [rows, setRows] = useState({});
-  const [freeSaleRows, setFreeSaleRows] = useState({});
   let placeData;
 
   placeData = {
@@ -235,7 +234,6 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
             <Theater
               placeData={placeData}
               setRows={setRows}
-              setFreeSaleRows={setFreeSaleRows}
               rows={rows}
               setGroundPlan={setGroundPlan}
               page="ticketGen"

@@ -6,7 +6,6 @@ import { toastSetup } from '../../../functions/toastSetup';
 export const Theater = ({
   placeData,
   setRows,
-  setFreeSaleRows,
   rows,
   setGroundPlan,
   page,
