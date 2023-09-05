@@ -11,8 +11,8 @@ export const TheaterModal = ({
     <div className="modal">
       {selectedZoneData[1] && (
         <span className="zone-info">
-          Zona: {selectedZoneData[0]} - Cijena:
-          {selectedZoneData[1].price} <small>BAM</small>
+          Zona: {selectedZoneData[0]} - Cijena: {selectedZoneData[1].price}{" "}
+          <small>BAM</small>
         </span>
       )}
       {theaterZones &&

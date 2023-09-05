@@ -79,6 +79,7 @@ export const Theater = ({
     if (isCheckboxChecked) {
       seatNumbersArray = [];
       document.getElementById(`${zoneKey}`).classList.remove("done");
+
       setType("");
     } else {
       if (!price) {
@@ -114,17 +115,20 @@ export const Theater = ({
         amount: totalSeatsInZone,
         seats: seatNumbersArray,
       };
+      console.log(!isCheckboxChecked);
 
       if (
         document.querySelector(".ticket-type").value === "" ||
         document.querySelector(".price-input").value === ""
       ) {
-        toast.warn(
-          "Molimo unesite cijenu i tip.",
-          toastSetup("top-right", 3000)
-        );
-      } else {
-        // Set tickets info for printing drawed places
+        if (!isCheckboxChecked)
+          toast.warn(
+            "Molimo unesite cijenu i tip.",
+            toastSetup("top-right", 3000)
+          );
+      }
+      // Set tickets info for printing drawed places
+      if (page === "ticketGen")
         setTickets((tickets) => {
           const disableCheckbox = document.querySelector(
             ".disable-zone-checkbox"
@@ -167,7 +171,6 @@ export const Theater = ({
             }
           }
         });
-      }
 
       return {
         ...prevRows,
@@ -252,7 +255,7 @@ export const Theater = ({
                 {
                   categoryName: zoneKey,
                   ticketType: document.querySelector(".rows-category").value,
-                  ticketsNum: "test",
+                  ticketsNum: zone.total_amount,
                   ticketPrice: document.querySelector(".rows-price").value,
                   rows: Object.keys(zone.rows).reduce((acc, rowKey) => {
                     acc[rowKey] = {
@@ -327,7 +330,7 @@ export const Theater = ({
           <>
             <div className="modal">
               <div className="">
-                <h6 className="disable-zone">Zabrani online prodaju</h6>
+                <h6 className="disable-zone">Zabrani prodaju</h6>
                 <input className="disable-zone-checkbox" type="checkbox" />
               </div>
               <div className="">

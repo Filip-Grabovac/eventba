@@ -27,7 +27,16 @@ export const Footer = () => {
       </div>
       <div className="info-panel">
         <ul>
-          <Link className="footer-logo" to="/">
+          <Link
+            className="footer-logo"
+            onClick={() =>
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              })
+            }
+            to="/"
+          >
             <img src={Logo} alt="logo" />
             <p>event.ba</p>
           </Link>

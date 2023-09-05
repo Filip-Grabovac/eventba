@@ -50,14 +50,7 @@ export const AllRoutes = () => {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/verify/:verificationCode"
-          element={
-            <ProtectedRoute>
-              <Verification />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/verify/:verificationCode" element={<Verification />} />
         <Route
           path="/reset_password/:requestNumber"
           element={<PasswordReset />}

@@ -57,7 +57,6 @@ const HallTickets = ({ concertData, activeCategory, handleClick }) => {
                     Cijena: {ticketType.price}
                     <small> BAM</small>
                   </div>
-                  <div>Preostalo: {ticketType.amount}</div>
                 </div>
               </div>
             </div>

@@ -216,6 +216,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
     tickets.forEach((ticket) => {
       const ticketsNum = parseInt(ticket.ticketsNum, 10);
       const ticketPrice = parseFloat(ticket.ticketPrice.replace(",", "."));
+
       if (!isNaN(ticketsNum) && !isNaN(ticketPrice)) {
         totalTickets += ticketsNum;
         totalAmount += ticketsNum * ticketPrice;
@@ -364,26 +365,30 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
             <p>
               Provizija: {provision} BAM <small>(1.5 BAM po ulaznici)</small>
             </p>
-            <div className="legend">
-              <div className="online">Online prodaja</div>
-              <div className="free">Slobodna prodaja</div>
-              <div className="available">Dostupne zone</div>
-              <div className="selected">Odabrane zone</div>
-            </div>
-          </div>
-          <div className="total-per-zone">
-            {tickets.map((ticket, i) => (
-              <div className="zone" key={i}>
-                <p>
-                  Zona: {ticket.categoryName} - {ticket.ticketType} - Broj
-                  ulaznica {ticket.ticketsNum}{" "}
-                  <span>
-                    - Cijena {ticket.ticketPrice} <small>BAM</small>{" "}
-                  </span>
-                </p>
+            {concertData.place.type === "theater" && (
+              <div className="legend">
+                <div className="online">Online prodaja</div>
+                <div className="free">Slobodna prodaja</div>
+                <div className="available">Dostupne zone</div>
+                <div className="selected">Odabrane zone</div>
               </div>
-            ))}
+            )}
           </div>
+          {concertData.place.type === "theater" && (
+            <div className="total-per-zone">
+              {tickets.map((ticket, i) => (
+                <div className="zone" key={i}>
+                  <p>
+                    Zona: {ticket.categoryName} - {ticket.ticketType} - Broj
+                    ulaznica {ticket.ticketsNum}{" "}
+                    <span>
+                      - Cijena {ticket.ticketPrice} <small>BAM</small>{" "}
+                    </span>
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         <div className="button-wrapper">
           <button type="submit" className="add-tickets-btn">
