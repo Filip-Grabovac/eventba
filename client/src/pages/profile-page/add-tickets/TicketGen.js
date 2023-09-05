@@ -242,6 +242,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
               page="ticketGen"
               setTickets={setTickets}
               freeSale={concertData.tickets.free_sale}
+              tickets={concertData.tickets}
             />
           ) : (
             Array.from({ length: rowNum }).map((_, i) => {

@@ -60,23 +60,21 @@
                         </div>
                       </div>
                     </div>
-
                     <div class="info-right">
-                      <% if (categoryName !== "") { %>
-                      <span class="large-letter">
-                        <%= categoryName.charAt(0) %>
-                      </span>
-                      <% } else if (ticketType !== "") { %>
+                      <% if (ticketType !== "") { %>
                       <span class="large-letter">
                         <%= ticketType.charAt(0).toUpperCase() %>
                       </span>
-                      <% } %>
 
-                      <span class="color-text">
-                        <% if (categoryName !== "") { %> <%= categoryName %> <%
-                        } else if (ticketType !== "") { %> <%= ticketType %> <%
-                        } %>
+                      <span class="color-text"> <%= ticketType %> </span>
+
+                      <% } else if (categoryName !== "") { %>
+                      <span class="large-letter">
+                        <%= categoryName.charAt(0) %>
                       </span>
+
+                      <span class="color-text"> <%= categoryName %> </span>
+                      <% } %>
                     </div>
                   </div>
                 </div>

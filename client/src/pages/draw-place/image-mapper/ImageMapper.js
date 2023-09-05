@@ -11,6 +11,7 @@ function ImageMapper({
   handleZoneClick,
   page,
   freeSale,
+  tickets,
 }) {
   const elementRef = React.useRef(null);
   const editorRef = React.useRef(null);
@@ -82,11 +83,11 @@ function ImageMapper({
     if (freeSale && freeSale.zones && freeSale.zones.hasOwnProperty(zoneName)) {
       const zoneInfo = freeSale.zones[zoneName];
       tooltipData = {
-        price: zoneData.price,
+        price: zoneInfo.price,
         total_amount: zoneInfo.max_amount,
         available_seats: zoneInfo.amount,
         zoneName: zoneName,
-        ticket_name: zoneData.name,
+        ticket_name: zoneInfo.name,
       };
     } else {
       tooltipData = {
@@ -133,15 +134,12 @@ function ImageMapper({
           });
 
           let containerStyle;
-
           if (
-            freeSale &&
-            freeSale.zones &&
             page === "ticketGen" &&
-            !freeSale.zones.hasOwnProperty(zoneName) &&
-            (!zoneData.name || zoneData.name === "")
+            zoneData.name &&
+            tickets.online_sale.zones[zoneName].name
           ) {
-            containerStyle = "gray";
+            containerStyle = "rgb(150, 0, 0)";
           } else if (
             freeSale &&
             freeSale.zones &&
@@ -150,8 +148,8 @@ function ImageMapper({
             (!zoneData.name || zoneData.name === "")
           ) {
             containerStyle = "rgb(10, 20, 255)";
-          } else if (page === "ticketGen" && zoneData.name) {
-            containerStyle = "rgb(110, 0, 0)";
+          } else if (page === "ticketGen" && freeSale) {
+            containerStyle = "gray";
           } else {
             containerStyle = `rgb(110, ${Math.floor(
               (totalRemainingSeats / totalSeats) * 255
