@@ -10,6 +10,7 @@ function ImageMapper({
   preDrawnShapes,
   handleZoneClick,
   page,
+  freeSale,
 }) {
   const elementRef = React.useRef(null);
   const editorRef = React.useRef(null);
@@ -70,6 +71,36 @@ function ImageMapper({
     var tooltip = document.getElementById('tooltip');
     tooltip.style.display = 'none';
   }
+
+  function showZoneTooltip(zoneData, zoneName, e) {
+    const seatsLength =
+      Object.values(zoneData.rows).find((row) => row.seats.length > 0)?.seats
+        .length || 0;
+
+    let tooltipData;
+
+    if (freeSale.zones && freeSale.zones.hasOwnProperty(zoneName)) {
+      const zoneInfo = freeSale.zones[zoneName];
+      tooltipData = {
+        price: zoneData.price,
+        total_amount: zoneInfo.max_amount,
+        available_seats: zoneInfo.amount,
+        zoneName: zoneName,
+        ticket_name: zoneData.name,
+      };
+    } else {
+      tooltipData = {
+        price: zoneData.price,
+        total_amount: zoneData.max_amount,
+        available_seats: seatsLength,
+        zoneName: zoneName,
+        ticket_name: zoneData.name,
+      };
+    }
+
+    showTooltip(e, tooltipData);
+  }
+
   return (
     <svg
       className="image-map-svg"
@@ -105,9 +136,16 @@ function ImageMapper({
 
           if (
             page === 'ticketGen' &&
+            !freeSale.zones.hasOwnProperty(zoneName) &&
             (!zoneData.name || zoneData.name === '')
           ) {
             containerStyle = 'gray';
+          } else if (
+            page === 'ticketGen' &&
+            freeSale.zones.hasOwnProperty(zoneName) &&
+            (!zoneData.name || zoneData.name === '')
+          ) {
+            containerStyle = 'rgb(110, 255, 0)';
           } else if (page === 'ticketGen' && zoneData.name) {
             containerStyle = 'rgb(110, 0, 0)';
           } else {
@@ -139,11 +177,7 @@ function ImageMapper({
                     handleZoneClick(e, [zoneName, zoneData]);
                   }}
                   onMouseMove={(e) => {
-                    showTooltip(e, {
-                      price: zoneData.price,
-                      total_amount: zoneData.max_amount,
-                      zoneName: zoneName,
-                    });
+                    showZoneTooltip(zoneData, zoneName, e);
                   }}
                   onMouseOut={hideTooltip}
                 ></rect>
@@ -170,18 +204,7 @@ function ImageMapper({
                     handleZoneClick(e, [zoneName, zoneData]);
                   }}
                   onMouseMove={(e) => {
-                    const seatsLength =
-                      Object.values(zoneData.rows).find(
-                        (row) => row.seats.length > 0
-                      )?.seats.length || 0;
-
-                    showTooltip(e, {
-                      price: zoneData.price,
-                      total_amount: zoneData.max_amount,
-                      available_seats: seatsLength,
-                      zoneName: zoneName,
-                      ticket_name: zoneData.name,
-                    });
+                    showZoneTooltip(zoneData, zoneName, e);
                   }}
                   onMouseOut={hideTooltip}
                 ></polygon>
