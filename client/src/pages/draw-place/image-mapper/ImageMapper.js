@@ -79,7 +79,7 @@ function ImageMapper({
 
     let tooltipData;
 
-    if (freeSale.zones && freeSale.zones.hasOwnProperty(zoneName)) {
+    if (freeSale && freeSale.zones && freeSale.zones.hasOwnProperty(zoneName)) {
       const zoneInfo = freeSale.zones[zoneName];
       tooltipData = {
         price: zoneData.price,
