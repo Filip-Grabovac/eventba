@@ -7,7 +7,7 @@ const TicketSchema = new mongoose.Schema({
   seat: String,
   row: String,
   price: Number,
-  ticketName: String,
+  ticket_type: String,
   owner: String,
   sent_on_email: String,
   isValid: {

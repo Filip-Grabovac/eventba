@@ -113,6 +113,9 @@ body {
         .margin-right {
           margin-right: 10px;
         }
+        .time {
+          text-transform: capitalize;
+        }
         .time,
         .location,
         .ticket-location,
