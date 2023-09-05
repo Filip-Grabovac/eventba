@@ -41,7 +41,7 @@ function ImageMapper({
   }, [mode]);
 
   function showTooltip(evt, data) {
-    let x = page === 'buyPage' ? 300 : 0;
+    let x = page === 'buyPage' ? 0 : 0;
     let y = page === 'buyPage' ? 180 : 40;
 
     let tooltip = document.getElementById('tooltip');
@@ -52,9 +52,18 @@ function ImageMapper({
     } <small>BAM<small/></p><p>Ukupan broj slobodnih sjedala: ${
       data.available_seats
     } / ${data.total_amount || 0}</p>`;
-    tooltip.style.display = 'block';
-    tooltip.style.left = evt.pageX - x + 'px';
+
+    if (page === 'buyPage') {
+      const containerRect = document
+        .querySelector('.buy-container')
+        .getBoundingClientRect();
+      tooltip.style.left = evt.pageX - containerRect.left + 'px';
+    } else {
+      tooltip.style.left = evt.pageX + 'px';
+    }
     tooltip.style.top = evt.pageY - y + 'px';
+
+    tooltip.style.display = 'block';
   }
 
   function hideTooltip() {

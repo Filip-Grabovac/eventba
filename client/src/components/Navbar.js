@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 // Images
-import Logo from "../assets/logo/logo.svg";
-import UserIcon from "../assets/ikonice/user_icon.svg";
-import Menu from "../assets/ikonice/menu.svg";
+import Logo from '../assets/logo/logo.svg';
+import UserIcon from '../assets/ikonice/user_icon.svg';
+import Menu from '../assets/ikonice/menu.svg';
 // Components
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { Login } from "../auth/Login";
-import { Register } from "../auth/Register";
-import { toast } from "react-toastify";
-import { toastSetup } from "../functions/toastSetup";
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Login } from '../auth/Login';
+import { Register } from '../auth/Register';
+import { toast } from 'react-toastify';
+import { toastSetup } from '../functions/toastSetup';
 // Other
-import { useSelector, useDispatch } from "react-redux";
-import { setUserID } from "../store/userSlice";
-import { setLoginIsOpen } from "../store/loginSlice";
+import { useSelector, useDispatch } from 'react-redux';
+import { setUserID } from '../store/userSlice';
+import { setLoginIsOpen } from '../store/loginSlice';
 
 export const Navbar = () => {
   const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true);
@@ -27,18 +27,18 @@ export const Navbar = () => {
   // Logout function
   const logout = () => {
     setIsDropdownOpen(false);
-    dispatch(setUserID(""));
+    dispatch(setUserID(''));
     localStorage.clear();
     sessionStorage.clear();
-    navigate("/");
-    toast.success("Uspješna odjava", toastSetup("top-right", 2000));
+    navigate('/');
+    toast.success('Uspješna odjava', toastSetup('top-right', 2000));
   };
 
   //Pop login window if not logged in.
   useEffect(() => {
     setIsDropdownOpen(false);
     // Check if the route navigation state has "openLogin" property and its value is true
-    if (location.pathname === "/profile" && userId === "") {
+    if (location.pathname === '/profile' && userId === '') {
       dispatch(setLoginIsOpen(true));
     }
   }, [location]);
@@ -48,11 +48,11 @@ export const Navbar = () => {
   }
   //Hide sticky navbar functinality for /qr_scanner and /controller_login
   useEffect(() => {
-    const el = document.querySelector(".nav-wrapper");
+    const el = document.querySelector('.nav-wrapper');
 
     if (
-      location.pathname === "/qr_scanner" ||
-      location.pathname === "/controller_login"
+      location.pathname === '/qr_scanner' ||
+      location.pathname === '/controller_login'
     )
       return;
 
@@ -62,11 +62,11 @@ export const Navbar = () => {
     function handleIntersection(entries) {
       const isIntersecting = entries[0].isIntersecting;
       if (isIntersecting && !lastIntersecting) {
-        document.querySelector(".navbar").classList.remove("sticky-nav");
+        document.querySelector('.navbar').classList.remove('sticky-nav');
         setIsNavbarCollapsed(true);
         setIsDropdownOpen(false); // Ensure dropdown is closed when the navbar collapses
       } else if (!isIntersecting && lastIntersecting) {
-        document.querySelector(".navbar").classList.add("sticky-nav");
+        document.querySelector('.navbar').classList.add('sticky-nav');
       }
       lastIntersecting = isIntersecting;
     }
@@ -75,11 +75,11 @@ export const Navbar = () => {
     observer.observe(el);
 
     // Scroll event listener to collapse navbar on scroll
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
       observer.disconnect();
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -90,29 +90,29 @@ export const Navbar = () => {
     // Check if login or register modal window opened
     setTimeout(() => {
       if (isLoginOpen || isRegisterOpen) {
-        document.body.style.overflow = "hidden";
-        if (document.querySelector(".sticky-nav"))
-          document.querySelector(".sticky-nav").style =
-            "backdrop-filter: none !important";
+        document.body.style.overflow = 'hidden';
+        if (document.querySelector('.sticky-nav'))
+          document.querySelector('.sticky-nav').style =
+            'backdrop-filter: none !important';
       } else {
-        document.body.style.overflow = "unset";
-        if (document.querySelector(".sticky-nav"))
-          document.querySelector(".sticky-nav").style =
-            "backdrop-filter: blur(20px)";
+        document.body.style.overflow = 'unset';
+        if (document.querySelector('.sticky-nav'))
+          document.querySelector('.sticky-nav').style =
+            'backdrop-filter: blur(20px)';
       }
     }, 150);
   }, [isLoginOpen, isRegisterOpen]);
 
   const isActive = (path) => {
-    const typeParam = new URLSearchParams(location.search).get("type");
+    const typeParam = new URLSearchParams(location.search).get('type');
     // Check if the current location matches the given path
     return typeParam === path;
   };
 
   // Hide navbar for /qr_scanner and /controller_login
   if (
-    location.pathname === "/qr_scanner" ||
-    location.pathname === "/controller_login"
+    location.pathname === '/qr_scanner' ||
+    location.pathname === '/controller_login'
   )
     return;
 
@@ -138,7 +138,7 @@ export const Navbar = () => {
           </button>
           <div
             className={`collapse navbar-collapse ${
-              isNavbarCollapsed ? "" : "show"
+              isNavbarCollapsed ? '' : 'show'
             }`}
             id="navbarNavDropdown"
           >
@@ -147,7 +147,7 @@ export const Navbar = () => {
                 <li className="nav-item">
                   <NavLink
                     className={`nav-link ${
-                      location.pathname === "/" ? "navlink-active" : ""
+                      location.pathname === '/' ? 'navlink-active' : ''
                     }`}
                     aria-current="page"
                     to="/"
@@ -163,7 +163,7 @@ export const Navbar = () => {
                 <li className="nav-item">
                   <NavLink
                     className={`nav-link ${
-                      isActive("concert") ? "navlink-active" : ""
+                      isActive('concert') ? 'navlink-active' : ''
                     }`}
                     to="/list_page?type=concert"
                   >
@@ -173,7 +173,7 @@ export const Navbar = () => {
                 <li className="nav-item">
                   <NavLink
                     className={`nav-link ${
-                      isActive("festival") ? "navlink-active" : ""
+                      isActive('festival') ? 'navlink-active' : ''
                     }`}
                     aria-current="page"
                     to="/list_page?type=festival"
@@ -184,7 +184,7 @@ export const Navbar = () => {
                 <li className="nav-item">
                   <NavLink
                     className={`nav-link ${
-                      isActive("sport") ? "navlink-active" : ""
+                      isActive('sport') ? 'navlink-active' : ''
                     }`}
                     to="/list_page?type=sport"
                   >
@@ -194,7 +194,7 @@ export const Navbar = () => {
                 <li className="nav-item">
                   <NavLink
                     className={`nav-link ${
-                      isActive("theaters") ? "navlink-active" : ""
+                      isActive('theaters') ? 'navlink-active' : ''
                     }`}
                     to="/list_page?type=theaters"
                   >
@@ -205,7 +205,7 @@ export const Navbar = () => {
                 <li className="nav-item">
                   <NavLink
                     className={`nav-link ${
-                      isActive("other") ? "navlink-active" : ""
+                      isActive('other') ? 'navlink-active' : ''
                     }`}
                     to="/list_page?type=other"
                   >
@@ -262,7 +262,7 @@ export const Navbar = () => {
                       {userId && (
                         <li>
                           <Link
-                            to={"/profile"}
+                            to={'/profile'}
                             onClick={() => {
                               if (!isNavbarCollapsed) {
                                 setIsNavbarCollapsed(true);

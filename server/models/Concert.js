@@ -40,18 +40,24 @@ const ConcertSchema = new mongoose.Schema({
   },
   tickets_yesterday: {
     online_sale: { ...ticketInfo },
-    free_sale: { ...ticketInfo, total_loaned: Number },
-    resellers: {
-      type: [resellerInfo],
-      default: [],
+    free_sale: {
+      ...ticketInfo,
+      total_loaned: Number,
+      resellers: {
+        type: [resellerInfo],
+        default: [],
+      },
     },
   },
   tickets: {
     online_sale: { ...ticketInfo },
-    free_sale: { ...ticketInfo, total_loaned: Number },
-    resellers: {
-      type: [resellerInfo],
-      default: [],
+    free_sale: {
+      ...ticketInfo,
+      total_loaned: Number,
+      resellers: {
+        type: [resellerInfo],
+        default: [],
+      },
     },
   },
   time_of_event: {

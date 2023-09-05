@@ -227,6 +227,44 @@ export const Theater = ({
       setRows((prevRows) => {
         const zone = prevRows[zoneKey];
 
+        // Set tickets
+        if (page === 'ticketGen') {
+          setTickets((tickets) => {
+            // If the checkbox is not checked, perform the same logic as before
+            const existingTicketIndex = tickets.findIndex(
+              (ticket) => ticket.categoryName === zoneKey
+            );
+
+            if (existingTicketIndex !== -1) {
+              // If a ticket with the same categoryName exists, update it
+              const updatedTickets = [...tickets];
+              updatedTickets[existingTicketIndex] = {
+                ...updatedTickets[existingTicketIndex],
+                ticketType: document.querySelector('.rows-category').value,
+                ticketPrice: document.querySelector('.rows-price').value,
+              };
+              return updatedTickets;
+            } else {
+              // If no ticket with the same categoryName exists, add a new one
+              return [
+                ...tickets,
+                {
+                  categoryName: zoneKey,
+                  ticketType: document.querySelector('.rows-category').value,
+                  ticketsNum: 'test',
+                  ticketPrice: document.querySelector('.rows-price').value,
+                  rows: Object.keys(zone.rows).reduce((acc, rowKey) => {
+                    acc[rowKey] = {
+                      total_seats: zone.rows[rowKey].total_seats,
+                    };
+                    return acc;
+                  }, {}),
+                },
+              ];
+            }
+          });
+        }
+
         // Calculate the total number of seats for all rows in the zone
         const totalSeatsInZone = Object.values(zone.rows).reduce(
           (total, row) => total + Number(row.total_seats),
