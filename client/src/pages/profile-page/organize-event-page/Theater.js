@@ -10,6 +10,7 @@ export const Theater = ({
   setGroundPlan,
   page,
   setTickets,
+  freeSale,
 }) => {
   const [groundPlanImg, setImg] = useState(null);
   const [modalWindow, setModalWindow] = useState(false);
@@ -389,6 +390,7 @@ export const Theater = ({
             handleZoneClick={handleZoneClick}
             preDrawnShapes={rows}
             page={page}
+            freeSale={freeSale}
           />
           <div className="select-all-seats-wrapper">
             <h6>Odredi cijenu i kategoriju za više redova</h6>

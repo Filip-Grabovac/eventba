@@ -238,6 +238,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
               setGroundPlan={setGroundPlan}
               page="ticketGen"
               setTickets={setTickets}
+              freeSale={concertData.tickets.free_sale}
             />
           ) : (
             Array.from({ length: rowNum }).map((_, i) => {
