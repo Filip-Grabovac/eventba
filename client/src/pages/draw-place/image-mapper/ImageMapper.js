@@ -135,12 +135,16 @@ function ImageMapper({
           let containerStyle;
 
           if (
+            freeSale &&
+            freeSale.zones &&
             page === 'ticketGen' &&
             !freeSale.zones.hasOwnProperty(zoneName) &&
             (!zoneData.name || zoneData.name === '')
           ) {
             containerStyle = 'gray';
           } else if (
+            freeSale &&
+            freeSale.zones &&
             page === 'ticketGen' &&
             freeSale.zones.hasOwnProperty(zoneName) &&
             (!zoneData.name || zoneData.name === '')
