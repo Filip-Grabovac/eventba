@@ -252,7 +252,7 @@ export const Theater = ({
                 {
                   categoryName: zoneKey,
                   ticketType: document.querySelector('.rows-category').value,
-                  ticketsNum: 'test',
+                  ticketsNum: zone.total_amount,
                   ticketPrice: document.querySelector('.rows-price').value,
                   rows: Object.keys(zone.rows).reduce((acc, rowKey) => {
                     acc[rowKey] = {
