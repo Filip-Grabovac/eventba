@@ -129,4 +129,30 @@
       }
     }
   }
+  .online-payment {
+    background: linear-gradient(
+      0deg,
+      rgb(63, 63, 63) 0%,
+      rgb(84, 83, 95) 10%,
+      #efefef 100%
+    );
+    .payment-wrapper {
+      .cards {
+        padding: 20px;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-wrap: wrap;
+        display: flex;
+        gap: 20px;
+        .card {
+          width: 80px;
+          border: none;
+          background: transparent;
+        }
+      }
+      .master {
+        width: 95px;
+      }
+    }
+  }
 }

@@ -47,6 +47,13 @@ export const TermsOfUseOrganizer = () => {
         Preporučuje se imati vlastitu Izjavu o zaštiti podataka na vašoj web stranici.
       `}
       />
+      <PageRow
+        heading="Zaštita autorskih prava"
+        content={`Sva prava nakladnika i nositelja programa na snimljenom i tiskanom djelu su pridržana. Izdavač i nakladnik je
+event.ba. Kupac se obvezuje da neće neovlašteno umnožavati, izvoditi, koristi za radio difuziju te prodavati
+proizvode prodavatelja niti bilo koji dio tih proizvoda
+        `}
+      />
     </div>
   );
 };

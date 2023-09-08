@@ -36,7 +36,7 @@ export const TermsOfUseBuyer = () => {
       />
       <PageRow
         heading="Plaćanje"
-        content={`Platforma event.ba omogućava korisnicima kupovinu putem različitih bankovnih kartica. Procesiranje plaćanja odvija se putem Monri sustava, koji je ovlašten od strane platforme event.ba za obavljanje ove funkcije. Kupci mogu koristiti kartice kao što su American Express®, MasterCard®, Maestro®, Visa i Diners.
+        content={`Platforma event.ba omogućava korisnicima kupovinu putem različitih bankovnih kartica. Procesiranje plaćanja odvija se putem Monri sustava, koji je ovlašten od strane platforme event.ba za obavljanje ove funkcije. Kupci mogu koristiti kartice kao što su MasterCard®, Maestro®, Visa®, American Express® i Diners.
         `}
       />
       <PageRow
@@ -47,6 +47,13 @@ export const TermsOfUseBuyer = () => {
       <PageRow
         heading="Povrat novca i pritužbe"
         content={`Platforma event.ba nije organizator događaja niti direktno odgovorna za povrat novca. Međutim, platforma će surađivati s organizatorima kako bi osigurala povrat novca u slučaju otkazivanja događaja ili značajnih promjena u programu. Povrat novca je moguć samo u određenim situacijama, kao što su otkazivanje događaja ili promjene u programu. Važno je napomenuti da povrat novca nije moguć iz osobnih razloga kao što su bolest ili promjena planova.
+        `}
+      />
+      <PageRow
+        heading="Zaštita autorskih prava"
+        content={`Sva prava nakladnika i nositelja programa na snimljenom i tiskanom djelu su pridržana. Izdavač i nakladnik je
+event.ba. Kupac se obvezuje da neće neovlašteno umnožavati, izvoditi, koristi za radio difuziju te prodavati
+proizvode prodavatelja niti bilo koji dio tih proizvoda
         `}
       />
     </div>

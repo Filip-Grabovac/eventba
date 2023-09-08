@@ -169,10 +169,16 @@
     border-radius: 10px;
     .total-summ {
       width: 45%;
+      display: flex;
+      flex-direction: column;
       .legend {
+        flex-grow: 0;
+        flex-wrap: wrap;
         display: flex;
         gap: 10px;
         div {
+          width: 110px;
+          display: block;
           color: #424242;
           text-align: center;
           padding: 5px 15px;
@@ -182,44 +188,39 @@
           background: linear-gradient(
             90deg,
             rgba(37, 59, 255, 0.7) 0%,
-            rgba(10, 67, 255, 0.849) 8%,
-            rgb(255, 255, 255) 13%
+            rgba(10, 67, 255, 0.849) 5%,
+            rgb(255, 255, 255) 11%
           );
         }
         .online {
           background: linear-gradient(
             90deg,
             rgba(150, 1, 1, 0.7) 0%,
-            rgba(160, 2, 2, 0.7) 8%,
-            rgb(255, 255, 255) 13%
+            rgba(160, 2, 2, 0.7) 5%,
+            rgb(255, 255, 255) 11%
           );
         }
         .available {
           background: linear-gradient(
             90deg,
             gray 0%,
-            gray 8%,
-            rgb(255, 255, 255) 13%
+            gray 5%,
+            rgb(255, 255, 255) 11%
           );
         }
         .selected {
           background: linear-gradient(
             90deg,
             rgb(110, 255, 0, 0.7) 0%,
-            rgb(255, 255, 255) 20%
-          );
-          background: linear-gradient(
-            90deg,
-            rgb(110, 255, 0, 0.7) 0%,
-            rgb(110, 255, 0, 0.7) 8%,
-            rgb(255, 255, 255) 13%
+            rgb(110, 255, 0, 0.7) 5%,
+            rgb(255, 255, 255) 11%
           );
         }
       }
     }
     .total-per-zone {
       width: 60%;
-      height: 130px;
+      max-height: 60vh;
       overflow: auto;
       .zone {
         margin: 0 auto;

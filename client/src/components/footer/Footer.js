@@ -11,6 +11,14 @@ import { SponsorBar } from "../SponsorBar";
 import { FooterLink } from "./FooterLink";
 import { FooterSocial } from "./FooterSocial";
 
+//Cards
+import master from "../../assets/ikonice/mastercard.png";
+import maestro from "../../assets/ikonice/maestro.png";
+import visa from "../../assets/ikonice/visa.png";
+import idCheck from "../../assets/ikonice/master-check.png";
+import visaSecure from "../../assets/ikonice/visa-secure.png";
+import monri from "../../assets/ikonice/monri_footer_negativ.png";
+
 export const Footer = () => {
   const location = useLocation();
 
@@ -72,6 +80,33 @@ export const Footer = () => {
           <FooterSocial socialImg={twitter} />
           <FooterSocial socialImg={gmail} /> */}
         </ul>
+      </div>
+      <div className="online-payment">
+        <div className="payment-wrapper">
+          <div className="cards">
+            <a className="card" href=" www.mastercard.com">
+              <img src={master} className="master" alt="master" />
+            </a>
+            <a
+              className="card"
+              href="https://brand.mastercard.com/brandcenter/more-about-our-brands.html"
+            >
+              <img src={maestro} alt="maestro" />
+            </a>
+            <a className="card" href=" https://www.visaeurope.com">
+              <img src={visa} alt="visa" />
+            </a>
+            <a className="card" href="">
+              <img src={idCheck} alt="idCheck-MasterCard" />
+            </a>
+            <a className="card" href="https://www.visaeurope.com">
+              <img src={visaSecure} alt="visaSecure" />
+            </a>
+            <a className="card" href=" https://monri.com">
+              <img src={monri} alt="Monri" />
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
