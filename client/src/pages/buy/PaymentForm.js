@@ -22,13 +22,13 @@ const MyComponent = ({ totalAmount, profileData, orderNumber }) => {
     handleTextInput(key + orderNumber.toString() + amount + "BAM");
     if (orderNumber && hashedCode) {
       const script1 = document.createElement("script");
-      script1.src = "https://ipgtest.monri.com/dist/components.js";
+      script1.src = "https://ipg.monri.com/dist/components.js";
       document.head.appendChild(script1);
 
       const script2 = document.createElement("script");
-      script2.src = "https://ipgtest.monri.com/dist/lightbox.js";
+      script2.src = "https://ipg.monri.com/dist/lightbox.js";
       script2.className = "lightbox-button";
-      script2.setAttribute("data-authenticity-token", "000d6675b8e33b0eb0c6b");
+      script2.setAttribute("data-authenticity-token", "f9802e547e78db9b037e745e07eb1e35d0d34855");
       script2.setAttribute("data-amount", amount);
       script2.setAttribute("data-currency", "BAM");
       script2.setAttribute("data-order-number", orderNumber);
@@ -61,7 +61,7 @@ const MyComponent = ({ totalAmount, profileData, orderNumber }) => {
         action={`${process.env.REACT_APP_API_URL}/api/v1/payment/get_payment_info`}
       >
         <script
-          src="https://ipgtest.monri.com/dist/lightbox.js"
+          src="https://ipg.monri.com/dist/lightbox.js"
           className="lightbox-button"
           data-authenticity-token="f9802e547e78db9b037e745e07eb1e35d0d34855"
           data-amount={amount}
