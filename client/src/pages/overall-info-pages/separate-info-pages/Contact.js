@@ -10,11 +10,8 @@ export const Contact = ({ heading }) => {
         content={`
         Naziv pravnog lica: "INVENT" Društvo s ograničenom odgovornošću Vitez
         <br />
-        Adresa: Poštanski broj 96-2
-        <br />
-        PTT: 72250 VITEZ
-        <br />
-       
+        Adresa: Poštanski broj 96-2, 72250 Vitez 
+        <br />  
         Registracijski broj: 51-01-0045-10
         <br />
         Porezni broj: 4236501340004

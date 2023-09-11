@@ -68,8 +68,10 @@
     }
 
     .logos-slide img {
-      height: 50px;
+      max-height: 50px;
+      max-width: 125px;
       margin: 0 50px;
+      filter: grayscale(100%);
     }
   }
 
@@ -159,6 +161,7 @@
         }
         .monri {
           width: 250px;
+          background: rgba(255, 255, 255, 0.444);
         }
       }
       .master {
