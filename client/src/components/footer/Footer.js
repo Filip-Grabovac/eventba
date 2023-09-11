@@ -17,7 +17,7 @@ import maestro from "../../assets/ikonice/maestro.png";
 import visa from "../../assets/ikonice/visa.png";
 import idCheck from "../../assets/ikonice/master-check.png";
 import visaSecure from "../../assets/ikonice/visa-secure.png";
-import monri from "../../assets/ikonice/monri_footer_negativ.png";
+import monri from "../../assets/ikonice/monri.png";
 
 export const Footer = () => {
   const location = useLocation();
@@ -84,7 +84,7 @@ export const Footer = () => {
       <div className="online-payment">
         <div className="payment-wrapper">
           <div className="cards">
-            <a className="card" href=" www.mastercard.com">
+            <a className="card" href="https://www.mastercard.ba/bs-ba.html">
               <img src={master} className="master" alt="master" />
             </a>
             <a
@@ -96,14 +96,14 @@ export const Footer = () => {
             <a className="card" href=" https://www.visaeurope.com">
               <img src={visa} alt="visa" />
             </a>
-            <a className="card" href="">
+            <a className="card" href="https://www.mastercard.ba/bs-ba.html">
               <img src={idCheck} alt="idCheck-MasterCard" />
             </a>
             <a className="card" href="https://www.visaeurope.com">
               <img src={visaSecure} alt="visaSecure" />
             </a>
-            <a className="card" href=" https://monri.com">
-              <img src={monri} alt="Monri" />
+            <a className="card monri " href=" https://monri.com">
+              <img src={monri} className="" alt="Monri" />
             </a>
           </div>
         </div>

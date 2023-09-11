@@ -132,10 +132,18 @@
   .online-payment {
     background: linear-gradient(
       0deg,
-      rgb(63, 63, 63) 0%,
-      rgb(84, 83, 95) 10%,
+      rgb(72, 71, 82) 0%,
+      rgb(173, 173, 173) 66%,
       #efefef 100%
     );
+    @media (max-width: 500px) {
+      background: linear-gradient(
+        0deg,
+        rgb(72, 71, 82) 0%,
+        rgb(173, 173, 173) 80%,
+        #efefef 100%
+      );
+    }
     .payment-wrapper {
       .cards {
         padding: 20px;
@@ -148,6 +156,9 @@
           width: 80px;
           border: none;
           background: transparent;
+        }
+        .monri {
+          width: 250px;
         }
       }
       .master {
