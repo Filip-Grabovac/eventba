@@ -54,8 +54,8 @@ function sendMailWithHyperlink(
     to: to,
     subject: subject,
     html: `
-      <p>${message}</p>
-      <p><a href="${hyperlinkUrl}">${hyperlinkText}</a></p>
+      <p style="font-size: 18px;" >${message}</p>
+      <p style="font-size: 18px;" ><a href="${hyperlinkUrl}">${hyperlinkText}</a></p>
     `,
   };
 

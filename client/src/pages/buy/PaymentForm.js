@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { sha512 } from "crypto-hash";
 
-const MyComponent = ({ totalAmount, profileData, orderNumber }) => {
+const MyComponent = ({
+  totalAmount,
+  profileData,
+  orderNumber,
+  performerName,
+}) => {
   const [hashedCode, setHashCode] = useState();
 
   const key = "key-0875b47f397c1771411c78d10862a2d9";
@@ -28,11 +33,14 @@ const MyComponent = ({ totalAmount, profileData, orderNumber }) => {
       const script2 = document.createElement("script");
       script2.src = "https://ipg.monri.com/dist/lightbox.js";
       script2.className = "lightbox-button";
-      script2.setAttribute("data-authenticity-token", "f9802e547e78db9b037e745e07eb1e35d0d34855");
+      script2.setAttribute(
+        "data-authenticity-token",
+        "f9802e547e78db9b037e745e07eb1e35d0d34855"
+      );
       script2.setAttribute("data-amount", amount);
       script2.setAttribute("data-currency", "BAM");
       script2.setAttribute("data-order-number", orderNumber);
-      script2.setAttribute("data-order-info", "Lightbox example");
+      script2.setAttribute("data-order-info", performerName);
       script2.setAttribute("data-digest", hashedCode);
       script2.setAttribute("data-transaction-type", "purchase");
       script2.setAttribute("data-ch-full-name", fullName ? fullName : "");
@@ -67,7 +75,7 @@ const MyComponent = ({ totalAmount, profileData, orderNumber }) => {
           data-amount={amount}
           data-currency="BAM"
           data-order-number={orderNumber}
-          data-order-info="Lightbox example"
+          data-order-info={performerName}
           data-digest={hashedCode}
           data-transaction-type="purchase"
           data-ch-full-name={fullName ? fullName : ""}
