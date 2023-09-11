@@ -111,11 +111,13 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
     const server = app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
-
+    const performerName = concertData.performer_name;
+    const dataForEmail = { name, lname, price, category, performerName };
     // Generate and send PDF email for the current ticket
-    await generatePdfAndSendEmail(email, port);
+    await generatePdfAndSendEmail(email, port, dataForEmail);
     console.log("ended");
     // Close the server for the current ticket
+    server.close();
   }
 }
 

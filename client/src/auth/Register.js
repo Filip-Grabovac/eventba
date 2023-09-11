@@ -97,7 +97,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
           setIsRegisterOpen(false);
           // Login user
           dispatch(setUserID(response.data.user._id));
-          sessionStorage.setItem("userId", response.data.user._id);
+          localStorage.setItem("userId", response.data.user._id);
         })
         .catch((error) => {
           // Handle any errors
@@ -135,145 +135,147 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
   };
 
   return (
-    <div className="login-screen" onClick={handleModalClick}>
-      <div className="container">
-        <button
-          className="close-btn"
-          onClick={() => {
-            setIsRegisterOpen(!isRegisterOpen);
-          }}
-        >
-          <img src={X} alt="" />
-        </button>
-        <h2>Registracija</h2>
-        <div className="text-section">
-          <form onSubmit={verified ? handleSubmit : undefined}>
-            <div className="multiple-inputs-wrapper">
+    <div className="login-box">
+      <div className="login-screen" onClick={handleModalClick}>
+        <div className="container">
+          <button
+            className="close-btn"
+            onClick={() => {
+              setIsRegisterOpen(!isRegisterOpen);
+            }}
+          >
+            <img src={X} alt="" />
+          </button>
+          <h2>Registracija</h2>
+          <div className="text-section">
+            <form onSubmit={verified ? handleSubmit : undefined}>
+              <div className="multiple-inputs-wrapper">
+                <RegisterInput
+                  placeholder="Ime"
+                  type="text"
+                  icon={UserCard}
+                  name="name"
+                  isRequired={true}
+                  inputLength={3}
+                />
+                <RegisterInput
+                  placeholder="Prezime"
+                  type="text"
+                  icon={UserCard}
+                  name="lname"
+                  isRequired={true}
+                  inputLength={3}
+                />
+              </div>
               <RegisterInput
-                placeholder="Ime"
-                type="text"
-                icon={UserCard}
-                name="name"
+                placeholder="Email"
+                ref={emailRef}
+                type="email"
+                icon={Mail}
+                name="email"
                 isRequired={true}
-                inputLength={3}
               />
               <RegisterInput
-                placeholder="Prezime"
+                placeholder="Adresa"
                 type="text"
-                icon={UserCard}
-                name="lname"
-                isRequired={true}
-                inputLength={3}
-              />
-            </div>
-            <RegisterInput
-              placeholder="Email"
-              ref={emailRef}
-              type="email"
-              icon={Mail}
-              name="email"
-              isRequired={true}
-            />
-            <RegisterInput
-              placeholder="Adresa"
-              type="text"
-              icon={PinIcon}
-              name="address"
-              isRequired={false}
-            />
-            <div className="multiple-inputs-wrapper">
-              <RegisterInput
-                placeholder="Grad"
-                type="text"
-                icon=""
-                name="city"
+                icon={PinIcon}
+                name="address"
                 isRequired={false}
               />
+              <div className="multiple-inputs-wrapper">
+                <RegisterInput
+                  placeholder="Grad"
+                  type="text"
+                  icon=""
+                  name="city"
+                  isRequired={false}
+                />
+                <RegisterInput
+                  placeholder="Poštanski broj"
+                  type="text"
+                  icon=""
+                  name="zipcode"
+                  isRequired={false}
+                />
+              </div>
+              <PhoneInput
+                placeholder="Mobitel"
+                value={phone || ""}
+                onChange={setPhone}
+                onCountryChange={setCountry}
+                defaultCountry={country || "BA"}
+                international={true}
+                countryCallingCodeEditable={false}
+                countryOptionsOrder={[
+                  "BA",
+                  "HR",
+                  "RS",
+                  "AL",
+                  "BG",
+                  "GR",
+                  "XK",
+                  "ME",
+                  "MK",
+                  "RO",
+                  "SI",
+                  "DE",
+                  "AT",
+                  "IT",
+                ]}
+                labels={hr}
+                locales="hr"
+              />
               <RegisterInput
-                placeholder="Poštanski broj"
-                type="text"
+                placeholder="Lozinka"
+                type="password"
+                icon={PasswordEye}
+                cursorPointer={true}
+                name="password"
+                isRequired={true}
+                inputLength={6}
+                isPasswordVisible={isPasswordVisible}
+                setIsPasswordVisible={setIsPasswordVisible}
+              />
+              <RegisterInput
+                placeholder="Ponovi Lozinku"
+                type="password"
                 icon=""
-                name="zipcode"
-                isRequired={false}
+                ref={repeatPasswordRef}
+                name="repeatPassword"
+                isRequired={true}
+                inputLength={6}
+                isPasswordVisible={isPasswordVisible}
+                setIsPasswordVisible={setIsPasswordVisible}
               />
-            </div>
-            <PhoneInput
-              placeholder="Mobitel"
-              value={phone || ""}
-              onChange={setPhone}
-              onCountryChange={setCountry}
-              defaultCountry={country || "BA"}
-              international={true}
-              countryCallingCodeEditable={false}
-              countryOptionsOrder={[
-                "BA",
-                "HR",
-                "RS",
-                "AL",
-                "BG",
-                "GR",
-                "XK",
-                "ME",
-                "MK",
-                "RO",
-                "SI",
-                "DE",
-                "AT",
-                "IT",
-              ]}
-              labels={hr}
-              locales="hr"
-            />
-            <RegisterInput
-              placeholder="Lozinka"
-              type="password"
-              icon={PasswordEye}
-              cursorPointer={true}
-              name="password"
-              isRequired={true}
-              inputLength={6}
-              isPasswordVisible={isPasswordVisible}
-              setIsPasswordVisible={setIsPasswordVisible}
-            />
-            <RegisterInput
-              placeholder="Ponovi Lozinku"
-              type="password"
-              icon=""
-              ref={repeatPasswordRef}
-              name="repeatPassword"
-              isRequired={true}
-              inputLength={6}
-              isPasswordVisible={isPasswordVisible}
-              setIsPasswordVisible={setIsPasswordVisible}
-            />
-            <p>
-              Imas event.ba račun?{" "}
-              <Link onClick={handleOpenLogin}>Prijavi se.</Link>
-            </p>
-            <div className="terms-of-use-container">
-              <p>Pročitao sam i slažem se s uvijetima korištenja</p>
-              <input
-                className="terms-of-use"
-                type="checkbox"
-                checked={agreed}
-                onChange={handleCheckboxChange}
+              <p>
+                Imas event.ba račun?{" "}
+                <Link onClick={handleOpenLogin}>Prijavi se.</Link>
+              </p>
+              <div className="terms-of-use-container">
+                <p>Pročitao sam i slažem se s uvijetima korištenja</p>
+                <input
+                  className="terms-of-use"
+                  type="checkbox"
+                  checked={agreed}
+                  onChange={handleCheckboxChange}
+                />
+              </div>
+              <ReCAPTCHA
+                className="recaptcha"
+                sitekey="6LeMm1MnAAAAAOElXfMI6txzQnUG3q2F4QVUnYYq"
+                onChange={onChange}
+                theme="dark"
               />
-            </div>
-            <ReCAPTCHA
-              className="recaptcha"
-              sitekey="6LeMm1MnAAAAAOElXfMI6txzQnUG3q2F4QVUnYYq"
-              onChange={onChange}
-              theme="dark"
-            />
 
-            <button
-              type="submit"
-              className="login-btn"
-              disabled={!verified || !agreed}
-            >
-              Registriraj se!
-            </button>
-          </form>
+              <button
+                type="submit"
+                className="login-btn"
+                disabled={!verified || !agreed}
+              >
+                Registriraj se!
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>

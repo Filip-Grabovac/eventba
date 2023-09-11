@@ -1,7 +1,7 @@
 const { sendEmailWithAttachment } = require("./sendEmail");
 const puppeteer = require("puppeteer");
 
-const generatePdfAndSendEmail = async (email, port) => {
+const generatePdfAndSendEmail = async (email, port, dataForEmail) => {
   try {
     const browser = await puppeteer.launch({
       args: ["--no-sandbox"],
@@ -22,7 +22,7 @@ const generatePdfAndSendEmail = async (email, port) => {
     });
     await browser.close();
 
-    await sendEmailWithAttachment(email, pdfBuffer); // Use the provided email parameter if you have defined the sendEmailWithAttachment function
+    await sendEmailWithAttachment(email, pdfBuffer, dataForEmail); // Use the provided email parameter if you have defined the sendEmailWithAttachment function
   } catch (error) {
     console.log("Error generating PDF and sending email:", error);
   }

@@ -10,24 +10,21 @@ export const Contact = ({ heading }) => {
         content={`
         Naziv pravnog lica: "INVENT" Društvo s ograničenom odgovornošću Vitez
         <br />
-        Adresa: Poštanski broj 962
+        Adresa: Poštanski broj 96-2
         <br />
-        Poštanski ured i mjesto: 72250 VITEZ
+        PTT: 72250 VITEZ
         <br />
-        Županija: Srednjobosanski kanton
-        <br />
+       
         Registracijski broj: 51-01-0045-10
         <br />
         Porezni broj: 4236501340004
         <br />
-        Žiro račun: BA391610550019610037
-        RAIFFEISEN BANK d.d. Bosna i Hercegovina
+        Žiro račun: 338 250 228 767 98 60 
+        UniCredit BANK 
         <br />
-        Zastupnik: Matić Anto
+        Web adresa: https://www.event.ba
         <br />
-        Web adresa: www.event.ba
-        <br />
-        Email: event.ba.mailer@gmail.com
+        Email: info@event.ba
       `}
       />
 
@@ -35,7 +32,7 @@ export const Contact = ({ heading }) => {
         heading="Kontakt centar"
         content={`Sve informacije u vezi s kupovinom ulaznica, povratom novca za otkazane/odgođene događaje, promjenom lokacije događaja i drugim općim informacijama možete dobiti putem e-maila.
         <br />
-        E-mail: event.ba.mailer@gmail.com
+        E-mail: info@event.ba
       `}
       />
     </div>

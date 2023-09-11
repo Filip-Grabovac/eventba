@@ -9,7 +9,7 @@ export const FAQ = ({ heading }) => {
         heading="Kupio sam ulaznice za događaj koji je otkazan / odložen ili premešten. Šta treba da radim?"
         content={`Event.ba nije organizator događaja i stoga ne snosi odgovornost za povraćaj novca od ulaznice. Međutim, mi činimo sve da se obezbedi sigurnost novca od ulaznice i samim tim normalno da koristimo sledeće procedure:
 
-        U slučaju otkazivanja/odlaganja ili premeštanja događaja, molimo Vas da nas kontaktirate na mail event.ba.mailer@gmail.com.
+        U slučaju otkazivanja/odlaganja ili premeštanja događaja, molimo Vas da nas kontaktirate na mail info@event.ba.
         `}
       />
       <PageRow
@@ -25,31 +25,31 @@ export const FAQ = ({ heading }) => {
       />
       <PageRow
         heading="Izgubio/la sam ulaznice ili su ukradene. Možete li mi pomoći?"
-        content={`Ulaznica je fizički dokument - za koji ne može biti izdana zamjena u slučaju gubitka ili krađe. Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na event.ba.mailer@gmail.com.
+        content={`Ulaznica je fizički dokument - za koji ne može biti izdana zamjena u slučaju gubitka ili krađe. Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na info@event.ba.
     `}
       />
 
       <PageRow
         heading="Tijekom online kupovine rezervirao/la sam krivi događaj / krivi broj karata / krivu kategoriju..."
-        content={`Odmah nakon završetka postupka kupovine, sustav automatski evidentira ulaznice kao prodane i nikakve promjene nisu moguće. Molimo vas da nas kontaktirate putem e-pošte na event.ba.mailer@gmail.com.
+        content={`Odmah nakon završetka postupka kupovine, sustav automatski evidentira ulaznice kao prodane i nikakve promjene nisu moguće. Molimo vas da nas kontaktirate putem e-pošte na info@event.ba.
     `}
       />
 
       <PageRow
         heading="Mogu li nakon kupovine promijeniti ili otkazati svoju rezervaciju?"
-        content={`Odmah nakon završetka postupka kupovine, sustav automatski evidentira ulaznice kao prodane i nikakve promjene nisu moguće. Nažalost, nismo u mogućnosti otkazati/promijeniti narudžbu nakon što ste već kupili ulaznice. Zamjena, poništenje ili otkazivanje ulaznica nije dopušteno od strane organizatora s kojima surađujemo. Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na event.ba.mailer@gmail.com.
+        content={`Odmah nakon završetka postupka kupovine, sustav automatski evidentira ulaznice kao prodane i nikakve promjene nisu moguće. Nažalost, nismo u mogućnosti otkazati/promijeniti narudžbu nakon što ste već kupili ulaznice. Zamjena, poništenje ili otkazivanje ulaznica nije dopušteno od strane organizatora s kojima surađujemo. Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na info@event.ba.
     `}
       />
 
       <PageRow
         heading="Naplaćen je pogrešan iznos s računa moje kreditne kartice."
-        content={`U tom slučaju, kontaktirajte nas putem e-pošte na event.ba.mailer@gmail.com.
+        content={`U tom slučaju, kontaktirajte nas putem e-pošte na info@event.ba.
     `}
       />
 
       <PageRow
         heading="Moja kupovina nije uspjela / došlo je do pogreške."
-        content={`Molimo vas da nas kontaktirate putem e-pošte na event.ba.mailer@gmail.com.
+        content={`Molimo vas da nas kontaktirate putem e-pošte na info@event.ba.
     `}
       />
 
@@ -73,7 +73,7 @@ export const FAQ = ({ heading }) => {
 
       <PageRow
         heading="Vrijednost ulaznica nije vraćena nakon otkazivanja događaja."
-        content={`U tom slučaju, molimo vas da nas kontaktirate putem e-pošte na event.ba.mailer@gmail.com.
+        content={`U tom slučaju, molimo vas da nas kontaktirate putem e-pošte na info@event.ba.
     `}
       />
 
@@ -81,9 +81,9 @@ export const FAQ = ({ heading }) => {
         heading="Kupio/la sam ulaznice na internetu, ali još nisam dobio/la potvrdu."
         content={`Molimo vas da provjerite je li naša e-pošta s potvrdom možda završila u vašem neželjenom poštanskom sandučiću (spam, junk, important...). Također, moguće je da niste primili potvrdu zbog krivo unesene e-adrese ili iz drugih razloga.
 <br />
-    U tom slučaju, molimo vas da nas kontaktirate putem e-pošte na event.ba.mailer@gmail.com. Navedite svoje puno ime, datum vaše narudžbe i koji je događaj u pitanju. Obavijestit ćemo vas je li vaša narudžba uspješna ili neuspješna.
+    U tom slučaju, molimo vas da nas kontaktirate putem e-pošte na info@event.ba. Navedite svoje puno ime, datum vaše narudžbe i koji je događaj u pitanju. Obavijestit ćemo vas je li vaša narudžba uspješna ili neuspješna.
     <br />
-    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na event.ba.mailer@gmail.com.
+    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na info@event.ba.
     `}
       />
 
@@ -91,7 +91,7 @@ export const FAQ = ({ heading }) => {
         heading="Želim ostaviti komentar / pritužbu o događaju kojem sam prisustvovao/la"
         content={`Event.ba osigurava ulaznice i nije odgovoran za kvalitetu događaja. Potpuna organizacija događaja, lokacija i utvrđivanje cijena je odgovornost organizatora događaja i nema veze s našim radom.
 
-    Ako vaša narudžba/ulaznica nije valjana, molimo vas da nas obavijestite putem e-pošte na event.ba.mailer@gmail.com.
+    Ako vaša narudžba/ulaznica nije valjana, molimo vas da nas obavijestite putem e-pošte na info@event.ba.
     `}
       />
       <PageRow
@@ -100,7 +100,7 @@ export const FAQ = ({ heading }) => {
 
     Molimo vas da koristite polje "Prijava" koje se nalazi na vrhu web stranice kako biste unijeli svoju e-adresu i lozinku koju ste odabrali. Nakon uspješne prijave, samo kliknite na dio računa koji želite provjeriti (moj profil, moje ulaznice, newsletter...).
     
-    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na event.ba.mailer@gmail.com.
+    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na info@event.ba.
     `}
       />
 
@@ -108,14 +108,14 @@ export const FAQ = ({ heading }) => {
         heading="Zaboravio/la sam svoju lozinku. Šta mogu učiniti?"
         content={`Ako ste zaboravili svoju lozinku, jednostavno kliknite na dugme "Prijavi se" na našoj početnoj stranici i ispod obrasca za prijavu će se pojaviti opcija "Zaboravljena lozinka?" Tada ćete primiti e-poruku na unesenu e-adresu s uputama o tome što trebate poduzeti.
 
-    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte naevent.ba.mailer@gmail.com.
+    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte nainfo@event.ba.
     `}
       />
       <PageRow
         heading="Kako mogu promijeniti svoje podatke?"
         content={`Da biste promijenili svoje podatke, prijavite se na našoj web stranici ili, ako već jeste prijavljeni, kliknite na "Profil/Ažuriraj podatke". Ovdje možete promijeniti svoje informacije.
 
-    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na event.ba.mailer@gmail.com.
+    Ako imate dodatnih pitanja, slobodno nas kontaktirajte putem e-pošte na info@event.ba.
     `}
       />
 
@@ -138,7 +138,7 @@ export const FAQ = ({ heading }) => {
 
     Vaše sugestije i pritužbe ozbiljno shvaćamo i jamčimo da ćemo ih uzeti u obzir jer nam je vaše mišljenje izuzetno važno.
     
-    Ako želite da nas kontaktirate, slobodno nas možete dohvatiti putem e-pošte na adresu event.ba.mailer@gmail.com.
+    Ako želite da nas kontaktirate, slobodno nas možete dohvatiti putem e-pošte na adresu info@event.ba.
     `}
       />
     </div>
