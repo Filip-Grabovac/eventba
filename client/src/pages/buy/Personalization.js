@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import { useDispatch } from 'react-redux';
-import { addTicket } from '../../store/ticketSlice';
-import { Tooltip } from 'react-tooltip';
-import { addTicketPrice } from '../../store/ticketSlice';
-import HallTickets from './ticket-type/HallTickets';
+import { useDispatch } from "react-redux";
+import { addTicket } from "../../store/ticketSlice";
+import { Tooltip } from "react-tooltip";
+import { addTicketPrice } from "../../store/ticketSlice";
+import HallTickets from "./ticket-type/HallTickets";
 
 export const Personalization = ({
   i,
@@ -13,9 +13,9 @@ export const Personalization = ({
   concertData,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
-  const [name, setName] = useState(profileData?.name || '');
-  const [surname, setSurname] = useState(profileData?.lname || '');
-  const [email, setEmail] = useState(profileData?.email || '');
+  const [name, setName] = useState(profileData?.name || "");
+  const [surname, setSurname] = useState(profileData?.lname || "");
+  const [email, setEmail] = useState(profileData?.email || "");
   const [ticketPrice, setTicketPrice] = useState(0);
   const [activeCategory, setActiveCategory] = useState(null);
 
@@ -24,9 +24,9 @@ export const Personalization = ({
 
   useEffect(() => {
     if (profileData) {
-      setName('');
-      setSurname('');
-      setEmail(profileData.email || '');
+      setName("");
+      setSurname("");
+      setEmail(profileData.email || "");
     }
   }, [profileData]);
 
@@ -78,9 +78,9 @@ export const Personalization = ({
           />
           <Tooltip
             style={{
-              borderRadius: '10px',
-              backgroundColor: '#455cd9',
-              zIndex: '9999',
+              borderRadius: "10px",
+              backgroundColor: "#455cd9",
+              zIndex: "9999",
             }}
             anchorId={`checkbox-${i}`}
             place="top"
@@ -103,13 +103,13 @@ export const Personalization = ({
                     placeholder="Ime"
                     type="text"
                     id={`name-${i}`}
-                    value={!isChecked ? '' : name}
+                    value={!isChecked ? "" : name}
                     onChange={(e) => setName(e.target.value)}
                     required
                   />
                 </div>
                 <Tooltip
-                  style={{ borderRadius: '10px', backgroundColor: '#455cd9' }}
+                  style={{ borderRadius: "10px", backgroundColor: "#455cd9" }}
                   anchorId={`name-${i}`}
                   place="top"
                   variant="info"
@@ -121,7 +121,7 @@ export const Personalization = ({
                     placeholder="Prezime"
                     type="text"
                     id="surname"
-                    value={!isChecked ? '' : surname}
+                    value={!isChecked ? "" : surname}
                     onChange={(e) => setSurname(e.target.value)}
                     required
                   />
@@ -139,11 +139,11 @@ export const Personalization = ({
                   />
                   <Tooltip
                     style={{
-                      borderRadius: '10px',
-                      backgroundColor: '#455cd9',
+                      borderRadius: "10px",
+                      backgroundColor: "#455cd9",
                     }}
                     anchorId={`email-${i}`}
-                    place="bottom"
+                    place="top"
                     variant="info"
                     content={`Email za ulaznicu ${i + 1}`}
                   />
@@ -152,10 +152,10 @@ export const Personalization = ({
             </form>
           </div>
         ) : (
-          ''
+          ""
         )}
 
-        {concertData?.place?.type === 'hall' && (
+        {concertData?.place?.type === "hall" && (
           <HallTickets
             concertData={concertData}
             activeCategory={activeCategory}

@@ -116,7 +116,6 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
     await generatePdfAndSendEmail(email, port);
     console.log("ended");
     // Close the server for the current ticket
-    server.close();
   }
 }
 

@@ -13,6 +13,7 @@ body {
   size: 21cm 29.7cm;
   background-color: rgb(255, 255, 255);
   font-family: "Nunito", "Trebuchet MS", sans-serif;
+
   color: #333333;
 }
 .page {
@@ -21,6 +22,7 @@ body {
   border: 1px #d3d3d3 solid;
   border-radius: 5px;
   background: white;
+
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 .section1,
@@ -98,7 +100,7 @@ p {
     margin: 0 auto;
     font-size: 14px;
     line-height: 130%;
-    padding: 10px 10px 10px 10px;
+    padding: 5px 10px;
     font-weight: 700;
     background-image: linear-gradient(to top, #dfdfdf, #f0f0f0);
     border-radius: 0 10px 10px 10px;

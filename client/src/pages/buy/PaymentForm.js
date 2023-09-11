@@ -4,7 +4,7 @@ import { sha512 } from "crypto-hash";
 const MyComponent = ({ totalAmount, profileData, orderNumber }) => {
   const [hashedCode, setHashCode] = useState();
 
-  const key = "key-7db98c681752b62dc6fac2ec4daa93c1";
+  const key = "key-0875b47f397c1771411c78d10862a2d9";
   const amount = totalAmount * 100;
   const fullName = profileData.full_name;
   const zip = profileData.zip;
@@ -63,7 +63,7 @@ const MyComponent = ({ totalAmount, profileData, orderNumber }) => {
         <script
           src="https://ipgtest.monri.com/dist/lightbox.js"
           className="lightbox-button"
-          data-authenticity-token="000d667d189f7255a6737ccc025b8e33b0eb0c6b"
+          data-authenticity-token="f9802e547e78db9b037e745e07eb1e35d0d34855"
           data-amount={amount}
           data-currency="BAM"
           data-order-number={orderNumber}
