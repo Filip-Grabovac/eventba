@@ -67,7 +67,7 @@ async function sendEmailWithAttachment(email, ticket, dataForEmail) {
 
     const mailForInvent = {
       from: process.env.SENDING_MAIL,
-      to: "info@invent.ba",
+      to: "13kreso@gmail.com",
       // info@invent.ba
       subject: "Event.ba nova ulaznica",
       text: `Ulaznicu je kupio ${name ? name : "Kupac"} ${

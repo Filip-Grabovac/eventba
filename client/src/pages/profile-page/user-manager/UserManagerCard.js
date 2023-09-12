@@ -102,9 +102,13 @@ export const UserManagerCard = ({ data, removeUserFromUI }) => {
           ) : (
             ""
           )}
-          <p className="is-verified">
-            Verificiran: <img src={UserManagerCheck} alt="Check" />
-          </p>
+          {userData.is_verified ? (
+            <p className="is-verified">
+              Verificiran: <img src={UserManagerCheck} alt="Check" />
+            </p>
+          ) : (
+            <p style={{ color: "red" }}>Neverificiran</p>
+          )}
         </div>
       </div>
       <div className="card-part-half">
