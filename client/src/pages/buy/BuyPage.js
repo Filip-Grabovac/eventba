@@ -474,13 +474,13 @@ export const BuyPage = () => {
               <div className="accumulative-spending">
                 <p>Agencijski troškovi:</p>
                 <span>
-                  {ticketAmount * 2} <small> BAM</small>
+                  {ticketAmount * 1.5} <small> BAM</small>
                 </span>
               </div>
               <div className="saldo">
                 <p>Ukupna cijena:</p>
                 <span>
-                  {totalAmount + ticketAmount * 2} <small> BAM</small>
+                  {totalAmount + ticketAmount * 1.5} <small> BAM</small>
                 </span>
               </div>
               <div className="payment-method">
@@ -490,7 +490,7 @@ export const BuyPage = () => {
                 {showPaymentForm && (
                   <PaymentForm
                     showPaymentForm={showPaymentForm}
-                    totalAmount={totalAmount + ticketAmount * 2}
+                    totalAmount={totalAmount + ticketAmount * 1.5}
                     profileData={profileData}
                     orderNumber={orderNumber}
                     performerName={concertData.performer_name}
