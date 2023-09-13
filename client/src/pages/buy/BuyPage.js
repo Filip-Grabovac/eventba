@@ -229,7 +229,11 @@ export const BuyPage = () => {
 
       return;
     }
-    profileData?.is_verified || fetchProfileData();
+
+    if (!profileData?.is_verified) {
+      fetchProfileData();
+      return;
+    }
 
     const ticketsWithoutEmails = allTickets.filter(
       (ticket) => ticket.email === ""
@@ -329,12 +333,6 @@ export const BuyPage = () => {
             `Niste unijeli email za ulaznice: ${ticketsIdWithoutEmail}`,
             toastSetup("top-right", 3000)
           );
-        if (profileData && !profileData.is_verified) {
-          toast.error(
-            `Verificirajte vaš račun na: "${profileData.email}" da biste mogli obaviti kupovinu!`,
-            toastSetup("top-right", 3000)
-          );
-        }
       }
     }
   };
@@ -349,6 +347,7 @@ export const BuyPage = () => {
         );
         if (buttonElement) {
           buttonElement.click();
+          setShowPaymentForm(false);
         } else {
           // Retry after a short delay if the button is not found yet
           setTimeout(clickButton, 400);
@@ -474,13 +473,19 @@ export const BuyPage = () => {
               <div className="accumulative-spending">
                 <p>Agencijski troškovi:</p>
                 <span>
-                  {ticketAmount * 1.5} <small> BAM</small>
+                  {(ticketAmount * 1 + totalAmount * 0.053).toFixed(2)}
+                  <small> BAM</small>
                 </span>
               </div>
               <div className="saldo">
                 <p>Ukupna cijena:</p>
                 <span>
-                  {totalAmount + ticketAmount * 1.5} <small> BAM</small>
+                  {(
+                    totalAmount +
+                    ticketAmount * 1 +
+                    totalAmount * 0.053
+                  ).toFixed(2)}
+                  <small> BAM</small>
                 </span>
               </div>
               <div className="payment-method">
@@ -490,7 +495,11 @@ export const BuyPage = () => {
                 {showPaymentForm && (
                   <PaymentForm
                     showPaymentForm={showPaymentForm}
-                    totalAmount={totalAmount + ticketAmount * 1.5}
+                    totalAmount={(
+                      totalAmount +
+                      ticketAmount * 1 +
+                      totalAmount * 0.053
+                    ).toFixed(2)}
                     profileData={profileData}
                     orderNumber={orderNumber}
                     performerName={concertData.performer_name}

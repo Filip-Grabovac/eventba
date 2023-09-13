@@ -67,12 +67,12 @@ async function sendEmailWithAttachment(email, ticket, dataForEmail) {
 
     const mailForInvent = {
       from: process.env.SENDING_MAIL,
-      to: "13kreso@gmail.com",
+      to: "info@event.ba",
       // info@invent.ba
       subject: "Event.ba nova ulaznica",
       text: `Ulaznicu je kupio ${name ? name : "Kupac"} ${
         lname ? lname : ""
-      } za ${performerName}, cijena: ${price} - kategorija: ${category}`,
+      } (email: ${email}) za ${performerName}, cijena: ${price} - kategorija: ${category}`,
     };
     await transporter.sendMail(mailOptions);
     await transporterInvent.sendMail(mailForInvent);
