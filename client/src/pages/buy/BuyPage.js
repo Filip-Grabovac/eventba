@@ -347,7 +347,6 @@ export const BuyPage = () => {
         );
         if (buttonElement) {
           buttonElement.click();
-          setShowPaymentForm(false);
         } else {
           // Retry after a short delay if the button is not found yet
           setTimeout(clickButton, 400);

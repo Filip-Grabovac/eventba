@@ -35,6 +35,7 @@ const handlePaymentEndpoint = async (req, res) => {
     const { transaction_response } = req.body;
     if (transaction_response) {
       const data = JSON.parse(transaction_response);
+      console.log("TRANSACTION STATUS:", data.status);
 
       if (data.status === "approved") {
         const ticketInfo = ticketInfoMap.get(Number(data.order_number));
