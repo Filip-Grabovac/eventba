@@ -1,48 +1,51 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { AboutUs } from './separate-info-pages/AboutUs';
-import { Info } from './separate-info-pages/Informations';
-import { FAQ } from './separate-info-pages/FAQ';
-import { Help } from './separate-info-pages/Help';
-import { PaymentInfo } from './separate-info-pages/PaymentInfo';
-import { PrivacyPolicy } from './separate-info-pages/PrivacyPolicy';
-import { TermsOfUseBuyer } from './separate-info-pages/TermsOfUseBuyer';
-import { Contact } from './separate-info-pages/Contact';
-import { TermsOfUseOrganizer } from './separate-info-pages/TermsOfUseOrganizer';
-import { SellingPlaces } from './separate-info-pages/SellingPlaces';
-import { NewsLetter } from './separate-info-pages/NewsLetter';
+import React from "react";
+import { useLocation } from "react-router-dom";
+import { AboutUs } from "./separate-info-pages/AboutUs";
+import { Info } from "./separate-info-pages/Informations";
+import { FAQ } from "./separate-info-pages/FAQ";
+import { Help } from "./separate-info-pages/Help";
+import { PaymentInfo } from "./separate-info-pages/PaymentInfo";
+import { PrivacyPolicy } from "./separate-info-pages/PrivacyPolicy";
+import { TermsOfUseBuyer } from "./separate-info-pages/TermsOfUseBuyer";
+import { Contact } from "./separate-info-pages/Contact";
+import { TermsOfUseOrganizer } from "./separate-info-pages/TermsOfUseOrganizer";
+import { SellingPlaces } from "./separate-info-pages/SellingPlaces";
+import { NewsLetter } from "./separate-info-pages/NewsLetter";
+import { DataDeletion } from "./separate-info-pages/DataDeletion";
 
 export const OverallInfo = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const pageType = queryParams.get('page_type');
+  const pageType = queryParams.get("page_type");
 
   return (
     <div>
-      {pageType === 'about_us' ? (
+      {pageType === "about_us" ? (
         <AboutUs heading="O nama" />
-      ) : pageType === 'info' ? (
+      ) : pageType === "info" ? (
         <Info heading="Info" />
-      ) : pageType === 'FAQ' ? (
+      ) : pageType === "FAQ" ? (
         <FAQ heading="FAQ" />
-      ) : pageType === 'help' ? (
+      ) : pageType === "help" ? (
         <Help heading="Pomoć" />
-      ) : pageType === 'payment_info' ? (
+      ) : pageType === "payment_info" ? (
         <PaymentInfo heading="Način plaćanja" />
-      ) : pageType === 'privacy_policy' ? (
+      ) : pageType === "privacy_policy" ? (
         <PrivacyPolicy heading="Politika privatnosti" />
-      ) : pageType === 'terms_of_use_buyer' ? (
+      ) : pageType === "terms_of_use_buyer" ? (
         <TermsOfUseBuyer heading="Uvjeti korištenja za kupca" />
-      ) : pageType === 'contact' ? (
+      ) : pageType === "contact" ? (
         <Contact heading="Kontakt" />
-      ) : pageType === 'terms_of_use_organizer' ? (
+      ) : pageType === "terms_of_use_organizer" ? (
         <TermsOfUseOrganizer heading="Uvjeti korištenja za organizatora" />
-      ) : pageType === 'selling_places' ? (
+      ) : pageType === "selling_places" ? (
         <SellingPlaces heading="Prodajna mjesta" />
-      ) : pageType === 'newsletter' ? (
+      ) : pageType === "newsletter" ? (
         <NewsLetter heading="NewsLetter" />
+      ) : pageType === "delete_account" ? (
+        <DataDeletion heading="Brisanje podataka" />
       ) : (
-        ''
+        ""
       )}
     </div>
   );

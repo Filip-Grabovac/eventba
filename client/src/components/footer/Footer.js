@@ -53,6 +53,7 @@ export const Footer = () => {
           <FooterLink content="O nama" pageLink="about_us" />
           <FooterLink content="FAQ" pageLink="FAQ" />
           <FooterLink content="Pomoć" pageLink="help" />
+          <FooterLink content="Brisanje računa" pageLink="delete_account" />
         </ul>
         <ul>
           <FooterLink content="Način plaćanja" pageLink="payment_info" />
