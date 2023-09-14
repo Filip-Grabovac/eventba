@@ -29,9 +29,9 @@ export const Contact = ({ heading }) => {
         heading="Kontakt centar"
         content={`Sve informacije u vezi s kupovinom ulaznica, povratom novca za otkazane/odgođene događaje, promjenom lokacije događaja i drugim općim informacijama možete dobiti putem e-maila.
         <br />
-        E-mail: info@event.ba
+        Email: info@event.ba
         <br />
-        Tel - Ivica Dzambas: +387 64 453 90 04
+        Ivica Dzambas: +387 64 453 90 04
       `}
       />
     </div>
