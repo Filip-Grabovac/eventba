@@ -198,7 +198,7 @@
         }
         .active {
           transform: scale(1.07);
-          box-shadow: 1px 1px 10px 10px rgba(105, 105, 105, 0.25);
+          box-shadow: 1px 1px 20px 10px rgba(2, 13, 51, 0.35);
         }
         .ticket-card-inner {
           cursor: pointer;
@@ -255,18 +255,20 @@
             height: 100%;
             background: linear-gradient(
               to top,
-              rgba(28, 42, 112, 0.774) 0%,
-              rgba(80, 133, 168, 0.671) 100%
+              rgba(28, 42, 112, 0.874) 0%,
+              rgba(80, 133, 168, 0.771) 100%
             );
             z-index: 1;
             border-radius: 10px;
+            filter: grayscale(80%);
           }
           .activeGloss {
             background: linear-gradient(
               to top,
-              rgba(66, 78, 136, 0.774) 0%,
-              rgba(84, 126, 175, 0.247) 100%
+              rgba(66, 78, 136, 0.8) 0%,
+              rgba(84, 126, 175, 0.2) 100%
             );
+            filter: grayscale(0%);
           }
 
           .ticket-card-content {

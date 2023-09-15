@@ -160,6 +160,7 @@ export const Personalization = ({
             concertData={concertData}
             activeCategory={activeCategory}
             handleClick={handleClick}
+            i={i}
           />
         )}
       </div>

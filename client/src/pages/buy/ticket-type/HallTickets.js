@@ -1,14 +1,19 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-const HallTickets = ({ concertData, activeCategory, handleClick }) => {
+const HallTickets = ({ concertData, activeCategory, handleClick, i }) => {
   const userId = useSelector((state) => state.userState.user);
+  const lastTicketCategory = useSelector(
+    (state) => state.ticketState.ticketList[i - 1]?.category
+  );
+
   useEffect(() => {
     // Get the first category
     const firstCategory = Object.keys(concertData.tickets.online_sale.zones)[0];
-
+    console.log(lastTicketCategory, firstCategory);
     // Call the handleClick function with the first category as the parameter
-    handleClick(firstCategory);
+    if (i > 0) handleClick(lastTicketCategory);
+    else handleClick(firstCategory);
   }, [userId]);
 
   return (
