@@ -72,7 +72,8 @@ const findConcert = async (req, res) => {
       type === "id" ||
       type === "this_week" ||
       type === "type" ||
-      type === "search"
+      type === "search" ||
+      type === "is_promoted_event"
     ) {
       // Return the whole concert object when searching by ID
       return res.status(200).json(filteredConcerts);

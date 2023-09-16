@@ -10,7 +10,7 @@ const HallTickets = ({ concertData, activeCategory, handleClick, i }) => {
   useEffect(() => {
     // Get the first category
     const firstCategory = Object.keys(concertData.tickets.online_sale.zones)[0];
-    console.log(lastTicketCategory, firstCategory);
+
     // Call the handleClick function with the first category as the parameter
     if (i > 0) handleClick(lastTicketCategory);
     else handleClick(firstCategory);

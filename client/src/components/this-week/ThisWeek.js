@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import Carousel, { consts } from 'react-elastic-carousel';
-import { SliderCard } from './SliderCard';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import Carousel, { consts } from "react-elastic-carousel";
+import { SliderCard } from "./SliderCard";
+import axios from "axios";
 
 export const ThisWeek = (props) => {
   const [thisWeek, setThisWeekData] = useState(null);
+  const [suggested, setSuggested] = useState(null);
   const type = props.type;
 
   // Slider setup
@@ -26,16 +27,31 @@ export const ThisWeek = (props) => {
     const fetchThisWeekData = async () => {
       try {
         const response = await axios.get(endpoint);
+        if (response.data.length < 1) {
+          const fetchHotConcerts = async () => {
+            try {
+              const response = await axios.get(
+                `${process.env.REACT_APP_API_URL}/api/v1/concerts/is_promoted_event/true`
+              );
+              setSuggested(response.data);
+            } catch (error) {
+              console.error("Error fetching profile data:", error);
+            }
+          };
+
+          fetchHotConcerts();
+        }
         setThisWeekData(response.data);
       } catch (error) {
-        console.error('Error fetching profile data:', error);
+        console.error("Error fetching profile data:", error);
       }
     };
     fetchThisWeekData();
   }, []);
+
   return (
     <div className="this-week">
-      <h3>{props.heading}</h3>
+      <h3>{thisWeek && thisWeek.length < 1 ? "Promovirano" : props.heading}</h3>
       <div className="slider">
         <Carousel
           itemPosition={consts.CENTER}
@@ -45,21 +61,39 @@ export const ThisWeek = (props) => {
           pagination={false}
           breakPoints={breakpoints}
         >
-          {thisWeek &&
-            Array.isArray(thisWeek) &&
-            thisWeek.map((item, i) => <SliderCard key={i} data={item} />)}
-          {thisWeek &&
-            Array.isArray(thisWeek) &&
-            Array.from(
-              { length: thisWeek.length < 3 ? 3 - thisWeek.length : 0 },
-              (_, index) => (
-                <div className="skeleton-without-animation" key={index}>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </div>
+          {thisWeek && thisWeek.length < 1
+            ? suggested &&
+              Array.isArray(suggested) &&
+              suggested.map((item, i) => <SliderCard key={i} data={item} />)
+            : thisWeek &&
+              Array.isArray(thisWeek) &&
+              thisWeek.map((item, i) => <SliderCard key={i} data={item} />)}
+
+          {thisWeek && thisWeek.length < 1
+            ? thisWeek && Array.isArray(suggested)
+              ? Array.from(
+                  { length: suggested.length < 3 ? 3 - suggested.length : 0 },
+                  (_, index) => (
+                    <div className="skeleton-without-animation" key={index}>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  )
+                )
+              : null
+            : thisWeek && Array.isArray(thisWeek)
+            ? Array.from(
+                { length: thisWeek.length < 3 ? 3 - thisWeek.length : 0 },
+                (_, index) => (
+                  <div className="skeleton-without-animation" key={index}>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                )
               )
-            )}
+            : null}
         </Carousel>
       </div>
     </div>

@@ -13,6 +13,7 @@ import { toastSetup } from "../../functions/toastSetup";
 import { hrTimeFormat } from "../../components/helper/timeFormat";
 import { setLoginIsOpen } from "../../store/loginSlice";
 import { TheaterBuyPage } from "./TheaterBuyPage";
+import AdminPayment from "./AdminPaymentForm";
 
 export const BuyPage = () => {
   const [concertData, setConcertData] = useState({});
@@ -27,7 +28,6 @@ export const BuyPage = () => {
   const dispatch = useDispatch();
   const activeCardRef = useRef(null);
   const allTickets = useSelector((state) => state.ticketState.ticketList);
-  const loggedinUser = useSelector((state) => state.userState.user);
 
   const userId = useSelector((state) => state.userState.user);
   // Setting order number 1. time u get on buy page
@@ -255,7 +255,7 @@ export const BuyPage = () => {
         if (ticketsIdWithoutSeat.length === 0) {
           if (categoryWithNotEnoughTickets?.length === 0) {
             setShowPaymentForm(true);
-            console.log(orderNumber);
+
             const allEmails = allTickets.map((ticket) => ticket.email);
             const uniqueEmails = allEmails.filter((email, index) => {
               return allEmails.indexOf(email) === index;
@@ -283,7 +283,7 @@ export const BuyPage = () => {
                     ticketGenData: ticketGenData,
                     concertData: concertData,
                     orderNumber,
-                    loggedinUser: loggedinUser,
+                    loggedinUser: userId,
                   }
                 );
               } catch (error) {
@@ -494,19 +494,33 @@ export const BuyPage = () => {
                 <button className="pay-method" onClick={handleButtonClick}>
                   Idi na plaćanje
                 </button>
-                {showPaymentForm && (
-                  <PaymentForm
-                    showPaymentForm={showPaymentForm}
-                    totalAmount={(
-                      totalAmount +
-                      ticketAmount * 1.06 +
-                      (totalAmount + ticketAmount) * 0.056
-                    ).toFixed(2)}
-                    profileData={profileData}
-                    orderNumber={orderNumber}
-                    performerName={concertData.performer_name}
-                  />
-                )}
+                {showPaymentForm &&
+                  (profileData.email === "maticanto@gmail.com" ||
+                  "13kreso@gmail.com" ? (
+                    <AdminPayment
+                      showPaymentForm={showPaymentForm}
+                      totalAmount={(
+                        totalAmount +
+                        ticketAmount * 1.06 +
+                        (totalAmount + ticketAmount) * 0.056
+                      ).toFixed(2)}
+                      profileData={profileData}
+                      orderNumber={orderNumber}
+                      performerName={concertData.performer_name}
+                    />
+                  ) : (
+                    <PaymentForm
+                      showPaymentForm={showPaymentForm}
+                      totalAmount={(
+                        totalAmount +
+                        ticketAmount * 1.06 +
+                        (totalAmount + ticketAmount) * 0.056
+                      ).toFixed(2)}
+                      profileData={profileData}
+                      orderNumber={orderNumber}
+                      performerName={concertData.performer_name}
+                    />
+                  ))}
               </div>
             </>
           ) : (
