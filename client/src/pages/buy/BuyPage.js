@@ -494,33 +494,19 @@ export const BuyPage = () => {
                 <button className="pay-method" onClick={handleButtonClick}>
                   Idi na plaćanje
                 </button>
-                {showPaymentForm &&
-                  (profileData.email === "maticanto@gmail.com" ||
-                  profileData.email === "13kreso@gmail.com" ? (
-                    <AdminPayment
-                      showPaymentForm={showPaymentForm}
-                      totalAmount={(
-                        totalAmount +
-                        ticketAmount * 1.06 +
-                        (totalAmount + ticketAmount) * 0.056
-                      ).toFixed(2)}
-                      profileData={profileData}
-                      orderNumber={orderNumber}
-                      performerName={concertData.performer_name}
-                    />
-                  ) : (
-                    <PaymentForm
-                      showPaymentForm={showPaymentForm}
-                      totalAmount={(
-                        totalAmount +
-                        ticketAmount * 1.06 +
-                        (totalAmount + ticketAmount) * 0.056
-                      ).toFixed(2)}
-                      profileData={profileData}
-                      orderNumber={orderNumber}
-                      performerName={concertData.performer_name}
-                    />
-                  ))}
+                {showPaymentForm && (
+                  <PaymentForm
+                    showPaymentForm={showPaymentForm}
+                    totalAmount={(
+                      totalAmount +
+                      ticketAmount * 1.06 +
+                      (totalAmount + ticketAmount) * 0.056
+                    ).toFixed(2)}
+                    profileData={profileData}
+                    orderNumber={orderNumber}
+                    performerName={concertData.performer_name}
+                  />
+                )}
               </div>
             </>
           ) : (
