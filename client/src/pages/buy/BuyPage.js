@@ -496,7 +496,7 @@ export const BuyPage = () => {
                 </button>
                 {showPaymentForm &&
                   (profileData.email === "maticanto@gmail.com" ||
-                  "13kreso@gmail.com" ? (
+                  profileData.email === "13kreso@gmail.com" ? (
                     <AdminPayment
                       showPaymentForm={showPaymentForm}
                       totalAmount={(

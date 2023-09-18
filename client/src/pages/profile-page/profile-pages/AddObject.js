@@ -10,7 +10,10 @@ export const AddObject = () => {
   const [selectedObject, setSelectedObject] = useState("");
 
   return (
-    <div className="add-hall-container smaller-profile">
+    <div
+      className="add-hall-container smaller-profile"
+      style={{ padding: "2%" }}
+    >
       <h6>Tip objekta</h6>
       <select
         className="select-object"

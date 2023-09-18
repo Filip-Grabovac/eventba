@@ -11,9 +11,9 @@ const { PDFDocument } = require("pdf-lib");
 
 async function generateTicketDocument(
   concertData,
-  categoryName,
   ticketType,
   ticketPrice,
+  categoryName,
   seat,
   row
 ) {
@@ -146,9 +146,11 @@ async function generateFreeSaleTicket({
             concertData,
             ticketType,
             ticketPrice,
+            categoryName,
             seatNumber,
             row
           );
+
           console.log(`Row: ${row}, Seat: ${seatNumber}`);
 
           const qrCodeName = `qr-code-${tickets.length + 1}.png`;
