@@ -27,7 +27,7 @@ export const Contact = ({ heading }) => {
 
       <PageRow
         heading="Kontakt centar"
-        content={`Sve informacije u vezi s kupovinom ulaznica, povratom novca za otkazane/odgođene događaje, promjenom lokacije događaja i drugim općim informacijama možete dobiti putem e-maila.
+        content={`Sve informacije u vezi s kupovinom ulaznica, povratom novca za otkazane/odgođene događaje, promjenom lokacije događaja i drugim općim informacijama možete dobiti putem e-maila i pozivom na telefonski broj ispod.
         <br />
         Email: info@event.ba
         <br />

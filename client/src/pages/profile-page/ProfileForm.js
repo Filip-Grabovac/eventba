@@ -13,6 +13,8 @@ import { AddReseller } from "./add-reseller-for-organizer/AddReseller.js";
 import { CheckResellerTickets } from "./check-reseller-tickets/CheckResellerTickets.js";
 import { VerifyEvents } from "./verify-events/VerifyEvents";
 import { NewsLetter } from "./newsletter-profile/NewsLetter";
+import { TicketManager } from "./check-reseller-tickets/TicketManager";
+import { TicketAdmin } from "./ticket-admin/TicketAdmin";
 
 export function ProfileForm(props) {
   return (
@@ -42,7 +44,10 @@ export function ProfileForm(props) {
       ) : props.activeNavItem === "Zahtjevi preprodavača" ? (
         <ResellerRequest resellersRequests={props.resellersRequests} />
       ) : props.activeNavItem === "Dodaj ulaznice" ? (
-        <AddTickets adminEmail={props.profileData.email} />
+        <AddTickets
+          adminEmail={props.profileData.email}
+          adminName={props.profileData.full_name}
+        />
       ) : props.activeNavItem === "Dodaj preprodavača" ? (
         <AddReseller resellers={props.resellers} />
       ) : props.activeNavItem === "Pregled prodaje" ? (
@@ -54,6 +59,8 @@ export function ProfileForm(props) {
         <VerifyEvents />
       ) : props.activeNavItem === "Newsletter" ? (
         <NewsLetter profileData={props.profileData} />
+      ) : props.activeNavItem === "Upravljaj ulaznicama" ? (
+        <TicketAdmin allEvents={props.organizerEvents} />
       ) : (
         ""
       )}

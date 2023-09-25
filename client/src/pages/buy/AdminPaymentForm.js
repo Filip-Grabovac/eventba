@@ -40,7 +40,10 @@ const AdminPayment = ({
       script2.setAttribute("data-amount", amount);
       script2.setAttribute("data-currency", "BAM");
       script2.setAttribute("data-order-number", orderNumber);
-      script2.setAttribute("data-order-info", "SUPER-ADMIN-4058400000000005");
+      script2.setAttribute(
+        "data-order-info",
+        "ADMIN-test kartica: 4058400000000005"
+      );
       script2.setAttribute("data-digest", hashedCode);
       script2.setAttribute("data-transaction-type", "purchase");
       script2.setAttribute("data-ch-full-name", fullName ? fullName : "");
@@ -75,7 +78,7 @@ const AdminPayment = ({
           data-amount={amount}
           data-currency="BAM"
           data-order-number={orderNumber}
-          data-order-info={"SUPER-ADMIN-4058400000000005"}
+          data-order-info={"ADMIN-test kartica: 4058400000000005"}
           data-digest={hashedCode}
           data-transaction-type="purchase"
           data-ch-full-name={fullName ? fullName : ""}

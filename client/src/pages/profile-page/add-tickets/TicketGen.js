@@ -7,7 +7,12 @@ import { toast } from "react-toastify";
 import { Bars } from "react-loader-spinner";
 import { Theater } from "../organize-event-page/Theater";
 
-export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
+export const TicketGen = ({
+  concertData,
+  setConcertData,
+  adminEmail,
+  adminName,
+}) => {
   const [rowNum, setRowNum] = useState(0);
   const [tickets, setTickets] = useState([]);
   const [totalTickets, setTotalTickets] = useState(0);
@@ -37,7 +42,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
     e.preventDefault();
     setPdfFilePath("");
     setLoader(true);
-    console.log(tickets);
+
     const categoryNames = tickets.map((ticket) => ticket.categoryName.trim());
     const hasDuplicates = new Set(categoryNames).size !== categoryNames.length;
 
@@ -114,11 +119,6 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
       const filteredTickets = tickets.filter(
         (ticket) => ticket.ticketsNum !== ""
       );
-      console.log({
-        ticketGenData: filteredTickets,
-        concertData,
-        adminEmail,
-      });
 
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/v1/freeSale/generate-tickets`,
@@ -126,6 +126,7 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
           ticketGenData: filteredTickets,
           concertData,
           adminEmail,
+          adminName,
         }
       );
 
@@ -226,8 +227,6 @@ export const TicketGen = ({ concertData, setConcertData, adminEmail }) => {
     setTotalAmount(totalAmount.toFixed(2)); // Rounding to 2 decimal places
     setProvision((1.5 * totalTickets).toFixed(2));
   }, [tickets]);
-
-  console.log(tickets);
 
   return (
     <div className="generator-container">

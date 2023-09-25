@@ -3,13 +3,20 @@ const concertSchema = require("../../models/Concert");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
-async function updateFreeSale(concertId, ticketList) {
+async function updateFreeSale(concertId, ticketList, adminName) {
   try {
     const Concert = connectDB(process.env.DATABASE_URL).model(
       "Concert",
       concertSchema,
       "concerts"
     );
+
+    const printHistoryEntry = {
+      user: adminName,
+      date: new Date(), // Current date and time
+      tickets: ticketList,
+    };
+
     // Retrieve the concert document from the collection
     const concert = await Concert.findById({ _id: concertId });
 
@@ -67,6 +74,7 @@ async function updateFreeSale(concertId, ticketList) {
             "tickets.free_sale.zones": currentCategories,
             "tickets_yesterday.free_sale.total_amount_left": currentTotalAmount, // Update tickets_yesterday
             "tickets_yesterday.free_sale.zones": currentCategories, // Update tickets_yesterday
+            print_history: concert.print_history.concat([printHistoryEntry]), // Add to print_history array
           },
         }
       );

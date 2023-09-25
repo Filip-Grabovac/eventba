@@ -30,6 +30,7 @@ const getAllConcerts = async (req, res) => {
     res.status(500).json({ msg: error });
   }
 };
+
 const findConcert = async (req, res) => {
   try {
     const { type, value } = req.params;

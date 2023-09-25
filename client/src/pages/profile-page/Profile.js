@@ -64,6 +64,7 @@ export const Profile = () => {
           "Odobri događaj",
           "Moji događaji",
           "Dodaj ulaznice",
+          "Upravljaj ulaznicama",
           "Postavke ulaza",
           "Upravljaj korisnicima",
           "Dodaj preprodavača",

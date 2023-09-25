@@ -7,6 +7,7 @@ export const EventDetails = ({
   displayTicketGen,
   setConcertData,
   adminEmail,
+  adminName,
 }) => {
   return (
     <div className="concert-container">
@@ -39,6 +40,7 @@ export const EventDetails = ({
               setConcertData={setConcertData}
               concertData={concertData}
               adminEmail={adminEmail}
+              adminName={adminName}
             />
           ) : (
             ""

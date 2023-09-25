@@ -93,6 +93,17 @@ const ConcertSchema = new mongoose.Schema({
       tickets: {},
     },
   ],
+  print_history: [
+    {
+      _id: false,
+      date: {
+        type: Date,
+        required: true,
+      },
+      user: String,
+      tickets: [],
+    },
+  ],
 });
 
 module.exports = ConcertSchema;

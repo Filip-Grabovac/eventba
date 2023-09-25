@@ -12,14 +12,18 @@ const verifyTransactionController = require("../functions/concert/verifyTransact
 const getTickets = async (req, res) => {
   try {
     // Get the required data from the request body
-    const { ticketGenData, concertData, adminEmail } = req.body;
+    const { ticketGenData, concertData, adminEmail, adminName } = req.body;
 
     // Generate the current date at the start of the ticket generation process
     const currentDate = new Date();
     const fileDate = currentDate.getTime();
 
     // Call the ticket generation function and pass the required data along with the formatted date
-    const ticketNumber = await updateFreeSale(concertData._id, ticketGenData);
+    const ticketNumber = await updateFreeSale(
+      concertData._id,
+      ticketGenData,
+      adminName
+    );
     await generateFreeSaleTicket({
       ticketGenData,
       concertData,
