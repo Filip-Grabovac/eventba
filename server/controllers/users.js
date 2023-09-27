@@ -29,7 +29,10 @@ const createUser = async (req, res) => {
       sendVerificationEmail(
         req.body.email,
         "Verificiraj svoj Event.ba račun!",
-        `U svrhu sigurnosti prilikom kupovine ulaznica, e-mail koji će te ovom prilikom verificirati biti će zadani mail za dostavu kupljenih ulaznica s vašeg event.ba računa. Prilikom kupovine možete odabrati opciju personalizacije ulaznice, gdje za svaku ulaznicu možete unijeti ime i prezime vlasnika ulaznice i e-mail na koji će ta ulaznica biti poslana. (Ukoliko želite pokloniti nekome ulaznicu). Klikom na link ispod započeti će te verifikaciju svog event.ba računa:`,
+        `U svrhu sigurnosti prilikom kupovine ulaznica, e-mail koji će te ovom prilikom verificirati biti će zadani mail za dostavu kupljenih ulaznica s vašeg event.ba računa. Prilikom kupovine možete odabrati opciju personalizacije ulaznice, gdje za svaku ulaznicu možete unijeti ime i prezime vlasnika ulaznice i e-mail na koji će ta ulaznica biti poslana. (Ukoliko želite pokloniti nekome ulaznicu).
+
+        Klikom na link ispod započeti će te verifikaciju svog event.ba računa:`,
+
         "Link za verifkaciju",
         verificationLink
       );

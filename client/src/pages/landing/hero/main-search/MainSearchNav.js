@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import SearchInput from "../../hero/main-search/SearchInput";
 import axios from "axios";
 import { SearchNavLink } from "./SearchNavLink";
+import sortByTime from "../../../../functions/sortByTimeOfEvent";
 
 const MainSearchNav = ({ setEvents, setLoader }) => {
   const [category, setCategory] = useState("suggested");
@@ -18,7 +19,7 @@ const MainSearchNav = ({ setEvents, setLoader }) => {
             `${process.env.REACT_APP_API_URL}/api/v1/concerts/type/${category}`
           );
 
-          setEvents(response.data);
+          setEvents(sortByTime(response.data));
         }
         setLoader(false);
       } catch (error) {

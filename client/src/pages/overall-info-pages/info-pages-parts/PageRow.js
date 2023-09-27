@@ -1,5 +1,5 @@
-import React from 'react';
-import { ResellerConcertCard } from './ResellerConcertCard';
+import React from "react";
+import { ResellerConcertCard } from "./ResellerConcertCard";
 
 export const PageRow = ({
   heading,
@@ -8,7 +8,7 @@ export const PageRow = ({
   btnContent,
   data,
 }) => {
-  const paragraphs = content.split('<br />');
+  const paragraphs = content.split("<br />");
   return (
     <div className="page-row">
       <div>
@@ -16,7 +16,7 @@ export const PageRow = ({
         {paragraphs.map((paragraph, index) => (
           <p key={index}>{paragraph}</p>
         ))}
-        {heading === 'Newsletter' ? (
+        {heading === "Newsletter" ? (
           <a
             onClick={() => {
               newsletterFunction();
@@ -27,10 +27,10 @@ export const PageRow = ({
             {btnContent}
           </a>
         ) : (
-          ''
+          ""
         )}
       </div>
-      {data && data?.concerts !== [] && (
+      {data && data?.concerts.length > 0 && (
         <div className="event-div">
           {data.concerts.map((concertId, i) => (
             <ResellerConcertCard key={i} concertId={concertId} />

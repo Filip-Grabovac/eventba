@@ -1,28 +1,28 @@
 import React, { useState } from "react";
 
 import axios from "axios";
-import { GetAllEvents } from "../add-tickets/GetAllEvents";
+
 import { TicketsDisplay } from "./TicketsDisplay";
+import { EventSearch } from "./EventSearch";
 
 export const TicketAdmin = ({ allEvents }) => {
-  const [event, setEvent] = useState("");
   const [concertData, setConcertData] = useState(null);
   const [tickets, setTickets] = useState([]);
-  const handleSelectChange = async (e) => {
-    const selectedOption = e.target.value;
-    setEvent(selectedOption);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredEvents, setFilteredEvents] = useState([]);
 
+  const handleSelectChange = async (id) => {
     // Extracting the data-id from the selected option
-    const dataId =
-      e.target.options[e.target.selectedIndex].getAttribute("data-id");
 
     // Fetching concert data using the extracted dataId
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${dataId}`
+        `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${id}`
       );
       setConcertData(response.data[0]);
       setTickets([]);
+      setFilteredEvents([]);
+      setSearchTerm("");
     } catch (error) {
       console.error("Error fetching concert data:", error);
     }
@@ -30,11 +30,14 @@ export const TicketAdmin = ({ allEvents }) => {
   return (
     <>
       <div className={`choose-concert`}>
-        <h6>Pregledaj sve ulaznice</h6>
-        <GetAllEvents
+        <h6>Odaberi događaj</h6>
+        <EventSearch
           allEvents={allEvents}
-          event={event}
           handleSelectChange={handleSelectChange}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          filteredEvents={filteredEvents}
+          setFilteredEvents={setFilteredEvents}
         />
       </div>
       <div className="all-ticket-display">

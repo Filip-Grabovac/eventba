@@ -35,9 +35,20 @@ const findConcert = async (req, res) => {
   try {
     const { type, value } = req.params;
     let query;
+    let selectAttributes = {};
 
     if (type === "is_promoted_event") {
       query = { is_promoted_event: value === "true", verified: true };
+      selectAttributes = {
+        poster: 1,
+        _id: 1,
+        time_of_event: 1,
+        performer_name: 1,
+        place: 1,
+        type: 1,
+        verified: 1,
+        description: 1,
+      };
     } else if (type === "id") {
       query = { _id: value, verified: true };
     } else if (type === "this_week") {
@@ -45,7 +56,17 @@ const findConcert = async (req, res) => {
       const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
       query = {
         time_of_event: { $gte: today, $lt: nextWeek },
-        verified: true, // Filter for verified concerts
+        verified: true,
+      };
+      selectAttributes = {
+        poster: 1,
+        _id: 1,
+        time_of_event: 1,
+        performer_name: 1,
+        place: 1,
+        type: 1,
+        verified: 1,
+        description: 1,
       };
     } else if (type === "type") {
       query = { type: { $in: [value] }, verified: true };
@@ -58,7 +79,7 @@ const findConcert = async (req, res) => {
       return res.status(400).json({ error: "Pogrešna pretraga" });
     }
 
-    const concerts = await Concert.find(query);
+    const concerts = await Concert.find(query).select(selectAttributes);
 
     if (type === "id") {
       return res.status(200).json(concerts);
@@ -76,7 +97,6 @@ const findConcert = async (req, res) => {
       type === "search" ||
       type === "is_promoted_event"
     ) {
-      // Return the whole concert object when searching by ID
       return res.status(200).json(filteredConcerts);
     }
 
@@ -93,6 +113,7 @@ const findConcert = async (req, res) => {
     });
   }
 };
+
 const createEvent = async (req, res) => {
   try {
     // Create new event

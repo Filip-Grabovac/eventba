@@ -6,6 +6,8 @@ import { EventDetails } from "../add-tickets/EventDetails";
 import { ProfileTopPart } from "../user-manager/ProfileTopPart";
 import { AddResellerCard } from "./AddResellerCard";
 import ConcertComponent from "./ConcertComponent";
+import filterByTime from "../../../functions/filterByTime";
+import sortByTime from "../../../functions/sortByTimeOfEvent";
 
 export const AddReseller = ({ resellers }) => {
   const userId = useSelector((state) => state.userState.user);
@@ -24,7 +26,8 @@ export const AddReseller = ({ resellers }) => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/v1/concerts/organizer/${userId}`
       );
-      setAllEvents(response.data);
+
+      setAllEvents(sortByTime(filterByTime(response.data)));
     } catch (error) {
       console.error("Error fetching entrance checker:", error);
     }

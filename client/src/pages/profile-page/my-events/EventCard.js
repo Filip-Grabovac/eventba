@@ -24,7 +24,7 @@ export const EventCard = ({ ids, i }) => {
 
   useEffect(() => {
     fetchConcertData();
-  }, []);
+  }, [ids]);
 
   const fetchConcertData = async () => {
     try {

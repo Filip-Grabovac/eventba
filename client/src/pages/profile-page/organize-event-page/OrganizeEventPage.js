@@ -11,6 +11,7 @@ import { toastSetup } from "../../../functions/toastSetup";
 import { OrganizeEventCategories } from "./OrganizeEventCategories";
 import SponsorModal from "./SponsorModal";
 import { Theater } from "./Theater";
+import { AddOrganizer } from "./AddOrganizer";
 
 export const OrganizeEventPage = () => {
   const [selectedValue, setSelectedValue] = useState("");
@@ -26,7 +27,9 @@ export const OrganizeEventPage = () => {
   const [cities, setCities] = useState();
   const [cityInputValue, setCityInputValue] = useState("");
   const userId = useSelector((state) => state.userState.user);
+  const [organizer, setOrganizer] = useState(userId);
   const [rows, setRows] = useState({});
+  const [profileData, setProfileData] = useState({});
   const [groundPlan, setGroundPlan] = useState();
   const [selectedImages, setSelectedImages] = useState([
     UploadImage,
@@ -42,7 +45,19 @@ export const OrganizeEventPage = () => {
 
   useEffect(() => {
     fetchSponsors();
+    fetchProfileData();
   }, []);
+
+  const fetchProfileData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
+      );
+      setProfileData(response.data);
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
+  };
 
   // Fetch halls with the city name
   useEffect(() => {
@@ -261,7 +276,7 @@ export const OrganizeEventPage = () => {
       type: form.get("eventType"),
       is_promoted_event: false,
       description: form.get("eventDescription"),
-      organizer: userId,
+      organizer: organizer,
     };
     if (placeData.type === "hall")
       ticketInputs.forEach((ticket) => {
@@ -561,6 +576,13 @@ export const OrganizeEventPage = () => {
           </div>
         </div>
       </div>
+
+      {profileData.role === "admin" && (
+        <div className="organize-middle-part">
+          <AddOrganizer setOrganizer={setOrganizer} organizer={organizer} />
+        </div>
+      )}
+
       <div className="organize-middle-part">
         <div>
           <input

@@ -5,8 +5,8 @@ export const TicketZones = ({ tickets }) => {
     <div className="zones-wrapper">
       <div className="zones">
         {tickets &&
-          tickets.map((zone) => (
-            <div className="zone-card">
+          tickets.map((zone, i) => (
+            <div key={i} className="zone-card">
               <div className="zone-name">
                 {zone.categoryName} - {zone.ticketType}
               </div>

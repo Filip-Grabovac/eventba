@@ -64,7 +64,6 @@ const getTicketByPosition = async (req, res) => {
     res.status(500).json({ msg: "Greška", msgInfo: "Greška na serveru" });
   }
 };
-
 const getTicketByEmail = async (req, res) => {
   const { collection_name, email } = req.params;
 
@@ -75,12 +74,16 @@ const getTicketByEmail = async (req, res) => {
   );
 
   try {
-    const tickets = await Ticket.find({ sent_on_email: email });
+    // Use a regex to perform a partial match on email addresses
+    const tickets = await Ticket.find({
+      sent_on_email: { $regex: email, $options: "i" },
+    });
 
     if (!tickets || tickets.length === 0) {
       return res.status(404).json({
         msg: "Ulaznica nije pronađena!",
-        msgInfo: "Nema ulaznica povezanih s navedenim emailom.",
+        msgInfo:
+          "Nema ulaznica povezanih s navedenim emailom ili dijelom emaila.",
       });
     }
 

@@ -1,7 +1,79 @@
-.event-select {
+.choose-concert {
+  margin-left: 10px;
+  width: 300px;
+  h6 {
+    padding: 0;
+  }
+  .event-search {
+    input {
+      text-align: center;
+      position: relative;
+    }
+    ul {
+      position: absolute;
+      border-radius: 0 0 10px 10px;
+      z-index: 990;
+      background-color: #1414148e;
+      margin: -5px 0 0 0;
+      padding: 0;
+      overflow: auto;
+      max-height: 170px;
+      width: 300px;
+      backdrop-filter: blur(3px);
+      li {
+        color: white;
+        z-index: 999;
+        text-align: center;
+        border-radius: 10px;
+        list-style: none;
+        margin: 3px 0;
+        cursor: pointer;
+        display: block;
+        padding: 6px 0;
+
+        &:nth-child(2n) {
+          background-color: rgba(35, 36, 63, 0.055);
+        }
+        &:hover {
+          background-color: #f4cd46;
+          color: #3a3a3a;
+        }
+      }
+    }
+  }
 }
 
 .all-ticket-display {
+  .top {
+    display: flex;
+    justify-content: space-between;
+
+    margin: 10px auto 20px;
+    background-color: #5d627e2a;
+
+    border-radius: 20px;
+    .info {
+      line-height: 20px;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: 5px;
+      align-items: center;
+      text-align: center;
+
+      .performer {
+        margin-top: 5px;
+        font-size: x-large;
+      }
+    }
+  }
+
+  img {
+    max-width: 50%;
+    max-height: 150px;
+    border-radius: 0 10px 10px 0;
+  }
   padding: 10px;
   .print-history-wrapper {
     .print {
@@ -18,7 +90,7 @@
         text-align: center;
         justify-content: center;
         align-items: center;
-        background: #ffffff9c;
+        background: #ffffff;
         padding: 5px;
         border-radius: 10px;
         margin-right: 15px;
@@ -28,15 +100,15 @@
         flex-grow: 1;
         border-radius: 10px;
         .zones {
-          margin: 0 auto;
+          margin: 0 0 0 auto;
           width: fit-content;
           display: flex;
-          gap: 10px;
+          gap: 5px;
 
           align-items: center;
 
           .zone-card {
-            background: #ffffffaf;
+            background: #ffffff;
             padding: 5px 15px;
             border-radius: 10px;
             min-width: fit-content;
@@ -53,7 +125,7 @@
   .form-wrapper {
     display: flex;
     margin-top: 20px;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-wrap: wrap;
 
     form {
@@ -62,20 +134,20 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      gap: 5px;
-      label {
-        text-align: center;
-      }
+
       .ticket-finder-input {
         width: 200px !important;
-        margin: 5px 20px;
+        margin: 5px 0 5px 20px;
         text-align: center;
+        border-radius: 20px 0 0 20px;
       }
       .ticket-finder {
         margin: 0;
+        width: 300px;
         margin-bottom: 5px;
         height: 32px;
         align-self: flex-end;
+        border-radius: 0 20px 20px 0;
       }
     }
   }

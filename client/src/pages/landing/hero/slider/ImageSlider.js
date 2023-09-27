@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import Carousel, { consts } from 'react-elastic-carousel';
-import axios from 'axios';
-import { ImageCard } from './ImageCard';
+import React, { useEffect, useState } from "react";
+import Carousel, { consts } from "react-elastic-carousel";
+import axios from "axios";
+import { ImageCard } from "./ImageCard";
+
+import randomizeArrayWithUniquePerformers from "../../../../functions/randomizeEvents";
 
 const ImageSlider = () => {
   const [hotEventsData, setHotEvents] = useState([]);
@@ -41,9 +43,9 @@ const ImageSlider = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/api/v1/concerts/is_promoted_event/true`
         );
-        setHotEvents(response.data);
+        setHotEvents(randomizeArrayWithUniquePerformers(response.data));
       } catch (error) {
-        console.error('Error fetching profile data:', error);
+        console.error("Error fetching profile data:", error);
       }
     };
 

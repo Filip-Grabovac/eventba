@@ -48,18 +48,28 @@ function ImageMapper({
 
     let tooltip = document.getElementById("tooltip");
     tooltip.innerHTML = `<p>Zona: ${data.zoneName} - ${
-      data.ticket_name || "Regular"
+      data.ticket_name || "Nije na prodaju"
     }</p><p>Cijena: ${
-      data.price
+      data.price || "0,00"
     } <small>BAM<small/></p><p>Ukupan broj slobodnih sjedala: ${
       data.available_seats
     } / ${data.total_amount || 0}</p>`;
 
+    // Buy page tooltip
     if (page === "buyPage") {
       const containerRect = document
         .querySelector(".buy-container")
         .getBoundingClientRect();
       tooltip.style.left = evt.pageX - containerRect.left + "px";
+      if (data.ticket_name) {
+        tooltip.innerHTML = `<p>Zona: ${data.zoneName} - ${
+          data.ticket_name || "Nije na prodaju"
+        }</p><p>Cijena: ${
+          data.price
+        } <small>BAM<small/></p><p>Ukupan broj slobodnih sjedala: ${
+          data.available_seats
+        } / ${data.total_amount || 0}</p>`;
+      } else tooltip.innerHTML = `<p>Nije u ponudi</p>`;
     } else {
       tooltip.style.left = evt.pageX + "px";
     }

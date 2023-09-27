@@ -494,7 +494,7 @@ export const BuyPage = () => {
                 <button className="pay-method" onClick={handleButtonClick}>
                   Idi na plaćanje
                 </button>
-                {profileData.email === "13kreso3@gmail.com" ||
+                {profileData.email === "13kreso@gmail.com" ||
                 profileData.email === "maticanto@gmail.com"
                   ? showPaymentForm && (
                       <AdminPayment

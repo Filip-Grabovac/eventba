@@ -67,32 +67,28 @@ const TicketSearch = ({ concertId, tickets, setTickets }) => {
     <div>
       <div className="form-wrapper">
         <form onSubmit={handleSubmit}>
-          <label>
-            Unesite redni broj
-            <input
-              placeholder="Redni broj"
-              className="ticket-finder-input"
-              type="text"
-              value={position}
-              onChange={(e) => setPosition(e.target.value)}
-            />
-          </label>
+          <input
+            placeholder="Redni broj"
+            className="ticket-finder-input"
+            type="text"
+            value={position}
+            onChange={(e) => setPosition(e.target.value)}
+          />
+
           <button className="ticket-finder" type="submit">
             Pretraži po broju
           </button>
         </form>
 
         <form onSubmit={handleSearchByEmail}>
-          <label>
-            Unesite email adresu
-            <input
-              className="ticket-finder-input"
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </label>
+          <input
+            className="ticket-finder-input"
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
           <button className="ticket-finder" type="submit">
             Pretraži po emailu
           </button>
@@ -107,15 +103,6 @@ const TicketSearch = ({ concertId, tickets, setTickets }) => {
                 : `Ulaznica za slobodnu prodaju - ${ticket.performer_name}`}
             </div>
 
-            <div>
-              Validna:{" "}
-              {ticket.isValid ? (
-                <img src={check} alt="check" />
-              ) : (
-                <img src={X} alt="X" />
-              )}
-            </div>
-
             <div>Zona: {ticket.category}</div>
             <div>
               Cijena: {ticket.price} <small>BAM</small>
@@ -127,6 +114,14 @@ const TicketSearch = ({ concertId, tickets, setTickets }) => {
             </div>
             <div>
               {ticket.sent_on_email ? `Email: ${ticket.sent_on_email}` : ""}
+            </div>
+            <div>
+              Validna:{" "}
+              {ticket.isValid ? (
+                <img src={check} alt="check" />
+              ) : (
+                <img src={X} alt="X" />
+              )}
             </div>
             <button
               className="ticket-finder"
