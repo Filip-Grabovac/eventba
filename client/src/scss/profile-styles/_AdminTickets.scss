@@ -2,7 +2,7 @@
   margin-left: 10px;
   width: 300px;
   h6 {
-    padding: 0;
+    padding: 0 !important;
   }
   .event-search {
     input {
@@ -45,9 +45,10 @@
 
 .all-ticket-display {
   .top {
+    height: 150px;
     display: flex;
     justify-content: space-between;
-
+    overflow: hidden;
     margin: 10px auto 20px;
     background-color: #5d627e2a;
 
@@ -70,8 +71,9 @@
   }
 
   img {
-    max-width: 50%;
-    max-height: 150px;
+    height: 100%;
+
+    width: 50%;
     border-radius: 0 10px 10px 0;
   }
   padding: 10px;
