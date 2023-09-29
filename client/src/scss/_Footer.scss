@@ -76,59 +76,34 @@
   }
 
   .info-panel {
-    max-height: 70%;
-    padding: 2% 0%;
-    overflow: hidden;
-    margin: 0 auto;
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: auto;
+    margin: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
     align-items: center;
-    justify-items: center;
-    gap: 15px;
-    @media (max-width: 767px) {
-      transform: scale(0.9);
-      grid-template-columns: repeat(2, 1fr);
-      gap: 50px;
-    }
+    justify-content: space-evenly;
     ul {
-      font-weight: 600;
-      text-align: center;
-      font-size: 100%;
-      color: #343434;
-      padding: 0;
+      list-style: none;
       margin: 0;
-      list-style-type: none;
-      width: 100%;
-
+      padding: 0;
+      text-align: center;
       li {
         a {
           text-decoration: none;
           color: #343434;
-          display: block;
-          width: fit-content;
-          margin: 0 auto;
-          cursor: pointer;
-
-          &:hover {
-            transform: translateY(-2px);
-          }
+        }
+        &:hover {
+          transform: translateY(-3px);
         }
       }
     }
     .social-icons {
-      display: grid;
-
-      gap: 10px;
-      justify-content: space-around;
-
-      @media (max-width: 767px) {
-        width: 80%;
-        gap: 15px;
-
-        grid-column: 1 / -1;
-      }
+      display: flex;
+      flex-grow: 1;
+      max-width: 250px;
+      align-items: center;
+      gap: 15px;
+      justify-content: space-evenly;
     }
   }
   .online-payment {

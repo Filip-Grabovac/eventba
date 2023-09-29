@@ -10,7 +10,7 @@ const HotEventsRow = ({ data, iterator }) => {
   const navigate = useNavigate();
 
   function redirectToEvent() {
-    navigate(`/single?id=${data.event._id}`);
+    navigate(`/single?id=${data._id}`);
   }
 
   return (

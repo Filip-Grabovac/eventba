@@ -46,7 +46,7 @@ export const Footer = () => {
             to="/"
           >
             <img src={Logo} alt="logo" />
-            <p>event.ba</p>
+            <div>event.ba</div>
           </Link>
         </ul>
         <ul>
@@ -77,9 +77,17 @@ export const Footer = () => {
             socialLink="https://www.facebook.com/profile.php?id=100076226389319"
             target="_blank"
           />
-          {/* <FooterSocial socialImg={instagram} />
-          <FooterSocial socialImg={twitter} />
-          <FooterSocial socialImg={gmail} /> */}
+          <FooterSocial
+            socialImg={instagram}
+            socialLink="https://instagram.com/event.ba?igshid=MWZjMTM2ODFkZg=="
+            target="_blank"
+          />
+          {/* <FooterSocial socialImg={twitter} /> */}
+          <FooterSocial
+            socialImg={gmail}
+            socialLink="mailto:info@event.ba"
+            target="_blank"
+          />
         </ul>
       </div>
       <div className="online-payment">

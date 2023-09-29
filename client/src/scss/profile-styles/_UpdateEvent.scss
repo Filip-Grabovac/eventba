@@ -1,0 +1,136 @@
+.profile .profile-form .update-event {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 10px;
+  .sponsor-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(216, 216, 216, 0.85);
+    width: 80%;
+    max-height: 500px;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 998;
+    .modal-content {
+      width: 90%;
+      height: 350px;
+      margin: 0 auto;
+
+      .sponsors-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        overflow: auto;
+        .sponsor-row {
+          width: 100%;
+          display: flex;
+          position: static;
+          justify-content: space-between;
+          align-items: center;
+          margin: 5px auto;
+          img {
+            height: 32px;
+          }
+          label,
+          span {
+            width: 20%;
+          }
+        }
+      }
+    }
+    .modal-btn-close {
+      font-size: 14px;
+    }
+    .custom-file-input {
+      display: none;
+    }
+  }
+  div {
+    form {
+      .input-row {
+        display: flex;
+        justify-content: space-around;
+        .event-input {
+          width: 45%;
+        }
+        input {
+          width: 45%;
+        }
+      }
+      .city {
+        margin: 0 auto;
+        width: 95%;
+        display: flex;
+        gap: 2px;
+
+        input {
+          text-align: center;
+          width: 33%;
+        }
+        .one {
+          border-radius: 10px 0 0 10px;
+        }
+        .two {
+          border-radius: 0 0 0 0;
+        }
+        .three {
+          border-radius: 0 10px 10px 0;
+        }
+      }
+      .sponsor-row {
+        width: 90%;
+        margin-left: 3%;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        .sponsor-btn {
+          margin: 0;
+        }
+        .sponsors-ul {
+          margin: 5px auto 5px 8%;
+          text-align: center;
+          padding: 2px 5px;
+          list-style: none;
+          overflow-y: auto;
+          height: auto;
+          min-height: 32px;
+          max-height: 60px;
+          overflow-x: hidden;
+          width: 170px;
+          word-wrap: break-word;
+          background-color: #fff;
+          border-radius: 10px;
+
+          li {
+            font-size: 13px;
+            margin-bottom: 3px;
+          }
+
+          .not-selected-sponsor {
+            text-align: center;
+            margin-top: 8px;
+
+            span {
+              color: red;
+            }
+          }
+        }
+      }
+      .description-wrapper {
+        width: 95%;
+        margin: 10px auto 0;
+        .description {
+          height: 150px;
+          resize: none;
+          padding: 8px;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+}

@@ -46,11 +46,11 @@ export const Profile = () => {
         setNavItems([
           "Ažuriraj podatke",
           "Moje ulaznice",
-          "Organiziraj događaj",
-          "Postavke ulaza",
-          "Dodaj objekat",
           "Moji događaji",
+          "Postavke ulaza",
+          "Organiziraj događaj",
           "Dodaj preprodavača",
+          "Dodaj objekat",
         ]);
 
         fetchEntranceCheckers(userId);
@@ -62,6 +62,7 @@ export const Profile = () => {
           "Moje ulaznice",
           "Organiziraj događaj",
           "Odobri događaj",
+          "Uredi događaj",
           "Moji događaji",
           "Dodaj ulaznice",
           "Upravljaj ulaznicama",

@@ -95,7 +95,7 @@ const TicketSearch = ({ concertId, tickets, setTickets }) => {
         </form>
       </div>
       {tickets &&
-        tickets.map((ticket) => (
+        tickets.slice(0, 10).map((ticket) => (
           <div key={ticket._id} className="ticket">
             <div style={{ fontWeight: "bold" }}>
               {ticket.sent_on_email
@@ -124,7 +124,7 @@ const TicketSearch = ({ concertId, tickets, setTickets }) => {
               )}
             </div>
             <button
-              className="ticket-finder"
+              className="ticket-validator"
               onClick={() => toggleTicketValidity(ticket)} // Ispravljeno ovdje
             >
               {ticket.isValid ? "Obriši" : "Validiraj"}

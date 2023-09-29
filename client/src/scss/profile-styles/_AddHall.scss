@@ -67,6 +67,7 @@
         flex-direction: column;
         width: 50%;
         input {
+          text-align: center;
           width: 90%;
         }
       }
@@ -75,6 +76,7 @@
         border-left: 2px solid rgba(69, 91, 217, 0.505);
 
         .event-input {
+          text-align: center;
           margin-left: auto;
         }
       }

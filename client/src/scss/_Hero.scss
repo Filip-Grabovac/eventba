@@ -116,7 +116,7 @@
     margin-top: 55px;
 
     @media only screen and (max-width: 1200px) {
-      padding: 0 10px;
+      padding: 0 15px;
     }
 
     .search-mini-nav {
@@ -197,10 +197,6 @@
         margin-left: auto;
       }
     }
-
-    @media only screen and (max-width: 670px) {
-      padding: 5px;
-    }
   }
   .fade-in {
     opacity: 0;
@@ -232,7 +228,6 @@
     width: 99%;
 
     @media only screen and (max-width: 670px) {
-      padding: 0;
     }
 
     @media only screen and (max-width: 470px) {
@@ -259,10 +254,10 @@
       display: flex;
       align-items: center;
       width: 100%;
-
+      flex-grow: 1;
       @media only screen and (max-width: 670px) {
         flex-direction: column;
-        width: 50%;
+
         @media only screen and (max-width: 350px) {
           width: 50%;
         }

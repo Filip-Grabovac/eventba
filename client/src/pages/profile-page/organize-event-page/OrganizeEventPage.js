@@ -17,8 +17,7 @@ export const OrganizeEventPage = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const [textareaLimit, setTextareaLimit] = useState("0");
   const [selectedImagesForUpload, setImages] = useState([]);
-  const [sponsors, setSponsors] = useState([]);
-  const [sponsorNames, setSponsorNames] = useState([]);
+
   const [concertHalls, setConcertHalls] = useState([]);
   const [selectedPlace, setSelectedPlace] = useState("");
   const [zones, setZones] = useState([]);
@@ -36,7 +35,8 @@ export const OrganizeEventPage = () => {
     UploadImage,
   ]);
   const [existingSponsors, setExistingSponsors] = useState([]);
-
+  const [sponsors, setSponsors] = useState([]);
+  const [sponsorNames, setSponsorNames] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
 
   const toggleModal = () => {
@@ -769,6 +769,9 @@ export const OrganizeEventPage = () => {
           className="event-description event-input"
           maxLength={500}
         ></textarea>
+        <small>
+          *<i>italic</i>* **<strong>bold</strong>**
+        </small>
       </div>
       <div className="row">
         <button type="submit">Dodaj događaj</button>

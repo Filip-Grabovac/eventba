@@ -108,10 +108,12 @@ export const Hall = () => {
           variant="info"
           content={
             <div>
-              Ovdje možete dodavati dvorane. Primjer jedne dvorane:
+              Ovdje možete dodavati dvorane. Primjer:
               <br />
               <br />
-              Ime: Dvorana Uskoplje
+              Ime: Sportska Dvorana
+              <br />
+              Mjesto: Vitez
               <br />
               Naziv zone: Tribina-1
               <br />

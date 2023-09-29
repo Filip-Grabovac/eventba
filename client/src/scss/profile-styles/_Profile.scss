@@ -295,6 +295,7 @@
           position: absolute;
           right: 3%;
           top: 10%;
+          width: auto;
         }
       }
       .organize-top-part {
@@ -396,6 +397,7 @@
             width: 130px;
             margin: 0;
             padding: 10px 5px;
+            display: none;
           }
 
           .custom-file-input::-webkit-file-upload-button {
@@ -406,7 +408,7 @@
             font-size: 14px;
           }
           .custom-file-input::before {
-            content: 'Dodaj sponzore';
+            content: "Dodaj sponzore";
             display: inline-block;
             background: linear-gradient(top, #f9f9f9, #d8d8d8);
             border: 2px solid #999;
@@ -534,7 +536,11 @@
             margin-left: auto;
           }
         }
-
+        .add-organizer {
+          select {
+            width: 100%;
+          }
+        }
         .select-div {
           input {
             margin-left: auto;

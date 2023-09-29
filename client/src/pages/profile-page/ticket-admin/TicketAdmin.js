@@ -28,7 +28,7 @@ export const TicketAdmin = ({ allEvents }) => {
     }
   };
   return (
-    <>
+    <div className="admin-ticket-container">
       <div className={`choose-concert`}>
         <h6>Odaberi događaj</h6>
         <EventSearch
@@ -40,13 +40,13 @@ export const TicketAdmin = ({ allEvents }) => {
           setFilteredEvents={setFilteredEvents}
         />
       </div>
-      <div className="all-ticket-display">
+      <div className="all-ticket-display" style={{ padding: "20px" }}>
         <TicketsDisplay
           concertData={concertData}
           tickets={tickets}
           setTickets={setTickets}
         />
       </div>
-    </>
+    </div>
   );
 };

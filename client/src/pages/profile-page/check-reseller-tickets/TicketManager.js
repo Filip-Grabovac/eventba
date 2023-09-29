@@ -22,7 +22,7 @@ export const TicketManager = ({
 
   async function updateData(data) {
     try {
-      const response = await axios.post(
+      await axios.post(
         process.env.REACT_APP_API_URL + `/api/v1/concerts/update/${concertId}`,
         data
       );

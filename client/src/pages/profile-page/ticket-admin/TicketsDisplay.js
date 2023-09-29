@@ -25,6 +25,7 @@ export const TicketsDisplay = ({ concertData, tickets, setTickets }) => {
             </div>
           </div>
           <img
+            className="img-admin"
             src={`${process.env.REACT_APP_API_URL}/static/event-images/${concertData.poster.landscape}`}
             alt="Portrait"
           />

@@ -128,6 +128,30 @@ const createEvent = async (req, res) => {
   }
 };
 
+const updateEventData = async (req, res) => {
+  const { id, data } = req.body;
+  console.log(id, data);
+  try {
+    // Use findOneAndUpdate to find and update the event
+    const updatedEvent = await Concert.findOneAndUpdate(
+      { _id: id },
+      { $set: data },
+      { new: true }
+    );
+
+    if (!updatedEvent) {
+      return res.status(404).json({ error: "Događaj nije pronađen" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Događaj uspješno ažuriran", updatedEvent });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Greška prilikom ažuriranja događaja" });
+  }
+};
+
 const deleteEvent = async (req, res) => {
   const concertId = req.params.id;
 
@@ -418,4 +442,5 @@ module.exports = {
   getEventsWithinDates,
   verifyEvent,
   findUnverifiedEvents,
+  updateEventData,
 };

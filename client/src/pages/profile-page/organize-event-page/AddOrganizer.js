@@ -26,12 +26,11 @@ export const AddOrganizer = ({ setOrganizer, organizer }) => {
     organizers && (
       <div className="add-organizer" style={{ width: "45%" }}>
         <select
-          style={{ width: "100%" }}
           id="organizerDropdown"
           value={organizer || ""}
           onChange={handleOrganizerChange}
         >
-          <option value="">Dodjeli organizatora</option>
+          <option value="64fef590e2a8031e36b6a8f5">Dodjeli organizatora</option>
           {organizers.map((organizer) => (
             <option key={organizer._id} value={organizer._id}>
               {organizer.full_name}

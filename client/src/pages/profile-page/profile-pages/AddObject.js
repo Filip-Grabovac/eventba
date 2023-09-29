@@ -16,6 +16,7 @@ export const AddObject = () => {
     >
       <h6>Tip objekta</h6>
       <select
+        style={{ width: "200px" }}
         className="select-object"
         placeholder="Izaberi vrstu objekta"
         type="text"

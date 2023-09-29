@@ -42,8 +42,8 @@ app.use("/api/v1/helper", helper);
 const start = async () => {
   try {
     const httpsOptions = {
-      key: fs.readFileSync("/etc/letsencrypt/live/event.ba/privkey.pem"),
-      cert: fs.readFileSync("/etc/letsencrypt/live/event.ba/fullchain.pem"),
+      key: fs.readFileSync("/etc/ssl/certificate/event.ba.key"),
+      cert: fs.readFileSync("/etc/ssl/certificate/STAR_event_ba.crt"),
     };
     const server = https.createServer(httpsOptions, app);
     server.listen(

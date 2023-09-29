@@ -15,6 +15,7 @@ import { VerifyEvents } from "./verify-events/VerifyEvents";
 import { NewsLetter } from "./newsletter-profile/NewsLetter";
 import { TicketManager } from "./check-reseller-tickets/TicketManager";
 import { TicketAdmin } from "./ticket-admin/TicketAdmin";
+import { UpdateEvent } from "./update-event/UpdateEvent";
 
 export function ProfileForm(props) {
   return (
@@ -61,6 +62,8 @@ export function ProfileForm(props) {
         <NewsLetter profileData={props.profileData} />
       ) : props.activeNavItem === "Upravljaj ulaznicama" ? (
         <TicketAdmin allEvents={props.organizerEvents} />
+      ) : props.activeNavItem === "Uredi događaj" ? (
+        <UpdateEvent allEvents={props.organizerEvents} />
       ) : (
         ""
       )}

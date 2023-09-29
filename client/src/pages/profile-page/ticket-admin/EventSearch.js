@@ -23,8 +23,9 @@ export const EventSearch = ({
   return (
     <div className="event-search">
       <input
+        style={{ width: "300px" }}
         type="text"
-        placeholder="Pretražite događaje po imenu izvođača"
+        placeholder="Unesite ime izvođača"
         value={searchTerm}
         onChange={(e) => handleSearch(e.target.value)}
       />

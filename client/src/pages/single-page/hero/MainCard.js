@@ -1,10 +1,11 @@
-import React from 'react';
-import { hrTimeFormat } from '../../../components/helper/timeFormat';
+import React from "react";
+import { hrTimeFormat } from "../../../components/helper/timeFormat";
+import RenderFormattedText from "../../../components/RenderFormattedText";
 
 const MainCard = (props) => {
   const performerName = props.concertData[0].performer_name;
   const timeOfEvent = new Date(props.concertData[0].time_of_event);
-  const date = timeOfEvent.toLocaleString('hr-HR', hrTimeFormat);
+  const date = timeOfEvent.toLocaleString("hr-HR", hrTimeFormat);
   const formattedDate = date.charAt(0).toUpperCase() + date.slice(1);
   const place = `${props.concertData[0].place.city}, ${props.concertData[0].place.place}`;
   const description = props.concertData[0].description;
@@ -19,7 +20,9 @@ const MainCard = (props) => {
             {formattedDate} - {place}
           </p>
           <div className="line"></div>
-          <p className="card-other-info">{description}</p>
+          <div>
+            <RenderFormattedText content={description} />
+          </div>
         </div>
         <div className="col-lg-6 single-page-wrapper">
           <img
