@@ -112,7 +112,7 @@ export const UpdateEventContainer = ({ concertData }) => {
     e.preventDefault();
 
     try {
-      const responese = await axios.post(
+      const response = await axios.post(
         process.env.REACT_APP_API_URL + "/api/v1/concerts/update_event",
         {
           id,
@@ -123,10 +123,11 @@ export const UpdateEventContainer = ({ concertData }) => {
           },
         }
       );
-      toast.success(responese.data.success, toastSetup("top-center", 3000));
+      console.log(response);
+      toast.success(response.data.message, toastSetup("bottom-center", 1500));
     } catch (error) {
       console.error(error);
-      toast.error(error, toastSetup("top-center", 3000));
+      toast.error(error.data.message, toastSetup("top-center", 3000));
     }
   };
 
