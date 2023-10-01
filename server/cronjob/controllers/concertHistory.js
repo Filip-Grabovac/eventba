@@ -112,7 +112,6 @@ async function addTicketsToConcertHistory(concert) {
   concert.concert_history.push(concertHistoryItem);
   concert.tickets_yesterday = JSON.parse(JSON.stringify(concert.tickets));
 }
-
 async function processConcerts() {
   try {
     const Concert = connectDB(process.env.DATABASE_URL).model(
@@ -120,10 +119,12 @@ async function processConcerts() {
       concertSchema,
       "concerts"
     );
-    const concerts = await Concert.find({});
+    const currentDate = new Date();
+    const concerts = await Concert.find({
+      time_of_event: { $gte: currentDate },
+    });
 
     // Iterate through fetched concerts and call the extraction function
-
     for (const concert of concerts) {
       await addTicketsToConcertHistory(concert);
 
@@ -135,4 +136,5 @@ async function processConcerts() {
     console.error("Error occurred:", error);
   }
 }
+
 module.exports = processConcerts;

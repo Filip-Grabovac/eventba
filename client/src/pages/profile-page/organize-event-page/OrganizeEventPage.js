@@ -12,11 +12,14 @@ import { OrganizeEventCategories } from "./OrganizeEventCategories";
 import SponsorModal from "./SponsorModal";
 import { Theater } from "./Theater";
 import { AddOrganizer } from "./AddOrganizer";
+import { Editor } from "@tinymce/tinymce-react";
+import tinyMCEConfig from "../../../components/helper/tinyConfig";
 
 export const OrganizeEventPage = () => {
   const [selectedValue, setSelectedValue] = useState("");
-  const [textareaLimit, setTextareaLimit] = useState("0");
+
   const [selectedImagesForUpload, setImages] = useState([]);
+  const [description, setDescription] = useState([]);
 
   const [concertHalls, setConcertHalls] = useState([]);
   const [selectedPlace, setSelectedPlace] = useState("");
@@ -275,7 +278,7 @@ export const OrganizeEventPage = () => {
       },
       type: form.get("eventType"),
       is_promoted_event: false,
-      description: form.get("eventDescription"),
+      description: description,
       organizer: organizer,
     };
     if (placeData.type === "hall")
@@ -422,7 +425,7 @@ export const OrganizeEventPage = () => {
       else document.querySelector(".landscape-wrapper").style = "outline: none";
 
       // Check if textarea.length > 300
-      if (document.querySelector(".event-description").value.length > 500) {
+      if (description.value.length > 500) {
         toast.warn(
           `Opis događaja ne smije sadržavati više od 500 znakova`,
           toastSetup("top-right", 3000)
@@ -734,9 +737,10 @@ export const OrganizeEventPage = () => {
           </div>
         </div>
       </div>
-      <h6>Online ulaznice</h6>
+
       {placeData && placeData.type === "hall" && (
         <>
+          <h6>Online ulaznice</h6>
           <div className="preset-category">
             <p>Naziv zone</p>
             <p>Tip ulaznice</p>
@@ -750,28 +754,24 @@ export const OrganizeEventPage = () => {
         </>
       )}
       {placeData && placeData.type === "theater" && (
-        <Theater
-          placeData={placeData}
-          setRows={setRows}
-          rows={rows}
-          setGroundPlan={setGroundPlan}
-        />
+        <>
+          <h6>Online ulaznice</h6>
+          <Theater
+            placeData={placeData}
+            setRows={setRows}
+            rows={rows}
+            setGroundPlan={setGroundPlan}
+          />
+        </>
       )}
       <div className="organize-bottom-part">
-        <p className="textarea-limit">{textareaLimit}-500</p>
-        <textarea
-          name="eventDescription"
-          onInput={(e) => {
-            setTextareaLimit(e.target.value.length);
-            e.target.style = "outline: none;";
-          }}
-          placeholder="Kratak opis događaja"
-          className="event-description event-input"
-          maxLength={500}
-        ></textarea>
-        <small>
-          *<i>italic</i>* **<strong>bold</strong>**
-        </small>
+        <h6>Opis događaja</h6>
+        <Editor
+          apiKey={tinyMCEConfig.apiKey}
+          value={description}
+          init={tinyMCEConfig}
+          onEditorChange={(content) => setDescription(content)}
+        />
       </div>
       <div className="row">
         <button type="submit">Dodaj događaj</button>

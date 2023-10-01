@@ -1,10 +1,10 @@
-import React from 'react';
-import { hrTimeFormat } from '../../components/helper/timeFormat';
+import React from "react";
+import { hrTimeFormat } from "../../components/helper/timeFormat";
 
 export const ListPageCard = ({ data }) => {
   if (!data) return;
   const date = new Date(data.time_of_event).toLocaleDateString(
-    'hr-HR',
+    "hr-HR",
     hrTimeFormat
   );
   return (
@@ -24,7 +24,11 @@ export const ListPageCard = ({ data }) => {
             </p>
           </div>
           <div className="list-page-line"></div>
-          <p className="list-page-desc">{data.description}</p>
+
+          <div
+            className="list-page-desc"
+            dangerouslySetInnerHTML={{ __html: data.description }}
+          />
         </div>
         <div className="media-helper-2nd">
           <div className="second-child">

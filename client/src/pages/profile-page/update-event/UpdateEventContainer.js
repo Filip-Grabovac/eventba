@@ -4,6 +4,8 @@ import axios from "axios";
 import SponsorModal from "../organize-event-page/SponsorModal";
 import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
+import { Editor } from "@tinymce/tinymce-react";
+import tinyMCEConfig from "../../../components/helper/tinyConfig";
 
 export const UpdateEventContainer = ({ concertData }) => {
   const [organizer, setOrganizer] = useState(concertData?.organizer);
@@ -222,16 +224,19 @@ export const UpdateEventContainer = ({ concertData }) => {
             sponsorNames={sponsorNames}
           />
           <div className="description-wrapper">
-            <textarea
-              className="description"
-              id="description"
-              name="description"
+            <h6>Opis događaja</h6>
+            <Editor
+              style={{ height: "250px" }}
+              apiKey={tinyMCEConfig.apiKey}
               value={editedConcertData.description}
-              onChange={handleInputChange}
+              init={tinyMCEConfig}
+              onEditorChange={(content) =>
+                setEditedConcertData({
+                  ...editedConcertData,
+                  description: content,
+                })
+              }
             />
-            <small>
-              *<i>italic</i>* / **<strong>bold</strong>**
-            </small>
           </div>
           <button type="submit">Uredi događaj</button>
         </form>

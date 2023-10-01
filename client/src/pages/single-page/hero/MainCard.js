@@ -21,7 +21,7 @@ const MainCard = (props) => {
           </p>
           <div className="line"></div>
           <div>
-            <RenderFormattedText content={description} />
+            <div dangerouslySetInnerHTML={{ __html: description }} />
           </div>
         </div>
         <div className="col-lg-6 single-page-wrapper">
