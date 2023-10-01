@@ -7,7 +7,7 @@ export const ProfileLeft = (props) => {
 
   return (
     <div className="hero-profile">
-      <div className="top">
+      <div className="top-profile">
         <img
           style={
             !props.profileData.profile_img ? { height: "30px" } : undefined
