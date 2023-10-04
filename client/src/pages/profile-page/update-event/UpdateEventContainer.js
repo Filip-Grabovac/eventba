@@ -227,9 +227,8 @@ export const UpdateEventContainer = ({ concertData }) => {
           <div className="description-wrapper">
             <h6>Opis događaja</h6>
             <Editor
-              style={{ height: "250px" }}
               apiKey={tinyMCEConfig.apiKey}
-              value={editedConcertData.description}
+              value={String(editedConcertData.description || "")}
               init={tinyMCEConfig}
               onEditorChange={(content) =>
                 setEditedConcertData({

@@ -1,6 +1,10 @@
 <% function formattedTimeOfEvent(time) { const options = { year: 'numeric',
 month: 'numeric', day: 'numeric' }; return new
-Date(time).toLocaleDateString('hr-HR', options); } %>
+Date(time).toLocaleDateString('hr-HR', options); } %> <% function
+formattedDateOneDayBefore(date) { %> <% const previousDay = new Date(date); %>
+<% previousDay.setDate(date.getDate() - 1); %> <% const options = { year:
+'numeric', month: 'numeric', day: 'numeric' }; %> <%= new
+Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
 
 <!DOCTYPE html>
 <html>
@@ -8,6 +12,12 @@ Date(time).toLocaleDateString('hr-HR', options); } %>
     <title>Ticket Selling History Report</title>
     <link rel="stylesheet" href="/style.css" />
     <style>
+      @page {
+        size: A4; /* Set page size to A4 */
+        margin: 5mm; /* Set margins for all sides */
+        /* You can also set other properties like orientation if needed */
+      }
+
       body {
         font-family: "Trebuchet MS", sans-serif;
         margin: 0; /* Remove default margins */
@@ -40,21 +50,24 @@ Date(time).toLocaleDateString('hr-HR', options); } %>
         border-collapse: collapse;
         width: 95%;
         margin: 0 20px;
+        page-break-before: auto;
       }
       tbody {
-        outline: auto;
+        outline: 1px solid rgba(0, 0, 0, 0.514);
       }
       .date {
         background: rgb(233, 233, 233);
       }
       th {
-        border-radius: 3px;
-        outline: auto;
+        border-radius: 2px;
+        outline: 0.5px solid rgb(26, 26, 26);
       }
       th,
       td {
-        padding: 3px;
+        padding: 1.5px;
+        font-size: 12px;
         text-align: center;
+        border-bottom: 0.2px dotted rgba(0, 0, 0, 0.5);
       }
 
       small {
@@ -62,7 +75,7 @@ Date(time).toLocaleDateString('hr-HR', options); } %>
       }
       .sum {
         font-weight: bold;
-        border-bottom: 1px solid black;
+        border-bottom: 0.5px solid black;
       }
     </style>
   </head>
@@ -86,7 +99,7 @@ Date(time).toLocaleDateString('hr-HR', options); } %>
       <thead>
         <tr>
           <th class="date" colspan="4">
-            <%= new Date(day.date).toLocaleDateString('hr-HR') %>
+            <%= formattedDateOneDayBefore(day.date) %>
           </th>
         </tr>
         <tr>
@@ -106,7 +119,7 @@ Date(time).toLocaleDateString('hr-HR', options); } %>
         <% totalAmountInBAM += categoryTotalInBAM; %>
         <tr>
           <td></td>
-          <td><%= saleData.name %></td>
+          <td><%= category %></td>
           <td><%= categoryTotal %></td>
           <td><%= categoryTotalInBAM %></td>
         </tr>
@@ -138,7 +151,7 @@ Date(time).toLocaleDateString('hr-HR', options); } %>
         resellerTotalAmountInBAM += resellerCategoryTotalInBAM; %>
         <tr>
           <td><%= reseller.reseller_name %></td>
-          <td><%= resellerData.name %></td>
+          <td><%= category %></td>
           <td><%= resellerCategoryTotal %></td>
           <td><%= resellerCategoryTotalInBAM %></td>
         </tr>

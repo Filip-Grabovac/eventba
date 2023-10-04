@@ -10,7 +10,7 @@ const AdminPayment = ({
   const [hashedCode, setHashCode] = useState();
 
   const key = "key-7db98c681752b62dc6fac2ec4daa93c1";
-  const amount = totalAmount * 100;
+  const amount = Math.round(totalAmount * 100);
   const fullName = profileData.full_name;
   const zip = profileData.zip;
   const phone = profileData.phone;

@@ -499,11 +499,13 @@ export const BuyPage = () => {
                   ? showPaymentForm && (
                       <AdminPayment
                         showPaymentForm={showPaymentForm}
-                        totalAmount={(
-                          totalAmount +
-                          ticketAmount * 1.06 +
-                          (totalAmount + ticketAmount) * 0.056
-                        ).toFixed(2)}
+                        totalAmount={Number(
+                          (
+                            totalAmount +
+                            ticketAmount * 1.06 +
+                            (totalAmount + ticketAmount) * 0.056
+                          ).toFixed(2)
+                        )}
                         profileData={profileData}
                         orderNumber={orderNumber}
                         performerName={concertData.performer_name}

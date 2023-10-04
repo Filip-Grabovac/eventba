@@ -3,15 +3,13 @@ const tinyMCEConfig = {
   height: 450,
   menubar: true,
   language: "hr",
-  plugins: [
-    "advlist autolink lists link image charmap print preview anchor",
-    "searchreplace visualblocks code fullscreen",
-    "insertdatetime media table paste code help wordcount",
-  ],
+  plugins: [],
+
+  // Define the toolbar buttons and their layout
   toolbar:
     "undo redo | formatselect | " +
-    "bold italic underline strikethrough | " + // Add underline and strikethrough buttons
-    "forecolor backcolor | " + // Add text color and background color buttons
+    "bold italic underline strikethrough | " +
+    "forecolor backcolor | " +
     "alignleft aligncenter alignright alignjustify | " +
     "bullist numlist outdent indent | " +
     "removeformat | help",

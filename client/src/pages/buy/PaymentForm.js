@@ -10,7 +10,7 @@ const MyComponent = ({
   const [hashedCode, setHashCode] = useState();
 
   const key = "key-0875b47f397c1771411c78d10862a2d9";
-  const amount = totalAmount * 100;
+  const amount = Math.round(totalAmount * 100);
   const fullName = profileData.full_name;
   const zip = profileData.zip;
   const phone = profileData.phone;

@@ -13,7 +13,6 @@ const ticketSlice = createSlice({
         category: "",
         rows: "",
         seat: "",
-        name: "",
       },
     ],
     totalAmount: 0,

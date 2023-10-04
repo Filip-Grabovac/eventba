@@ -26,6 +26,7 @@
     "imagemin-jpegtran": "^7.0.0",
     "imagemin-pngquant": "^9.0.2",
     "mime-types": "^2.1.35",
+    "moment": "^2.29.4",
     "mongodb": "^5.6.0",
     "mongoose": "^5.11.10",
     "node-cron": "^3.0.2",

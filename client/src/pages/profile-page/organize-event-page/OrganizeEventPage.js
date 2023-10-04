@@ -19,7 +19,7 @@ export const OrganizeEventPage = () => {
   const [selectedValue, setSelectedValue] = useState("");
 
   const [selectedImagesForUpload, setImages] = useState([]);
-  const [description, setDescription] = useState([]);
+  const [description, setDescription] = useState("");
 
   const [concertHalls, setConcertHalls] = useState([]);
   const [selectedPlace, setSelectedPlace] = useState("");
