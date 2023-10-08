@@ -16,6 +16,7 @@ const {
   verifyEvent,
   deleteEvent,
   updateEventData,
+  getProvisionSum,
 } = require("../controllers/concerts");
 
 router.route("/").get(getAllConcerts);
@@ -30,6 +31,7 @@ router.route("/update/:concertId").post(updateConcert);
 router.route("/update_event").post(updateEventData);
 
 router.route("/get_event_within_dates").post(getEventsWithinDates);
+router.route("/get_event_provision").post(getProvisionSum);
 router.route("/:type/:value").get(findConcert);
 router.route("/get_hot_events").get(calculateEvents);
 router.route("/unverified_events").get(findUnverifiedEvents);

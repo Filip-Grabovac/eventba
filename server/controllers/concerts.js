@@ -303,7 +303,48 @@ const getEventsWithinDates = async (req, res) => {
     };
 
     // Generate the PDF buffer using Puppeteer
-    const pdfBuffer = await generatePdf(result);
+    const pdfBuffer = await generatePdf(result, (type = "eventHistory"));
+
+    // Set content disposition to trigger download
+    const pdfFileName = `povijest_prodaje_ulaznica.pdf`;
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${pdfFileName}"`
+    );
+    res.setHeader("Content-Type", "application/pdf");
+
+    // Send the PDF buffer as a response
+    res.status(200).send(pdfBuffer);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error delivering data for the organizer." });
+  }
+};
+
+const getProvisionSum = async (req, res) => {
+  const { concertId } = req.body;
+
+  try {
+    const concert = await Concert.findOne({
+      _id: concertId,
+    });
+
+    if (!concert) {
+      return res.status(404).json({ message: "Događaj nije pronađen." });
+    }
+
+    const result = {
+      concert: {
+        performer_name: concert.performer_name,
+        time_of_event: concert.time_of_event,
+        place: concert.place,
+        tickets: concert.tickets,
+      },
+    };
+
+    // Generate the PDF buffer using Puppeteer
+    const pdfBuffer = await generatePdf(result, (type = "provisionSum"));
 
     // Set content disposition to trigger download
     const pdfFileName = `povijest_prodaje_ulaznica.pdf`;
@@ -443,4 +484,5 @@ module.exports = {
   verifyEvent,
   findUnverifiedEvents,
   updateEventData,
+  getProvisionSum,
 };

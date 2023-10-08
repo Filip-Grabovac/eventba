@@ -167,7 +167,7 @@ export const Login = ({ setIsRegisterOpen }) => {
                     <button type="submit" className="login-btn">
                       Prijavi se!
                     </button>
-                    <FacebookLogin
+                    {/* <FacebookLogin
                       textButton="Prijavi se s Facebook-om"
                       appId="934444414490428"
                       autoLoad={false}
@@ -175,7 +175,7 @@ export const Login = ({ setIsRegisterOpen }) => {
                       callback={(fbResponse) => {
                         facebookLogin(fbResponse);
                       }}
-                    />
+                    /> */}
                   </div>
                 </>
               ) : (

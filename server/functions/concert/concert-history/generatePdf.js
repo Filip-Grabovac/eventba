@@ -1,7 +1,8 @@
 const puppeteer = require("puppeteer");
 const ejs = require("ejs");
 const fs = require("fs");
-const generatePdf = async (data) => {
+
+const generatePdf = async (data, type) => {
   try {
     console.log("Starting puppeteer");
     const browser = await puppeteer.launch({
@@ -19,7 +20,7 @@ const generatePdf = async (data) => {
     const logoImageSrc = `data:image/png;base64,${logoImage}`;
 
     // Render the EJS template using the provided data
-    const htmlContent = await renderEjsTemplate(data, logoImageSrc);
+    const htmlContent = await renderEjsTemplate(data, logoImageSrc, type);
     await page.setContent(htmlContent);
 
     const pdfBuffer = await page.pdf({
@@ -38,10 +39,10 @@ const generatePdf = async (data) => {
 };
 
 // Function to render the EJS template
-const renderEjsTemplate = async (data, logoImageSrc) => {
+const renderEjsTemplate = async (data, logoImageSrc, type) => {
   try {
     // Load and render the EJS template
-    const templatePath = __dirname + "/views/eventHistory.ejs";
+    const templatePath = __dirname + `/views/${type}.ejs`;
     const templateContent = await ejs.renderFile(templatePath, {
       data,
       logoImageSrc,

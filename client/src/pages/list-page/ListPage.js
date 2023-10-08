@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { ListPageCard } from './ListPageCard';
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
-import SearchIcon from '../../assets/ikonice/search_icon.png';
+import React, { useEffect, useState } from "react";
+import { ListPageCard } from "./ListPageCard";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
+import SearchIcon from "../../assets/ikonice/search_icon.png";
 
 export const ListPage = () => {
-  const [events, setEvents] = useState();
+  const [events, setEvents] = useState([]);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const typeParam = searchParams.get('type');
+  const typeParam = searchParams.get("type");
   const [type, setType] = useState(typeParam);
   const [dataReady, setDataReady] = useState(false);
 
@@ -32,7 +32,7 @@ export const ListPage = () => {
         setDataReady(true); // Set dataReady to true after a short delay
       }, 50); // You can adjust the delay time as needed
     } catch (error) {
-      console.error('Error fetching profile data:', error);
+      console.error("Error fetching profile data:", error);
     }
   }
 
@@ -44,15 +44,15 @@ export const ListPage = () => {
   }
 
   function searchEvents() {
-    const searchValue = document.querySelector('.list-page-search').value;
+    const searchValue = document.querySelector(".list-page-search").value;
     setEvents([]);
     setDataReady(false); // Reset data readiness before fetching
 
     axios
       .get(
         process.env.REACT_APP_API_URL +
-          `/api/v1/concerts/${searchValue === '' ? 'type' : 'search'}/${type}${
-            searchValue === '' ? '' : '/'
+          `/api/v1/concerts/${searchValue === "" ? "type" : "search"}/${type}${
+            searchValue === "" ? "" : "/"
           }${searchValue}`
       )
       .then((response) => {
@@ -86,30 +86,41 @@ export const ListPage = () => {
       </div>
       <div className="search-overlay"></div>
       <div className="card-transition"></div>
-      {!events
-        ? Array.from({ length: 4 }, (_, index) => (
-            <div className="skeleton" key={index}>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-          ))
-        : events.map((e, i) => (
+      {!events ? (
+        Array.from({ length: 4 }, (_, index) => (
+          <div className="skeleton" key={index}>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        ))
+      ) : events.length !== 0 ? (
+        events.map((e, i) => (
+          <div
+            className={`list-page-card-wrapper fade-in ${
+              dataReady ? "visible" : ""
+            }`}
+            key={i}
+          >
+            <ListPageCard data={e} />
             <div
-              className={`list-page-card-wrapper fade-in ${
-                dataReady ? 'visible' : ''
+              className={`card-transition fade-in ${
+                dataReady ? "visible" : ""
               }`}
-              key={i}
-            >
-              <ListPageCard data={e} />
-              <div
-                className={`card-transition fade-in ${
-                  dataReady ? 'visible' : ''
-                }`}
-              ></div>
-            </div>
-          ))}
-      <ListPageCard />
+            ></div>
+          </div>
+        ))
+      ) : (
+        <h6
+          style={{
+            margin: "50px auto",
+            display: "block",
+            width: "fit-content",
+          }}
+        >
+          Trenutno nema događaja tog tipa
+        </h6>
+      )}
     </div>
   );
 };

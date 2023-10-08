@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
 import trashCan from "../../../assets/ikonice/trash_can.svg";
 
-export const EventCard = ({ ids, i }) => {
+export const EventCard = ({ ids, i, past }) => {
   const [dropdown, setDropdown] = useState(false);
   const [hasBorderRadius, setBorderRadius] = useState(true);
   const [arrowDisabled, disableArrow] = useState(false);
@@ -145,13 +145,36 @@ export const EventCard = ({ ids, i }) => {
 
         // Save the response data as a file using FileSaver
         const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-        saveAs(pdfBlob, "concert_history.pdf");
+        saveAs(pdfBlob, `concert_history_${data.performer_name}.pdf`);
         setLoader(false);
       } catch (error) {
         console.error("Error downloading PDF:", error);
       }
     }
   };
+
+  const handleProvisionSummary = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/v1/concerts/get_event_provision`,
+        {
+          concertId: data._id,
+        },
+        {
+          responseType: "blob", // Set the response type to 'blob' to handle binary data
+        }
+      );
+
+      // Save the response data as a file using FileSaver
+      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+      saveAs(pdfBlob, `provizija_${data.performer_name}.pdf`);
+      setLoader(false);
+    } catch (error) {
+      console.error("Error downloading PDF:", error);
+    }
+  };
+
   if (data)
     return (
       // Show loading indicator or data once it's available
@@ -298,7 +321,6 @@ export const EventCard = ({ ids, i }) => {
                 </span>
               )}
             </div>
-
             <p className="heading">Vremenski pregled prodaje</p>
             <div className="selling-timestamp">
               <p>Unesite datum pretrage:</p>
@@ -317,11 +339,21 @@ export const EventCard = ({ ids, i }) => {
                 </button>
                 {loader ? (
                   <div className="loader">
-                    <Bars height="50" width="50" color="#455cd9" />{" "}
+                    <Bars height="50" width="50" color="#455cd9" />
                   </div>
                 ) : null}
               </div>
             </div>
+            {past && (
+              <button
+                className="print-pdf-btn"
+                onClick={(e) => {
+                  handleProvisionSummary(e);
+                }}
+              >
+                Ispis obračuna provizije
+              </button>
+            )}
           </div>
         </div>
       ) : (

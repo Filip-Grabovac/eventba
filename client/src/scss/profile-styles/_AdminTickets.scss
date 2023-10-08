@@ -2,7 +2,7 @@
 }
 .choose-concert {
   margin-left: 10px;
-  width: 300px;
+  width: min(300px, 85%);
   h6 {
     padding: 0 !important;
   }

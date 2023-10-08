@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import Hero from './hero/Hero';
-import { ThisWeek } from '../../components/this-week/ThisWeek';
-import axios from 'axios';
-import PromotedIcon from '../../assets/ikonice/promoted_icon.svg';
-import UnPromotedIcon from '../../assets/ikonice/unpromoted_icon.svg';
-import SuggestedIcon from '../../assets/ikonice/suggested_icon.svg';
-import UnSuggestedIcon from '../../assets/ikonice/unsuggested_icon.svg';
-import { toast } from 'react-toastify';
-import { toastSetup } from '../../functions/toastSetup';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import Hero from "./hero/Hero";
+import { ThisWeek } from "../../components/this-week/ThisWeek";
+import axios from "axios";
+import PromotedIcon from "../../assets/ikonice/promoted_icon.svg";
+import UnPromotedIcon from "../../assets/ikonice/unpromoted_icon.svg";
+import SuggestedIcon from "../../assets/ikonice/suggested_icon.svg";
+import UnSuggestedIcon from "../../assets/ikonice/unsuggested_icon.svg";
+import { toast } from "react-toastify";
+import { toastSetup } from "../../functions/toastSetup";
+import { useSelector } from "react-redux";
 
 const SinglePage = () => {
   const [concertData, setConcertData] = useState(null);
   const [userRole, setUserRole] = useState();
   const [propertyChanged, setProperty] = useState();
   const id = new URLSearchParams(new URL(window.location.href).search).get(
-    'id'
+    "id"
   );
   const userId = useSelector((state) => state.userState.user);
 
@@ -28,41 +28,43 @@ const SinglePage = () => {
         );
         setConcertData(response.data);
       } catch (error) {
-        console.error('Error fetching profile data:', error);
+        console.error("Error fetching profile data:", error);
       }
     };
-    const getUserRole = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/v1/users/get_role/${userId}`
-        );
-        setUserRole(response.data.role);
-      } catch (error) {
-        // Handle any errors that occurred during the request
-        console.error('Error fetching user role:', error);
-        // Optionally, you can set an error state and display an error message to the user
-      }
-    };
+    if (userId) {
+      const getUserRole = async () => {
+        try {
+          const response = await axios.get(
+            `${process.env.REACT_APP_API_URL}/api/v1/users/get_role/${userId}`
+          );
+          setUserRole(response.data.role);
+        } catch (error) {
+          // Handle any errors that occurred during the request
+          console.error("Error fetching user role:", error);
+          // Optionally, you can set an error state and display an error message to the user
+        }
+      };
+      getUserRole();
+    }
 
     fetchSinglePage();
-    getUserRole();
   }, []);
 
   // Change event status
   async function changeEventStatus(status) {
     const updatedConcertData = concertData.map((concert) => {
       // Check if the status is "suggested"
-      if (status === 'suggested') {
+      if (status === "suggested") {
         const typeArray = concert.type || [];
 
         // Check if "suggested" is already present in the type array
-        const suggestedIndex = typeArray.indexOf('suggested');
+        const suggestedIndex = typeArray.indexOf("suggested");
 
         if (suggestedIndex === -1) {
           // If "suggested" is not present, add it to the array
           return {
             ...concert,
-            type: [...typeArray, 'suggested'],
+            type: [...typeArray, "suggested"],
           };
         } else {
           // If "suggested" is already present, remove it from the array
@@ -91,10 +93,10 @@ const SinglePage = () => {
       if (!concertData || !propertyChanged) return;
       let value;
 
-      if (propertyChanged === 'promoted') {
+      if (propertyChanged === "promoted") {
         value = concertData[0].is_promoted_event;
       } else {
-        if (concertData[0].type.includes('suggested')) value = true;
+        if (concertData[0].type.includes("suggested")) value = true;
         else value = false;
       }
 
@@ -104,11 +106,11 @@ const SinglePage = () => {
           `${process.env.REACT_APP_API_URL}/api/v1/concerts/update_event/${id}/${propertyChanged}/${value}`
         );
 
-        toast.success(response.data.message, toastSetup('top-right', 3000));
+        toast.success(response.data.message, toastSetup("top-right", 3000));
       } catch (error) {
         console.error(
-          'Error updating concert:',
-          error.response?.data || 'Server Error'
+          "Error updating concert:",
+          error.response?.data || "Server Error"
         );
       }
     };
@@ -121,11 +123,11 @@ const SinglePage = () => {
       {concertData ? (
         <div>
           <div className="single-page-top">
-            {userRole === 'admin' ? (
+            {userRole === "admin" ? (
               <div className="single-page-icons-wrapper">
                 <div
                   onClick={() => {
-                    changeEventStatus('promoted');
+                    changeEventStatus("promoted");
                   }}
                 >
                   <img
@@ -140,13 +142,13 @@ const SinglePage = () => {
                 </div>
                 <div
                   onClick={() => {
-                    changeEventStatus('suggested');
+                    changeEventStatus("suggested");
                   }}
                 >
                   <img
                     className="concert-edit-icon"
                     src={
-                      concertData[0].type.includes('suggested')
+                      concertData[0].type.includes("suggested")
                         ? UnSuggestedIcon
                         : SuggestedIcon
                     }
@@ -155,7 +157,7 @@ const SinglePage = () => {
                 </div>
               </div>
             ) : (
-              ''
+              ""
             )}
             <img
               src={`${process.env.REACT_APP_API_URL}/static/event-images/${concertData[0].poster.landscape}`}

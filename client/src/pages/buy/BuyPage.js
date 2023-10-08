@@ -44,9 +44,15 @@ export const BuyPage = () => {
   const ticketGenData = useSelector((state) => state.ticketState);
 
   const addTicket = async () => {
-    await setTicketAmount(ticketAmount + 1);
-    setShowPaymentForm(false);
-    carouselRef.current.goTo(ticketAmount + 1);
+    if (userId === "") {
+      dispatch(setLoginIsOpen(true));
+      return;
+    } else {
+      await setTicketAmount(ticketAmount + 1);
+      setShowPaymentForm(false);
+      carouselRef.current.goTo(ticketAmount + 1);
+      fetchProfileData();
+    }
   };
 
   const removeTicket = () => {
@@ -472,21 +478,23 @@ export const BuyPage = () => {
               <div className="accumulative-spending">
                 <p>Agencijski troškovi:</p>
                 <span>
-                  {(
-                    ticketAmount * 1.06 +
-                    (totalAmount + ticketAmount) * 0.056
-                  ).toFixed(2)}
+                  {Math.round(
+                    (ticketAmount * 1.06 +
+                      (totalAmount + ticketAmount) * 0.056) *
+                      100
+                  ) / 100}
                   <small> BAM</small>
                 </span>
               </div>
               <div className="saldo">
                 <p>Ukupna cijena:</p>
                 <span>
-                  {(
-                    totalAmount +
-                    ticketAmount * 1.06 +
-                    (totalAmount + ticketAmount) * 0.056
-                  ).toFixed(2)}
+                  {Math.round(
+                    (totalAmount +
+                      ticketAmount * 1.06 +
+                      (totalAmount + ticketAmount) * 0.056) *
+                      100
+                  ) / 100}
                   <small> BAM</small>
                 </span>
               </div>
@@ -500,11 +508,12 @@ export const BuyPage = () => {
                       <AdminPayment
                         showPaymentForm={showPaymentForm}
                         totalAmount={Number(
-                          (
-                            totalAmount +
-                            ticketAmount * 1.06 +
-                            (totalAmount + ticketAmount) * 0.056
-                          ).toFixed(2)
+                          Math.round(
+                            (totalAmount +
+                              ticketAmount * 1.06 +
+                              (totalAmount + ticketAmount) * 0.056) *
+                              100
+                          ) / 100
                         )}
                         profileData={profileData}
                         orderNumber={orderNumber}
@@ -514,11 +523,14 @@ export const BuyPage = () => {
                   : showPaymentForm && (
                       <PaymentForm
                         showPaymentForm={showPaymentForm}
-                        totalAmount={(
-                          totalAmount +
-                          ticketAmount * 1.06 +
-                          (totalAmount + ticketAmount) * 0.056
-                        ).toFixed(2)}
+                        totalAmount={
+                          Math.round(
+                            (totalAmount +
+                              ticketAmount * 1.06 +
+                              (totalAmount + ticketAmount) * 0.056) *
+                              100
+                          ) / 100
+                        }
                         profileData={profileData}
                         orderNumber={orderNumber}
                         performerName={concertData.performer_name}

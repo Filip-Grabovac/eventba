@@ -51,7 +51,7 @@ export const MyEvent = ({ organizerEvents }) => {
         <>
           <h6>Prošli događaji</h6>
           {sortByTime(pastEvents).map((e, i) => (
-            <EventCard key={i} ids={e} i={i} />
+            <EventCard key={i} ids={e} i={i} past={true} />
           ))}
         </>
       )}

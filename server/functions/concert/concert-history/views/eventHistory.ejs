@@ -14,8 +14,9 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
     <style>
       @page {
         size: A4; /* Set page size to A4 */
-        margin: 5mm; /* Set margins for all sides */
+        /* Set margins for all sides */
         /* You can also set other properties like orientation if needed */
+        margin-bottom: 100px;
       }
 
       body {
@@ -25,7 +26,6 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
         background-color: rgb(255, 255, 255);
         width: 210mm; /* Set width to A4 dimensions */
         height: 297mm; /* Set height to A4 dimensions */
-        border: 1px solid black;
       }
       header {
         margin: 0 20px;

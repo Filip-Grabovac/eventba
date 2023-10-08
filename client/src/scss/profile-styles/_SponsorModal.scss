@@ -29,7 +29,9 @@
         align-items: center;
         margin: 5px auto;
         img {
-          height: 32px;
+          max-height: 32px;
+          max-width: 100px;
+          object-fit: cover;
         }
         label,
         span {

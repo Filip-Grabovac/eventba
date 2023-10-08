@@ -1,0 +1,251 @@
+<% function formattedTimeOfEvent(time) { const options = { year: 'numeric',
+month: 'numeric', day: 'numeric' }; return new
+Date(time).toLocaleDateString('hr-HR', options); } %> <% function
+formattedDateOneDayBefore(date) { %> <% const previousDay = new Date(date); %>
+<% previousDay.setDate(date.getDate() - 1); %> <% const options = { year:
+'numeric', month: 'numeric', day: 'numeric' }; %> <%= new
+Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ticket Selling History Report</title>
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+      @page {
+        size: A4; /* Set page size to A4 */
+        /* Set margins for all sides */
+        /* You can also set other properties like orientation if needed */
+        margin-bottom: 100px;
+      }
+
+      body {
+        font-family: "Trebuchet MS", sans-serif;
+        margin: 0; /* Remove default margins */
+        padding: 0; /* Remove default padding */
+        background-color: rgb(255, 255, 255);
+        width: 210mm; /* Set width to A4 dimensions */
+        height: 297mm; /* Set height to A4 dimensions */
+      }
+      header {
+        margin: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        .logo {
+          display: flex;
+          gap: 10px;
+          flex-direction: row;
+        }
+      }
+      h2 {
+        text-align: center;
+      }
+      .event-info {
+        margin: 0 20px;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+      .yellow {
+        font-weight: bold;
+        background-color: rgb(255, 221, 31);
+      }
+      .blue {
+        font-weight: bold;
+        background-color: rgb(130, 155, 223);
+      }
+      table {
+        border-collapse: collapse;
+        width: 95%;
+        margin: 0 20px;
+        page-break-before: auto;
+      }
+      tbody {
+        outline: 1px solid rgba(0, 0, 0, 0.514);
+      }
+      .date {
+        background: rgb(233, 233, 233);
+      }
+      th {
+        border-radius: 2px;
+        outline: 0.5px solid rgb(26, 26, 26);
+      }
+      th,
+      td {
+        padding: 1.5px;
+        font-size: 16px;
+        text-align: center;
+        border-bottom: 0.2px dotted rgba(0, 0, 0, 0.5);
+      }
+
+      small {
+        opacity: 0.8;
+      }
+      .sum {
+        font-weight: bold;
+        border-bottom: 0.5px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <img src="<%= logoImageSrc %>" alt="Event.ba Logo" />
+        <h3>event.ba</h3>
+      </div>
+      <h1>Obračun ulaznica</h1>
+      <p><%= formattedTimeOfEvent(new Date()) %></p>
+    </header>
+    <div class="event-info">
+      <h3><%= data.concert.performer_name %></h3>
+      <h3><%= data.concert.place.city %>, <%= data.concert.place.place %></h3>
+      <h3><%= formattedTimeOfEvent(data.concert.time_of_event) %></h3>
+    </div>
+    <h2>Ukupna prodaja ulaznica</h2>
+    <table>
+      <thead>
+        <tr class="yellow">
+          <th>Online prodaja</th>
+          <th>Zona</th>
+          <th>Cijena</th>
+          <th>Prodano</th>
+          <th><small>BAM</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let category in data.concert.tickets.online_sale.zones) { %>
+        <tr>
+          <td></td>
+          <td><%= category %></td>
+          <td><%= data.concert.tickets.online_sale.zones[category].price %></td>
+          <td>
+            <%= data.concert.tickets.online_sale.zones[category].max_amount -
+            data.concert.tickets.online_sale.zones[category].amount %>
+          </td>
+          <td>
+            <%= (data.concert.tickets.online_sale.zones[category].max_amount -
+            data.concert.tickets.online_sale.zones[category].amount) *
+            data.concert.tickets.online_sale.zones[category].price %>
+          </td>
+        </tr>
+        <% } %>
+        <tr class="blue sum">
+          <td>Ukupno:</td>
+          <td></td>
+          <td></td>
+          <td><%= data.concert.tickets.online_sale.sold_amount %></td>
+          <td><%= data.concert.tickets.online_sale.amount_inBAM %></td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr class="yellow">
+          <th>Slobodna prodaja</th>
+          <th>Zona</th>
+          <th>Cijena</th>
+          <th>Prodano</th>
+          <th><small>BAM</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let category in data.concert.tickets.free_sale.zones) { %>
+        <tr>
+          <td></td>
+          <td><%= category %></td>
+          <td><%= data.concert.tickets.free_sale.zones[category].price %></td>
+          <td>
+            <%= data.concert.tickets.free_sale.zones[category].max_amount -
+            data.concert.tickets.free_sale.zones[category].amount %>
+          </td>
+          <td>
+            <%= (data.concert.tickets.free_sale.zones[category].max_amount -
+            data.concert.tickets.free_sale.zones[category].amount) *
+            data.concert.tickets.free_sale.zones[category].price %>
+          </td>
+        </tr>
+        <% } %>
+        <tr class="sum blue">
+          <td>Ukupno:</td>
+          <td></td>
+          <td></td>
+          <td><%= data.concert.tickets.free_sale.sold_amount %></td>
+          <td><%= data.concert.tickets.free_sale.amount_inBAM %></td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Provizija</h2>
+    <table>
+      <thead>
+        <tr class="yellow">
+          <th>Vrsta</th>
+          <th>Količina</th>
+          <th>Provizija</th>
+          <th>TOTAL<small> BAM</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Štampa ulaznica</th>
+          <th>
+            <%=
+            data.concert.tickets.free_sale.total_amount_left+data.concert.tickets.free_sale.sold_amount+data.concert.tickets.online_sale.sold_amount
+            %>
+          </th>
+          <th>0.2 <small>BAM</small></th>
+          <th>
+            <%= ( (data.concert.tickets.free_sale.total_amount_left +
+            data.concert.tickets.free_sale.sold_amount +
+            data.concert.tickets.online_sale.sold_amount) * 0.2 ).toFixed(2) %>
+          </th>
+        </tr>
+        <tr>
+          <th>Online provizija</th>
+          <th><%= data.concert.tickets.online_sale.amount_inBAM %></th>
+          <th>5 <small>%</small></th>
+          <th>
+            <%= ((data.concert.tickets.online_sale.amount_inBAM) *
+            0.05).toFixed(2) %>
+          </th>
+        </tr>
+        <tr>
+          <th><strong>UKUPNO</strong></th>
+          <th></th>
+          <th></th>
+          <th>
+            <%= ( ((data.concert.tickets.online_sale.amount_inBAM) * 0.05) +
+            ((data.concert.tickets.free_sale.total_amount_left +
+            data.concert.tickets.free_sale.sold_amount +
+            data.concert.tickets.online_sale.sold_amount) * 0.2) ).toFixed(2) %>
+          </th>
+        </tr>
+        <tr></tr>
+        <tr></tr>
+        <tr>
+          <th>PDV</th>
+          <th></th>
+          <th>17 <small>%</small></th>
+          <th>
+            <%= ( (((data.concert.tickets.online_sale.amount_inBAM) * 0.05) +
+            ((data.concert.tickets.free_sale.total_amount_left +
+            data.concert.tickets.free_sale.sold_amount +
+            data.concert.tickets.online_sale.sold_amount) * 0.2)) * 0.17
+            ).toFixed(2) %>
+          </th>
+        </tr>
+        <tr class="blue">
+          <th><strong>TOTAL</strong></th>
+          <th></th>
+          <th></th>
+          <th>
+            <%= ( (((data.concert.tickets.online_sale.amount_inBAM) * 0.05) +
+            ((data.concert.tickets.free_sale.total_amount_left +
+            data.concert.tickets.free_sale.sold_amount +
+            data.concert.tickets.online_sale.sold_amount) * 0.2)) * 1.17
+            ).toFixed(2) %>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

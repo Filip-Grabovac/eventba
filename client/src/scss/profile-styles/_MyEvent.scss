@@ -1,5 +1,6 @@
 .mytickets-container {
   .button-wrapper-my-events {
+    margin: 20px auto;
     display: flex;
     justify-content: space-evenly;
     .btn {
@@ -9,6 +10,9 @@
       margin: 0;
       &:hover {
         color: #343434;
+      }
+      @media only screen and (max-width: 400px) {
+        font-size: 13px;
       }
     }
     .active {
@@ -446,13 +450,14 @@
 
           .print-pdf-btn {
             text-decoration: none;
-            margin: 0 60px 10px auto;
+            margin: 0 10px 10px auto;
 
             background-color: #f4cd46;
             color: #343434;
             font-weight: 600;
-            padding: 10px 15px;
+            padding: 10px 10px;
             border-radius: 15px;
+            max-width: 200px;
           }
         }
       }

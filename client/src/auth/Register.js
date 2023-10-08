@@ -261,6 +261,14 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
                 />
               </div>
               <ReCAPTCHA
+                style={{
+                  borderRadius: "15px",
+                  overflow: "hidden",
+                  height: "75px",
+                  width: "295px",
+
+                  marginBottom: "15px",
+                }}
                 className="recaptcha"
                 sitekey="6LeMm1MnAAAAAOElXfMI6txzQnUG3q2F4QVUnYYq"
                 onChange={onChange}
