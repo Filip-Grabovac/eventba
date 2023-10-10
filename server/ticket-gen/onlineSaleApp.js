@@ -41,7 +41,7 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
       seat,
       row,
       price, // Set the price dynamically
-      ticketName, // Set the ticket name dynamically
+      ticket_type: ticketName, // Set the ticket name dynamically
       owner: name + " " + lname,
       sent_on_email: email,
       isValid: true,

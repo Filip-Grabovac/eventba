@@ -14,9 +14,6 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
     <style>
       @page {
         size: A4; /* Set page size to A4 */
-        /* Set margins for all sides */
-        /* You can also set other properties like orientation if needed */
-        margin-bottom: 100px;
       }
 
       body {
@@ -186,7 +183,7 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
       </thead>
       <tbody>
         <tr>
-          <th>Štampa ulaznica</th>
+          <th>Printanje ulaznica</th>
           <th>
             <%=
             data.concert.tickets.free_sale.total_amount_left+data.concert.tickets.free_sale.sold_amount+data.concert.tickets.online_sale.sold_amount

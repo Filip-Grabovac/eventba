@@ -76,17 +76,6 @@ export const Personalization = ({
             type="checkbox"
             name="checkbox"
           />
-          <Tooltip
-            style={{
-              borderRadius: "10px",
-              backgroundColor: "#455cd9",
-              zIndex: "9999",
-            }}
-            anchorId={`checkbox-${i}`}
-            place="top"
-            variant="info"
-            content="Presonalizirajte ulaznicu."
-          />
         </div>
         {isChecked ? (
           <div className="profile-form">

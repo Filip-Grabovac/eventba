@@ -7,6 +7,7 @@ import randomizeArrayWithUniquePerformers from "../../../../functions/randomizeE
 
 const ImageSlider = () => {
   const [hotEventsData, setHotEvents] = useState([]);
+
   let windowWidth =
     window.innerWidth ||
     document.documentElement.clientWidth ||
@@ -27,13 +28,13 @@ const ImageSlider = () => {
   // Slider setup
   const breakpoints = [
     { width: 250, itemsToShow: 1 },
-    { width: 300, itemsToShow: 1.6 },
-    { width: 350, itemsToShow: 2 },
-    { width: 500, itemsToShow: 2.5 },
-    { width: 700, itemsToShow: 4 },
-    { width: 1000, itemsToShow: 5 },
-    { width: 1200, itemsToShow: 5 },
-    { width: 1400, itemsToShow: 7 },
+    { width: 300, itemsToShow: 1.4 },
+    { width: 350, itemsToShow: 2.3 },
+    { width: 500, itemsToShow: 3.3 },
+    { width: 700, itemsToShow: 4.3 },
+    { width: 1000, itemsToShow: 5.3 },
+    { width: 1200, itemsToShow: 6.3 },
+    { width: 1400, itemsToShow: 7.3 },
   ];
 
   // Fetch the data

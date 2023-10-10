@@ -12,8 +12,24 @@ export const UpdateEventContainer = ({ concertData }) => {
   // Function to format date and time to CET (Central European Time)
   const formatDateToCET = (dateTimeString) => {
     const date = new Date(dateTimeString);
-    const ceeOffsetMinutes = +120; // CET is UTC+1, so -60 minutes
+
+    // Check if daylight saving time (DST) is in effect (between the last Sunday in March and the last Sunday in October)
+    const lastSundayInMarch = new Date(
+      date.getFullYear(),
+      2,
+      31 - ((date.getDay() + 5) % 7)
+    ); // March has index 2
+    const lastSundayInOctober = new Date(
+      date.getFullYear(),
+      9,
+      31 - ((date.getDay() + 5) % 7)
+    ); // October has index 9
+    const isDST = date > lastSundayInMarch && date < lastSundayInOctober;
+
+    // Set the offset based on whether it's DST or not
+    const ceeOffsetMinutes = isDST ? 120 : 60; // CET is UTC+1 in winter and UTC+2 in summer
     date.setMinutes(date.getMinutes() + ceeOffsetMinutes);
+
     return date.toISOString().slice(0, 16); // Format as "YYYY-MM-DDTHH:MM"
   };
 
@@ -29,7 +45,7 @@ export const UpdateEventContainer = ({ concertData }) => {
       ...concertData,
       time_of_event: initialTimeValue,
     });
-  }, [concertData]);
+  }, [concertData, initialTimeValue]);
 
   const [existingSponsors, setExistingSponsors] = useState([]);
 

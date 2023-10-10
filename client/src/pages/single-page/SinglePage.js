@@ -48,7 +48,7 @@ const SinglePage = () => {
     }
 
     fetchSinglePage();
-  }, []);
+  }, [id, userId]);
 
   // Change event status
   async function changeEventStatus(status) {
@@ -116,7 +116,7 @@ const SinglePage = () => {
     };
 
     updateConcertProperty();
-  }, [concertData]);
+  }, [concertData, propertyChanged, id]);
 
   return (
     <div className="single-page-container">

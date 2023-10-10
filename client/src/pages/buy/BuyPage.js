@@ -132,6 +132,7 @@ export const BuyPage = () => {
   };
 
   const fetchProfileData = async () => {
+    console.log("FETCHING PROFILE");
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`

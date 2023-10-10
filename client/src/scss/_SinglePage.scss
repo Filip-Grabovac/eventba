@@ -1,6 +1,10 @@
 .single-page-container {
   margin-top: -13px;
-
+  background: linear-gradient(
+    0deg,
+    rgba(34, 3, 173, 0.05) 0%,
+    rgb(255, 255, 255) 100%
+  );
   .modal {
     display: block;
     width: 100%;

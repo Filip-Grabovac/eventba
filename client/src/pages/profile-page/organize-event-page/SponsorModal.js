@@ -70,7 +70,7 @@ const SponsorModal = ({
               <span>{sponsor.split(".")[0]}</span>
               <img
                 src={`${process.env.REACT_APP_API_URL}/static/sponsors/${sponsor}`}
-                alt={`Sponsor image ${sponsor}`}
+                alt={`Sponsor_image_${sponsor}`}
               />
               <label key={i}>
                 <input

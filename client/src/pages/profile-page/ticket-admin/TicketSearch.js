@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { toastSetup } from "../../../functions/toastSetup";
 import { toast } from "react-toastify";

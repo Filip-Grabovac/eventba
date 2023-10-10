@@ -1,6 +1,5 @@
 import React from "react";
 import { hrTimeFormat } from "../../../components/helper/timeFormat";
-import RenderFormattedText from "../../../components/RenderFormattedText";
 
 const MainCard = (props) => {
   const performerName = props.concertData[0].performer_name;
@@ -28,7 +27,7 @@ const MainCard = (props) => {
           <img
             className="single-page-cover"
             src={`${process.env.REACT_APP_API_URL}/static/event-images/${landscapeImg}`}
-            alt="Cover Image"
+            alt="CoverImage"
           />
         </div>
       </div>

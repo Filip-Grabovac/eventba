@@ -204,7 +204,7 @@ function ImageMapper({
                   fill={containerStyle}
                   stroke="rgb(21, 21, 21)"
                   cursor="pointer"
-                  strokeWidth="5"
+                  strokeWidth="8"
                   opacity="0.5"
                   strokeDasharray="none"
                   strokeLinejoin="miter"

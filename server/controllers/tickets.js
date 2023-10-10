@@ -64,6 +64,7 @@ const getTicketByPosition = async (req, res) => {
     res.status(500).json({ msg: "Greška", msgInfo: "Greška na serveru" });
   }
 };
+
 const getTicketByEmail = async (req, res) => {
   const { collection_name, email } = req.params;
 

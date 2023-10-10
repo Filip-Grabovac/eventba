@@ -32,7 +32,7 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
 
   useEffect(() => {
     fetchOrganizerName();
-  }, []);
+  });
 
   function toggleDropdown(e) {
     setDropdown(!dropdown);

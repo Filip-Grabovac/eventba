@@ -50,6 +50,10 @@ const findConcert = async (req, res) => {
         description: 1,
       };
     } else if (type === "id") {
+      selectAttributes = {
+        concert_history: 0, // Exclude concert_history
+        tickets_yesterday: 0, // Exclude tickets_yesterday
+      };
       query = { _id: value, verified: true };
     } else if (type === "this_week") {
       const today = new Date();
@@ -70,10 +74,18 @@ const findConcert = async (req, res) => {
       };
     } else if (type === "type") {
       query = { type: { $in: [value] }, verified: true };
+      selectAttributes = {
+        concert_history: 0, // Exclude concert_history
+        tickets_yesterday: 0, // Exclude tickets_yesterday
+      };
     } else if (type === "search") {
       query = {
         performer_name: { $regex: value, $options: "i" },
         verified: true,
+      };
+      selectAttributes = {
+        concert_history: 0, // Exclude concert_history
+        tickets_yesterday: 0, // Exclude tickets_yesterday
       };
     } else {
       return res.status(400).json({ error: "Pogrešna pretraga" });

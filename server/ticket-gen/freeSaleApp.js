@@ -21,9 +21,9 @@ async function generateTicketDocument(
   const ticketDocument = {
     concert: concertData._id,
     performer_name: concertData.performer_name,
-    category: ticketType,
+    category: categoryName,
     price: ticketPrice,
-    ticket_type: categoryName,
+    ticket_type: ticketType,
     isValid: true,
     seat,
     row,
@@ -110,7 +110,7 @@ async function generateFreeSaleTicket({
   for (const ticketData of ticketGenData) {
     const { categoryName, ticketType, ticketsNum, ticketPrice, rows } =
       ticketData;
-
+    console.log(`categoryName:${categoryName},ticketType:${ticketType}`);
     // Create the Express server once outside the loops
     const port = 8888;
     const app = createExpressApp();
@@ -180,7 +180,8 @@ async function generateFreeSaleTicket({
         const serialNumber = await generateTicketDocument(
           concertData,
           ticketType,
-          ticketPrice
+          ticketPrice,
+          categoryName
         );
 
         const qrCodeName = `qr-code-${tickets.length + 1}.png`;

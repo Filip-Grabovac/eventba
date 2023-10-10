@@ -155,6 +155,10 @@ export const EventCard = ({ ids, i, past }) => {
 
   const handleProvisionSummary = async (e) => {
     e.preventDefault();
+    toast.success(
+      "U tijeku je izrada proračuna, molimo pričekajte...",
+      toastSetup("bottom-center", 3000)
+    );
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/v1/concerts/get_event_provision`,

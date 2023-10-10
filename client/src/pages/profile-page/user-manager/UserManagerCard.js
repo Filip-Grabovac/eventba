@@ -7,7 +7,7 @@ import UnBanUser from "../../../assets/ikonice/user_unban_icon.svg";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
-import { Tooltip } from "react-tooltip";
+
 import { useTranslation } from "react-i18next";
 
 export const UserManagerCard = ({ data, removeUserFromUI }) => {
