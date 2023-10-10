@@ -9,6 +9,10 @@ import tinyMCEConfig from "../../../components/helper/tinyConfig";
 
 export const UpdateEventContainer = ({ concertData }) => {
   const [organizer, setOrganizer] = useState(concertData?.organizer);
+
+  useEffect(() => {
+    setOrganizer(concertData.organizer);
+  }, [concertData]);
   // Function to format date and time to CET (Central European Time)
   const formatDateToCET = (dateTimeString) => {
     const date = new Date(dateTimeString);
