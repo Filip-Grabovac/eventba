@@ -25,6 +25,7 @@ export const BuyPage = () => {
   const [profileData, setProfileData] = useState({});
   const [theaterZones, setTheaterZones] = useState({});
   const [selectedZoneData, setSelectedZoneData] = useState();
+  const [isChecked, setIsChecked] = useState(false);
   const dispatch = useDispatch();
   const activeCardRef = useRef(null);
   const allTickets = useSelector((state) => state.ticketState.ticketList);
@@ -34,16 +35,23 @@ export const BuyPage = () => {
   useEffect(() => {
     setOrderNumber(Math.floor(Math.random() * 10000000000000) + 1);
     dispatch(resetState(profileData.email));
-    fetchConcertData();
+    fetchConcert();
     if (userId !== "") {
       fetchProfileData();
     }
-  }, [userId]);
+  }, []);
+
+  const fetchConcert = async () => {
+    const concert = await fetchConcertData();
+    setConcertData(concert);
+    setTheaterZones(concert.tickets.online_sale?.zones);
+  };
 
   const totalAmount = useSelector((state) => state.ticketState.totalAmount);
   const ticketGenData = useSelector((state) => state.ticketState);
 
   const addTicket = async () => {
+    setIsChecked(false);
     if (userId === "") {
       dispatch(setLoginIsOpen(true));
       return;
@@ -51,7 +59,9 @@ export const BuyPage = () => {
       await setTicketAmount(ticketAmount + 1);
       setShowPaymentForm(false);
       carouselRef.current.goTo(ticketAmount + 1);
-      fetchProfileData();
+      if (!profileData.is_verified) {
+        fetchProfileData();
+      }
     }
   };
 
@@ -123,28 +133,27 @@ export const BuyPage = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/v1/concerts/id/${id}`
       );
-      setConcertData(response.data[0]);
-      setTheaterZones(response.data[0].tickets.online_sale?.zones);
+
       return response.data[0];
     } catch (error) {
-      console.error("Error fetching profile data:", error);
+      console.error("Error fetching concert data:", error);
     }
   };
 
   const fetchProfileData = async () => {
-    console.log("FETCHING PROFILE");
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/v1/users/id/${userId}`
       );
-      setProfileData(response.data);
 
       if (!response.data.is_verified) {
         toast.error(
           `Verificirajte vaš račun na: "${response.data.email}" da biste mogli obaviti kupovinu!`,
           toastSetup("top-right", 3000)
         );
+        return;
       }
+      setProfileData(response.data);
     } catch (error) {
       console.error("Error fetching profile data:", error);
     }
@@ -230,10 +239,35 @@ export const BuyPage = () => {
   // BUY BUTTON
   // Chek if mails are there, to enable pay button
   const handleButtonClick = async () => {
-    const concertDataFetched = await fetchConcertData();
+    // Ticket without seat selected
+
+    const ticketsIdWithoutSeat = allTickets
+      .filter((ticket) => ticket.price === 0)
+      .map((ticket) => ticket.id);
+
+    if (ticketsIdWithoutSeat.length > 0) {
+      if (ticketsIdWithoutSeat.length === 1) {
+        toast.error(
+          `Niste odabrali ${
+            concertData?.place?.type === "theater" ? "sjedalo" : "tip"
+          } za ulaznicu: ${ticketsIdWithoutSeat}`,
+          toastSetup("top-center", 3000)
+        );
+        handleSliderCardClick(ticketsIdWithoutSeat[0] - 1);
+      } else {
+        toast.error(
+          `Niste odabrali ${
+            concertData?.place?.type === "theater" ? "sjedalo" : "tip"
+          } za ulaznice: ${ticketsIdWithoutSeat}`,
+          toastSetup("top-center", 3000)
+        );
+        handleSliderCardClick(ticketsIdWithoutSeat[0] - 1);
+      }
+      return;
+    }
+
     if (userId === "") {
       dispatch(setLoginIsOpen(true));
-
       return;
     }
 
@@ -242,107 +276,92 @@ export const BuyPage = () => {
       return;
     }
 
-    const ticketsWithoutEmails = allTickets.filter(
-      (ticket) => ticket.email === ""
-    );
-    const ticketsIdWithoutEmail = ticketsWithoutEmails.map(
-      (ticket) => ticket.id
-    );
-    const ticketsWithoutSeat = allTickets.filter(
-      (ticket) => ticket.price === 0
-    );
-    const ticketsIdWithoutSeat = ticketsWithoutSeat.map((ticket) => ticket.id);
+    const ticketsIdWithoutEmail = allTickets
+      .filter((ticket) => ticket.email === "")
+      .map((ticket) => ticket.id);
+    if (ticketsIdWithoutEmail > 0) {
+      if (ticketsIdWithoutEmail.length === 1) {
+        toast.error(
+          `Niste unijeli email za ulaznicu: ${ticketsIdWithoutEmail}`,
+          toastSetup("top-center", 3000)
+        );
+        handleSliderCardClick(ticketsIdWithoutEmail[0] - 1);
+      } else {
+        toast.error(
+          `Niste unijeli email za ulaznice: ${ticketsIdWithoutEmail}`,
+          toastSetup("top-center", 3000)
+        );
+        handleSliderCardClick(ticketsIdWithoutEmail[0] - 1);
+      }
+      return;
+    }
+
+    const concertDataFetched = await fetchConcertData();
     const categoryWithNotEnoughTickets = areEnoughTicketsAvailable(
       concertDataFetched,
       ticketGenData
     );
+    console.log(categoryWithNotEnoughTickets);
 
-    {
-      if (ticketsIdWithoutEmail.length === 0) {
-        if (ticketsIdWithoutSeat.length === 0) {
-          if (categoryWithNotEnoughTickets?.length === 0) {
-            setShowPaymentForm(true);
+    if (categoryWithNotEnoughTickets?.length === 0) {
+      setShowPaymentForm(true);
 
-            const allEmails = allTickets.map((ticket) => ticket.email);
-            const uniqueEmails = allEmails.filter((email, index) => {
-              return allEmails.indexOf(email) === index;
-            });
+      const allEmails = allTickets.map((ticket) => ticket.email);
+      const uniqueEmails = allEmails.filter((email, index) => {
+        return allEmails.indexOf(email) === index;
+      });
 
-            const timeOfToast = uniqueEmails * 2000;
+      const timeOfToast = uniqueEmails * 2000;
 
-            toast.success(
-              `Vaše ${
-                ticketAmount === 1
-                  ? "ulaznica će biti poslana"
-                  : "ulaznice će biti poslane"
-              }  na ${
-                uniqueEmails.length === 1 ? "mail" : "mailove"
-              }:\n${uniqueEmails.join("\n")}. Odaberite način plaćanja.`,
-              toastSetup("top-right", timeOfToast)
-            );
+      toast.success(
+        `Vaše ${
+          ticketAmount === 1
+            ? "ulaznica će biti poslana"
+            : "ulaznice će biti poslane"
+        }  na ${
+          uniqueEmails.length === 1 ? "mail" : "mailove"
+        }:\n${uniqueEmails.join("\n")}.`,
+        toastSetup("top-right", timeOfToast)
+      );
 
-            async function sendPostRequest() {
-              try {
-                // Send the POST request using Axios and wait for the response
-                await axios.post(
-                  `${process.env.REACT_APP_API_URL}/api/v1/payment/get_ticket_data`,
-                  {
-                    ticketGenData: ticketGenData,
-                    concertData: concertData,
-                    orderNumber,
-                    loggedinUser: userId,
-                  }
-                );
-              } catch (error) {
-                // Handle any errors that occurred during the request
-                toast.error(
-                  `Problem sa slanjem podataka na server, pokušajte kasnije...`,
-                  toastSetup("top-right", 3000)
-                );
-              }
+      async function sendPostRequest() {
+        try {
+          // Send the POST request using Axios and wait for the response
+          await axios.post(
+            `${process.env.REACT_APP_API_URL}/api/v1/payment/get_ticket_data`,
+            {
+              ticketGenData: ticketGenData,
+              concertData: concertData,
+              orderNumber,
+              loggedinUser: userId,
             }
-
-            // Call the async function
-            sendPostRequest();
-          } else {
-            toast.error(
-              `${
-                categoryWithNotEnoughTickets.length === 1
-                  ? "Ulaznica"
-                  : "Ulaznice"
-              }: ${categoryWithNotEnoughTickets} ${
-                categoryWithNotEnoughTickets.length === 1 ? "nije" : "nisu"
-              } više u prodaji.`,
-              toastSetup("top-right", 3000)
-            );
-          }
-        } else {
-          if (ticketsIdWithoutSeat.length === 1) {
-            toast.error(
-              `Odaberite tip za ulaznicu: ${ticketsIdWithoutSeat}`,
-              toastSetup("top-right", 3000)
-            );
-          } else
-            toast.error(
-              `Odaberite tip na ulaznicama: ${ticketsIdWithoutSeat}`,
-              toastSetup("top-right", 3000)
-            );
+          );
+        } catch (error) {
+          // Handle any errors that occurred during the request
+          toast.error(
+            `Problem sa slanjem podataka na server, pokušajte kasnije...`,
+            toastSetup("top-right", 3000)
+          );
         }
-      } else {
-        setTimeout(() => {}, 2000);
-        if (ticketsIdWithoutEmail.length === 1) {
-          toast.error(
-            `Niste unijeli email za ulaznicu: ${ticketsIdWithoutEmail}`,
-            toastSetup("top-right", 3000)
-          );
-        } else
-          toast.error(
-            `Niste unijeli email za ulaznice: ${ticketsIdWithoutEmail}`,
-            toastSetup("top-right", 3000)
-          );
       }
+
+      // Call the async function
+      sendPostRequest();
+    } else {
+      setConcertData(fetchConcertData);
+      toast.error(
+        `Nažalost ${
+          categoryWithNotEnoughTickets.length === 1 ? "ulaznica" : "ulaznice"
+        }: ${categoryWithNotEnoughTickets} ${
+          categoryWithNotEnoughTickets.length === 1
+            ? "je upravo kupljena od drugog korisnika."
+            : "su upravo kupljene od drugih korisnika."
+        }`,
+        toastSetup("top-right", 5000)
+      );
     }
   };
+
   useEffect(() => {
     // Check if showPaymentForm is true and click the button if it is
 
@@ -426,6 +445,8 @@ export const BuyPage = () => {
               >
                 {[...Array(ticketAmount)].map((_, i) => (
                   <Personalization
+                    isChecked={isChecked}
+                    setIsChecked={setIsChecked}
                     key={i}
                     i={i}
                     addTicketFunction={addTicket}

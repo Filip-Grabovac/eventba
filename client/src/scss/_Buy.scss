@@ -201,7 +201,7 @@
         }
         .active {
           transform: scale(1.07);
-          box-shadow: 1px 1px 20px 10px rgba(2, 13, 51, 0.35);
+          box-shadow: 1px 1px 20px 5px rgba(2, 13, 51, 0.25);
         }
         .ticket-card-inner {
           cursor: pointer;
@@ -215,7 +215,7 @@
           }
           @media only screen and (max-width: 450px) {
             min-width: 115px;
-            height: 175px;
+            height: 165px;
           }
           @media only screen and (max-width: 400px) {
             min-width: 100px;
@@ -299,54 +299,16 @@
 
           justify-content: space-between;
           align-items: center;
-          input[type="checkbox"] {
-            -webkit-appearance: none;
-            appearance: none;
-            background-color: #fff;
-            margin: 0;
-            font: inherit;
-            color: currentColor;
-            width: 1.65em;
-            height: 1.65em;
-            border: 0.15em solid currentColor;
-            border-radius: 0.3em;
-            transform: translateY(-0.075em);
-            display: grid;
-            place-content: center;
-            border: #555555 solid 3px;
+          img {
+            padding: 7px;
+            background: #7782da;
+            border-radius: 20px;
+            width: 35px;
+            cursor: pointer;
           }
-
-          input[type="checkbox"]::before {
-            content: "✓";
-            transform: scale(1.7);
-            font-size: 1em;
-            font-weight: bold;
-            color: #555555;
-            opacity: 0;
-            transition: 120ms opacity ease-in-out;
-          }
-
-          input[type="checkbox"]:checked::before {
-            opacity: 1;
-          }
-
-          input[type="checkbox"]:focus {
-            outline: none;
-          }
-
-          :root {
-            --form-control-disabled: #959495;
-          }
-
-          input[type="checkbox"]:disabled {
-            --form-control-color: var(--form-control-disabled);
-            color: #455cd9;
-            cursor: not-allowed;
-          }
-
-          .form-control--disabled {
-            color: #455cd9;
-            cursor: not-allowed;
+          .clicked {
+            background: #7783da8a;
+            rotate: 180deg;
           }
         }
 

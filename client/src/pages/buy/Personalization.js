@@ -5,14 +5,16 @@ import { addTicket } from "../../store/ticketSlice";
 import { Tooltip } from "react-tooltip";
 import { addTicketPrice } from "../../store/ticketSlice";
 import HallTickets from "./ticket-type/HallTickets";
+import arrow from "../../assets/ikonice/arrow_icon.svg";
 
 export const Personalization = ({
   i,
   setShowPaymentForm,
   profileData,
   concertData,
+  isChecked,
+  setIsChecked,
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
   const [name, setName] = useState(profileData?.name || "");
   const [surname, setSurname] = useState(profileData?.lname || "");
   const [email, setEmail] = useState(profileData?.email || "");
@@ -67,14 +69,14 @@ export const Personalization = ({
     <>
       <div className="personalization">
         <div className="person-check-flex">
-          <h4 className="">Personalizacija</h4>
+          <h4>Personalizacija</h4>
 
-          <input
+          <img
+            src={arrow}
             id={`checkbox-${i}`}
-            className="checkbox"
-            onChange={handleCheckboxChange}
-            type="checkbox"
-            name="checkbox"
+            className={isChecked ? "clicked arrow" : "arrow"}
+            onClick={handleCheckboxChange}
+            alt="arrow"
           />
         </div>
         {isChecked ? (
