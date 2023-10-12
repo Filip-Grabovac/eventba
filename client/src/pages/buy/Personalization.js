@@ -48,16 +48,16 @@ export const Personalization = ({
   const handleClick = async (category) => {
     setActiveCategory(category);
     setShowPaymentForm(false);
-    const ticketType = concertData.tickets.online_sale.zones[category];
-    const price = ticketType.price;
 
-    await setTicketPrice(price);
+    await setTicketPrice(concertData.tickets.online_sale.zones[category].price);
     await dispatch(
       addTicketPrice({
-        ticketPrice: Number(price),
+        ticketPrice: Number(
+          concertData.tickets.online_sale.zones[category].price
+        ),
         ticketID,
         category,
-        name: ticketType.name,
+        name: concertData.tickets.online_sale.zones[category].name,
       })
     );
   };

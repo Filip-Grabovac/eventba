@@ -1,20 +1,20 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 export const ImageCard = (props) => {
   const src = props.data.poster.portrait;
   const id = props.data._id;
 
   const overlayCard = (e) => {
-    const overlay = e.target.parentNode.querySelector('.slider-img-overlay');
-    const btn = e.target.parentNode.querySelector('.slider-link');
-    overlay.style = 'opacity: 1';
-    btn.style = 'opacity: 1';
+    const overlay = e.target.parentNode.querySelector(".slider-img-overlay");
+    const btn = e.target.parentNode.querySelector(".slider-link");
+    overlay.style = "opacity: 1";
+    btn.style = "opacity: 1";
   };
   const removeOverlayCard = (e) => {
-    const btn = e.target.parentNode.querySelector('.slider-link');
-    e.target.style = 'opacity: 0';
-    btn.style = 'opacity: 0';
+    const btn = e.target.parentNode.querySelector(".slider-link");
+    e.target.style = "opacity: 0";
+    btn.style = "opacity: 0";
   };
 
   return (
@@ -22,6 +22,7 @@ export const ImageCard = (props) => {
       <img
         className="slider-img"
         src={`${process.env.REACT_APP_API_URL}/static/event-images/${src}`}
+        loading="lazy"
       />
       <div
         onMouseOver={(e) => {

@@ -12,6 +12,7 @@ const MainSearchCard = ({ event }) => {
       <img
         src={`${process.env.REACT_APP_API_URL}/static/event-images/${event.poster?.landscape}`}
         alt="Poster Image"
+        loading="lazy"
       />
       <div className="search-card-content-wrapper">
         <div className="card-info-wrapper">

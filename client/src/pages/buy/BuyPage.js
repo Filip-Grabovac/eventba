@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import minus from "../../assets/ikonice/minus.svg";
 import plus from "../../assets/ikonice/plus.svg";
 import Carousel from "react-elastic-carousel";
@@ -51,18 +51,29 @@ export const BuyPage = () => {
   const ticketGenData = useSelector((state) => state.ticketState);
 
   const addTicket = async () => {
-    setIsChecked(false);
+    isChecked && setIsChecked(false);
     if (userId === "") {
       dispatch(setLoginIsOpen(true));
       return;
-    } else {
-      await setTicketAmount(ticketAmount + 1);
-      setShowPaymentForm(false);
-      carouselRef.current.goTo(ticketAmount + 1);
-      if (!profileData.is_verified) {
-        fetchProfileData();
-      }
     }
+    if (!profileData.is_verified) {
+      fetchProfileData();
+    }
+    const ticketsIdWithoutSeat = allTickets
+      .filter((ticket) => ticket.price === 0)
+      .map((ticket) => ticket.id);
+    if (ticketsIdWithoutSeat.length > 0) {
+      toast.error(
+        `Niste odabrali ${
+          concertData?.place?.type === "theater" ? "sjedalo" : "tip"
+        } za ulaznicu: ${ticketsIdWithoutSeat}`,
+        toastSetup("top-center", 3000)
+      );
+      return;
+    }
+    await setTicketAmount(ticketAmount + 1);
+    setShowPaymentForm(false);
+    carouselRef.current.goTo(ticketAmount + 1);
   };
 
   const removeTicket = () => {
@@ -301,7 +312,6 @@ export const BuyPage = () => {
       concertDataFetched,
       ticketGenData
     );
-    console.log(categoryWithNotEnoughTickets);
 
     if (categoryWithNotEnoughTickets?.length === 0) {
       setShowPaymentForm(true);
@@ -362,7 +372,7 @@ export const BuyPage = () => {
     }
   };
 
-  useEffect(() => {
+  useMemo(() => {
     // Check if showPaymentForm is true and click the button if it is
 
     if (showPaymentForm) {
@@ -385,101 +395,9 @@ export const BuyPage = () => {
   }, [showPaymentForm]);
 
   return (
-    <div className="single-page-container">
-      <div className="single-page-top">
-        <img
-          src={
-            concertData?.poster?.landscape
-              ? `${process.env.REACT_APP_API_URL}/static/event-images/${concertData.poster.landscape}`
-              : ""
-          }
-          alt="concertData.poster.landscape"
-        />
-
-        <div className="cover-overlay"></div>
-      </div>
-      <div className="buy-container">
-        <div className="left">
-          <div className="top-buy-page">
-            <div className="info">
-              <h3>{concertData.performer_name}</h3>
-              <p className="card-main-info">
-                {date} - {concertData?.place?.city}, {concertData?.place?.place}
-              </p>
-            </div>
-            <img
-              className="info-buy-page-image"
-              src={
-                concertData?.poster?.landscape
-                  ? `${process.env.REACT_APP_API_URL}/static/event-images/${concertData.poster.landscape}`
-                  : ""
-              }
-              alt="concertData.poster.landscape"
-            />
-          </div>
-          {concertData.tickets?.online_sale.total_amount_left !== 0 ? (
-            <div className="specification">
-              <div className="amount">
-                <h4>Količina</h4>
-                <div className="amount-left">
-                  <button onClick={removeTicket}>
-                    <img src={minus} alt="minus" />
-                  </button>
-                  <span>{ticketAmount}</span>
-                  <button onClick={addTicket}>
-                    <img src={plus} alt="plus" />
-                  </button>
-                </div>
-              </div>
-              <div className="slider-bar">
-                <div className="sliders">{renderSliderCards()}</div>
-              </div>
-              <Carousel
-                itemsToShow={1}
-                enableAutoPlay={false}
-                disableArrowsOnEnd={false}
-                ref={carouselRef}
-                onChange={(currentItem) =>
-                  setActiveCardIndex(currentItem.index)
-                }
-              >
-                {[...Array(ticketAmount)].map((_, i) => (
-                  <Personalization
-                    isChecked={isChecked}
-                    setIsChecked={setIsChecked}
-                    key={i}
-                    i={i}
-                    addTicketFunction={addTicket}
-                    activeCardIndex={activeCardIndex}
-                    ticketAmount={ticketAmount}
-                    concertData={concertData}
-                    profileData={profileData}
-                    setShowPaymentForm={setShowPaymentForm}
-                  />
-                ))}
-              </Carousel>
-              {concertData && concertData?.place?.type === "theater" && (
-                <>
-                  <TheaterBuyPage
-                    selectedZoneData={selectedZoneData}
-                    setSelectedZoneData={setSelectedZoneData}
-                    setShowPaymentForm={setShowPaymentForm}
-                    addTicketFunction={addTicket}
-                    removeLastTicket={removeTicket}
-                    theaterZones={theaterZones}
-                    setTheaterZones={setTheaterZones}
-                    concertData={concertData}
-                    activeCardIndex={activeCardIndex}
-                  />
-                </>
-              )}
-            </div>
-          ) : (
-            <h6>Organizator ne nudi ulaznice za online prodaju</h6>
-          )}
-        </div>
-
-        <div className="right">
+    concertData && (
+      <div className="single-page-container">
+        <div className="single-page-top">
           <img
             src={
               concertData?.poster?.landscape
@@ -487,84 +405,181 @@ export const BuyPage = () => {
                 : ""
             }
             alt="concertData.poster.landscape"
+            loading="lazy"
           />
-          {concertData.tickets?.online_sale &&
-          (concertData.tickets.online_sale.hasOwnProperty("type") ||
-            concertData.tickets.online_sale.hasOwnProperty("zones")) ? (
-            <>
-              <div className="payment-bill">
-                {[...Array(ticketAmount)].map((_, i) => (
-                  <TicketBill key={i} i={i} />
-                ))}
+
+          <div className="cover-overlay"></div>
+        </div>
+        <div className="buy-container">
+          <div className="left">
+            <div className="top-buy-page">
+              <div className="info">
+                <h3>{concertData.performer_name}</h3>
+                <p className="card-main-info">
+                  {date} - {concertData?.place?.city},{" "}
+                  {concertData?.place?.place}
+                </p>
               </div>
-              <div className="accumulative-spending">
-                <p>Agencijski troškovi:</p>
-                <span>
-                  {Math.round(
-                    (ticketAmount * 1.06 +
-                      (totalAmount + ticketAmount) * 0.056) *
-                      100
-                  ) / 100}
-                  <small> BAM</small>
-                </span>
+              <img
+                className="info-buy-page-image"
+                src={
+                  concertData?.poster?.landscape
+                    ? `${process.env.REACT_APP_API_URL}/static/event-images/${concertData.poster.landscape}`
+                    : ""
+                }
+                alt="concertData.poster.landscape"
+              />
+            </div>
+            {concertData.tickets?.online_sale.total_amount_left !== 0 ? (
+              <div className="specification">
+                <div className="amount">
+                  <h4>Količina</h4>
+                  <div className="amount-left">
+                    <button onClick={removeTicket}>
+                      <img src={minus} alt="minus" />
+                    </button>
+                    <span>{ticketAmount}</span>
+                    <button onClick={addTicket}>
+                      <img src={plus} alt="plus" />
+                    </button>
+                  </div>
+                </div>
+                <div className="slider-bar">
+                  <div className="sliders">{renderSliderCards()}</div>
+                </div>
+                <Carousel
+                  itemsToShow={1}
+                  enableAutoPlay={false}
+                  disableArrowsOnEnd={false}
+                  ref={carouselRef}
+                  onChange={(currentItem) =>
+                    setActiveCardIndex(currentItem.index)
+                  }
+                >
+                  {[...Array(ticketAmount)].map((_, i) => (
+                    <Personalization
+                      isChecked={isChecked}
+                      setIsChecked={setIsChecked}
+                      key={i}
+                      i={i}
+                      addTicketFunction={addTicket}
+                      activeCardIndex={activeCardIndex}
+                      ticketAmount={ticketAmount}
+                      concertData={concertData}
+                      profileData={profileData}
+                      setShowPaymentForm={setShowPaymentForm}
+                    />
+                  ))}
+                </Carousel>
+                {concertData && concertData?.place?.type === "theater" && (
+                  <>
+                    <TheaterBuyPage
+                      selectedZoneData={selectedZoneData}
+                      setSelectedZoneData={setSelectedZoneData}
+                      setShowPaymentForm={setShowPaymentForm}
+                      addTicketFunction={addTicket}
+                      removeLastTicket={removeTicket}
+                      theaterZones={theaterZones}
+                      setTheaterZones={setTheaterZones}
+                      concertData={concertData}
+                      activeCardIndex={activeCardIndex}
+                    />
+                  </>
+                )}
               </div>
-              <div className="saldo">
-                <p>Ukupna cijena:</p>
-                <span>
-                  {Math.round(
-                    (totalAmount +
-                      ticketAmount * 1.06 +
-                      (totalAmount + ticketAmount) * 0.056) *
-                      100
-                  ) / 100}
-                  <small> BAM</small>
-                </span>
-              </div>
-              <div className="payment-method">
-                <button className="pay-method" onClick={handleButtonClick}>
-                  Idi na plaćanje
-                </button>
-                {profileData.email === "13kreso@gmail.com" ||
-                profileData.email === "maticanto@gmail.com"
-                  ? showPaymentForm && (
-                      <AdminPayment
-                        showPaymentForm={showPaymentForm}
-                        totalAmount={Number(
-                          Math.round(
-                            (totalAmount +
-                              ticketAmount * 1.06 +
-                              (totalAmount + ticketAmount) * 0.056) *
-                              100
-                          ) / 100
-                        )}
-                        profileData={profileData}
-                        orderNumber={orderNumber}
-                        performerName={concertData.performer_name}
-                      />
-                    )
-                  : showPaymentForm && (
-                      <PaymentForm
-                        showPaymentForm={showPaymentForm}
-                        totalAmount={
-                          Math.round(
-                            (totalAmount +
-                              ticketAmount * 1.06 +
-                              (totalAmount + ticketAmount) * 0.056) *
-                              100
-                          ) / 100
-                        }
-                        profileData={profileData}
-                        orderNumber={orderNumber}
-                        performerName={concertData.performer_name}
-                      />
-                    )}
-              </div>
-            </>
-          ) : (
-            ""
-          )}
+            ) : (
+              <h6>Organizator ne nudi ulaznice za online prodaju</h6>
+            )}
+          </div>
+
+          <div className="right">
+            <img
+              src={
+                concertData?.poster?.landscape
+                  ? `${process.env.REACT_APP_API_URL}/static/event-images/${concertData.poster.landscape}`
+                  : ""
+              }
+              alt="concertData.poster.landscape"
+              loading="lazy"
+            />
+            {concertData.tickets?.online_sale &&
+            (concertData.tickets.online_sale.hasOwnProperty("type") ||
+              concertData.tickets.online_sale.hasOwnProperty("zones")) ? (
+              <>
+                <div className="payment-bill">
+                  {[...Array(ticketAmount)].map((_, i) => (
+                    <TicketBill key={i} i={i} />
+                  ))}
+                </div>
+                <div className="accumulative-spending">
+                  <p>Agencijski troškovi:</p>
+                  <span>
+                    {Math.round(
+                      (ticketAmount * 1.06 +
+                        (totalAmount + ticketAmount) * 0.056) *
+                        100
+                    ) / 100}
+                    <small> BAM</small>
+                  </span>
+                </div>
+                <div className="saldo">
+                  <p>Ukupna cijena:</p>
+                  <span>
+                    {Math.round(
+                      (totalAmount +
+                        ticketAmount * 1.06 +
+                        (totalAmount + ticketAmount) * 0.056) *
+                        100
+                    ) / 100}
+                    <small> BAM</small>
+                  </span>
+                </div>
+                <div className="payment-method">
+                  <button className="pay-method" onClick={handleButtonClick}>
+                    Idi na plaćanje
+                  </button>
+                  {profileData.email === "13kreso@gmail.com" ||
+                  profileData.email === "maticanto@gmail.com"
+                    ? showPaymentForm && (
+                        <AdminPayment
+                          showPaymentForm={showPaymentForm}
+                          totalAmount={Number(
+                            Math.round(
+                              (totalAmount +
+                                ticketAmount * 1.06 +
+                                (totalAmount + ticketAmount) * 0.056) *
+                                100
+                            ) / 100
+                          )}
+                          profileData={profileData}
+                          orderNumber={orderNumber}
+                          performerName={concertData.performer_name}
+                        />
+                      )
+                    : showPaymentForm && (
+                        <PaymentForm
+                          showPaymentForm={showPaymentForm}
+                          totalAmount={
+                            Math.round(
+                              (totalAmount +
+                                ticketAmount * 1.06 +
+                                (totalAmount + ticketAmount) * 0.056) *
+                                100
+                            ) / 100
+                          }
+                          profileData={profileData}
+                          orderNumber={orderNumber}
+                          performerName={concertData.performer_name}
+                        />
+                      )}
+                </div>
+              </>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    )
   );
 };

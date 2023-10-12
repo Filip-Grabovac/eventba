@@ -50,7 +50,7 @@ const MyComponent = ({
       script2.setAttribute("data-ch-address", address ? address : "");
       script2.setAttribute("data-ch-city", city ? city : "");
       script2.setAttribute("data-ch-country", country ? country : "");
-      script2.setAttribute("data-language", "en");
+      script2.setAttribute("data-language", "hr");
       document.body.appendChild(script2);
 
       return () => {
@@ -85,7 +85,7 @@ const MyComponent = ({
           data-ch-address={address ? address : ""}
           data-ch-city={city ? city : ""}
           data-ch-country={country ? country : ""}
-          data-language="en"
+          data-language="hr"
         ></script>
       </form>
     )

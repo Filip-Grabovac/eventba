@@ -26,7 +26,7 @@ import hr from "../components/helper/hr";
 import { setLoginIsOpen } from "../store/loginSlice";
 export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
   const secretKey = process.env.REACT_APP_SECRET_KEY;
-  const [verified, setVerified] = useState(false);
+
   const dispatch = useDispatch();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const repeatPasswordRef = useRef(null);
@@ -34,25 +34,27 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
   // Phone Input settings
   const [phone, setPhone] = useState("");
   const [agreed, setAgreed] = useState(false);
-
+  const [verified, setVerified] = useState(false);
   const [country, setCountry] = useState("BA");
 
   // Press escape key exit register
   // useCloseModalOnEsc(setIsRegisterOpen);
   // Register a user
+
   const handleSubmit = async (e) => {
+    console.log(e.target.elements.name.value);
     e.preventDefault();
-    if (!verified) {
+    if (!agreed) {
       toast.error(
         "Niste potvrdili da se slažete s uvijetima korištenja.",
-        toastSetup("top-right", 3000)
+        toastSetup("bottom-center", 3000)
       );
       return;
     }
-    if (!agreed) {
+    if (!verified) {
       toast.error(
         "Niste potvrdili da niste robot.",
-        toastSetup("top-right", 3000)
+        toastSetup("bottom-center", 3000)
       );
       return;
     }
@@ -126,14 +128,6 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
     dispatch(setLoginIsOpen(true));
   };
 
-  function onChange() {
-    setVerified(true);
-  }
-
-  const handleCheckboxChange = (event) => {
-    setAgreed(event.target.checked);
-  };
-
   return (
     <div className="login-box">
       <div className="login-screen" onClick={handleModalClick}>
@@ -148,7 +142,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
           </button>
           <h2>Registracija</h2>
           <div className="text-section">
-            <form onSubmit={verified ? handleSubmit : undefined}>
+            <form onSubmit={(e) => handleSubmit(e)}>
               <div className="multiple-inputs-wrapper">
                 <RegisterInput
                   placeholder="Ime"
@@ -256,8 +250,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
                 <input
                   className="terms-of-use"
                   type="checkbox"
-                  checked={agreed}
-                  onChange={handleCheckboxChange}
+                  onChange={() => setAgreed((agreed) => !agreed)}
                 />
               </div>
               <ReCAPTCHA
@@ -266,20 +259,16 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
                   overflow: "hidden",
                   height: "75px",
                   width: "295px",
-
                   marginBottom: "15px",
                 }}
                 className="recaptcha"
                 sitekey="6LeMm1MnAAAAAOElXfMI6txzQnUG3q2F4QVUnYYq"
-                onChange={onChange}
+                onChange={() => setVerified(true)}
                 theme="dark"
+                hl="hr"
               />
 
-              <button
-                type="submit"
-                className="login-btn"
-                disabled={!verified || !agreed}
-              >
+              <button type="submit" className="login-btn">
                 Registriraj se!
               </button>
             </form>
