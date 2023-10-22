@@ -5,6 +5,7 @@ const fs = require("fs");
 const app = express();
 
 const users = require("./routes/users");
+const login = require("./routes/login");
 const concerts = require("./routes/concerts");
 const payment = require("./routes/payments");
 const entrance_controller = require("./routes/entrances");
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/static", express.static("ticket-gen/public"));
 
 app.use("/api/v1/users", users);
+app.use("/api/v1/login", login);
 app.use("/api/v1/concerts", concerts);
 app.use("/api/v1/payment", payment);
 app.use("/api/v1/entrance_controllers", entrance_controller);
@@ -41,12 +43,15 @@ app.use("/api/v1/helper", helper);
 
 const start = async () => {
   try {
-    //   const httpsOptions = {
-    //     key: fs.readFileSync("/etc/ssl/certificate/event.ba.key"),
-    //     cert: fs.readFileSync("/etc/ssl/certificate/STAR_event_ba.crt"),
-    //   };
-    //   const server = https.createServer(httpsOptions, app);
-    app.listen(5000, console.log("Server is listening on port 5000 (HTTPS)"));
+    const httpsOptions = {
+      key: fs.readFileSync("/etc/ssl/certificate/event.ba.key"),
+      cert: fs.readFileSync("/etc/ssl/certificate/STAR_event_ba.crt"),
+    };
+    const server = https.createServer(httpsOptions, app);
+    server.listen(
+      5000,
+      console.log("Server is listening on port 5000 (HTTPS)")
+    );
   } catch (error) {
     console.error(error);
   }

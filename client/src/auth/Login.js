@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 // Images
 import X from "../assets/ikonice/X.svg";
@@ -44,16 +44,12 @@ export const Login = ({ setIsRegisterOpen }) => {
     const email = e.target.elements.email.value;
     // Get user from database
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/v1/users/email/${email}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/v1/login`,
+        { password: e.target.elements.password.value, email }
       );
 
-      const { id, password: userPassword, is_banned } = response.data;
+      const { id, is_banned } = response.data;
 
       if (is_banned) {
         toast.error(
@@ -63,28 +59,18 @@ export const Login = ({ setIsRegisterOpen }) => {
         return;
       }
 
-      // Decrypt and check user passwor vs password input
-      if (
-        Decrypt(userPassword, secretKey) === e.target.elements.password.value
-      ) {
-        if (rememberMe) {
-          localStorage.setItem("userId", id); // Save in local storage
-        } else {
-          sessionStorage.setItem("userId", id); // Save in session storage
-        }
-        dispatch(setUserID(id));
-        dispatch(setLoginIsOpen(false));
-
-        toast.success("Uspješna prijava!", toastSetup("top-center", 3000));
+      if (rememberMe) {
+        localStorage.setItem("userId", id); // Save in local storage
       } else {
-        toast.error(`Lozinka nije ispravna!`, toastSetup("top-center", 3000));
-        passwordRef.current.focus();
+        sessionStorage.setItem("userId", id); // Save in session storage
       }
+      dispatch(setUserID(id));
+      dispatch(setLoginIsOpen(false));
+
+      toast.success("Uspješna prijava!", toastSetup("top-center", 3000));
     } catch (error) {
-      toast.error(
-        `Došlo je do pogreške prilikom prijave. ${error.response.data.error}!`,
-        toastSetup("top-center", 3000)
-      );
+      toast.error(error.response.data.error, toastSetup("top-center", 3000));
+      passwordRef.current.focus();
     }
   };
 
