@@ -186,11 +186,23 @@ const updateUser = async (req, res) => {
       }
     }
 
+    let userUpdatePayload = req.body;
+    if (userUpdatePayload.password !== undefined) {
+      userUpdatePayload.password = Encrypt(
+        userUpdatePayload.password,
+        process.env.SECRET_KEY
+      );
+    }
+
     // Update the user
-    const updatedUser = await User.findOneAndUpdate({ _id: userID }, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: userID },
+      userUpdatePayload,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
     res.status(200).json(updatedUser);
   } catch (error) {

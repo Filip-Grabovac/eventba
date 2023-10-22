@@ -23,7 +23,6 @@ export const Login = ({ setIsRegisterOpen }) => {
   const dispatch = useDispatch();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const passwordRef = useRef(null);
-  const secretKey = process.env.REACT_APP_SECRET_KEY;
   const facebookLogin = useFacebookLogin(setUserID);
   const [forgotPasswordFields, isForgotPasswordVisible] = useState(false);
   const [rememberMe, setRememberStatus] = useState(false);

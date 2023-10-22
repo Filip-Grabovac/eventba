@@ -3,21 +3,18 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toastSetup } from "../functions/toastSetup";
-import { Encrypt } from "./Encrypt";
 
 export const PasswordReset = () => {
   const { requestNumber } = useParams();
-  const secretKey = process.env.REACT_APP_SECRET_KEY;
   const newPassword =
     Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
-  const encryptedPass = Encrypt(newPassword, secretKey);
 
   useEffect(() => {
     const resetPassword = async () => {
       try {
         const response = await axios.patch(
           `${process.env.REACT_APP_API_URL}/api/v1/helper/reset_password/${requestNumber}`,
-          { encryptedPass } // Sending encrypted password in the request body
+          { password: newPassword } // Sending encrypted password in the request body
         );
 
         toast.success(response.data.msg, toastSetup("top-right", 3000));

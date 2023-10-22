@@ -41,7 +41,6 @@ export const UpdateProfilePage = (props) => {
     reverseCountry(profileData.country) || "BA"
   );
   const id = useSelector((state) => state.userState.user);
-  const secretKey = process.env.REACT_APP_SECRET_KEY;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,7 +68,7 @@ export const UpdateProfilePage = (props) => {
       country: countryMap[country],
       zip: zip,
       phone: phone,
-      password: password !== "" ? Encrypt(password, secretKey) : undefined,
+      password: password !== "" ? password : undefined,
     };
 
     const apiUrl = `${process.env.REACT_APP_API_URL}/api/v1/users/${id}`;
