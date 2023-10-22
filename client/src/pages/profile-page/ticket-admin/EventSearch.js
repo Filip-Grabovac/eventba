@@ -23,7 +23,7 @@ export const EventSearch = ({
   return (
     <div className="event-search">
       <input
-        style={{ width: "300px" }}
+        style={{ maxWidth: "300px" }}
         type="text"
         placeholder="Unesite ime izvođača"
         value={searchTerm}

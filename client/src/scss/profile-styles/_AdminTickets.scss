@@ -135,19 +135,21 @@
   form {
     margin-bottom: 20px;
     display: flex;
-    flex-wrap: wrap;
+
+    width: max(40%, 400px);
     align-items: center;
     justify-content: center;
 
     .ticket-finder-input {
-      width: 200px !important;
+      width: 200px;
+      height: 32px;
       margin: 5px 0 5px 20px;
       text-align: center;
       border-radius: 20px 0 0 20px;
     }
     .ticket-finder {
       margin: 0;
-      width: 300px;
+      flex-grow: 1;
       margin-bottom: 5px;
       height: 32px;
       align-self: flex-end;

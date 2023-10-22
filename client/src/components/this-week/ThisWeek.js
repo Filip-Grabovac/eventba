@@ -68,32 +68,6 @@ export const ThisWeek = (props) => {
             : thisWeek &&
               Array.isArray(thisWeek) &&
               thisWeek.map((item, i) => <SliderCard key={i} data={item} />)}
-
-          {thisWeek && thisWeek.length < 1
-            ? thisWeek && Array.isArray(suggested)
-              ? Array.from(
-                  { length: suggested.length < 3 ? 3 - suggested.length : 0 },
-                  (_, index) => (
-                    <div className="skeleton-without-animation" key={index}>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                    </div>
-                  )
-                )
-              : null
-            : thisWeek && Array.isArray(thisWeek)
-            ? Array.from(
-                { length: thisWeek.length < 3 ? 3 - thisWeek.length : 0 },
-                (_, index) => (
-                  <div className="skeleton-without-animation" key={index}>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                  </div>
-                )
-              )
-            : null}
         </Carousel>
       </div>
     </div>

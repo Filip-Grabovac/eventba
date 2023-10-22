@@ -292,7 +292,7 @@ const deleteUser = async (req, res) => {
     // Delete the user from the database
     await user.remove();
 
-    res.json({ message: "Korisnik je uspješno obrisan." });
+    res.json({ message: "Korisnički račun je uspješno obrisan." });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Serverska greška." });

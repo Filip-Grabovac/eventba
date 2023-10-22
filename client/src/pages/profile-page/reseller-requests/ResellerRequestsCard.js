@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import ArrowIcon from '../../../assets/ikonice/arrow_icon.svg';
-import UserManagerIcon from '../../../assets/ikonice/user_manager_icon.svg';
-import CheckIcon from '../../../assets/ikonice/check2_icon.svg';
-import TrashCan from '../../../assets/ikonice/trash_can.svg';
-import BanIcon from '../../../assets/ikonice/ban_user_icon.svg';
-import { Tooltip } from 'react-tooltip';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { toastSetup } from '../../../functions/toastSetup';
+import React, { useEffect, useRef, useState } from "react";
+import ArrowIcon from "../../../assets/ikonice/arrow_icon.svg";
+import UserManagerIcon from "../../../assets/ikonice/user_manager_icon.svg";
+import CheckIcon from "../../../assets/ikonice/check2_icon.svg";
+import TrashCan from "../../../assets/ikonice/trash_can.svg";
+import BanIcon from "../../../assets/ikonice/ban_user_icon.svg";
+import { Tooltip } from "react-tooltip";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { toastSetup } from "../../../functions/toastSetup";
 
 export const ResellerRequestsCard = ({
   data,
@@ -53,7 +53,7 @@ export const ResellerRequestsCard = ({
       )
       .then((response) => {
         setRequestsData(requestsData.filter((user) => user._id !== data._id));
-        toast.success(response.data.message, toastSetup('top-right', 3000));
+        toast.success(response.data.message, toastSetup("top-right", 3000));
       })
       .catch((error) => {});
   }
@@ -66,7 +66,7 @@ export const ResellerRequestsCard = ({
       )
       .then((response) => {
         setRequestsData(requestsData.filter((user) => user._id !== data._id));
-        toast.success(response.data.message, toastSetup('top-right', 3000));
+        toast.success(response.data.message, toastSetup("top-right", 3000));
       })
       .catch((error) => {});
   }
@@ -79,8 +79,8 @@ export const ResellerRequestsCard = ({
       .then(() => {
         // Display messages and update ban status
         toast.success(
-          'Uspješno ste blokirali korisnika',
-          toastSetup('top-right', 2000)
+          "Uspješno ste blokirali korisnika",
+          toastSetup("top-right", 2000)
         );
         setRequestsData(requestsData.filter((user) => user._id !== data._id));
       })
@@ -92,45 +92,46 @@ export const ResellerRequestsCard = ({
   return (
     <div
       style={{
-        borderBottomLeftRadius: hasBorderRadius ? '7px' : '0',
-        borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
-        marginBottom: dropdown ? dropdownHeight + 30 : '10px',
+        borderBottomLeftRadius: hasBorderRadius ? "7px" : "0",
+        borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
       }}
       className="myevent-card"
     >
-      <img className="user" src={UserManagerIcon} alt="User" />
-      <div className="myevent-card-part-2">
-        <p>
-          {data.full_name.split(' ')[0]} {data.full_name.split(' ')[1]}
-        </p>
-      </div>
-      <div className="line"></div>
-      <div className="myevent-card-part-2">
-        <p>{data.email}</p>
-      </div>
-      <div
-        onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
-        className="myevent-card-part-3"
-        style={{
-          borderBottomRightRadius: hasBorderRadius ? '7px' : '0',
-          backgroundColor: hasBorderRadius
-            ? 'rgba(69, 91, 217, 0.7)'
-            : 'rgba(69, 91, 217, 0.5)',
-        }}
-      >
-        <p>Prikaži zahtjev</p>
-        <img
-          style={dropdown ? { rotate: '-180deg' } : { rotate: '0deg' }}
-          className="dropdown-arrow"
-          src={ArrowIcon}
-          alt="Drop"
-        />
+      <div className="info-main-card">
+        <img className="user" src={UserManagerIcon} alt="User" />
+        <div className="myevent-card-part-2">
+          <p>
+            {data.full_name.split(" ")[0]} {data.full_name.split(" ")[1]}
+          </p>
+        </div>
+        <div className="line"></div>
+        <div className="myevent-card-part-2">
+          <p>{data.email}</p>
+        </div>
+        <div
+          onClick={(e) => (!arrowDisabled ? toggleDropdown(e) : undefined)}
+          className="myevent-card-part-3"
+          style={{
+            borderBottomRightRadius: hasBorderRadius ? "7px" : "0",
+            backgroundColor: hasBorderRadius
+              ? "rgba(69, 91, 217, 0.7)"
+              : "rgba(69, 91, 217, 0.5)",
+          }}
+        >
+          <p>Prikaži zahtjev</p>
+          <img
+            style={dropdown ? { rotate: "-180deg" } : { rotate: "0deg" }}
+            className="dropdown-arrow"
+            src={ArrowIcon}
+            alt="Drop"
+          />
+        </div>
       </div>
       <Tooltip
         style={{
-          borderRadius: '10px',
-          backgroundColor: '#455cd9',
-          zIndex: '9999',
+          borderRadius: "10px",
+          backgroundColor: "#455cd9",
+          zIndex: "9999",
         }}
         anchorId={`approve-request${i}`}
         place="bottom"
@@ -139,9 +140,9 @@ export const ResellerRequestsCard = ({
       />
       <Tooltip
         style={{
-          borderRadius: '10px',
-          backgroundColor: '#455cd9',
-          zIndex: '9999',
+          borderRadius: "10px",
+          backgroundColor: "#455cd9",
+          zIndex: "9999",
         }}
         anchorId={`delete-request${i}`}
         place="bottom"
@@ -150,9 +151,9 @@ export const ResellerRequestsCard = ({
       />
       <Tooltip
         style={{
-          borderRadius: '10px',
-          backgroundColor: '#455cd9',
-          zIndex: '9999',
+          borderRadius: "10px",
+          backgroundColor: "#455cd9",
+          zIndex: "9999",
         }}
         anchorId={`block-user${i}`}
         place="bottom"
@@ -167,11 +168,11 @@ export const ResellerRequestsCard = ({
         <div className="reseller-dropdown-part">
           <div>
             <p>Ime:</p>
-            <p>{data.full_name.split(' ')[0]}</p>
+            <p>{data.full_name.split(" ")[0]}</p>
           </div>
           <div>
             <p>Prezime:</p>
-            <p>{data.full_name.split(' ')[1]}</p>
+            <p>{data.full_name.split(" ")[1]}</p>
           </div>
           <div>
             <p>Email:</p>

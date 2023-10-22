@@ -58,7 +58,7 @@
     justify-content: center;
     gap: 5px;
     position: relative;
-    width: 98%;
+    width: min(450px, 95%);
     border-radius: 15px;
 
     a {

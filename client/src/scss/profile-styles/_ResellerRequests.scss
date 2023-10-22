@@ -1,6 +1,14 @@
 .reseller-requests-wrapper,
 .add-reseller-event {
   .myevent-card {
+    .info-main-card {
+      background-color: rgba(217, 217, 223, 0.505);
+      border-radius: 15px;
+      margin: 10px 15px 0;
+      display: flex;
+      justify-content: space-between;
+    }
+    overflow: hidden;
     &:nth-child(odd) {
       .line {
         background-color: rgba(201, 204, 224, 0.505);
@@ -23,6 +31,7 @@
 
     .myevent-card-part-2 {
       width: 39%;
+      display: flex;
       align-items: center;
       justify-content: center;
 
@@ -38,9 +47,16 @@
       }
     }
     .myevent-card-part-3 {
+      border-top-right-radius: 10px;
+      display: flex;
+      flex-grow: 1;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
-
+      .dropdown-arrow {
+        height: 30px;
+      }
       p {
         text-align: center;
         font-size: 12px;
