@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Helper = require("../models/Helper");
 const sendVerificationEmail = require("../mailer/mailer");
+const Encrypt = require("../functions/encrypt");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -37,11 +38,16 @@ const createUser = async (req, res) => {
         verificationLink
       );
     }
+    let newUser = req.body;
+
+    console.log(newUser.password);
+    newUser.password = Encrypt(newUser.password, process.env.SECRET_KEY);
+    console.log(newUser.password);
 
     // Create a new user if no existing user found
-    const user = await User.create(req.body);
+    const user = await User.create(newUser);
 
-    res.status(201).json({ user });
+    res.status(201).json({ id: user._id });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Došlo je do greške pri unosu " });

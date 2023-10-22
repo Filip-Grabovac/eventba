@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 // Images
 import X from "../assets/ikonice/X.svg";
@@ -15,8 +15,7 @@ import { RegisterInput } from "./RegisterInput";
 import { toast } from "react-toastify";
 import ReCAPTCHA from "react-google-recaptcha";
 // Functions
-import { Encrypt } from "./Encrypt";
-import { Decrypt } from "./Decrypt";
+
 import { toastSetup } from "../functions/toastSetup";
 import { useCloseModalOnEsc } from "../functions/closeModalOnEsc";
 // Phone Input
@@ -25,8 +24,6 @@ import countryMap from "../components/helper/countryMap";
 import hr from "../components/helper/hr";
 import { setLoginIsOpen } from "../store/loginSlice";
 export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
-  const secretKey = process.env.REACT_APP_SECRET_KEY;
-
   const dispatch = useDispatch();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const repeatPasswordRef = useRef(null);
@@ -69,14 +66,14 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
       role: "standard",
       zip: e.target.elements.zipcode.value,
       phone: phone,
-      password: Encrypt(e.target.elements.password.value, secretKey),
+      password: e.target.elements.password.value,
       repeatPassword: e.target.elements.repeatPassword.value,
       buy_history: [],
       is_banned: false,
       newsletter: false,
     };
 
-    if (Decrypt(user.password, secretKey) === user.repeatPassword) {
+    if (user.password === user.repeatPassword) {
       await axios
         .post(
           process.env.REACT_APP_API_URL + "/api/v1/users",
@@ -98,8 +95,8 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
           );
           setIsRegisterOpen(false);
           // Login user
-          dispatch(setUserID(response.data.user._id));
-          localStorage.setItem("userId", response.data.user._id);
+          dispatch(setUserID(response.data.id));
+          localStorage.setItem("userId", response.data.id);
         })
         .catch((error) => {
           // Handle any errors
