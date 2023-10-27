@@ -75,17 +75,29 @@ const findConcert = async (req, res) => {
     } else if (type === "type") {
       query = { type: { $in: [value] }, verified: true };
       selectAttributes = {
-        concert_history: 0, // Exclude concert_history
-        tickets_yesterday: 0, // Exclude tickets_yesterday
+        poster: 1,
+        _id: 1,
+        time_of_event: 1,
+        performer_name: 1,
+        place: 1,
+        type: 1,
+        verified: 1,
+        description: 1,
       };
     } else if (type === "search") {
       query = {
         performer_name: { $regex: value, $options: "i" },
         verified: true,
       };
-      selectAttributes = {
-        concert_history: 0, // Exclude concert_history
-        tickets_yesterday: 0, // Exclude tickets_yesterday
+      selectAttributes = selectAttributes = {
+        poster: 1,
+        _id: 1,
+        time_of_event: 1,
+        performer_name: 1,
+        place: 1,
+        type: 1,
+        verified: 1,
+        description: 1,
       };
     } else {
       return res.status(400).json({ error: "Pogrešna pretraga" });
@@ -142,7 +154,7 @@ const createEvent = async (req, res) => {
 
 const updateEventData = async (req, res) => {
   const { id, data } = req.body;
-  console.log(id, data);
+
   try {
     // Use findOneAndUpdate to find and update the event
     const updatedEvent = await Concert.findOneAndUpdate(
@@ -169,7 +181,8 @@ const deleteEvent = async (req, res) => {
 
   try {
     // Find the concert by _id and delete it
-    const deletedConcert = await Concert.findByIdAndDelete(concertId);
+    const deletedConcert = await Concert.findByIdAndRemove(concertId);
+    console.log(deletedConcert.performer_name);
 
     if (!deletedConcert) {
       return res.status(404).json({ message: "Koncert nije pronađen" });
@@ -430,7 +443,7 @@ const resellersConcertInfo = async (req, res) => {
     if (!Array.isArray(concertIds)) {
       return res
         .status(400)
-        .json({ message: "concertIds should be an array." });
+        .json({ message: "Greška pri dohvatanju podataka." });
     }
 
     // Find all concerts with "_id" property matching the ids from the array
@@ -481,6 +494,27 @@ const calculateEvents = async (req, res) => {
   }
 };
 
+const isAdminMiddleware = async (req, res, next) => {
+  const userId = req.body.userId;
+
+  if (!userId) {
+    return res
+      .status(400)
+      .json({ message: "Morate biti prijavljeni za ovu radnju." });
+  }
+
+  const user = await User.findById(userId);
+
+  if (user && user.role === "admin") {
+    console.log(`Admin - ${user.full_name} je obavljao osjetljive radnje.`);
+    next();
+  } else {
+    return res
+      .status(403)
+      .json({ message: "Niste ovlašteni za ovu operaciju." });
+  }
+};
+
 module.exports = {
   getAllConcerts,
   findConcert,
@@ -497,4 +531,5 @@ module.exports = {
   findUnverifiedEvents,
   updateEventData,
   getProvisionSum,
+  isAdminMiddleware,
 };

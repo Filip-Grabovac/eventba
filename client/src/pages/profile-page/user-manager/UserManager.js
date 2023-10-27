@@ -2,14 +2,18 @@ import React, { useEffect, useState } from "react";
 import { UserManagerCard } from "./UserManagerCard";
 import axios from "axios";
 import { ProfileTopPart } from "./ProfileTopPart";
+import { useSelector } from "react-redux";
 
 export const UserManager = () => {
   const [data, setData] = useState("Pretrazi korisnike");
 
+  const userId = useSelector((state) => state.userState.user);
   const fetchData = async (e) => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_API_URL + `/api/v1/users/search/${e.target.value}`
+      const response = await axios.post(
+        process.env.REACT_APP_API_URL +
+          `/api/v1/users/search/${e.target.value}`,
+        { userId }
       );
       setData(response.data);
     } catch (error) {

@@ -4,8 +4,8 @@ import { SliderCard } from "./SliderCard";
 import axios from "axios";
 
 export const ThisWeek = (props) => {
-  const [thisWeek, setThisWeekData] = useState(null);
-  const [suggested, setSuggested] = useState(null);
+  const [thisWeek, setThisWeekData] = useState({});
+  const [suggested, setSuggested] = useState({});
   const type = props.type;
 
   // Slider setup

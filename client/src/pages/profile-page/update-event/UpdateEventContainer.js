@@ -6,9 +6,11 @@ import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
 import { Editor } from "@tinymce/tinymce-react";
 import tinyMCEConfig from "../../../components/helper/tinyConfig";
+import { useSelector } from "react-redux";
 
 export const UpdateEventContainer = ({ concertData }) => {
   const [organizer, setOrganizer] = useState(concertData?.organizer);
+  const userId = useSelector((state) => state.userState.user);
 
   useEffect(() => {
     setOrganizer(concertData.organizer);
@@ -141,13 +143,13 @@ export const UpdateEventContainer = ({ concertData }) => {
             sponsors: sponsorNames,
             organizer: organizer,
           },
+          userId,
         }
       );
-      console.log(response);
       toast.success(response.data.message, toastSetup("bottom-center", 1500));
     } catch (error) {
       console.error(error);
-      toast.error(error.data.message, toastSetup("top-center", 3000));
+      toast.error(error.response.data.message, toastSetup("top-center", 3000));
     }
   };
 

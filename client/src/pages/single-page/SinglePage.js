@@ -103,7 +103,8 @@ const SinglePage = () => {
       try {
         // Make the PUT request to update the concert properties
         const response = await axios.put(
-          `${process.env.REACT_APP_API_URL}/api/v1/concerts/update_event/${id}/${propertyChanged}/${value}`
+          `${process.env.REACT_APP_API_URL}/api/v1/concerts/update_event/${id}/${propertyChanged}/${value}`,
+          { userId }
         );
 
         toast.success(response.data.message, toastSetup("top-right", 3000));

@@ -700,7 +700,7 @@ export const OrganizeEventPage = () => {
                             e.preventDefault();
                             setCityInputValue(e.target.textContent);
                             document.querySelector(".all-cities").style =
-                              "visibility: hidden; opacity: 0;";
+                              "visibility: hidden; opacity: 0; ";
                           }}
                           href="#"
                         >
@@ -709,7 +709,6 @@ export const OrganizeEventPage = () => {
                       </li>
                     );
                   })}
-                <div></div>
               </ul>
             </div>
           </div>
@@ -765,7 +764,7 @@ export const OrganizeEventPage = () => {
         </>
       )}
       <div className="organize-bottom-part">
-        <h6>Opis događaja</h6>
+        <h6 style={{ marginTop: "70px" }}>Opis događaja</h6>
         <Editor
           apiKey={tinyMCEConfig.apiKey}
           value={description}

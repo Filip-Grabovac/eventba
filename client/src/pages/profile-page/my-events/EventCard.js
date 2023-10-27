@@ -9,6 +9,7 @@ import { Bars } from "react-loader-spinner";
 import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
 import trashCan from "../../../assets/ikonice/trash_can.svg";
+import { useSelector } from "react-redux";
 
 export const EventCard = ({ ids, i, past }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -22,9 +23,11 @@ export const EventCard = ({ ids, i, past }) => {
   const [marginB, setMarginB] = useState(0);
   const dropdownRef = useRef(null);
 
+  const userId = useSelector((state) => state.userState.user);
+
   useEffect(() => {
     fetchConcertData();
-  }, [ids]);
+  }, [i, ids]);
 
   const fetchConcertData = async () => {
     try {
@@ -39,6 +42,7 @@ export const EventCard = ({ ids, i, past }) => {
       ).toLocaleString("hr-HR", hrTimeFormatShort);
       const date = timeOfEvent.charAt(0).toUpperCase() + timeOfEvent.slice(1);
       setDate(date);
+      setDropdown(false);
     } catch (error) {
       console.error("Error fetching profile data:", error);
       setLoading(false); // Set loading to false if there's an error
@@ -82,12 +86,16 @@ export const EventCard = ({ ids, i, past }) => {
     e.preventDefault();
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_API_URL}/api/v1/concerts/delete/${data._id}`
+        `${process.env.REACT_APP_API_URL}/api/v1/concerts/delete/${data._id}`,
+        { data: { userId } }
       );
       setData(null);
       toast.success(response.data.message, toastSetup("bottom-center", 3000));
     } catch (error) {
-      toast.error(error.data.message, toastSetup("bottom-center", 3000));
+      toast.error(
+        `${error.response.data.message} Zatražite od admina podršku`,
+        toastSetup("bottom-center", 3000)
+      );
     }
   };
 

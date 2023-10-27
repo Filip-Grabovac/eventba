@@ -40,9 +40,7 @@ const createUser = async (req, res) => {
     }
     let newUser = req.body;
 
-    console.log(newUser.password);
     newUser.password = Encrypt(newUser.password, process.env.SECRET_KEY);
-    console.log(newUser.password);
 
     // Create a new user if no existing user found
     const user = await User.create(newUser);

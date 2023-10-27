@@ -40,21 +40,23 @@ export const MyEvent = ({ organizerEvents }) => {
           Završeni događaji
         </button>
       </div>
-      {currentView === "upcoming" ? (
-        <>
-          <h6>Nadolazeći događaji</h6>
-          {sortByTime(upcomingEvents).map((e, i) => (
-            <EventCard key={i} ids={e} i={i} />
-          ))}
-        </>
-      ) : (
-        <>
-          <h6>Prošli događaji</h6>
-          {sortByTime(pastEvents).map((e, i) => (
-            <EventCard key={i} ids={e} i={i} past={true} />
-          ))}
-        </>
-      )}
+      {currentView === "upcoming"
+        ? upcomingEvents && (
+            <>
+              <h6>Nadolazeći događaji</h6>
+              {sortByTime(upcomingEvents).map((e, i) => (
+                <EventCard key={i} ids={e} i={i} />
+              ))}
+            </>
+          )
+        : pastEvents && (
+            <>
+              <h6>Prošli događaji</h6>
+              {sortByTime(pastEvents).map((e, i) => (
+                <EventCard key={i} ids={e} i={i} past={true} />
+              ))}
+            </>
+          )}
     </div>
   );
 };
