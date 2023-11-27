@@ -6,6 +6,7 @@ const {
 } = require("../functions/concert/calculateHotEvents");
 const generatePdf = require("../functions/concert/concert-history/generatePdf");
 const { updateSponsorList } = require("./helper");
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const sendNewsLetterMail = require("../functions/concert/sendNewsLetter");
 
@@ -100,7 +101,7 @@ const findConcert = async (req, res) => {
         description: 1,
       };
     } else {
-      return res.status(400).json({ error: "Pogrešna pretraga" });
+      return res.status(400).json({ message: "Pogrešna pretraga" });
     }
 
     const concerts = await Concert.find(query).select(selectAttributes);
@@ -141,14 +142,14 @@ const findConcert = async (req, res) => {
 const createEvent = async (req, res) => {
   try {
     // Create new event
-    await Concert.create(req.body);
+    await Concert.create(req.body.event);
 
     updateSponsorList(req.body.sponsors);
 
     res.status(201).json({ message: "Uspješno dodan događaj" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Greška pri dodavanju događaja" });
+    res.status(500).json({ message: "Greška pri dodavanju događaja" });
   }
 };
 
@@ -164,7 +165,7 @@ const updateEventData = async (req, res) => {
     );
 
     if (!updatedEvent) {
-      return res.status(404).json({ error: "Događaj nije pronađen" });
+      return res.status(404).json({ message: "Događaj nije pronađen" });
     }
 
     res
@@ -172,7 +173,7 @@ const updateEventData = async (req, res) => {
       .json({ message: "Događaj uspješno ažuriran", updatedEvent });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Greška prilikom ažuriranja događaja" });
+    res.status(500).json({ message: "Greška prilikom ažuriranja događaja" });
   }
 };
 
@@ -188,10 +189,10 @@ const deleteEvent = async (req, res) => {
       return res.status(404).json({ message: "Koncert nije pronađen" });
     }
 
-    res.status(200).json({ message: "Koncert uspješno obrisan" });
+    res.status(200).json({ message: "Događaj uspješno obrisan" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Greška prilikom brisanja koncerta" });
+    res.status(500).json({ message: "Greška prilikom brisanja koncerta" });
   }
 };
 
@@ -217,14 +218,15 @@ const verifyEvent = async (req, res) => {
     );
 
     if (!updatedConcert) {
-      return res.status(404).json({ error: "Koncert nije pronađen." });
+      return res.status(404).json({ message: "Koncert nije pronađen." });
     }
-    sendNewsLetterMail(updatedConcert);
+    // POPRAVKE
+    // sendNewsLetterMail(updatedConcert);
     res.status(200).json(updatedConcert);
   } catch (error) {
     res
       .status(500)
-      .json({ error: "Došlo je do pogreške prilikom provjere koncerta." });
+      .json({ message: "Došlo je do pogreške prilikom provjere koncerta." });
   }
 };
 
@@ -289,7 +291,7 @@ const getEventsByOrganizerId = async (req, res) => {
 
     res.status(200).json(events);
   } catch (err) {
-    res.status(500).json({ message: "Greškra pri dobahvatanju podataka." });
+    res.status(500).json({ message: "Greškra pri dohvatanju podataka." });
   }
 };
 
@@ -495,25 +497,38 @@ const calculateEvents = async (req, res) => {
 };
 
 const isAdminMiddleware = async (req, res, next) => {
-  const userId = req.body.userId;
+  // Extract the token from the request body (you mentioned you will send JWT in the body)
+  const token = req.body.token || "";
 
-  if (!userId) {
+  if (!token) {
     return res
-      .status(400)
+      .status(401)
       .json({ message: "Morate biti prijavljeni za ovu radnju." });
   }
 
-  const user = await User.findById(userId);
+  try {
+    // Verify the token using the secret key
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-  if (user && user.role === "admin") {
-    console.log(`Admin - ${user.full_name} je obavljao osjetljive radnje.`);
-    next();
-  } else {
+    // Check if the user has the "admin" role
+    const user = await User.findById(decoded.userId);
+
+    if (user && user.role === "admin") {
+      console.log(`Admin - ${user.full_name} je obavljao osjetljive radnje.`);
+      next();
+    } else {
+      return res
+        .status(401)
+        .json({ message: "Niste ovlašteni za vršenje ovih radnji." });
+    }
+  } catch (error) {
     return res
-      .status(403)
-      .json({ message: "Niste ovlašteni za ovu operaciju." });
+      .status(401)
+      .json({ message: "Istekla sesija. Prijavite se ponovo." });
   }
 };
+
+module.exports = isAdminMiddleware;
 
 module.exports = {
   getAllConcerts,

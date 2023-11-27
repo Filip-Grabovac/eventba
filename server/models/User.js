@@ -21,6 +21,7 @@ const UserSchema = new mongoose.Schema({
   reseller_info: { type: Object },
   request_date: { type: Number },
   request_number: { type: Number },
+  refresh_token: { type: String },
 });
 
 module.exports = connectDB(process.env.DATABASE_URL).model(

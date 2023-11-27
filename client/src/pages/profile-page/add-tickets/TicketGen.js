@@ -209,7 +209,7 @@ export const TicketGen = ({
 
     setPdfFilePath("");
   };
-
+  console.log(tickets);
   useEffect(() => {
     // Recalculate total number of tickets, total amount, and provision
     let totalTickets = 0;

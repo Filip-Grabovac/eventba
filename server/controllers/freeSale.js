@@ -51,7 +51,7 @@ const getTickets = async (req, res) => {
     res.json({ pdfFilePath });
   } catch (error) {
     console.log("Error generating and downloading tickets:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -60,7 +60,7 @@ const downloadTickets = async (req, res) => {
 
   // Ensure the pdfFilePath is provided in the query parameter
   if (!pdfFilePath) {
-    return res.status(400).json({ error: "pdfFilePath is required" });
+    return res.status(400).json({ message: "pdfFilePath is required" });
   }
 
   // Set the appropriate content type for the response
@@ -70,7 +70,9 @@ const downloadTickets = async (req, res) => {
   res.download(pdfFilePath, path.basename(pdfFilePath), (err) => {
     if (err) {
       console.log("Error while downloading the PDF:", err);
-      return res.status(500).json({ error: "Error while downloading the PDF" });
+      return res
+        .status(500)
+        .json({ message: "Error while downloading the PDF" });
     }
   });
 };
@@ -86,7 +88,7 @@ const loanTickets = async (req, res) => {
       .json({ success: "Uspješano ste zadužili ulaznice!", concert });
   } catch (error) {
     console.log("Error generating and downloading tickets:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -97,7 +99,7 @@ const addTransaction = async (req, res) => {
     res.status(201).json({ success: "Uspješano ste dodali transkaciju!" });
   } catch (error) {
     console.log("Error generating and downloading tickets:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -110,7 +112,7 @@ const verifyTransaction = async (req, res) => {
       .json({ success: "Uspješano ste verificirali transkaciju!" });
   } catch (error) {
     console.log("Error generating and downloading tickets:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

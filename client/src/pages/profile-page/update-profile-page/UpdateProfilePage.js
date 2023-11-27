@@ -11,8 +11,9 @@ import { UpdateProfileInput } from "./UpdateProfileInput";
 import X from "../../../assets/ikonice/X2.svg";
 import Check from "../../../assets/ikonice/check2_icon.svg";
 import TrashCan from "../../../assets/ikonice/trash_can.svg";
-import { setUserID } from "../../../store/userSlice";
+import { setToken, setUserID } from "../../../store/userSlice";
 import { useNavigate } from "react-router-dom";
+import { setLoginIsOpen } from "../../../store/loginSlice";
 
 export const UpdateProfilePage = (props) => {
   const profileData = props.profileData;
@@ -27,7 +28,6 @@ export const UpdateProfilePage = (props) => {
   const [isModalVisible, setModalVisibility] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [phone, setPhone] = useState(profileData.phone);
   const reverseCountry = (full_name) => {
     for (const code in countryMap) {
@@ -41,6 +41,7 @@ export const UpdateProfilePage = (props) => {
     reverseCountry(profileData.country) || "BA"
   );
   const id = useSelector((state) => state.userState.user);
+  const token = useSelector((state) => state.userState.token);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,11 +75,15 @@ export const UpdateProfilePage = (props) => {
     const apiUrl = `${process.env.REACT_APP_API_URL}/api/v1/users/${id}`;
 
     try {
-      await axios.patch(apiUrl, user, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await axios.patch(
+        apiUrl,
+        { user, token },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       toast.success(
         "Uspješno ste ažurirali podatke",
@@ -86,19 +91,31 @@ export const UpdateProfilePage = (props) => {
       );
       props.onProfileFormSubmit();
     } catch (error) {
-      console.error(error);
+      if (error.response.status === 401) {
+        dispatch(setLoginIsOpen(true));
+      }
 
-      const errorMessage = error.response?.data?.msg || "Nepoznata pogreška.";
+      const errorMessage =
+        error.response?.data?.message || "Nepoznata pogreška.";
       toast.error(
         `Došlo je do pogreške prilikom ažuriranja podataka. ${errorMessage}!`,
-        toastSetup("top-right", 2000)
+        toastSetup("top-center", 4000)
       );
     }
   };
 
   function deleteUserProfile() {
     axios
-      .delete(`${process.env.REACT_APP_API_URL}/api/v1/users/delete_user/${id}`)
+      .delete(
+        `${process.env.REACT_APP_API_URL}/api/v1/users/delete_user/${id}`,
+        {
+          data: { token }, // Send the token in the request body
+          headers: {
+            "Content-Type": "application/json", // Set the content type if needed
+            // Other headers as needed
+          },
+        }
+      )
       .then((response) => {
         toast.success(
           `${response.data.message}`,
@@ -106,11 +123,16 @@ export const UpdateProfilePage = (props) => {
         );
         setModalVisibility(true);
         dispatch(setUserID(""));
+        dispatch(setToken(""));
         localStorage.clear();
         navigate("/");
       })
       .catch((error) => {
-        toast.success(
+        if (error.response.status === 401) {
+          setModalVisibility(false);
+          dispatch(setLoginIsOpen(true));
+        }
+        toast.error(
           `${error.response.data.message}`,
           toastSetup("top-right", 2000)
         );

@@ -51,7 +51,7 @@ export const MyEvent = ({ organizerEvents }) => {
           )
         : pastEvents && (
             <>
-              <h6>Prošli događaji</h6>
+              <h6>Završeni događaji</h6>
               {sortByTime(pastEvents).map((e, i) => (
                 <EventCard key={i} ids={e} i={i} past={true} />
               ))}

@@ -3,7 +3,6 @@ import React from "react";
 export const TheaterModal = ({
   selectedZoneData,
   theaterZones,
-
   takeSeat,
   activeCardIndex,
 }) => {
@@ -15,46 +14,51 @@ export const TheaterModal = ({
           <small>BAM</small>
         </span>
       )}
-      {theaterZones &&
-        selectedZoneData &&
-        Object.entries(theaterZones[selectedZoneData[0]].rows).map(
-          ([key, value]) => {
-            const reservedSeats = value.reserved_seats || {};
+      <div className="reverse-flex">
+        {theaterZones &&
+          selectedZoneData &&
+          Object.entries(theaterZones[selectedZoneData[0]].rows).map(
+            ([key, value]) => {
+              const reservedSeats = value.reserved_seats || {};
 
-            return (
-              <div key={key} className="seats-container">
-                <div className="seats-wrapper">
-                  <span className="row-info">Red {key} :</span>
-                  {Array.from({ length: Number(value.total_seats) }, (_, i) => {
-                    const seatNumber = i + 1;
-                    const isSeatReserved = seatNumber in reservedSeats;
-                    const reservedTicketID = isSeatReserved
-                      ? reservedSeats[seatNumber].ticketID
-                      : null;
+              return (
+                <div key={key} className="seats-container">
+                  <div className="seats-wrapper">
+                    <span className="row-info">Red {key} :</span>
+                    {Array.from(
+                      { length: Number(value.total_seats) },
+                      (_, i) => {
+                        const seatNumber = i + 1;
+                        const isSeatReserved = seatNumber in reservedSeats;
+                        const reservedTicketID = isSeatReserved
+                          ? reservedSeats[seatNumber].ticketID
+                          : null;
 
-                    return (
-                      <div
-                        className={
-                          value.seats.includes(i + 1)
-                            ? isSeatReserved
-                              ? `reserved`
-                              : `free`
-                            : `sold`
-                        }
-                        key={i}
-                        onClick={() => {
-                          takeSeat(seatNumber, activeCardIndex + 1, key);
-                        }}
-                      >
-                        {reservedTicketID || seatNumber}
-                      </div>
-                    );
-                  })}
+                        return (
+                          <div
+                            key={`${i}-${key}-${seatNumber}`}
+                            className={
+                              value.seats.includes(i + 1)
+                                ? isSeatReserved
+                                  ? `reserved`
+                                  : `free`
+                                : `sold`
+                            }
+                            onClick={() => {
+                              takeSeat(seatNumber, activeCardIndex + 1, key);
+                            }}
+                          >
+                            {reservedTicketID || seatNumber}
+                          </div>
+                        );
+                      }
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          }
-        )}
+              );
+            }
+          )}
+      </div>
     </div>
   );
 };

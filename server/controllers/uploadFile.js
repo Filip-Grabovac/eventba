@@ -62,7 +62,7 @@ const uploadImage = async (req, res) => {
     res.status(200).json({ message: "Datoteke uspješno dodane." });
   } catch (error) {
     console.error("Greška pri dodavnju datoteka:", error);
-    res.status(500).json({ error: "Greška pri dodavnju datoteka." });
+    res.status(500).json({ message: "Greška pri dodavnju datoteka." });
   }
 };
 

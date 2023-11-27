@@ -10,6 +10,10 @@ export const SponsorBar = () => {
       <img src={event} alt="" />
       <img src={centralna} alt="" />
       <img src={event} alt="" />
+      <img src={centralna} alt="" />
+      <img src={event} alt="" />
+      <img src={centralna} alt="" />
+      <img src={event} alt="" />
     </div>
   );
 

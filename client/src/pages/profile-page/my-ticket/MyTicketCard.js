@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export const MyTicketCard = ({ data }) => {
   return (
@@ -18,11 +18,11 @@ export const MyTicketCard = ({ data }) => {
       <div>
         <div className="ticket-parts">
           <span>Tip:</span>
-          <p>{data.category}</p>
+          <p>{data.ticketName}</p>
         </div>
         <div className="ticket-parts">
           <span>Pozicija:</span>
-          <p>{data.ticketName}</p>
+          <p>{data.category}</p>
         </div>
       </div>
       <div>

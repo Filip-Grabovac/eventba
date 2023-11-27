@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { toastSetup } from "../functions/toastSetup";
 // Other
 import { useSelector, useDispatch } from "react-redux";
-import { setUserID } from "../store/userSlice";
+import { setToken, setUserID } from "../store/userSlice";
 import { setLoginIsOpen } from "../store/loginSlice";
 
 export const Navbar = () => {
@@ -19,6 +19,7 @@ export const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const userId = useSelector((state) => state.userState.user);
+  const token = useSelector((state) => state.userState.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,6 +29,7 @@ export const Navbar = () => {
   const logout = () => {
     setIsDropdownOpen(false);
     dispatch(setUserID(""));
+    dispatch(setToken(""));
     localStorage.clear();
     sessionStorage.clear();
     navigate("/");
@@ -38,7 +40,7 @@ export const Navbar = () => {
   useEffect(() => {
     setIsDropdownOpen(false);
     // Check if the route navigation state has "openLogin" property and its value is true
-    if (location.pathname === "/profile" && userId === "") {
+    if (location.pathname === "/profile" && userId === "" && token === "") {
       dispatch(setLoginIsOpen(true));
     }
   }, [location]);
@@ -244,7 +246,7 @@ export const Navbar = () => {
                 {isDropdownOpen && (
                   <div className="dropdown">
                     <ul>
-                      {!userId && (
+                      {!token && (
                         <li>
                           <button
                             onClick={() => {
@@ -256,7 +258,7 @@ export const Navbar = () => {
                           </button>
                         </li>
                       )}
-                      {!userId && (
+                      {!token && (
                         <li>
                           <button
                             onClick={() => {
@@ -268,7 +270,7 @@ export const Navbar = () => {
                           </button>
                         </li>
                       )}
-                      {userId && (
+                      {userId && token && (
                         <li>
                           <Link
                             to={"/profile"}
@@ -283,7 +285,7 @@ export const Navbar = () => {
                           </Link>
                         </li>
                       )}
-                      {userId && (
+                      {userId && token && (
                         <li>
                           <button onClick={logout}>Odjavi se</button>
                         </li>

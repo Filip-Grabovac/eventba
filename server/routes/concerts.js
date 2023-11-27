@@ -19,10 +19,11 @@ const {
   getProvisionSum,
   isAdminMiddleware,
 } = require("../controllers/concerts");
+const { authenticateTokenFromBody } = require("../controllers/users");
 
 router.route("/").get(getAllConcerts);
 router.route("/this_week").get(findConcert);
-router.route("/create_event").post(createEvent);
+router.route("/create_event").post(authenticateTokenFromBody, createEvent);
 router.route("/upload_img").post(uploadImage);
 router.route("/search/:type/:search_value").get(searchEventByType);
 router.route("/organizer/:organizerId").get(getEventsByOrganizerId);
@@ -33,12 +34,16 @@ router.route("/resellers/:userId").post(resellersConcertInfo);
 router.route("/update/:concertId").post(updateConcert);
 router.route("/update_event").post(isAdminMiddleware, updateEventData);
 
-router.route("/get_event_within_dates").post(getEventsWithinDates);
-router.route("/get_event_provision").post(getProvisionSum);
+router
+  .route("/get_event_within_dates")
+  .post(authenticateTokenFromBody, getEventsWithinDates);
+router
+  .route("/get_event_provision")
+  .post(authenticateTokenFromBody, getProvisionSum);
 router.route("/:type/:value").get(findConcert);
 router.route("/get_hot_events").get(calculateEvents);
 router.route("/unverified_events").get(findUnverifiedEvents);
-router.route("/verify_event").post(verifyEvent);
+router.route("/verify_event").post(authenticateTokenFromBody, verifyEvent);
 router.route("/delete/:id").delete(isAdminMiddleware, deleteEvent);
 
 module.exports = router;

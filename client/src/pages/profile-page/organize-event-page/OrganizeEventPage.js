@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // Images
 import UploadImage from "../../../assets/images/uplad_img_placeholder.png";
 import plus from "../../../assets/ikonice/plus_icon.svg";
@@ -14,6 +14,7 @@ import { Theater } from "./Theater";
 import { AddOrganizer } from "./AddOrganizer";
 import { Editor } from "@tinymce/tinymce-react";
 import tinyMCEConfig from "../../../components/helper/tinyConfig";
+import { setLoginIsOpen } from "../../../store/loginSlice";
 
 export const OrganizeEventPage = () => {
   const [selectedValue, setSelectedValue] = useState("");
@@ -29,6 +30,7 @@ export const OrganizeEventPage = () => {
   const [cities, setCities] = useState();
   const [cityInputValue, setCityInputValue] = useState("");
   const userId = useSelector((state) => state.userState.user);
+  const token = useSelector((state) => state.userState.token);
   const [organizer, setOrganizer] = useState(userId);
   const [rows, setRows] = useState({});
   const [profileData, setProfileData] = useState({});
@@ -41,6 +43,8 @@ export const OrganizeEventPage = () => {
   const [sponsors, setSponsors] = useState([]);
   const [sponsorNames, setSponsorNames] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
+
+  const dispatch = useDispatch();
 
   const toggleModal = () => {
     setModalOpen(!isModalOpen);
@@ -356,8 +360,8 @@ export const OrganizeEventPage = () => {
         };
 
         const response = await axios.post(
-          process.env.REACT_APP_API_URL + "/api/v1/concerts/create_event",
-          updatedEvent,
+          `${process.env.REACT_APP_API_URL}/api/v1/concerts/create_event`,
+          { event: updatedEvent, token },
           {
             headers: {
               "Content-Type": "application/json",
@@ -394,13 +398,16 @@ export const OrganizeEventPage = () => {
 
         toast.success(
           `${response.data.message} ${response2.data.message}`,
-          toastSetup("top-right", 3000)
+          toastSetup("top-center", 3000)
         );
       } catch (error) {
         // Handle any errors
+        if (error.response.status === 401) {
+          dispatch(setLoginIsOpen(true));
+        }
         toast.error(
-          `Došlo je do pogreške prilikom dodavanja događaja. ${error.response.data.error}!`,
-          toastSetup("top-right", 3000)
+          `Došlo je do pogreške prilikom dodavanja događaja. ${error.response.data.message}!`,
+          toastSetup("top-center", 3000)
         );
       }
     } else {
@@ -425,12 +432,12 @@ export const OrganizeEventPage = () => {
       else document.querySelector(".landscape-wrapper").style = "outline: none";
 
       // Check if textarea.length > 300
-      if (description.value.length > 500) {
-        toast.warn(
-          `Opis događaja ne smije sadržavati više od 500 znakova`,
-          toastSetup("top-right", 3000)
-        );
-      }
+      // if (description.value.length > 500) {
+      //   toast.warn(
+      //     `Opis događaja ne smije sadržavati više od 500 znakova`,
+      //     toastSetup("top-right", 3000)
+      //   );
+      // }
 
       toast.warn(
         `Molimo popunite sva polja i dodajte obje slike`,
@@ -700,7 +707,7 @@ export const OrganizeEventPage = () => {
                             e.preventDefault();
                             setCityInputValue(e.target.textContent);
                             document.querySelector(".all-cities").style =
-                              "visibility: hidden; opacity: 0; ";
+                              "visibility: hidden; opacity: 0;";
                           }}
                           href="#"
                         >

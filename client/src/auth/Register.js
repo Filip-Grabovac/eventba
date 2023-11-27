@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 // Images
 import X from "../assets/ikonice/X.svg";
 import UserCard from "../assets/ikonice/user_card_icon.svg";
@@ -8,7 +9,7 @@ import PinIcon from "../assets/ikonice/pin_icon.svg";
 import PasswordEye from "../assets/ikonice/invisible.svg";
 // Redux
 import { useDispatch } from "react-redux";
-import { setUserID } from "../store/userSlice";
+import { setToken, setUserID } from "../store/userSlice";
 // Components
 import { Link } from "react-router-dom";
 import { RegisterInput } from "./RegisterInput";
@@ -33,13 +34,20 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
   const [agreed, setAgreed] = useState(false);
   const [verified, setVerified] = useState(false);
   const [country, setCountry] = useState("BA");
+  const [isRegistrationInProgress, setIsRegistrationInProgress] =
+    useState(false);
 
+  const navigate = useNavigate();
   // Press escape key exit register
   // useCloseModalOnEsc(setIsRegisterOpen);
   // Register a user
 
   const handleSubmit = async (e) => {
-    console.log(e.target.elements.name.value);
+    if (isRegistrationInProgress) {
+      return;
+    }
+    setIsRegistrationInProgress(true);
+
     e.preventDefault();
     if (!agreed) {
       toast.error(
@@ -96,13 +104,16 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
           setIsRegisterOpen(false);
           // Login user
           dispatch(setUserID(response.data.id));
+          dispatch(setToken(response.data.token));
+
+          localStorage.setItem("token", response.data.token);
           localStorage.setItem("userId", response.data.id);
         })
         .catch((error) => {
           // Handle any errors
           emailRef.current.focus();
           toast.error(
-            `Došlo je do pogreške prilikom registracije. ${error.response.data.error}!`,
+            `Došlo je do pogreške prilikom registracije. ${error.response.data.message}!`,
             toastSetup("top-right", 3000)
           );
         });
@@ -110,6 +121,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
       toast.warn("Lozinke se ne podudaraju!", toastSetup("top-right", 3000));
       repeatPasswordRef.current.focus();
     }
+    setIsRegistrationInProgress(false);
   };
 
   const handleModalClick = (e) => {
@@ -123,6 +135,12 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
     setIsRegisterOpen(false);
 
     dispatch(setLoginIsOpen(true));
+  };
+
+  const handleUserTerms = (e) => {
+    e.preventDefault();
+    setIsRegisterOpen(false);
+    navigate("/informations?page_type=terms_of_use_buyer");
   };
 
   return (
@@ -183,7 +201,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
                 />
                 <RegisterInput
                   placeholder="Poštanski broj"
-                  type="text"
+                  type="number"
                   icon=""
                   name="zipcode"
                   isRequired={false}
@@ -243,7 +261,10 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
                 <Link onClick={handleOpenLogin}>Prijavi se.</Link>
               </p>
               <div className="terms-of-use-container">
-                <p>Pročitao sam i slažem se s uvijetima korištenja</p>
+                <p>
+                  Pročitao sam i slažem se s{" "}
+                  <Link onClick={handleUserTerms}>Uvijetima korištenja</Link>
+                </p>
                 <input
                   className="terms-of-use"
                   type="checkbox"
@@ -265,7 +286,11 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
                 hl="hr"
               />
 
-              <button type="submit" className="login-btn">
+              <button
+                type="submit"
+                className="login-btn"
+                disabled={isRegistrationInProgress}
+              >
                 Registriraj se!
               </button>
             </form>

@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ImageMapper, { Mode } from "../draw-place/image-mapper/ImageMapper";
 import { useDispatch } from "react-redux";
 import { addTicketPrice } from "../../store/ticketSlice";
 import { TheaterModal } from "./ticket-type/TheaterModal";
+import { toast } from "react-toastify";
+import { toastSetup } from "../../functions/toastSetup";
 
 export const TheaterBuyPage = ({
   concertData,
@@ -17,7 +19,10 @@ export const TheaterBuyPage = ({
   const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
 
+  const selectedZoneRef = useRef(null);
+
   addTicketPrice();
+
   // Load ground image
   useEffect(() => {
     const loadImage = async () => {
@@ -53,12 +58,29 @@ export const TheaterBuyPage = ({
 
   // Hanlde zone click (select seat)
   function handleZoneClick(e, data) {
+    toast.success("Odaberite sjedalo!", toastSetup("top-center", 3000));
+
     setShowPaymentForm(false);
     setModal(true);
     setSelectedZoneData(data);
     const selected = document.querySelector(".selected");
     if (selected) selected.classList.remove("selected");
     e.target.classList.add("selected");
+
+    if (selectedZoneRef.current) {
+      // Scroll into view only if the screen width is less than 800px
+      if (window.innerWidth < 800) {
+        selectedZoneRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+
+        // Scroll an additional 100 pixels down after a delay
+        setTimeout(() => {
+          window.scrollBy(0, -210);
+        }, 300); // Adjust the timeout duration if needed
+      }
+    }
   }
 
   // TEST
@@ -72,32 +94,45 @@ export const TheaterBuyPage = ({
         const newZones = { ...prevZones };
         const selectedZoneDataKey = selectedZoneData[0];
 
+        //
+
+        //
         // Iterate through all zones
         for (const zoneKey in newZones) {
           const zone = newZones[zoneKey];
-          const rowToUpdate = zone.rows[zoneKey];
 
-          // Initialize reserved_seats as an empty object if it's undefined
-          rowToUpdate.reserved_seats = rowToUpdate.reserved_seats || {};
+          const rowToUpdate = zone.rows[row] ?? {};
 
+          // Assign an empty object to rowToUpdate if it is null or undefined
+
+          // Then you can safely access its reserved_seats property
+          rowToUpdate.reserved_seats = rowToUpdate?.reserved_seats || {};
           // If it's the selected zone, update reservations
           if (zoneKey === selectedZoneDataKey) {
             // Remove all reservations with the same ticketID
-            for (const seatKey in rowToUpdate.reserved_seats) {
-              if (rowToUpdate.reserved_seats[seatKey].ticketID === ticketID) {
-                delete rowToUpdate.reserved_seats[seatKey];
+            for (const rowKey in zone.rows) {
+              const rowToUpdate = zone.rows[rowKey];
+
+              for (const seatKey in rowToUpdate.reserved_seats) {
+                if (rowToUpdate.reserved_seats[seatKey].ticketID === ticketID) {
+                  delete rowToUpdate.reserved_seats[seatKey];
+                }
               }
             }
             // Reserve the new seat with the associated ticketID
             rowToUpdate.reserved_seats[seatNumber] = { seatNumber, ticketID };
 
             // Update the zone's row with the modified row
-            newZones[zoneKey].rows[zoneKey] = rowToUpdate;
+            newZones[zoneKey].rows[row] = rowToUpdate;
           } else {
             // For other zones, delete all reservations with the same ticketID
-            for (const seatKey in rowToUpdate.reserved_seats) {
-              if (rowToUpdate.reserved_seats[seatKey].ticketID === ticketID) {
-                delete rowToUpdate.reserved_seats[seatKey];
+            for (const rowKey in zone.rows) {
+              const rowToUpdate = zone.rows[rowKey];
+
+              for (const seatKey in rowToUpdate.reserved_seats) {
+                if (rowToUpdate.reserved_seats[seatKey].ticketID === ticketID) {
+                  delete rowToUpdate.reserved_seats[seatKey];
+                }
               }
             }
           }
@@ -121,7 +156,7 @@ export const TheaterBuyPage = ({
   };
 
   return (
-    <div className="buy-plan-wrapper">
+    <div className="buy-plan-wrapper" ref={selectedZoneRef}>
       {modal && theaterZones && (
         <>
           <TheaterModal
@@ -131,13 +166,6 @@ export const TheaterBuyPage = ({
             takeSeat={takeSeat}
             activeCardIndex={activeCardIndex}
           />
-
-          <div
-            onClick={() => {
-              setModal(false);
-            }}
-            className="blur"
-          ></div>
         </>
       )}
 

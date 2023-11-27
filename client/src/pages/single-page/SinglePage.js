@@ -8,7 +8,8 @@ import SuggestedIcon from "../../assets/ikonice/suggested_icon.svg";
 import UnSuggestedIcon from "../../assets/ikonice/unsuggested_icon.svg";
 import { toast } from "react-toastify";
 import { toastSetup } from "../../functions/toastSetup";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoginIsOpen } from "../../store/loginSlice";
 
 const SinglePage = () => {
   const [concertData, setConcertData] = useState(null);
@@ -17,7 +18,10 @@ const SinglePage = () => {
   const id = new URLSearchParams(new URL(window.location.href).search).get(
     "id"
   );
+
+  const dispatch = useDispatch();
   const userId = useSelector((state) => state.userState.user);
+  const token = useSelector((state) => state.userState.token);
 
   // Fetch the data at the beggining
   useEffect(() => {
@@ -104,14 +108,17 @@ const SinglePage = () => {
         // Make the PUT request to update the concert properties
         const response = await axios.put(
           `${process.env.REACT_APP_API_URL}/api/v1/concerts/update_event/${id}/${propertyChanged}/${value}`,
-          { userId }
+          { userId, token }
         );
 
         toast.success(response.data.message, toastSetup("top-right", 3000));
       } catch (error) {
-        console.error(
-          "Error updating concert:",
-          error.response?.data || "Server Error"
+        if (error.response.status === 401) {
+          dispatch(setLoginIsOpen(true));
+        }
+        toast.warning(
+          error.response?.data.message,
+          toastSetup("top-center", 3000)
         );
       }
     };

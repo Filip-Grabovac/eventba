@@ -7,6 +7,8 @@ import ArrowIcon from "../../../assets/ikonice/arrow_icon.svg";
 import CheckIcon from "../../../assets/ikonice/check2_icon.svg";
 import TrashCan from "../../../assets/ikonice/trash_can.svg";
 import { useTranslation } from "react-i18next";
+import { setLoginIsOpen } from "../../../store/loginSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export const VerifyEventsCard = ({ event, handleRefetch }) => {
   const [hasBorderRadius, setBorderRadius] = useState(true);
@@ -16,6 +18,9 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
   const [arrowDisabled, disableArrow] = useState(false);
   const [organizerName, setOrganizerName] = useState("");
   const { t } = useTranslation();
+  const token = useSelector((state) => state.userState.token);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // Get the height of the dropdown content
@@ -62,7 +67,7 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
     try {
       await axios.post(
         `${process.env.REACT_APP_API_URL}/api/v1/concerts/verify_event`,
-        { _id: event._id }
+        { _id: event._id, token }
       );
 
       handleRefetch();
@@ -71,8 +76,12 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
         toastSetup("top-center", 3000)
       );
     } catch (error) {
+      console.log(error);
+      if (error.response.status === 401) {
+        dispatch(setLoginIsOpen(true));
+      }
       toast.error(
-        `Greška pri verfikaciji događaja`,
+        `Greška pri verfikaciji događaja. ${error.response.data.message}`,
         toastSetup("top-center", 3000)
       );
     }
@@ -80,7 +89,10 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `${process.env.REACT_APP_API_URL}/api/v1/concerts/delete/${event._id}`
+        `${process.env.REACT_APP_API_URL}/api/v1/concerts/delete/${event._id}`,
+        {
+          data: { token }, // Pass the token in the request body
+        }
       );
       handleRefetch();
       toast.success(
@@ -88,8 +100,12 @@ export const VerifyEventsCard = ({ event, handleRefetch }) => {
         toastSetup("top-center", 3000)
       );
     } catch (error) {
+      if (error.response.status === 401) {
+        dispatch(setLoginIsOpen(true));
+      }
+      console.log(error);
       toast.error(
-        `Greška pri brisanju događaja`,
+        `Greška pri brisanju događaja. ${error.response.data.message}`,
         toastSetup("top-center", 3000)
       );
     }

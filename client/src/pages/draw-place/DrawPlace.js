@@ -119,9 +119,9 @@ export const DrawPlace = () => {
         });
     }
   }
-
+  console.log("");
   return (
-    <div style={img && { height: "100vh" }} className="draw-place-container">
+    <div style={img && { minHeight: "100vh" }} className="draw-place-container">
       {modal && (
         <>
           <div className="draw-modal">

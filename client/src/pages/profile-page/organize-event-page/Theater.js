@@ -57,7 +57,7 @@ export const Theater = ({
     };
 
     loadImage();
-  }, [placeData]);
+  }, [placeData.name]);
 
   // Zone click
   function handleZoneClick(e, zoneData) {
@@ -74,13 +74,11 @@ export const Theater = ({
     const isCheckboxChecked = document.querySelector(
       ".disable-zone-checkbox"
     ).checked;
-    let seatNumbersArray;
+
     let zoneKey = selectedZoneData[0];
 
     if (isCheckboxChecked) {
-      seatNumbersArray = [];
       document.getElementById(`${zoneKey}`).classList.remove("done");
-
       setType("");
     } else {
       if (!price) {
@@ -89,18 +87,36 @@ export const Theater = ({
         toast.warn("Unesite cijenu", toastSetup("top-right", 3000));
         return;
       }
-      const totalSeats = parseInt(
-        selectedZoneData[1].rows[zoneKey].total_seats
-      ); // Parse total_seats as an integer
+      if (!type) {
+        document.querySelector(".ticket-type").style =
+          "outline: 2px solid #f4cd46;";
+        toast.warn("Molimo unesite tip.", toastSetup("top-right", 3000));
+        return;
+      }
+      // Do work if everything is alright
+      // Fill the seats array, that seats are avilable
 
-      // Create an array of seat numbers based on the total_seats value
-      seatNumbersArray = Array.from({ length: totalSeats }, (_, i) => i + 1);
       document.querySelector(".highlighted").classList.add("done");
     }
 
     // Update the rows state to include the new seats array
     setRows((prevRows) => {
       const zone = prevRows[zoneKey];
+      const rows = zone.rows;
+
+      for (let key in rows) {
+        if (rows.hasOwnProperty(key)) {
+          let row = rows[key];
+          const totalSeats = Number(row.total_seats);
+
+          // Create an array of seat numbers based on the total_seats value
+          if (!isCheckboxChecked)
+            row.seats = Array.from({ length: totalSeats }, (_, i) => i + 1);
+          else {
+            row.seats = [];
+          }
+        }
+      }
 
       // Calculate the total number of seats for all rows in the zone
       const totalSeatsInZone = Object.values(zone.rows).reduce(
@@ -109,25 +125,14 @@ export const Theater = ({
       );
 
       // Create a new row object
-      const newRow = {
+      const newZone = {
         price: Number(price),
         name: isCheckboxChecked ? "" : type,
         max_amount: totalSeatsInZone,
         amount: totalSeatsInZone,
-        seats: seatNumbersArray,
+        rows,
       };
-      console.log(!isCheckboxChecked);
 
-      if (
-        document.querySelector(".ticket-type").value === "" ||
-        document.querySelector(".price-input").value === ""
-      ) {
-        if (!isCheckboxChecked)
-          toast.warn(
-            "Molimo unesite cijenu i tip.",
-            toastSetup("top-right", 3000)
-          );
-      }
       // Set tickets info for printing drawed places
       if (page === "ticketGen")
         setTickets((tickets) => {
@@ -177,17 +182,11 @@ export const Theater = ({
         ...prevRows,
         [zoneKey]: {
           ...prevRows[zoneKey],
-          price: newRow.price,
-          name: newRow.name,
-          max_amount: newRow.max_amount,
-          amount: newRow.amount,
-          rows: {
-            ...prevRows[zoneKey].rows,
-            [zoneKey]: {
-              ...prevRows[zoneKey].rows[zoneKey],
-              seats: newRow.seats,
-            },
-          },
+          price: newZone.price,
+          name: newZone.name,
+          max_amount: newZone.max_amount,
+          amount: newZone.amount,
+          rows,
         },
       };
     });
@@ -231,7 +230,18 @@ export const Theater = ({
       document.getElementById(`${zoneKey}`).classList.add("done");
       setRows((prevRows) => {
         const zone = prevRows[zoneKey];
+        const rows = zone.rows;
 
+        for (let key in rows) {
+          if (rows.hasOwnProperty(key)) {
+            let row = rows[key];
+            const totalSeats = Number(row.total_seats);
+
+            // Create an array of seat numbers based on the total_seats value
+
+            row.seats = Array.from({ length: totalSeats }, (_, i) => i + 1);
+          }
+        }
         // Set tickets
         if (page === "ticketGen") {
           setTickets((tickets) => {
@@ -285,18 +295,7 @@ export const Theater = ({
             name: rowsCategory,
             amount: totalSeatsInZone,
             max_amount: totalSeatsInZone,
-            rows: {
-              ...zone.rows, // Use the 'zone.rows' object directly here
-              [zoneKey]: {
-                ...zone.rows[zoneKey], // Use a different key here, e.g., 'rowZone'
-                seats: Array.from(
-                  {
-                    length: Number(zone.rows[zoneKey].total_seats),
-                  },
-                  (_, index) => index + 1
-                ),
-              },
-            },
+            rows,
           },
         };
       });
@@ -375,81 +374,83 @@ export const Theater = ({
         ) : (
           ""
         )}
-        <div className="organize-event-plan-wrapper">
-          <div
-            id="tooltip"
-            display="none"
-            style={{ position: "absolute", display: "none" }}
-          ></div>
-          <ImageMapper
-            mode={Mode.SELECT}
-            cb={(editor) => {
-              editor.loadImage(groundPlanImg.src); // Load the URL directly
-              editor.polygon();
-            }}
-            options={{
-              width: groundPlanImg.width,
-              height: groundPlanImg.height,
-            }}
-            handleZoneClick={handleZoneClick}
-            preDrawnShapes={rows}
-            page={page}
-            freeSale={freeSale}
-            tickets={tickets}
-          />
-          <div className="select-all-seats-wrapper">
-            <h6>Odredi cijenu i kategoriju za više redova</h6>
+        {groundPlanImg && (
+          <div className="organize-event-plan-wrapper">
+            <div
+              id="tooltip"
+              display="none"
+              style={{ position: "absolute", display: "none" }}
+            ></div>
+            <ImageMapper
+              mode={Mode.SELECT}
+              cb={(editor) => {
+                editor.loadImage(groundPlanImg.src); // Load the URL directly
+                editor.polygon();
+              }}
+              options={{
+                width: groundPlanImg.width,
+                height: groundPlanImg.height,
+              }}
+              handleZoneClick={handleZoneClick}
+              preDrawnShapes={rows}
+              page={page}
+              freeSale={freeSale}
+              tickets={tickets}
+            />
+            <div className="select-all-seats-wrapper">
+              <h6>Odredi cijenu i kategoriju za više redova</h6>
 
-            <div className="organize-zones-wrapper">
-              {Object.entries(placeData.zones).map(([zoneKey, value], i) => {
-                const isChecked = selectedZone.includes(zoneKey);
+              <div className="organize-zones-wrapper">
+                {Object.entries(placeData.zones).map(([zoneKey, value], i) => {
+                  const isChecked = selectedZone.includes(zoneKey);
 
-                return (
-                  <div className="selling-row" key={i}>
-                    <p>Zona {zoneKey}</p>
-                    <input
-                      type="checkbox"
-                      checked={isChecked}
-                      onChange={() => handleCheckboxChange(zoneKey)}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-            <div className="zones-input-wrapper">
-              <input
-                className="rows-price"
-                type="number"
-                placeholder="Cijena"
-              />
-              <input
-                className="rows-category"
-                type="text"
-                placeholder="Kategorija"
-              />
-              <div className="button-wrapper">
-                {selectedZone.length < 1 ? (
-                  <button type="button" onClick={selectAll}>
-                    Odaberi sve
+                  return (
+                    <div className="selling-row" key={i}>
+                      <p>Zona {zoneKey}</p>
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => handleCheckboxChange(zoneKey)}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="zones-input-wrapper">
+                <input
+                  className="rows-price"
+                  type="number"
+                  placeholder="Cijena"
+                />
+                <input
+                  className="rows-category"
+                  type="text"
+                  placeholder="Kategorija"
+                />
+                <div className="button-wrapper">
+                  {selectedZone.length < 1 ? (
+                    <button type="button" onClick={selectAll}>
+                      Odaberi sve
+                    </button>
+                  ) : (
+                    <button type="button" onClick={unselectAll}>
+                      Poništi odabir
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      saveRows(e);
+                    }}
+                  >
+                    Spremi
                   </button>
-                ) : (
-                  <button type="button" onClick={unselectAll}>
-                    Poništi odabir
-                  </button>
-                )}
-
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    saveRows(e);
-                  }}
-                >
-                  Spremi
-                </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </>
     )
   );

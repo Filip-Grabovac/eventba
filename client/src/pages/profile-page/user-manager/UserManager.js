@@ -2,23 +2,38 @@ import React, { useEffect, useState } from "react";
 import { UserManagerCard } from "./UserManagerCard";
 import axios from "axios";
 import { ProfileTopPart } from "./ProfileTopPart";
-import { useSelector } from "react-redux";
+import { toastSetup } from "../../../functions/toastSetup";
+import { toast } from "react-toastify";
+
+import { useDispatch, useSelector } from "react-redux";
+import { setLoginIsOpen } from "../../../store/loginSlice";
 
 export const UserManager = () => {
-  const [data, setData] = useState("Pretrazi korisnike");
+  const [data, setData] = useState("Pretraži korisnike");
 
+  const dispatch = useDispatch();
   const userId = useSelector((state) => state.userState.user);
+  const token = useSelector((state) => state.userState.token);
   const fetchData = async (e) => {
     try {
       const response = await axios.post(
         process.env.REACT_APP_API_URL +
           `/api/v1/users/search/${e.target.value}`,
-        { userId }
+        { userId, token }
       );
       setData(response.data);
     } catch (error) {
-      setData("Pretrazi korisnike");
-      console.error("Error fetching data:", error);
+      setData("Pretraži korisnike");
+      if (error.response.status === 401) {
+        dispatch(setLoginIsOpen(true));
+      }
+
+      toast.error(
+        `Došlo je do pogreške pretraživanja. ${
+          error?.response?.data.message || ""
+        }`,
+        toastSetup("top-center", 3000)
+      );
     }
   };
 
@@ -33,7 +48,7 @@ export const UserManager = () => {
   // If last user is deleted
   useEffect(() => {
     if (typeof data === "object" && data.users[0] === undefined) {
-      setData("Pretrazi korisnike");
+      setData("Pretraži korisnike");
     }
   }, [data]);
 
@@ -43,7 +58,7 @@ export const UserManager = () => {
         fetchData={fetchData}
         content="Lista korisnika"
         hasSearch={true}
-        searchContent="Email/Korisnicko ime"
+        searchContent="Email/Korisničko ime"
       />
       <div className="user-manager-bottom">
         {data && typeof data === "object" ? (

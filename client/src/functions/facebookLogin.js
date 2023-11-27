@@ -64,7 +64,7 @@ export const useFacebookLogin = (setUserID) => {
           );
         } catch (error) {
           toast.error(
-            `Došlo je do pogreške prilikom registracije. ${error.response.data.error}!`,
+            `Došlo je do pogreške prilikom registracije. ${error.response.data.message}!`,
             toastSetup("top-center", 3000)
           );
         }

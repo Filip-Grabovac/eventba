@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import minus from "../../assets/ikonice/minus.svg";
 import plus from "../../assets/ikonice/plus.svg";
 import Carousel from "react-elastic-carousel";
@@ -14,6 +14,7 @@ import { hrTimeFormat } from "../../components/helper/timeFormat";
 import { setLoginIsOpen } from "../../store/loginSlice";
 import { TheaterBuyPage } from "./TheaterBuyPage";
 import AdminPayment from "./AdminPaymentForm";
+import ScrollButtons from "../../components/scroll-helper/ScrollButtons";
 
 export const BuyPage = () => {
   const [concertData, setConcertData] = useState({});
@@ -26,6 +27,7 @@ export const BuyPage = () => {
   const [theaterZones, setTheaterZones] = useState({});
   const [selectedZoneData, setSelectedZoneData] = useState();
   const [isChecked, setIsChecked] = useState(false);
+
   const dispatch = useDispatch();
   const activeCardRef = useRef(null);
   const allTickets = useSelector((state) => state.ticketState.ticketList);
@@ -72,7 +74,9 @@ export const BuyPage = () => {
       return;
     }
     await setTicketAmount(ticketAmount + 1);
-    setShowPaymentForm(false);
+    if (showPaymentForm) {
+      setShowPaymentForm(false);
+    }
     carouselRef.current.goTo(ticketAmount + 1);
   };
 
@@ -80,22 +84,29 @@ export const BuyPage = () => {
     if (ticketAmount === 1) return;
     setTicketAmount(ticketAmount - 1);
     dispatch(removeLastTicket({ id: ticketAmount }));
-    setShowPaymentForm(false);
+    if (showPaymentForm) {
+      setShowPaymentForm(false);
+    }
     // Delete card for theater
     if (concertData && concertData?.place?.type === "theater")
       setTheaterZones((prevZones) => {
         const ticketID = ticketAmount;
         const newZones = { ...prevZones };
+
         for (const zoneKey in newZones) {
           const zone = newZones[zoneKey];
-          const rowToUpdate = zone.rows[zoneKey];
 
-          for (const seatKey in rowToUpdate.reserved_seats) {
-            if (rowToUpdate.reserved_seats[seatKey].ticketID === ticketID) {
-              delete rowToUpdate.reserved_seats[seatKey];
+          for (const rowKey in zone.rows) {
+            const rowToUpdate = zone.rows[rowKey];
+
+            for (const seatKey in rowToUpdate.reserved_seats) {
+              if (rowToUpdate.reserved_seats[seatKey].ticketID === ticketID) {
+                delete rowToUpdate.reserved_seats[seatKey];
+              }
             }
           }
         }
+
         return newZones;
       });
   };
@@ -372,7 +383,7 @@ export const BuyPage = () => {
     }
   };
 
-  useMemo(() => {
+  useEffect(() => {
     // Check if showPaymentForm is true and click the button if it is
 
     if (showPaymentForm) {
@@ -579,6 +590,7 @@ export const BuyPage = () => {
             )}
           </div>
         </div>
+        <ScrollButtons />
       </div>
     )
   );

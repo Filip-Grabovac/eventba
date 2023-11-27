@@ -6,11 +6,16 @@ import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
 import { Editor } from "@tinymce/tinymce-react";
 import tinyMCEConfig from "../../../components/helper/tinyConfig";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import useLogout from "../../../components/helper/logout";
+import { setLoginIsOpen } from "../../../store/loginSlice";
 
 export const UpdateEventContainer = ({ concertData }) => {
   const [organizer, setOrganizer] = useState(concertData?.organizer);
   const userId = useSelector((state) => state.userState.user);
+  const token = useSelector((state) => state.userState.token);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setOrganizer(concertData.organizer);
@@ -144,11 +149,15 @@ export const UpdateEventContainer = ({ concertData }) => {
             organizer: organizer,
           },
           userId,
+          token,
         }
       );
       toast.success(response.data.message, toastSetup("bottom-center", 1500));
     } catch (error) {
-      console.error(error);
+      if (error.response.status === 401) {
+        dispatch(setLoginIsOpen(true));
+      }
+
       toast.error(error.response.data.message, toastSetup("top-center", 3000));
     }
   };

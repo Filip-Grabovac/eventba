@@ -9,7 +9,8 @@ import { Bars } from "react-loader-spinner";
 import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
 import trashCan from "../../../assets/ikonice/trash_can.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoginIsOpen } from "../../../store/loginSlice";
 
 export const EventCard = ({ ids, i, past }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -23,7 +24,9 @@ export const EventCard = ({ ids, i, past }) => {
   const [marginB, setMarginB] = useState(0);
   const dropdownRef = useRef(null);
 
+  const dispatch = useDispatch();
   const userId = useSelector((state) => state.userState.user);
+  const token = useSelector((state) => state.userState.token);
 
   useEffect(() => {
     fetchConcertData();
@@ -87,14 +90,17 @@ export const EventCard = ({ ids, i, past }) => {
     try {
       const response = await axios.delete(
         `${process.env.REACT_APP_API_URL}/api/v1/concerts/delete/${data._id}`,
-        { data: { userId } }
+        { data: { userId, token } }
       );
       setData(null);
-      toast.success(response.data.message, toastSetup("bottom-center", 3000));
+      toast.success(response.data.message, toastSetup("top-center", 3000));
     } catch (error) {
+      if (error.response.status === 401) {
+        dispatch(setLoginIsOpen(true));
+      }
       toast.error(
         `${error.response.data.message} Zatražite od admina podršku`,
-        toastSetup("bottom-center", 3000)
+        toastSetup("top-center", 3000)
       );
     }
   };
@@ -145,6 +151,7 @@ export const EventCard = ({ ids, i, past }) => {
             concertId: data._id,
             startDate: fromDateValue,
             endDate: toDateValue,
+            token,
           },
           {
             responseType: "blob", // Set the response type to 'blob' to handle binary data
@@ -156,6 +163,13 @@ export const EventCard = ({ ids, i, past }) => {
         saveAs(pdfBlob, `concert_history_${data.performer_name}.pdf`);
         setLoader(false);
       } catch (error) {
+        if (error.response.status === 401) {
+          dispatch(setLoginIsOpen(true));
+        }
+        toast.error(
+          `Došlo je do pogreške prilikom preuzimanja! Prijavite se ponovo!`,
+          toastSetup("top-center", 3000)
+        );
         console.error("Error downloading PDF:", error);
       }
     }
@@ -172,6 +186,7 @@ export const EventCard = ({ ids, i, past }) => {
         `${process.env.REACT_APP_API_URL}/api/v1/concerts/get_event_provision`,
         {
           concertId: data._id,
+          token,
         },
         {
           responseType: "blob", // Set the response type to 'blob' to handle binary data
@@ -183,7 +198,13 @@ export const EventCard = ({ ids, i, past }) => {
       saveAs(pdfBlob, `provizija_${data.performer_name}.pdf`);
       setLoader(false);
     } catch (error) {
-      console.error("Error downloading PDF:", error);
+      if (error.response.status === 401) {
+        dispatch(setLoginIsOpen(true));
+      }
+      toast.error(
+        `Došlo je do pogreške prilikom preuzimanja. Prijavite se ponovo!`,
+        toastSetup("top-center", 3000)
+      );
     }
   };
 

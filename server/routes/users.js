@@ -13,6 +13,8 @@ const {
   deleteUser,
   getUserRole,
   findUsersByAccountType,
+  authenticateTokenFromBody,
+  refreshAccessToken,
 } = require("../controllers/users");
 
 const {
@@ -21,18 +23,24 @@ const {
   setReseller,
   removeReseller,
 } = require("../controllers/resellers");
+
 const { isAdminMiddleware } = require("../controllers/concerts");
 
 router.route("/").get(getAllUsers).post(createUser);
+
 router.route("/search/:search_input").post(isAdminMiddleware, searchUser);
-router.route("/set_ban/:user_id/:ban_status").patch(setUserBanStatus);
-router.route("/update_user_role/:id/:role").patch(updateUserRole);
-router.route("/delete_user/:id").delete(deleteUser);
+router
+  .route("/set_ban/:user_id/:ban_status")
+  .patch(isAdminMiddleware, setUserBanStatus);
+router
+  .route("/update_user_role/:id/:role")
+  .patch(isAdminMiddleware, updateUserRole);
+router.route("/delete_user/:id").delete(authenticateTokenFromBody, deleteUser);
 router.route("/get_role/:id").get(getUserRole);
 router.route("/:type/:value").get(findUser);
 router.route("/get_all_resellers").get(getAllResellers);
 router.route("/:type").get(findUsersByAccountType);
-router.route("/:id").patch(updateUser);
+router.route("/:id").patch(authenticateTokenFromBody, updateUser);
 router.route("/verify/:verificationCode").patch(verifyUser);
 
 // RESELLERS

@@ -9,12 +9,16 @@ import { toast } from "react-toastify";
 import { toastSetup } from "../../../functions/toastSetup";
 
 import { useTranslation } from "react-i18next";
+import { setLoginIsOpen } from "../../../store/loginSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export const UserManagerCard = ({ data, removeUserFromUI }) => {
   const [userData, setUserData] = useState(data);
   const [selectedRole, setSelectedRole] = useState();
   const roles = ["standard", "organizer", "admin"];
+  const token = useSelector((state) => state.userState.token);
 
+  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   // Always update isBanned status at the beggining so images can change related to it
@@ -25,47 +29,77 @@ export const UserManagerCard = ({ data, removeUserFromUI }) => {
 
   // Update user ban status
   function setUserBanStatus(e) {
-    axios
-      .patch(
-        process.env.REACT_APP_API_URL +
-          `/api/v1/users/set_ban/${userData._id}/${!userData.isBanned}`
-      )
-      .then(() => {
-        // Display messages and update ban status
-        let msg = !userData.isBanned
-          ? "Uspješno ste blokirali korisnika"
-          : "Uspješno ste odblokirali korisnika";
-        toast.success(msg, toastSetup("top-right", 2000));
+    try {
+      // Assuming you have the token stored in some variable, replace 'yourTokenVariable' with the actual variable
 
-        setUserData((prevUserData) => ({
-          ...prevUserData,
-          isBanned: !prevUserData.isBanned,
-        }));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      axios
+        .patch(
+          `${process.env.REACT_APP_API_URL}/api/v1/users/set_ban/${
+            userData._id
+          }/${!userData.isBanned}`,
+          { token } // Pass the token in the request body
+        )
+        .then(() => {
+          // Display messages and update ban status
+          let msg = !userData.isBanned
+            ? "Uspješno ste blokirali korisnika"
+            : "Uspješno ste odblokirali korisnika";
+          toast.success(msg, toastSetup("top-right", 2000));
+
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            isBanned: !prevUserData.isBanned,
+          }));
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 401) {
+            // Handle unauthorized (e.g., redirect to login)
+            dispatch(setLoginIsOpen(true));
+          }
+
+          toast.error(
+            `Greška pri banovanju korisničkog računa. ${
+              error.response
+                ? error.response.data.message
+                : "Greška internetske mreže"
+            }`,
+            toastSetup("top-center", 3000)
+          );
+        });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   // Update user role
-  const handleRoleChange = (e) => {
-    const selectValue = e.target.value;
-    setSelectedRole(selectValue);
+  const handleRoleChange = async (e) => {
+    try {
+      const selectValue = e.target.value;
+      setSelectedRole(selectValue);
 
-    axios
-      .patch(
-        process.env.REACT_APP_API_URL +
-          `/api/v1/users/update_user_role/${
-            userData._id
-          }/${selectValue.toLowerCase()}`
-      )
-      .then((res) => {
-        // Display messages and update ban status
-        toast.success(res.data.message, toastSetup("top-right", 2000));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      const response = await axios.patch(
+        `${process.env.REACT_APP_API_URL}/api/v1/users/update_user_role/${
+          userData._id
+        }/${selectValue.toLowerCase()}`,
+        { token } // Pass the token in the request body
+      );
+
+      // Display messages and update ban status
+      toast.success(response.data.message, toastSetup("top-right", 2000));
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        dispatch(setLoginIsOpen(true));
+      }
+
+      toast.error(
+        `Greška pri ažuriranju korisničkog računa. ${
+          error.response
+            ? error.response.data.message
+            : "Greška internetske mreže"
+        }`,
+        toastSetup("top-center", 3000)
+      );
+    }
   };
 
   // Delete user
@@ -74,14 +108,26 @@ export const UserManagerCard = ({ data, removeUserFromUI }) => {
 
     axios
       .delete(
-        process.env.REACT_APP_API_URL +
-          `/api/v1/users/delete_user/${userData._id}`
+        `${process.env.REACT_APP_API_URL}/api/v1/users/delete_user/${userData._id}`,
+        {
+          data: { token }, // Send the token in the request body
+          headers: {
+            "Content-Type": "application/json", // Set the content type if needed
+            // Other headers as needed
+          },
+        }
       )
       .then((response) => {
         toast.success(response.data.message, toastSetup("top-right", 2000));
       })
       .catch((error) => {
-        console.error("Error deleting user:", error);
+        if (error.response.status === 401) {
+          dispatch(setLoginIsOpen(true));
+        }
+        toast.error(
+          `Greška pri brisanju korisničkog računa. ${error.response.data.message}`,
+          toastSetup("top-center", 3000)
+        );
       });
   }
 

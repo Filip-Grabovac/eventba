@@ -2,6 +2,38 @@ const User = require("../models/User");
 const Helper = require("../models/Helper");
 const sendVerificationEmail = require("../mailer/mailer");
 const Encrypt = require("../functions/encrypt");
+const jwt = require("jsonwebtoken");
+
+const authenticateTokenFromBody = async (req, res, next) => {
+  // Izdvoji token iz tijela zahtjeva
+  const token = req.body.token || "";
+
+  if (!token) {
+    return res.status(401).json({ message: "Pogreška u zahtjevu." });
+  }
+
+  try {
+    // Verificiraj token koristeći tajni ključ
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Provjeri postoji li korisnik povezan s tokenom
+    const user = await User.findById(decoded.userId);
+
+    if (!user) {
+      return res.status(401).json({ message: "Neispravan korisnik" });
+    }
+
+    // Pridruži dekodirani token objektu zahtjeva radi kasnije upotrebe
+    req.user = decoded;
+
+    // Nastavi do sljedećeg middlewarea ili završnog rukovatelja zahtjevima
+    next();
+  } catch (error) {
+    return res.status(401).json({
+      message: "Sesija istekla. Ponovo se prijavite",
+    });
+  }
+};
 
 const getAllUsers = async (req, res) => {
   try {
@@ -11,17 +43,16 @@ const getAllUsers = async (req, res) => {
     res.status(500).json({ msg: error });
   }
 };
-
 const createUser = async (req, res) => {
   try {
     const { email } = req.body;
 
-    // Check if user with the given email already exists
+    // Provjeri je li korisnik s navedenim e-mailom već registriran
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res
         .status(400)
-        .json({ error: "Korisnik s ovim emailom već postoji" });
+        .json({ message: "Korisnik s ovim e-mailom već postoji" });
     }
 
     // If user is not verified, send verification mail.
@@ -38,17 +69,30 @@ const createUser = async (req, res) => {
         verificationLink
       );
     }
+
     let newUser = req.body;
 
+    // Kriptiraj lozinku prije spremanja
     newUser.password = Encrypt(newUser.password, process.env.SECRET_KEY);
 
-    // Create a new user if no existing user found
+    // Stvori novog korisnika ako ne postoji korisnik s istim e-mailom
     const user = await User.create(newUser);
 
-    res.status(201).json({ id: user._id });
+    // Generiraj JWT token za novog korisnika
+    const token = jwt.sign(
+      { userId: user._id, email: user.email },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "12h", // Vrijeme isteka tokena (prilagodi prema potrebi)
+      }
+    );
+
+    res.status(201).json({ id: user._id, token });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Došlo je do greške pri unosu " });
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Došlo je do greške pri stvaranju korisnika" });
   }
 };
 
@@ -72,7 +116,7 @@ const verifyUser = async (req, res) => {
     }
     res.status(200).json({ msg: "Uspješna verifikacija!" });
   } catch (error) {
-    res.status(500).json({ error: "Došlo je do greške pri verifikaciji. " });
+    res.status(500).json({ message: "Došlo je do greške pri verifikaciji. " });
   }
 };
 
@@ -82,7 +126,7 @@ const findUsersByAccountType = async (req, res) => {
 
     // Provjeravamo je li predana vrsta računa
     if (!accountType) {
-      return res.status(400).json({ error: "Nedostaje vrsta računa" });
+      return res.status(400).json({ message: "Nedostaje vrsta računa" });
     }
 
     // Dohvaćamo sve korisnike s određenom vrstom računa
@@ -92,7 +136,7 @@ const findUsersByAccountType = async (req, res) => {
     if (!usersWithAccountType || usersWithAccountType.length === 0) {
       return res
         .status(404)
-        .json({ error: "Nema korisnika s tom vrstom računa" });
+        .json({ message: "Nema korisnika s tom vrstom računa" });
     }
     if (accountType === "reseller") {
       const resellerInfoList = usersWithAccountType.map(
@@ -123,7 +167,7 @@ const findUser = async (req, res) => {
     } else if (type === "role") {
       query = { role: value };
     } else {
-      return res.status(400).json({ error: "Pogrešna pretraga" });
+      return res.status(400).json({ message: "Pogrešna pretraga" });
     }
 
     let user;
@@ -138,11 +182,11 @@ const findUser = async (req, res) => {
       if (type === "id") {
         return res
           .status(404)
-          .json({ error: `Ne postoji korisnik s ovim ID-om: ${value}` });
+          .json({ message: `Ne postoji korisnik s ovim ID-om: ${value}` });
       } else if (type === "email") {
         return res
           .status(404)
-          .json({ error: `Ne postoji korisnik s ovim email-om: ${value}` });
+          .json({ message: `Ne postoji korisnik s ovim email-om: ${value}` });
       }
     }
 
@@ -164,14 +208,15 @@ const findUser = async (req, res) => {
     });
   }
 };
-
 const updateUser = async (req, res) => {
   try {
     const { id: userID } = req.params;
     const user = await User.findOne({ _id: userID });
 
     if (!user) {
-      return res.status(404).json({ msg: `No user with this id: ${userID}` });
+      return res
+        .status(404)
+        .json({ message: `Ne postoji korisnik s ovim ID: ${userID}` });
     }
 
     // Check if the updated email already exists
@@ -180,11 +225,19 @@ const updateUser = async (req, res) => {
       if (existingUser) {
         return res
           .status(400)
-          .json({ msg: "Email već postoji u bazi podataka." });
+          .json({ message: "Email već postoji u bazi podataka." });
       }
     }
 
-    let userUpdatePayload = req.body;
+    // Construct a minimal update payload with only the fields present in the request body
+    const userUpdatePayload = {};
+    for (const key in req.body.user) {
+      if (key in user._doc) {
+        userUpdatePayload[key] = req.body.user[key];
+      }
+    }
+
+    // Check if the password is provided and encrypt it
     if (userUpdatePayload.password !== undefined) {
       userUpdatePayload.password = Encrypt(
         userUpdatePayload.password,
@@ -192,19 +245,19 @@ const updateUser = async (req, res) => {
       );
     }
 
-    // Update the user
+    // Update the user using findOneAndUpdate
     const updatedUser = await User.findOneAndUpdate(
       { _id: userID },
       userUpdatePayload,
-      {
-        new: true,
-        runValidators: true,
-      }
+      { new: true, runValidators: true }
     );
 
     res.status(200).json(updatedUser);
   } catch (error) {
-    res.status(500).json({ msg: error });
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Došlo je do greške prilikom ažuriranja korisnika." });
   }
 };
 
@@ -348,4 +401,5 @@ module.exports = {
   deleteUser,
   getUserRole,
   findUsersByAccountType,
+  authenticateTokenFromBody,
 };

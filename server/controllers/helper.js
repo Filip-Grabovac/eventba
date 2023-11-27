@@ -25,7 +25,7 @@ const getSponsorList = async (req, res) => {
 
 const updateSponsorList = async (sponsors) => {
   try {
-    const newSponsors = sponsors;
+    const newSponsors = sponsors || [];
 
     // Find the document with a "sponsors" property
     const query = { sponsors: { $exists: true } };

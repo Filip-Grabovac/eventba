@@ -6,14 +6,14 @@ import PasswordEye from "../assets/ikonice/invisible.svg";
 import mail from "../assets/ikonice/mail.svg";
 // Redux
 import { useDispatch } from "react-redux";
-import { setUserID } from "../store/userSlice";
+import { setToken, setUserID } from "../store/userSlice";
 // Components
 import { Link } from "react-router-dom";
 import { RegisterInput } from "./RegisterInput";
 import { toast } from "react-toastify";
 import FacebookLogin from "react-facebook-login";
 // Functions
-import { Decrypt } from "./Decrypt";
+
 import { useCloseModalOnEsc } from "../functions/closeModalOnEsc";
 import { useFacebookLogin } from "../functions/facebookLogin";
 import { toastSetup } from "../functions/toastSetup";
@@ -41,14 +41,14 @@ export const Login = ({ setIsRegisterOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.elements.email.value;
-    // Get user from database
+
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/v1/login`,
         { password: e.target.elements.password.value, email }
       );
 
-      const { id, is_banned } = response.data;
+      const { id, is_banned, token } = response.data;
 
       if (is_banned) {
         toast.error(
@@ -59,16 +59,20 @@ export const Login = ({ setIsRegisterOpen }) => {
       }
 
       if (rememberMe) {
+        localStorage.setItem("token", token); // Save the token in local storage
         localStorage.setItem("userId", id); // Save in local storage
       } else {
+        sessionStorage.setItem("token", token); // Save the token in session storage
         sessionStorage.setItem("userId", id); // Save in session storage
       }
+
       dispatch(setUserID(id));
+      dispatch(setToken(token));
       dispatch(setLoginIsOpen(false));
 
       toast.success("Uspješna prijava!", toastSetup("top-center", 3000));
     } catch (error) {
-      toast.error(error.response.data.error, toastSetup("top-center", 3000));
+      toast.error(error.response.data.message, toastSetup("top-center", 3000));
       passwordRef.current.focus();
     }
   };
