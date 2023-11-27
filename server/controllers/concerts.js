@@ -220,8 +220,7 @@ const verifyEvent = async (req, res) => {
     if (!updatedConcert) {
       return res.status(404).json({ message: "Koncert nije pronađen." });
     }
-    // POPRAVKE
-    // sendNewsLetterMail(updatedConcert);
+    sendNewsLetterMail(updatedConcert);
     res.status(200).json(updatedConcert);
   } catch (error) {
     res
