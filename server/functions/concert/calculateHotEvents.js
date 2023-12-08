@@ -22,6 +22,12 @@ const calculateHotEvents = async () => {
       time_of_event: { $gte: currentDate },
     });
 
+    const mostDistantEvent = hotEvents.reduce((maxEvent, currentEvent) => {
+      return currentEvent.time_of_event > maxEvent.time_of_event
+        ? currentEvent
+        : maxEvent;
+    }, hotEvents[0]);
+
     // Iterate through the hotEvents and update the variables if larger values are found
     hotEvents.forEach((event) => {
       const freeSaleTotal =
@@ -47,6 +53,17 @@ const calculateHotEvents = async () => {
     // Calculate ratings and sort the events
     const eventsWithRatings = hotEvents.map((event) => {
       let rating = 0;
+
+      // Calculate the time proximity score
+      const timeProximityScore = calculateTimeProximityScore(
+        event.time_of_event,
+        mostDistantEvent.time_of_event
+      );
+
+      // Include the time proximity score in the overall rating
+      rating += timeProximityScore;
+
+      // Include the time proximity score in the overall rating
 
       if (event.is_promoted_event) rating += 7.5;
       if (event.type.includes("suggested")) rating += 7.5;
@@ -90,6 +107,27 @@ const calculateHotEvents = async () => {
   } catch (error) {
     console.error("An error occurred:", error);
   }
+};
+const calculateTimeProximityScore = (eventDate, mostDistantEventDate) => {
+  // Get the current date
+  const currentDate = new Date();
+
+  // Calculate the time difference in milliseconds
+  const timeDifference = new Date(eventDate) - currentDate;
+  const mostDistantDifference = new Date(mostDistantEventDate) - currentDate;
+
+  // Convert milliseconds to hours
+  const hoursDifference = timeDifference / (1000 * 60 * 60);
+  const mostDistantHoursDifference = mostDistantDifference / (1000 * 60 * 60);
+
+  // Calculate the time proximity score
+  const maxTimeDifference = mostDistantHoursDifference;
+  const timeProximityScore =
+    maxTimeDifference === 0
+      ? 15
+      : Math.max(0, 15 - (hoursDifference / maxTimeDifference) * 15);
+
+  return timeProximityScore;
 };
 
 module.exports = { calculateHotEvents };

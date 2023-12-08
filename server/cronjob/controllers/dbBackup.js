@@ -3,73 +3,54 @@ const moment = require("moment");
 const fs = require("fs");
 const path = require("path");
 
-// Function to perform MongoDB backups with rotation for multiple databases
+// Function to perform MongoDB backups and remove files older than 30 days
 function performBackup() {
-  const databases = [
-    { name: "main_database", url: process.env.DATABASE_URL },
-    { name: "ticket_database", url: process.env.DATABASE_URL_TICKET },
-    // Add more databases as needed
-  ];
-
+  const adminDbUrl = process.env.DATABASE_ADMIN;
   const backupDir = "/root/db_backup"; // Backup directory path
-  const maxBackups = 30; // Maximum number of backups to keep
 
   console.log("Backup started");
 
-  // Ensure the backup directory exists
   if (!fs.existsSync(backupDir)) {
     fs.mkdirSync(backupDir);
+    console.log(`Backup directory created: ${backupDir}`);
   }
 
-  // Loop through each database
-  databases.forEach((db) => {
-    const timestamp = moment().format("YYYYMMDD-HHmmss"); // Current date and time
-    console.log(`Backup started for database: ${db.name}`);
+  const timestamp = moment().format("YYYYMMDD-HHmmss");
+  const backupFileName = `${timestamp}_admin_db_backup`;
+  const backupDirPath = path.join(backupDir, backupFileName);
 
-    // Construct the backup file name with date and database name
-    const backupFileName = `${timestamp}_${db.name}_backup`;
+  const backupCommand = `mongodump --uri ${adminDbUrl} --out ${backupDirPath}`;
 
-    // Construct the backup command
-    const backupCommand = `mongodump --uri ${db.url} --out ${path.join(
-      backupDir,
-      backupFileName
-    )}`;
+  exec(backupCommand, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error during backup: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`Stderr during backup: ${stderr}`);
+      return;
+    }
 
-    // Execute the backup command
-    exec(backupCommand, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error: ${error.message}`);
-        return;
+    console.log(`Backup completed at ${timestamp} for admin database`);
+  });
+
+  // Remove files older than 30 days in the entire backup directory
+  const currentDate = moment();
+  fs.readdirSync(backupDir).forEach((file) => {
+    const filePath = path.join(backupDir, file);
+    const fileStat = fs.statSync(filePath);
+    const fileCreationTime = moment(fileStat.birthtime);
+
+    // Check if the file is older than 30 days
+    if (currentDate.diff(fileCreationTime, "days") > 30) {
+      if (fileStat.isDirectory()) {
+        fs.rmdirSync(filePath, { recursive: true });
+        console.log(`Removed old directory: ${file}`);
+      } else {
+        fs.unlinkSync(filePath);
+        console.log(`Removed old file: ${file}`);
       }
-      if (stderr) {
-        console.error(`Stderr: ${stderr}`);
-        return;
-      }
-      console.log(`Backup completed at ${timestamp} for database: ${db.name}`);
-
-      // List all backup files in the directory
-      const backupFiles = fs.readdirSync(backupDir).map((file) => ({
-        file,
-        timestamp: moment(file.split("_")[0], "YYYYMMDD-HHmmss"),
-      }));
-
-      // Sort the backup files by timestamp in ascending order
-      backupFiles.sort((a, b) => a.timestamp - b.timestamp);
-
-      // Check if there are more backups than the maximum allowed
-      if (backupFiles.length > maxBackups) {
-        // Remove the oldest backup(s)
-        const backupsToRemove = backupFiles.slice(
-          0,
-          backupFiles.length - maxBackups
-        );
-        backupsToRemove.forEach((backup) => {
-          const backupPath = path.join(backupDir, backup.file);
-          fs.unlinkSync(backupPath);
-          console.log(`Removed old backup: ${backup.file}`);
-        });
-      }
-    });
+    }
   });
 }
 
