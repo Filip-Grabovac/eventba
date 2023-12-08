@@ -407,13 +407,14 @@
       }
     }
     .accumulative-spending {
+      font-size: 12px;
       width: 87%;
       margin: 0 auto;
       padding-bottom: 5px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: #000c64 1px solid;
+
       p {
         margin: 0;
       }

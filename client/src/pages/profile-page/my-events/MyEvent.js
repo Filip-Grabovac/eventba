@@ -19,6 +19,14 @@ export const MyEvent = ({ organizerEvents }) => {
     return eventTime <= currentTime;
   });
 
+  const sortByTimeDescending = (events) => {
+    return events.sort(
+      (a, b) => new Date(b.time_of_event) - new Date(a.time_of_event)
+    );
+  };
+
+  // Usage:
+
   // Function to handle button click and toggle the view
   const toggleView = (view) => {
     setCurrentView(view);
@@ -52,7 +60,7 @@ export const MyEvent = ({ organizerEvents }) => {
         : pastEvents && (
             <>
               <h6>Završeni događaji</h6>
-              {sortByTime(pastEvents).map((e, i) => (
+              {sortByTimeDescending(pastEvents).map((e, i) => (
                 <EventCard key={i} ids={e} i={i} past={true} />
               ))}
             </>

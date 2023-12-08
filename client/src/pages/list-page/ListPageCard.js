@@ -14,6 +14,7 @@ export const ListPageCard = ({ data }) => {
         className="list-page-landscape"
         src={`${process.env.REACT_APP_API_URL}/static/event-images/${data.poster.landscape}`}
         alt="Landscape"
+        loading="lazy"
       />
       <div className="list-page-type-wrapper">
         <div className="first-child">
@@ -36,6 +37,7 @@ export const ListPageCard = ({ data }) => {
               className="list-page-landscape2"
               src={`${process.env.REACT_APP_API_URL}/static/event-images/${data.poster.landscape}`}
               alt="Portrait"
+              loading="lazy"
             />
           </div>
           <div className="third-child">

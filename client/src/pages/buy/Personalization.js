@@ -34,7 +34,7 @@ export const Personalization = React.memo(
         setSurname("");
         setEmail(profileData.email || "");
       }
-    }, [profileData.email, email]);
+    }, [profileData]);
 
     useEffect(() => {
       const ticket = {

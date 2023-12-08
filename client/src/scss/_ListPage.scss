@@ -44,6 +44,16 @@
       cursor: pointer;
     }
 
+    .mini-loader {
+      z-index: 6;
+      position: absolute;
+      width: 20px;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
     .list-page-search {
       width: 100%;
       display: block;
@@ -300,8 +310,8 @@
   }
   .card-transition {
     width: 100%;
-    height: 40px;
-    margin: -20px 0;
+    height: 30px;
+    margin: -10px 0;
     background: rgb(217, 217, 217);
     background: linear-gradient(
       180deg,
@@ -312,9 +322,5 @@
     );
     position: relative;
     z-index: 3;
-  }
-
-  .list-page-card-wrapper:last-child {
-    margin-bottom: 40px;
   }
 }

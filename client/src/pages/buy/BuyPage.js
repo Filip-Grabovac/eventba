@@ -522,23 +522,24 @@ export const BuyPage = () => {
                     <TicketBill key={i} i={i} />
                   ))}
                 </div>
-                <div className="accumulative-spending">
-                  <p>Agencijski troškovi:</p>
-                  <span>
-                    {Math.round(
-                      (ticketAmount * 1.06 +
-                        (totalAmount + ticketAmount) * 0.056) *
-                        100
-                    ) / 100}
-                    <small> BAM</small>
-                  </span>
-                </div>
+
                 <div className="saldo">
                   <p>Ukupna cijena:</p>
                   <span>
                     {Math.round(
                       (totalAmount +
                         ticketAmount * 1.06 +
+                        (totalAmount + ticketAmount) * 0.056) *
+                        100
+                    ) / 100}
+                    <small> BAM</small>
+                  </span>
+                </div>
+                <div className="accumulative-spending">
+                  <p>Agencijski troškovi:</p>
+                  <span>
+                    {Math.round(
+                      (ticketAmount * 1.06 +
                         (totalAmount + ticketAmount) * 0.056) *
                         100
                     ) / 100}

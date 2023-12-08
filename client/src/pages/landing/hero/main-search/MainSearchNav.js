@@ -4,29 +4,26 @@ import axios from "axios";
 import { SearchNavLink } from "./SearchNavLink";
 import sortByTime from "../../../../functions/sortByTimeOfEvent";
 
-const MainSearchNav = ({ setEvents, setLoader }) => {
+const MainSearchNav = ({ setEvents, setIsLoading }) => {
   const [category, setCategory] = useState("suggested");
 
-  useEffect(() => {
-    setEvents([]);
-    setLoader(true);
+  const fetchEvents = async () => {
+    setIsLoading(true);
+    try {
+      if (category) {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/v1/concerts/type/${category}`
+        );
 
-    // Fetch the searched events
-    const fetchEvents = async () => {
-      try {
-        if (category) {
-          const response = await axios.get(
-            `${process.env.REACT_APP_API_URL}/api/v1/concerts/type/${category}`
-          );
-
-          setEvents(sortByTime(response.data));
-        }
-        setLoader(false);
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
+        setEvents(sortByTime(response.data));
+        setIsLoading(false);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchEvents();
   }, [category]);
 
@@ -78,7 +75,11 @@ const MainSearchNav = ({ setEvents, setLoader }) => {
       </ul>
       <ul className="search-nav-right">
         <li>
-          <SearchInput setEvents={setEvents} setCategory={setCategory} />
+          <SearchInput
+            setEvents={setEvents}
+            setCategory={setCategory}
+            setIsLoading={setIsLoading}
+          />
         </li>
       </ul>
     </div>

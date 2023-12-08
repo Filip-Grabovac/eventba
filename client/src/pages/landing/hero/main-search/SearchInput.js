@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import useDebounce from "../../../../functions/useDebounce";
 
-const SearchInput = ({ setEvents, setCategory }) => {
-  const [searchValue, setSearchValue] = useState('');
-  const [loader, setLoader] = useState(false);
+const SearchInput = ({ setEvents, setCategory, setIsLoading }) => {
+  const [searchValue, setSearchValue] = useState("");
+  const debouncedValue = useDebounce(searchValue, 500);
 
   useEffect(() => {
     // Fetch events based on search value
@@ -13,9 +14,9 @@ const SearchInput = ({ setEvents, setCategory }) => {
           `${process.env.REACT_APP_API_URL}/api/v1/concerts/search/${searchValue}`
         );
         setEvents(response.data);
-        setLoader(false);
+        setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching profile data:', error);
+        console.error("Error fetching profile data:", error);
       }
     };
 
@@ -23,12 +24,12 @@ const SearchInput = ({ setEvents, setCategory }) => {
       setCategory(null);
       fetchEvents();
     } else {
-      if (!document.querySelector('.searchActive')) {
-        document.querySelector('.suggested-search-link').click();
+      if (!document.querySelector(".searchActive")) {
+        document.querySelector(".suggested-search-link").click();
       }
-      setLoader(false);
+      setIsLoading(false);
     }
-  }, [searchValue]);
+  }, [debouncedValue]);
 
   return (
     <div className="nav-search-wrapper">
@@ -39,11 +40,10 @@ const SearchInput = ({ setEvents, setCategory }) => {
           value={searchValue}
           onChange={(e) => {
             setSearchValue(e.target.value);
-            setLoader(true);
+            setIsLoading(true);
           }}
         />
       </form>
-      {loader ? <span className="loader"></span> : ''}
     </div>
   );
 };
