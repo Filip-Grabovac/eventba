@@ -176,6 +176,51 @@ const updateEventData = async (req, res) => {
     res.status(500).json({ message: "Greška prilikom ažuriranja događaja" });
   }
 };
+const updateOnlineSaleData = async (req, res) => {
+  const { id, onlineSaleData } = req.body;
+  try {
+    // Dobivanje trenutnih podataka iz baze
+    const existingEvent = await Concert.findById(id);
+
+    if (!existingEvent) {
+      return res.status(404).json({ message: "Događaj nije pronađen" });
+    }
+
+    // Usporedba trenutnog sold_amount i novog sold_amount
+    if (
+      existingEvent.tickets &&
+      existingEvent.tickets.online_sale &&
+      existingEvent.tickets.online_sale.sold_amount !==
+        onlineSaleData.sold_amount
+    ) {
+      return res.status(400).json({
+        message:
+          "Upravo su kupljene neke ulaznice. Osvježite stranicu zatim pokušajte ponovo",
+      });
+    }
+
+    // Ažuriranje online_sale podataka
+    const updatedEvent = await Concert.findOneAndUpdate(
+      { _id: id },
+      { $set: { "tickets.online_sale": onlineSaleData } },
+      { new: true }
+    );
+
+    if (!updatedEvent) {
+      return res.status(404).json({ message: "Događaj nije pronađen" });
+    }
+
+    res.status(200).json({
+      message: "Online prodaja ulaznica uspješno ažurirana",
+      updatedEvent,
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Greška prilikom ažuriranja online prodaje ulaznica" });
+  }
+};
 
 const deleteEvent = async (req, res) => {
   const concertId = req.params.id;
@@ -349,7 +394,7 @@ const getEventsWithinDates = async (req, res) => {
 };
 
 const getProvisionSum = async (req, res) => {
-  const { concertId } = req.body;
+  const { concertId, onlineCommission, printCommission } = req.body;
 
   try {
     const concert = await Concert.findOne({
@@ -366,6 +411,8 @@ const getProvisionSum = async (req, res) => {
         time_of_event: concert.time_of_event,
         place: concert.place,
         tickets: concert.tickets,
+        onlineCommission,
+        printCommission,
       },
     };
 
@@ -514,6 +561,7 @@ const isAdminMiddleware = async (req, res, next) => {
 
     if (user && user.role === "admin") {
       console.log(`Admin - ${user.full_name} je obavljao osjetljive radnje.`);
+      console.log(`API poziv: ${req.method} ${req.originalUrl}`);
       next();
     } else {
       return res
@@ -537,6 +585,7 @@ module.exports = {
   searchEventByType,
   getEventsByOrganizerId,
   updateConcertProperty,
+  updateOnlineSaleData,
   resellersConcertInfo,
   updateConcert,
   calculateEvents,

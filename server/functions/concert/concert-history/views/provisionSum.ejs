@@ -92,7 +92,7 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
         <img src="<%= logoImageSrc %>" alt="Event.ba Logo" />
         <h3>event.ba</h3>
       </div>
-      <h1>Obračun ulaznica</h1>
+      <h1>Obračun provizije</h1>
       <p><%= formattedTimeOfEvent(new Date()) %></p>
     </header>
     <div class="event-info">
@@ -178,7 +178,7 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
           <th>Vrsta</th>
           <th>Količina</th>
           <th>Provizija</th>
-          <th>TOTAL<small> BAM</small></th>
+          <th>TOTAL <small>( BAM )</small></th>
         </tr>
       </thead>
       <tbody>
@@ -189,20 +189,25 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
             data.concert.tickets.free_sale.total_amount_left+data.concert.tickets.free_sale.sold_amount+data.concert.tickets.online_sale.sold_amount
             %>
           </th>
-          <th>0.2 <small>BAM</small></th>
+          <th><%= data.concert.printCommission %> <small>BAM</small></th>
           <th>
             <%= ( (data.concert.tickets.free_sale.total_amount_left +
             data.concert.tickets.free_sale.sold_amount +
-            data.concert.tickets.online_sale.sold_amount) * 0.2 ).toFixed(2) %>
+            data.concert.tickets.online_sale.sold_amount) *
+            data.concert.printCommission ).toFixed(2) %>
           </th>
         </tr>
         <tr>
           <th>Online provizija</th>
           <th><%= data.concert.tickets.online_sale.amount_inBAM %></th>
-          <th>5 <small>%</small></th>
+          <th>
+            <%= (data.concert.onlineCommission * 100).toFixed(2) %><small
+              >%</small
+            >
+          </th>
           <th>
             <%= ((data.concert.tickets.online_sale.amount_inBAM) *
-            0.05).toFixed(2) %>
+            data.concert.onlineCommission).toFixed(2) %>
           </th>
         </tr>
         <tr>
@@ -210,10 +215,12 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
           <th></th>
           <th></th>
           <th>
-            <%= ( ((data.concert.tickets.online_sale.amount_inBAM) * 0.05) +
+            <%= ( ((data.concert.tickets.online_sale.amount_inBAM)
+            *data.concert.onlineCommission) +
             ((data.concert.tickets.free_sale.total_amount_left +
             data.concert.tickets.free_sale.sold_amount +
-            data.concert.tickets.online_sale.sold_amount) * 0.2) ).toFixed(2) %>
+            data.concert.tickets.online_sale.sold_amount) *
+            data.concert.printCommission) ).toFixed(2) %>
           </th>
         </tr>
         <tr></tr>
@@ -223,11 +230,12 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
           <th></th>
           <th>17 <small>%</small></th>
           <th>
-            <%= ( (((data.concert.tickets.online_sale.amount_inBAM) * 0.05) +
+            <%= ( (((data.concert.tickets.online_sale.amount_inBAM) *
+            data.concert.onlineCommission) +
             ((data.concert.tickets.free_sale.total_amount_left +
             data.concert.tickets.free_sale.sold_amount +
-            data.concert.tickets.online_sale.sold_amount) * 0.2)) * 0.17
-            ).toFixed(2) %>
+            data.concert.tickets.online_sale.sold_amount)
+            *data.concert.printCommission)) * 0.17 ).toFixed(2) %>
           </th>
         </tr>
         <tr class="blue">
@@ -235,11 +243,12 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
           <th></th>
           <th></th>
           <th>
-            <%= ( (((data.concert.tickets.online_sale.amount_inBAM) * 0.05) +
+            <%= ( (((data.concert.tickets.online_sale.amount_inBAM) *
+            data.concert.onlineCommission) +
             ((data.concert.tickets.free_sale.total_amount_left +
             data.concert.tickets.free_sale.sold_amount +
-            data.concert.tickets.online_sale.sold_amount) * 0.2)) * 1.17
-            ).toFixed(2) %>
+            data.concert.tickets.online_sale.sold_amount) *
+            data.concert.printCommission)) * 1.17 ).toFixed(2) %>
           </th>
         </tr>
       </tbody>

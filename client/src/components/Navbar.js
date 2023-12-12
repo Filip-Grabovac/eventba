@@ -119,7 +119,7 @@ export const Navbar = () => {
     return;
 
   return (
-    <div className="nav-wrapper">
+    <header className="nav-wrapper">
       <nav className="navbar navbar-expand-xl custom-navbar">
         <div className="container-fluid">
           <Link
@@ -133,7 +133,9 @@ export const Navbar = () => {
             to="/"
           >
             <img src={Logo} alt="Logo" />
-            <p>event.ba</p>
+            <h1 style={{ fontSize: "22px", color: "white", margin: "0" }}>
+              event.ba
+            </h1>
           </Link>
           <button
             className="navbar-toggler"
@@ -305,6 +307,6 @@ export const Navbar = () => {
           ></Register>
         )}
       </nav>
-    </div>
+    </header>
   );
 };

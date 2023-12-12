@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  transition: all 0.2s ease;
+  transition: all 0.1s ease;
   &::-webkit-scrollbar {
     width: 9px;
     height: 8px;
@@ -211,3 +211,4 @@ polygon {
 @import "profile-styles/Newsletter";
 @import "profile-styles/AdminTickets";
 @import "profile-styles/UpdateEvent";
+@import "profile-styles/DevExpress";

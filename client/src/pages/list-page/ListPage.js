@@ -68,7 +68,7 @@ export const ListPage = () => {
     show: {
       opacity: 1,
       transition: {
-        delayChildren: 0.5,
+        delayChildren: 0.1,
         staggerChildren: 0.2, // Add stagger for smoother appearance
       },
     },

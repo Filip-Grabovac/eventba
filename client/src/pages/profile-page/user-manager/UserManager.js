@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { UserManagerCard } from "./UserManagerCard";
 import axios from "axios";
-import { ProfileTopPart } from "./ProfileTopPart";
 import { toastSetup } from "../../../functions/toastSetup";
 import { toast } from "react-toastify";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginIsOpen } from "../../../store/loginSlice";
+import DevExpress from "./devexpress/DevExpressGrid";
 
 export const UserManager = () => {
   const [data, setData] = useState("Pretraži korisnike");
@@ -14,17 +13,20 @@ export const UserManager = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.userState.user);
   const token = useSelector((state) => state.userState.token);
-  const fetchData = async (e) => {
+
+  const fetchData = async () => {
     try {
       const response = await axios.post(
-        process.env.REACT_APP_API_URL +
-          `/api/v1/users/search/${e.target.value}`,
-        { userId, token }
+        `${process.env.REACT_APP_API_URL}/api/v1/users/get_all_users`,
+        {
+          userId: userId,
+          token: token,
+        }
       );
       setData(response.data);
     } catch (error) {
       setData("Pretraži korisnike");
-      if (error.response.status === 401) {
+      if (error.response && error.response.status === 401) {
         dispatch(setLoginIsOpen(true));
       }
 
@@ -37,46 +39,9 @@ export const UserManager = () => {
     }
   };
 
-  // Update UI
-  async function removeUserFromUI(id) {
-    setData((prevData) => ({
-      ...prevData,
-      users: prevData.users.filter((user) => user._id !== id),
-    }));
-  }
-
-  // If last user is deleted
   useEffect(() => {
-    if (typeof data === "object" && data.users[0] === undefined) {
-      setData("Pretraži korisnike");
-    }
-  }, [data]);
+    fetchData();
+  }, []);
 
-  return (
-    <div>
-      <ProfileTopPart
-        fetchData={fetchData}
-        content="Lista korisnika"
-        hasSearch={true}
-        searchContent="Email/Korisničko ime"
-      />
-      <div className="user-manager-bottom">
-        {data && typeof data === "object" ? (
-          data.users.map((e, i) => {
-            return (
-              e && (
-                <UserManagerCard
-                  data={e}
-                  removeUserFromUI={removeUserFromUI}
-                  key={i}
-                />
-              )
-            );
-          })
-        ) : (
-          <p className="no-searched-users">{data}</p>
-        )}
-      </div>
-    </div>
-  );
+  return <DevExpress data={data.users} token={token} />;
 };

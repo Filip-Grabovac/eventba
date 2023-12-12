@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { GetAllEvents } from "../add-tickets/GetAllEvents";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { EventDetails } from "../add-tickets/EventDetails";
 import { ProfileTopPart } from "../user-manager/ProfileTopPart";
 import { AddResellerCard } from "./AddResellerCard";
 import ConcertComponent from "./ConcertComponent";
 import filterByTime from "../../../functions/filterByTime";
 import sortByTime from "../../../functions/sortByTimeOfEvent";
+import { EventDetails } from "../add-tickets/EventsDetails";
 
 export const AddReseller = ({ resellers }) => {
   const userId = useSelector((state) => state.userState.user);

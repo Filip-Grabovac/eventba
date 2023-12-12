@@ -26,7 +26,8 @@ const {
 
 const { isAdminMiddleware } = require("../controllers/concerts");
 
-router.route("/").get(getAllUsers).post(createUser);
+router.route("/").get(isAdminMiddleware, getAllUsers).post(createUser);
+router.route("/get_all_users").post(isAdminMiddleware, getAllUsers);
 
 router.route("/search/:search_input").post(isAdminMiddleware, searchUser);
 router

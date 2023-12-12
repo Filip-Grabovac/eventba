@@ -146,8 +146,6 @@ export const Login = ({ setIsRegisterOpen }) => {
                     type="password"
                     icon={PasswordEye}
                     name="password"
-                    isRequired={true}
-                    inputLength={6}
                     cursorPointer={true}
                     isPasswordVisible={isPasswordVisible}
                     setIsPasswordVisible={setIsPasswordVisible}

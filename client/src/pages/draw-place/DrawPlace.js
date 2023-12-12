@@ -119,7 +119,6 @@ export const DrawPlace = () => {
         });
     }
   }
-  console.log("");
   return (
     <div style={img && { minHeight: "100vh" }} className="draw-place-container">
       {modal && (

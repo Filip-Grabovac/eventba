@@ -17,7 +17,6 @@ export const TicketGen = ({
   const [tickets, setTickets] = useState([]);
   const [totalTickets, setTotalTickets] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [provision, setProvision] = useState(0);
   const [pdfFilePath, setPdfFilePath] = useState("");
   const [loader, setLoader] = useState(false);
   const firstInvalidInputRef = useRef(null);
@@ -209,7 +208,6 @@ export const TicketGen = ({
 
     setPdfFilePath("");
   };
-  console.log(tickets);
   useEffect(() => {
     // Recalculate total number of tickets, total amount, and provision
     let totalTickets = 0;
@@ -225,7 +223,6 @@ export const TicketGen = ({
     });
     setTotalTickets(totalTickets);
     setTotalAmount(totalAmount.toFixed(2)); // Rounding to 2 decimal places
-    setProvision((1.5 * totalTickets).toFixed(2));
   }, [tickets]);
 
   return (
@@ -362,9 +359,7 @@ export const TicketGen = ({
           <div className="total-summ">
             <p>Ukupan broj ulaznica: {totalTickets}</p>
             <p>Ukupan iznos: {totalAmount} BAM</p>
-            <p>
-              Provizija: {provision} BAM <small>(1.5 BAM po ulaznici)</small>
-            </p>
+
             {concertData.place.type === "theater" && (
               <div className="legend">
                 <div className="online">Online prodaja</div>

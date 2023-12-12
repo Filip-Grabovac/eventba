@@ -177,6 +177,10 @@ export const BuyPage = () => {
       }
       setProfileData(response.data);
     } catch (error) {
+      toast.error(
+        `Problem pri dohvatanju podataka. Pokušajte se odjaviti i ponovo prijaviti.`,
+        toastSetup("top-right", 3000)
+      );
       console.error("Error fetching profile data:", error);
     }
   };

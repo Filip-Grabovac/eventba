@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { GetAllEvents } from "./GetAllEvents";
-import { EventDetails } from "./EventDetails";
+import { EventDetails, EventDetailsTicket } from "./EventDetailsTicket";
 
 export const AddTickets = ({ adminEmail, adminName }) => {
   const [allEvents, setAllEvents] = useState([]);
@@ -10,7 +10,7 @@ export const AddTickets = ({ adminEmail, adminName }) => {
 
   useEffect(() => {
     fetchConcertData();
-  }, []);
+  }, [concertData]);
 
   const fetchConcertData = async () => {
     try {
@@ -45,20 +45,22 @@ export const AddTickets = ({ adminEmail, adminName }) => {
   return (
     <>
       <div className={`choose-concert`}>
-        <h6>Ispis ulaznica</h6>
+        <h6>Administracija ulaznica</h6>
         <GetAllEvents
           allEvents={allEvents}
           event={event}
           handleSelectChange={handleSelectChange}
         />
       </div>
-      <EventDetails
-        adminEmail={adminEmail}
-        concertData={concertData}
-        setConcertData={setConcertData}
-        adminName={adminName}
-        displayTicketGen={true}
-      />
+      {concertData && (
+        <EventDetailsTicket
+          adminEmail={adminEmail}
+          concertData={concertData}
+          setConcertData={setConcertData}
+          adminName={adminName}
+          displayTicketGen={true}
+        />
+      )}
     </>
   );
 };

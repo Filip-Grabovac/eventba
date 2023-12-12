@@ -13,7 +13,6 @@ import { AddReseller } from "./add-reseller-for-organizer/AddReseller.js";
 import { CheckResellerTickets } from "./check-reseller-tickets/CheckResellerTickets.js";
 import { VerifyEvents } from "./verify-events/VerifyEvents";
 import { NewsLetter } from "./newsletter-profile/NewsLetter";
-import { TicketManager } from "./check-reseller-tickets/TicketManager";
 import { TicketAdmin } from "./ticket-admin/TicketAdmin";
 import { UpdateEvent } from "./update-event/UpdateEvent";
 

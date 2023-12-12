@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema({
   verificationCode: { type: Number },
   profile_img: { type: String },
   buy_history: { type: Array },
-  is_banned: { type: Boolean },
+  is_banned: { type: Boolean, defaul: false },
   reseller_info: { type: Object },
   request_date: { type: Number },
   request_number: { type: Number },

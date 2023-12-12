@@ -41,11 +41,13 @@ export const TicketAdmin = ({ allEvents }) => {
         />
       </div>
       <div className="all-ticket-display" style={{ padding: "20px" }}>
-        <TicketsDisplay
-          concertData={concertData}
-          tickets={tickets}
-          setTickets={setTickets}
-        />
+        {!concertData ? null : (
+          <TicketsDisplay
+            concertData={concertData}
+            tickets={tickets}
+            setTickets={setTickets}
+          />
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const concertSchema = require("../../models/Concert");
 const connectDB = require("../../db/connect");
 

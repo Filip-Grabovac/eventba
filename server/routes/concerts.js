@@ -18,6 +18,7 @@ const {
   updateEventData,
   getProvisionSum,
   isAdminMiddleware,
+  updateOnlineSaleData,
 } = require("../controllers/concerts");
 const { authenticateTokenFromBody } = require("../controllers/users");
 
@@ -33,6 +34,9 @@ router
 router.route("/resellers/:userId").post(resellersConcertInfo);
 router.route("/update/:concertId").post(updateConcert);
 router.route("/update_event").post(isAdminMiddleware, updateEventData);
+router
+  .route("/update_online_sale")
+  .post(isAdminMiddleware, updateOnlineSaleData);
 
 router
   .route("/get_event_within_dates")

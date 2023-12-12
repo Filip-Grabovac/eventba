@@ -79,6 +79,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
       buy_history: [],
       is_banned: false,
       newsletter: false,
+      is_verified: false,
     };
 
     if (user.password === user.repeatPassword) {
@@ -86,9 +87,7 @@ export const Register = ({ isRegisterOpen, setIsRegisterOpen }) => {
         .post(
           process.env.REACT_APP_API_URL + "/api/v1/users",
           {
-            ...user,
-            is_verified: false,
-            verificationCode: Math.floor(Math.random() * 100000000000) + 1,
+            user,
           },
           {
             headers: {

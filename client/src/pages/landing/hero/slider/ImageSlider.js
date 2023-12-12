@@ -45,7 +45,7 @@ const ImageSlider = () => {
           `${process.env.REACT_APP_API_URL}/api/v1/concerts/is_promoted_event/true`
         );
         const events = randomizeArrayWithUniquePerformers(response.data);
-        setHotEvents([...events, ...events, ...events, ...events]);
+        setHotEvents([...events, ...events, ...events]);
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }

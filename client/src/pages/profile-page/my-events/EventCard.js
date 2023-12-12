@@ -24,6 +24,9 @@ export const EventCard = ({ ids, i, past }) => {
   const [marginB, setMarginB] = useState(0);
   const dropdownRef = useRef(null);
 
+  const [onlineCommission, setOnlineCommission] = useState(5);
+  const [printCommission, setPrintCommission] = useState(0.3);
+
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.userState.user);
   const token = useSelector((state) => state.userState.token);
@@ -181,19 +184,25 @@ export const EventCard = ({ ids, i, past }) => {
       "U tijeku je izrada proračuna, molimo pričekajte...",
       toastSetup("bottom-center", 3000)
     );
+    const onlineCommissionInPrecentages = Number(
+      (onlineCommission / 100).toFixed(4)
+    );
+
     try {
+      // Use state variables directly
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/v1/concerts/get_event_provision`,
         {
           concertId: data._id,
           token,
+          onlineCommission: onlineCommissionInPrecentages,
+          printCommission,
         },
         {
-          responseType: "blob", // Set the response type to 'blob' to handle binary data
+          responseType: "blob",
         }
       );
 
-      // Save the response data as a file using FileSaver
       const pdfBlob = new Blob([response.data], { type: "application/pdf" });
       saveAs(pdfBlob, `provizija_${data.performer_name}.pdf`);
       setLoader(false);
@@ -378,14 +387,38 @@ export const EventCard = ({ ids, i, past }) => {
               </div>
             </div>
             {past && (
-              <button
-                className="print-pdf-btn"
-                onClick={(e) => {
-                  handleProvisionSummary(e);
-                }}
-              >
-                Ispis obračuna provizije
-              </button>
+              <div className="provision-summary">
+                <div className="box-label">
+                  <label htmlFor="onlineCommission">
+                    Provizija na online ulaznice (%)
+                  </label>
+                  <input
+                    type="number"
+                    id="onlineCommission"
+                    value={onlineCommission}
+                    onChange={(e) =>
+                      setOnlineCommission(Number(e.target.value))
+                    }
+                  />
+                </div>
+                <div className="box-label">
+                  <label htmlFor="printCommission">
+                    Provizija po print ulaznici (BAM)
+                  </label>
+                  <input
+                    type="number"
+                    id="printCommission"
+                    value={printCommission}
+                    onChange={(e) => setPrintCommission(Number(e.target.value))}
+                  />
+                </div>
+                <button
+                  className="print-pdf-btn"
+                  onClick={handleProvisionSummary}
+                >
+                  Ispis obračuna provizije
+                </button>
+              </div>
             )}
           </div>
         </div>

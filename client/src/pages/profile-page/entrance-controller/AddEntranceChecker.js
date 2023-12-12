@@ -14,7 +14,7 @@ import filterByTime from "../../../functions/filterByTime";
 
 export const EntranceChecker = ({ organizerEvents, entranceData }) => {
   const [entranceControllorAcc, setEntranceControllorAcc] = useState(
-    entranceData.entranceController
+    entranceData?.entranceControllers || []
   );
   const [updateData, setUpdateData] = useState();
   const [buttonContent, setButtonContent] = useState("Dodaj račun");

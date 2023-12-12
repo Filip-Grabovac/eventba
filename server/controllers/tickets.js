@@ -36,6 +36,37 @@ const checkTicket = async (req, res) => {
   }
 };
 
+const getAllTicketsWithIDs = async (req, res) => {
+  const { collection_name } = req.params;
+
+  const Ticket = await connectDB(process.env.DATABASE_URL_TICKET).model(
+    "Ticket",
+    TicketSchema,
+    collection_name
+  );
+
+  try {
+    const tickets = await Ticket.find().sort({ _id: 1 });
+
+    if (!tickets || tickets.length === 0) {
+      return res.status(404).json({
+        msg: "Nema ulaznica!",
+        msgInfo: "Nema ulaznica u ovoj kolekciji.",
+      });
+    }
+
+    // Dodaj ID: 1 za svaku ulaznicu
+    const ticketsWithIDs = tickets.map((ticket, index) => {
+      return { ...ticket._doc, ID: index + 1 };
+    });
+
+    res.status(200).json({ msg: "Uspješno", tickets: ticketsWithIDs });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Greška", msgInfo: "Greška na serveru" });
+  }
+};
+
 const getTicketByPosition = async (req, res) => {
   const { collection_name, position } = req.params;
 
@@ -128,9 +159,50 @@ const toggleTicketValidity = async (req, res) => {
   }
 };
 
+const deleteTicketsByIds = async (req, res) => {
+  const { collection_name } = req.params;
+  const { ticketIds } = req.body;
+
+  if (!ticketIds || !Array.isArray(ticketIds) || ticketIds.length === 0) {
+    return res.status(400).json({
+      msg: "Invalid request",
+      msgInfo:
+        "Please provide a valid array of ticket IDs in the request body.",
+    });
+  }
+
+  const Ticket = await connectDB(process.env.DATABASE_URL_TICKET).model(
+    "Ticket",
+    TicketSchema,
+    collection_name
+  );
+
+  try {
+    // Delete tickets based on the provided IDs
+    const deletionResult = await Ticket.deleteMany({ _id: { $in: ticketIds } });
+
+    if (deletionResult.deletedCount === 0) {
+      return res.status(404).json({
+        msg: "Tickets not found",
+        msgInfo: "No tickets were found with the provided IDs.",
+      });
+    }
+
+    res.status(200).json({
+      msg: "Successfully deleted",
+      msgInfo: `Successfully deleted ${deletionResult.deletedCount} ticket(s).`,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Error", msgInfo: "Server error" });
+  }
+};
+
 module.exports = {
   getTicketByPosition,
+  getAllTicketsWithIDs,
   checkTicket,
   toggleTicketValidity,
   getTicketByEmail,
+  deleteTicketsByIds,
 };

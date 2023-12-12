@@ -29,7 +29,7 @@ export const Footer = () => {
   )
     return;
   return (
-    <div className="Footer">
+    <footer className="Footer">
       <div className="sponsor-scroll">
         <SponsorBar />
       </div>
@@ -117,6 +117,16 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-    </div>
+      <p
+        style={{
+          backgroundColor: "black ",
+          margin: "0",
+          color: "gray",
+          fontSize: "10px",
+        }}
+      >
+        Sva prava zadržava event.ba
+      </p>
+    </footer>
   );
 };

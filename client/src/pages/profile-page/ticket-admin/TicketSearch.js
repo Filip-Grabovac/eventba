@@ -19,7 +19,6 @@ const TicketSearch = ({ concertId, tickets, setTickets }) => {
       );
       setTickets([response.data.ticket]);
     } catch (error) {
-      console.log(error.response.data.msgInfo);
       toast.error(error.response.data.msgInfo, toastSetup("top-center", 3000));
       setTickets([]);
     }
@@ -35,7 +34,6 @@ const TicketSearch = ({ concertId, tickets, setTickets }) => {
       );
       setTickets(response.data.tickets);
     } catch (error) {
-      console.log(error.response.data.msgInfo);
       toast.error(error.response.data.msgInfo, toastSetup("top-center", 3000));
       setTickets([]);
     }
@@ -58,7 +56,6 @@ const TicketSearch = ({ concertId, tickets, setTickets }) => {
         )
       );
     } catch (error) {
-      console.log(error.response.data.msgInfo);
       toast.error(error.response.data.msgInfo, toastSetup("top-center", 3000));
     }
   };

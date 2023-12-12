@@ -436,6 +436,7 @@
         padding: 0 20px;
 
         .time-input-wrapper {
+          margin-bottom: 10px;
           display: flex;
           align-items: center;
 
@@ -460,6 +461,7 @@
             max-width: 200px;
           }
         }
+        border-bottom: 2px dotted #ffffff;
       }
       .selling-overview-wrapper {
         display: flex;
@@ -547,6 +549,32 @@
             font-size: 14px;
             font-weight: 600;
           }
+        }
+      }
+      .provision-summary {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 20px;
+        .box-label {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          input {
+            width: 80px !important;
+            height: 30px;
+            margin: 0;
+            text-align: center;
+          }
+        }
+
+        button {
+          margin: 0;
+          padding: 10px;
+          height: 35px;
         }
       }
     }

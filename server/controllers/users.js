@@ -37,16 +37,19 @@ const authenticateTokenFromBody = async (req, res, next) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({});
+    // Find all users excluding sensitive information
+    const users = await User.find({}, "-password -refresh_token");
+
     res.status(200).json({ users });
   } catch (error) {
-    res.status(500).json({ msg: error });
+    res.status(500).json({ msg: error.message });
   }
 };
+
 const createUser = async (req, res) => {
   try {
-    const { email } = req.body;
-
+    console.log(req.body);
+    const { email } = req.body.user;
     // Provjeri je li korisnik s navedenim e-mailom već registriran
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -54,12 +57,14 @@ const createUser = async (req, res) => {
         .status(400)
         .json({ message: "Korisnik s ovim e-mailom već postoji" });
     }
+    const verificationCode = Math.floor(Math.random() * 100000000000) + 1;
 
     // If user is not verified, send verification mail.
-    if (req.body.is_verified === false) {
-      const verificationLink = `${process.env.REACT_APP_API_URL_FE}/verify/${req.body.verificationCode}`;
+
+    if (req.body.user.is_verified === false) {
+      const verificationLink = `${process.env.REACT_APP_API_URL_FE}/verify/${verificationCode}`;
       sendVerificationEmail(
-        req.body.email,
+        req.body.user.email,
         "Verificiraj svoj Event.ba račun!",
         `U svrhu sigurnosti prilikom kupovine ulaznica, e-mail koji će te ovom prilikom verificirati biti će zadani mail za dostavu kupljenih ulaznica s vašeg event.ba računa. Prilikom kupovine možete odabrati opciju personalizacije ulaznice, gdje za svaku ulaznicu možete unijeti ime i prezime vlasnika ulaznice i e-mail na koji će ta ulaznica biti poslana. (Ukoliko želite pokloniti nekome ulaznicu).
 
@@ -70,7 +75,10 @@ const createUser = async (req, res) => {
       );
     }
 
-    let newUser = req.body;
+    let newUser = req.body.user;
+
+    newUser.verificationCode = verificationCode;
+    newUser._id = null;
 
     // Kriptiraj lozinku prije spremanja
     newUser.password = Encrypt(newUser.password, process.env.SECRET_KEY);
@@ -86,6 +94,11 @@ const createUser = async (req, res) => {
         expiresIn: "12h", // Vrijeme isteka tokena (prilagodi prema potrebi)
       }
     );
+
+    const { newsletter } = req.body.user;
+    if (newsletter !== undefined) {
+      await handleNewsletterSubscription(user.email, newsletter);
+    }
 
     res.status(201).json({ id: user._id, token });
   } catch (error) {
@@ -208,6 +221,7 @@ const findUser = async (req, res) => {
     });
   }
 };
+
 const updateUser = async (req, res) => {
   try {
     const { id: userID } = req.params;
@@ -220,8 +234,8 @@ const updateUser = async (req, res) => {
     }
 
     // Check if the updated email already exists
-    if (req.body.email !== user.email) {
-      const existingUser = await User.findOne({ email: req.body.email });
+    if (req.body.user.email !== user.email) {
+      const existingUser = await User.findOne({ email: req.body.user.email });
       if (existingUser) {
         return res
           .status(400)
@@ -251,6 +265,11 @@ const updateUser = async (req, res) => {
       userUpdatePayload,
       { new: true, runValidators: true }
     );
+
+    const { newsletter } = req.body.user;
+    if (newsletter !== undefined) {
+      await handleNewsletterSubscription(user.email, newsletter);
+    }
 
     res.status(200).json(updatedUser);
   } catch (error) {
@@ -387,6 +406,29 @@ const getUserRole = async (req, res) => {
     console.error(err);
     res.status(500).json({ message: "Serverska greška." });
   }
+};
+
+const handleNewsletterSubscription = async (userEmail, newsletter) => {
+  const helperId = "64ec823175ccc834678f4698";
+  const helper = await Helper.findById(helperId);
+
+  if (!helper) {
+    throw new Error("Dokument pomoćnika nije pronađen.");
+  }
+
+  const newsletterArray = helper.newsletter || [];
+  const newsletterIndex = newsletterArray.indexOf(userEmail);
+
+  if (newsletterIndex !== -1 && !newsletter) {
+    // Ako se e-pošta pronađe i newsletter je postavljen na false, ukloni je
+    newsletterArray.splice(newsletterIndex, 1);
+  } else if (newsletterIndex === -1 && newsletter) {
+    // Ako se e-pošta ne pronađe i newsletter je postavljen na true, dodaj je
+    newsletterArray.push(userEmail);
+  }
+
+  // Ažuriraj niz newslettera Helper dokumenta pomoću updateOne
+  await Helper.updateOne({ _id: helperId }, { newsletter: newsletterArray });
 };
 
 module.exports = {

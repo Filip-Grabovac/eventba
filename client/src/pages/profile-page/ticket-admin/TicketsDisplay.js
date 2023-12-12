@@ -1,8 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HistoryCard } from "./HistoryCard";
-import TicketSearch from "./TicketSearch";
+import axios from "axios";
+import TicketGrid from "./TicketGrid";
+
+import { useSelector } from "react-redux";
 
 export const TicketsDisplay = ({ concertData, tickets, setTickets }) => {
+  const token = useSelector((state) => state.userState.token);
+
+  useEffect(() => {
+    fetchTickets();
+  }, [concertData._id]);
+
+  const fetchTickets = async () => {
+    if (concertData._id) {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/v1/tickets/tickets_for_${concertData._id}`
+        );
+        setTickets(response.data.tickets);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
   return (
     concertData && (
       <>
@@ -43,15 +64,13 @@ export const TicketsDisplay = ({ concertData, tickets, setTickets }) => {
           </>
         )}
         <h6>Pregled svih ulaznica</h6>
-        <div className="all-tickets-display">
-          {concertData && (
-            <TicketSearch
-              concertId={concertData._id}
-              tickets={tickets}
-              setTickets={setTickets}
-            />
-          )}
-        </div>
+        {tickets && (
+          <TicketGrid
+            tickets={tickets}
+            token={token}
+            concertId={concertData._id}
+          />
+        )}
       </>
     )
   );

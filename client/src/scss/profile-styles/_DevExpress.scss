@@ -1,0 +1,60 @@
+#data-grid-demo {
+  transition: none !important;
+  input,
+  select,
+  textarea {
+    padding-left: 34px;
+    margin: 0;
+  }
+}
+
+.options {
+  padding: 20px;
+  margin-top: 20px;
+  background-color: rgba(191, 191, 191, 0.15);
+}
+
+.caption {
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.option {
+  margin-bottom: 10px;
+}
+
+.option > span {
+  position: relative;
+  margin-right: 14px;
+}
+
+.option > div {
+  display: inline-block;
+  font-weight: bold;
+}
+
+.dx-popup-normal {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  border-radius: 0 !important;
+}
+// .dx-overlay-content.dx-popup-normal.dx-resizable.dx-popup-flex-height {
+//   top: 50% !important;
+//   left: 50% !important;
+//   transform: translate(-50%, -50%) !important;
+// }
+// .dx-overlay-content.dx-popup-fullscreen.dx-resizable.dx-popup-fullscreen-width {
+//   width: 600px !important;
+//   height: 800px !important;
+//   top: 50% !important;
+//   left: 50% !important;
+//   transform: translate(-50%, -50%) !important;
+// }
+// .dx-overlay-content.dx-popup-fullscreen.dx-resizable {
+//   width: 600px !important;
+//   top: 50% !important;
+//   left: 50% !important;
+//   transform: translate(-50%, -50%) !important;
+// }
