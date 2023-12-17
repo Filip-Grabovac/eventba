@@ -48,7 +48,6 @@ const getAllUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    console.log(req.body);
     const { email } = req.body.user;
     // Provjeri je li korisnik s navedenim e-mailom već registriran
     const existingUser = await User.findOne({ email });

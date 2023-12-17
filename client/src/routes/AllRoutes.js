@@ -24,7 +24,7 @@ export const AllRoutes = () => {
         <Route exact path="/" element={<Landing />} />
 
         <Route path="/single" element={<SinglePage />} />
-
+1
         <Route
           path="/profile"
           element={

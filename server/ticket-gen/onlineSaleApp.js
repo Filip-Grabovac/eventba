@@ -6,6 +6,7 @@ const { generatePdfAndSendEmail } = require("./controllers/generatePdf");
 const connectDB = require("../db/connect");
 const TicketSchema = require("../models/Ticket");
 const { updateTicketAmount } = require("../controllers/concCheckandUpdate");
+const { dailySales } = require("./dailySales");
 
 async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
   const ticketList = ticketGenData.ticketList;
@@ -114,8 +115,18 @@ async function generateTicketAndSendEmail({ ticketGenData, concertData }) {
     const performerName = concertData.performer_name;
     const dataForEmail = { name, lname, price, category, performerName };
     // Generate and send PDF email for the current ticket
+
+    let ticketInfo = {
+      concert: concertData._id,
+      performer_name: concertData.performer_name,
+      date: concertData.time_of_event,
+      zone: category,
+      price,
+    };
+
+    await dailySales(ticketInfo);
     await generatePdfAndSendEmail(email, port, dataForEmail);
-    console.log("ended");
+    console.log("Online ticket generation ended");
     // Close the server for the current ticket
     server.close();
   }

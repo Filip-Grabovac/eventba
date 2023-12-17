@@ -10,14 +10,20 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
 <html>
   <head>
     <title>Ticket Selling History Report</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&display=swap"
+      rel="stylesheet"
+    />
     <style>
       @page {
         size: A4; /* Set page size to A4 */
       }
 
       body {
-        font-family: "Trebuchet MS", sans-serif;
+        font-family: "Hedvig Letters Serif", Georgia, "Lucida Sans Unicode",
+          "Trebuchet MS", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
         margin: 0; /* Remove default margins */
         padding: 0; /* Remove default padding */
         background-color: rgb(255, 255, 255);
@@ -47,11 +53,11 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
       }
       .yellow {
         font-weight: bold;
-        background-color: rgb(255, 221, 31);
+        background-color: rgba(255, 221, 31, 0.5);
       }
       .blue {
         font-weight: bold;
-        background-color: rgb(130, 155, 223);
+        background-color: rgba(130, 155, 223, 0.5);
       }
       table {
         border-collapse: collapse;
@@ -253,5 +259,9 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
         </tr>
       </tbody>
     </table>
+    <br />
+    <br />
+    <br />
+    <h3 style="margin: 30px">Broj računa: <%= data.concert.invoice %></h3>
   </body>
 </html>

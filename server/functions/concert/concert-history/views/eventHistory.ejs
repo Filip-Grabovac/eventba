@@ -1,8 +1,8 @@
-<% function formattedTimeOfEvent(time) { const options = { year: 'numeric',
-month: 'numeric', day: 'numeric' }; return new
-Date(time).toLocaleDateString('hr-HR', options); } %> <% function
+<% function formattedTimeOfEvent(time) { %> <% const options = { year:
+'numeric', month: 'numeric', day: 'numeric' }; %> <%= new
+Date(time).toLocaleDateString('hr-HR', options) %> <% } %> <% function
 formattedDateOneDayBefore(date) { %> <% const previousDay = new Date(date); %>
-<% previousDay.setDate(date.getDate() - 1); %> <% const options = { year:
+<% previousDay.setDate(previousDay.getDate() - 1); %> <% const options = { year:
 'numeric', month: 'numeric', day: 'numeric' }; %> <%= new
 Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
 
@@ -26,6 +26,9 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
         background-color: rgb(255, 255, 255);
         width: 210mm; /* Set width to A4 dimensions */
         height: 297mm; /* Set height to A4 dimensions */
+      }
+      .center {
+        text-align: center;
       }
       header {
         margin: 0 20px;
@@ -93,78 +96,94 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
       <p><%= data.concert.place.city %>, <%= data.concert.place.place %></p>
       <p><%= formattedTimeOfEvent(data.concert.time_of_event) %></p>
     </div>
+    <h4 class="center">
+      Od <%= formattedDateOneDayBefore(data.concert_history[0].date) %> do <%=
+      formattedDateOneDayBefore(data.concert_history[data.concert_history.length
+      - 1].date) %>
+    </h4>
 
-    <% data.concert_history.forEach(function(day) { %>
+    <h4 class="center">Online Prodaja</h4>
     <table>
       <thead>
         <tr>
-          <th class="date" colspan="4">
-            <%= formattedDateOneDayBefore(day.date) %>
-          </th>
-        </tr>
-        <tr>
-          <th>Online prodaja</th>
           <th>Zona</th>
-          <th>Prodano</th>
-          <th><small>BAM</small></th>
+          <th>Ukupna Količina</th>
+          <th>Ukupna Prodaja (BAM)</th>
         </tr>
       </thead>
       <tbody>
-        <% if (day.tickets.online_sale) { %> <% let totalAmount = 0; %> <% let
+        <% let totalOnlineAmount = 0; %> <% let totalOnlineAmountInBAM = 0; %>
+        <% const onlineSaleCategories = {}; %> <%
+        data.concert_history.forEach(function(day) { %> <% if
+        (day.tickets.online_sale) { %> <% let totalAmount = 0; %> <% let
         totalAmountInBAM = 0; %> <%
         Object.keys(day.tickets.online_sale.zones).forEach(category => { %> <%
         const saleData = day.tickets.online_sale.zones[category]; %> <% const
         categoryTotal = saleData.sold_amount; %> <% const categoryTotalInBAM =
         categoryTotal * saleData.price; %> <% totalAmount += categoryTotal; %>
-        <% totalAmountInBAM += categoryTotalInBAM; %>
+        <% totalAmountInBAM += categoryTotalInBAM; %> <% if
+        (!onlineSaleCategories[category]) { %> <% onlineSaleCategories[category]
+        = { totalAmount: 0, totalAmountInBAM: 0 }; %> <% } %> <%
+        onlineSaleCategories[category].totalAmount += categoryTotal; %> <%
+        onlineSaleCategories[category].totalAmountInBAM += categoryTotalInBAM;
+        %> <% }); %> <% totalOnlineAmount += totalAmount; %> <%
+        totalOnlineAmountInBAM += totalAmountInBAM; %> <% } %> <% }); %> <%
+        Object.keys(onlineSaleCategories).forEach(category => { %>
         <tr>
-          <td></td>
           <td><%= category %></td>
-          <td><%= categoryTotal %></td>
-          <td><%= categoryTotalInBAM %></td>
+          <td><%= onlineSaleCategories[category].totalAmount %></td>
+          <td><%= onlineSaleCategories[category].totalAmountInBAM %></td>
         </tr>
         <% }); %>
         <tr class="sum">
           <td>Ukupno:</td>
-          <td></td>
-          <td><%= totalAmount %></td>
-          <td><%= totalAmountInBAM %></td>
+          <td><%= totalOnlineAmount %></td>
+          <td><%= totalOnlineAmountInBAM %></td>
         </tr>
-        <% } %>
       </tbody>
+    </table>
+
+    <h4 class="center">Slobodna Prodaja</h4>
+    <table>
       <thead>
         <tr>
-          <th>Slobodna prodaja</th>
           <th>Zona</th>
-          <th>Prodano</th>
-          <th><small>BAM</small></th>
+          <th>Ukupna Količina</th>
+          <th>Ukupna Prodaja (BAM)</th>
         </tr>
       </thead>
       <tbody>
-        <% day.tickets.free_sale.resellers.forEach(function(reseller) { %> <%
-        let resellerTotalAmount = 0; %> <% let resellerTotalAmountInBAM = 0; %>
-        <% Object.keys(reseller.zones).forEach(category => { %> <% const
+        <% let totalFreeAmount = 0; %> <% let totalFreeAmountInBAM = 0; %> <%
+        const freeSaleCategories = {}; %> <%
+        data.concert_history.forEach(function(day) { %> <% let
+        resellerTotalAmount = 0; %> <% let resellerTotalAmountInBAM = 0; %> <%
+        day.tickets.free_sale.resellers.forEach(function(reseller) { %> <%
+        Object.keys(reseller.zones).forEach(category => { %> <% const
         resellerData = reseller.zones[category]; %> <% const
         resellerCategoryTotal = resellerData.sold_amount; %> <% const
         resellerCategoryTotalInBAM = resellerCategoryTotal * resellerData.price;
         %> <% resellerTotalAmount += resellerCategoryTotal; %> <%
-        resellerTotalAmountInBAM += resellerCategoryTotalInBAM; %>
+        resellerTotalAmountInBAM += resellerCategoryTotalInBAM; %> <% if
+        (!freeSaleCategories[category]) { %> <% freeSaleCategories[category] = {
+        totalAmount: 0, totalAmountInBAM: 0 }; %> <% } %> <%
+        freeSaleCategories[category].totalAmount += resellerCategoryTotal; %> <%
+        freeSaleCategories[category].totalAmountInBAM +=
+        resellerCategoryTotalInBAM; %> <% }); %> <% }); %> <% totalFreeAmount +=
+        resellerTotalAmount; %> <% totalFreeAmountInBAM +=
+        resellerTotalAmountInBAM; %> <% }); %> <%
+        Object.keys(freeSaleCategories).forEach(category => { %>
         <tr>
-          <td><%= reseller.reseller_name %></td>
           <td><%= category %></td>
-          <td><%= resellerCategoryTotal %></td>
-          <td><%= resellerCategoryTotalInBAM %></td>
+          <td><%= freeSaleCategories[category].totalAmount %></td>
+          <td><%= freeSaleCategories[category].totalAmountInBAM %></td>
         </tr>
         <% }); %>
         <tr class="sum">
           <td>Ukupno:</td>
-          <td></td>
-          <td><%= resellerTotalAmount %></td>
-          <td><%= resellerTotalAmountInBAM %></td>
+          <td><%= totalFreeAmount %></td>
+          <td><%= totalFreeAmountInBAM %></td>
         </tr>
-        <% }); %>
       </tbody>
     </table>
-    <% }); %>
   </body>
 </html>

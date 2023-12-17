@@ -17,11 +17,17 @@ const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const cron = require("node-cron");
 const cronJob = require("./cronjob/dailyOperations");
+const sendDailyReport = require("./cronjob/controllers/sendDailyReport");
 
 // Schedule the task to run every minute
 cron.schedule("0 1 * * *", () => {
   console.log("CronJob at 1:00 AM CET every day!");
   cronJob(); // Call the cronJob function
+});
+
+cron.schedule("0 7 * * *", () => {
+  console.log("CronJob Report of online sales");
+  sendDailyReport();
 });
 
 app.use(fileUpload());

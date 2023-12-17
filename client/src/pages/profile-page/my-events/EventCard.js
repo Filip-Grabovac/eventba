@@ -26,6 +26,7 @@ export const EventCard = ({ ids, i, past }) => {
 
   const [onlineCommission, setOnlineCommission] = useState(5);
   const [printCommission, setPrintCommission] = useState(0.3);
+  const [invoice, setInvoice] = useState();
 
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.userState.user);
@@ -197,6 +198,7 @@ export const EventCard = ({ ids, i, past }) => {
           token,
           onlineCommission: onlineCommissionInPrecentages,
           printCommission,
+          invoice
         },
         {
           responseType: "blob",
@@ -410,6 +412,18 @@ export const EventCard = ({ ids, i, past }) => {
                     id="printCommission"
                     value={printCommission}
                     onChange={(e) => setPrintCommission(Number(e.target.value))}
+                  />
+                </div>
+                <div className="box-label">
+                  <label htmlFor="invoice">
+                   Broj računa:
+                  </label>
+                  <input
+                    type="string"
+                    id="invoice"
+                    value={invoice}
+                    style={{ minWidth:"200px" }}
+                    onChange={(e) => setInvoice(e.target.value)}
                   />
                 </div>
                 <button
