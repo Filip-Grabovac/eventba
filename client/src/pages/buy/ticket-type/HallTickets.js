@@ -9,14 +9,17 @@ const HallTickets = React.memo(
     );
 
     useEffect(() => {
-      const firstCategory = Object.keys(
-        concertData.tickets.online_sale.zones
-      )[0];
+      const zones = concertData.tickets.online_sale.zones;
+
+      const firstNonZeroAmountZone = Object.keys(zones).find(
+        (zone) => zones[zone].amount > 0
+      );
+
+      const firstCategory = firstNonZeroAmountZone;
 
       if (i > 0) handleClick(lastTicketCategory);
       else handleClick(firstCategory);
     }, [userId]);
-
     const backgroundImageStyle = useMemo(() => {
       return {
         backgroundImage: `url("${

@@ -1,4 +1,4 @@
-const User = require('../../models/User');
+const User = require("../../models/User");
 
 async function updateUserBuyHistory(data) {
   const loggedinUserId = data.loggedinUser;
@@ -14,6 +14,7 @@ async function updateUserBuyHistory(data) {
       tickets: tickets,
       poster: eventInfo.poster,
       date: new Date(),
+      order_number: data.order_number,
     },
   };
 

@@ -77,8 +77,8 @@ export const EntranceControllerLogin = () => {
 
   return (
     <div className="entrance-controller-login-section">
-      <div className="login-screen">
-        <div className="container">
+      <div className="login-screen" style={{ margin: "0px" }}>
+        <div className="container" style={{ marginTop: "3%" }}>
           <h2>Prijava kontrolora ulaza</h2>
           <div className="text-section">
             <form

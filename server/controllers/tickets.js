@@ -8,6 +8,13 @@ const checkTicket = async (req, res) => {
     TicketSchema,
     collection_name
   );
+  console.log(id);
+  if (!id) {
+    console.log("Greška pri skeniranju");
+    return res
+      .status(400)
+      .json({ msg: "Nevažeći QR-code", msgInfo: "Skenirajte čitljiv QR-cod" });
+  }
   try {
     const thatTicket = await Ticket.findOneAndUpdate(
       { _id: id, isValid: true }, // Only update if the ticket is valid
@@ -17,7 +24,6 @@ const checkTicket = async (req, res) => {
         runValidators: true,
       }
     );
-
     if (!thatTicket) {
       // If the ticket is not found or already used (isValid=false), respond with an error message
       return res
