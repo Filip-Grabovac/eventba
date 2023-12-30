@@ -26,6 +26,7 @@ export const EventCard = ({ ids, i, past }) => {
 
   const [onlineCommission, setOnlineCommission] = useState(5);
   const [printCommission, setPrintCommission] = useState(0.3);
+  const [entrance, setEntrance] = useState(0);
   const [invoice, setInvoice] = useState();
 
   const dispatch = useDispatch();
@@ -198,7 +199,8 @@ export const EventCard = ({ ids, i, past }) => {
           token,
           onlineCommission: onlineCommissionInPrecentages,
           printCommission,
-          invoice
+          invoice,
+          entrance,
         },
         {
           responseType: "blob",
@@ -415,15 +417,23 @@ export const EventCard = ({ ids, i, past }) => {
                   />
                 </div>
                 <div className="box-label">
-                  <label htmlFor="invoice">
-                   Broj računa:
-                  </label>
+                  <label htmlFor="invoice">Broj računa:</label>
                   <input
                     type="string"
                     id="invoice"
                     value={invoice}
-                    style={{ minWidth:"200px" }}
+                    style={{ minWidth: "200px" }}
                     onChange={(e) => setInvoice(e.target.value)}
+                  />
+                </div>
+                <div className="box-label">
+                  <label htmlFor="entrance">Kontrola ulaza: (BAM)</label>
+                  <input
+                    type="number"
+                    id="entrance"
+                    value={entrance}
+                    style={{ minWidth: "100px" }}
+                    onChange={(e) => setEntrance(e.target.value)}
                   />
                 </div>
                 <button

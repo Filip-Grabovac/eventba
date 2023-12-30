@@ -26,11 +26,6 @@ function performBackup() {
       console.error(`Error during backup: ${error.message}`);
       return;
     }
-    if (stderr) {
-      console.error(`Stderr during backup: ${stderr}`);
-      return;
-    }
-
     console.log(`Backup completed at ${timestamp} for admin database`);
   });
 

@@ -217,6 +217,12 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
           </th>
         </tr>
         <tr>
+          <th>Kontrola ulaza</th>
+          <th></th>
+          <th></th>
+          <th><%= ((data.concert.entrance)).toFixed(2) %></th>
+        </tr>
+        <tr>
           <th><strong>UKUPNO</strong></th>
           <th></th>
           <th></th>
@@ -226,7 +232,7 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
             ((data.concert.tickets.free_sale.total_amount_left +
             data.concert.tickets.free_sale.sold_amount +
             data.concert.tickets.online_sale.sold_amount) *
-            data.concert.printCommission) ).toFixed(2) %>
+            data.concert.printCommission) + data.concert.entrance).toFixed(2) %>
           </th>
         </tr>
         <tr></tr>
@@ -241,7 +247,8 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
             ((data.concert.tickets.free_sale.total_amount_left +
             data.concert.tickets.free_sale.sold_amount +
             data.concert.tickets.online_sale.sold_amount)
-            *data.concert.printCommission)) * 0.17 ).toFixed(2) %>
+            *data.concert.printCommission)+data.concert.entrance) * 0.17
+            ).toFixed(2) %>
           </th>
         </tr>
         <tr class="blue">
@@ -254,7 +261,8 @@ Date(previousDay).toLocaleDateString('hr-HR', options) %> <% } %>
             ((data.concert.tickets.free_sale.total_amount_left +
             data.concert.tickets.free_sale.sold_amount +
             data.concert.tickets.online_sale.sold_amount) *
-            data.concert.printCommission)) * 1.17 ).toFixed(2) %>
+            data.concert.printCommission)+data.concert.entrance) * 1.17
+            ).toFixed(2) %>
           </th>
         </tr>
       </tbody>

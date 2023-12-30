@@ -74,16 +74,19 @@ const createUser = async (req, res) => {
       );
     }
 
-    let newUser = req.body.user;
-
-    newUser.verificationCode = verificationCode;
-    newUser._id = null;
+    const newUser = { ...req.body.user };
+    if (newUser._id) {
+      delete newUser._id;
+    }
 
     // Kriptiraj lozinku prije spremanja
     newUser.password = Encrypt(newUser.password, process.env.SECRET_KEY);
 
     // Stvori novog korisnika ako ne postoji korisnik s istim e-mailom
-    const user = await User.create(newUser);
+    const user = await User.create({
+      ...newUser,
+      verificationCode,
+    });
 
     // Generiraj JWT token za novog korisnika
     const token = jwt.sign(

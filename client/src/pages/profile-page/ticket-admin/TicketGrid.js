@@ -55,16 +55,16 @@ class DevExpress extends React.Component {
     const ticketColumns = [
       { dataField: "ID", caption: "ID", width: 45 },
       { dataField: "performer_name", caption: "Izvođač" },
-      { dataField: "category", caption: "Kategorija", minWidth: 50 },
+      { dataField: "category", caption: "Kategorija" },
       { dataField: "ticket_type", caption: "Vrsta ulaznice" },
-      { dataField: "price", caption: "Cijena", width: 60 },
+      { dataField: "price", caption: "Cijena" },
       {
         dataField: "sent_on_email",
         caption: "Poslano na email",
         minWidth: 130,
       },
       { dataField: "owner", caption: "Vlasnik" },
-      { dataField: "isValid", caption: "Validna", minWidth: 50 },
+      { dataField: "isValid", caption: "Validna", minWidth: 65 },
     ];
 
     return (

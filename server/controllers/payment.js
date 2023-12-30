@@ -31,44 +31,57 @@ const processQueue = async () => {
 };
 
 const handlePaymentEndpoint = async (req, res) => {
+  console.log("HandlePayment requested");
+
   try {
     const { transaction_response } = req.body;
     if (transaction_response) {
-      const data = JSON.parse(transaction_response);
+      try {
+        const jsonDataObject = JSON.parse(transaction_response);
+        const statusValue = jsonDataObject.status;
+        console.log("Status:", statusValue);
 
-      console.log("TRANSACTION STATUS:", data.status);
+        // Check for both "approved" and "declined" status
+        if (statusValue === "approved" || statusValue === "declined") {
+          const orderNumber = Number(jsonDataObject.order_number);
 
-      if (data.status === "approved") {
-        const orderNumber = Number(data.order_number);
+          // Retrieve ticketInfo from the map
+          const ticketInfo = ticketInfoMap.get(orderNumber);
 
-        // Retrieve ticketInfo from the map
-        const ticketInfo = ticketInfoMap.get(orderNumber);
+          // Check if ticketInfo exists
+          if (ticketInfo) {
+            // Remove the entry from the map
+            ticketInfoMap.delete(orderNumber);
+            // Update order number in ticketInfo
+            ticketInfo.order_number = orderNumber;
 
-        // Check if ticketInfo exists
-        if (ticketInfo) {
-          // Remove the entry from the map
-          ticketInfoMap.delete(orderNumber);
-          // Update order number in ticketInfo
-          ticketInfo.order_number = orderNumber;
-
-          await updateCategoryAmount(
-            ticketInfo.concertData._id,
-            ticketInfo.ticketGenData.ticketList
-          );
-          res.status(200).redirect("https://event.ba/thankyou");
-          await updateUserBuyHistory(ticketInfo);
-          await generateTicketAndSendEmail(ticketInfo);
-
-          // Return a JSON response with a success message
+            if (statusValue === "approved") {
+              // Process successful payment
+              await updateCategoryAmount(
+                ticketInfo.concertData._id,
+                ticketInfo.ticketGenData.ticketList
+              );
+              await updateUserBuyHistory(ticketInfo);
+              res.status(200).redirect("https://event.ba/thankyou");
+              await generateTicketAndSendEmail(ticketInfo);
+            } else {
+              // Handle declined/canceled payment
+              console.log("Payment declined/canceled");
+              res.status(400).redirect("https://event.ba/failed");
+            }
+          } else {
+            console.log("No ticketInfo");
+            // Return a JSON response with an error message
+            res.status(404).redirect("https://event.ba/failed");
+          }
         } else {
-          console.log("No ticketInfo");
-          // Return a JSON response with an error message
-          res.status(404).redirect("https://event.ba/failed");
+          // Handle other status values if needed
+          console.log("Unsupported status:", statusValue);
+          res.status(400).redirect("https://event.ba/failed");
         }
-      } else {
-        // Failed payment
-        console.log("Neuspješna kupovina");
-        // Return a JSON response with an error message
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+        // Return a status code of 400 for bad request
         res.status(400).redirect("https://event.ba/failed");
       }
     }

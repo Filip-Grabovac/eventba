@@ -394,7 +394,8 @@ const getEventsWithinDates = async (req, res) => {
 };
 
 const getProvisionSum = async (req, res) => {
-  const { concertId, onlineCommission, printCommission, invoice } = req.body;
+  const { concertId, onlineCommission, printCommission, invoice, entrance } =
+    req.body;
 
   try {
     const concert = await Concert.findOne({
@@ -414,6 +415,7 @@ const getProvisionSum = async (req, res) => {
         onlineCommission,
         printCommission,
         invoice,
+        entrance: Number(entrance),
       },
     };
 
