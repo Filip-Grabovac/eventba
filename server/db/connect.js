@@ -26,6 +26,11 @@ const connectDB = (databaseUrl) => {
 };
 
 const extractDatabaseName = (databaseUrl) => {
+  if (!databaseUrl || typeof databaseUrl !== "string") {
+    console.error("Invalid database URL:", databaseUrl);
+    return null; // or throw an error, depending on your error handling strategy
+  }
+
   const urlParts = databaseUrl.split("/");
   const dbNameWithParams = urlParts[urlParts.length - 1];
   const dbName = dbNameWithParams.split("?")[0];

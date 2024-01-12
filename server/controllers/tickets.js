@@ -204,6 +204,26 @@ const deleteTicketsByIds = async (req, res) => {
   }
 };
 
+// Helper function to delete tickets from db that are freesale
+const deleteTicketsWithoutSentEmail = async () => {
+  const Ticket = await connectDB(process.env.DATABASE_URL_TICKET).model(
+    "Ticket",
+    TicketSchema,
+    "tickets_for_64f747b8e5b5631bf33972ad"
+  );
+
+  try {
+    // Delete tickets without the "sent_on_email" property
+    const result = await Ticket.deleteMany({
+      sent_on_email: { $exists: false },
+    });
+
+    console.log(`${result.deletedCount} tickets removed successfully.`);
+  } catch (error) {
+    console.error("Error removing tickets:", error);
+  }
+};
+
 module.exports = {
   getTicketByPosition,
   getAllTicketsWithIDs,
